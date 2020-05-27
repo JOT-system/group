@@ -8,6 +8,7 @@ Public Class GRCO0104XLSUPMULTI
     Implements IHttpHandler, IRequiresSessionState
     ''' <summary>
     ''' ファイルがドラッグアンドドロップされたときに呼ばれファイルをサーバに配置する
+    ''' GIT確認
     ''' </summary>
     ''' <param name="context"></param>
     ''' <remarks></remarks>
