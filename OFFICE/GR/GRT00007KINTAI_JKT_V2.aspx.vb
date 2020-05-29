@@ -4127,6 +4127,19 @@ Public Class GRT00007KINTAI_JKT_V2
                 WW_HEADrow("NIPPOLINKCODE") = WW_NIPPOrow("UPDYMD")
             Next
 
+            '出庫が車庫で、帰庫が車庫以外の場合、車中泊１泊目
+            WW_HEADrow("SHACHUHAKKBN") = "0"
+            WW_HEADrow("SHACHUHAKKBNNAMES") = ""
+            If WW_F3 = "ON" Then
+                If T0005COM.ShakoCheck(WF_CAMPCODE.Text, WW_LATITUDE_F3, WW_LONGITUDE_F3) = "OK" Then
+                    '帰庫が車庫の場合、車中泊ではない
+                Else
+                    '帰庫が車庫以外の場合、車中泊
+                    WW_HEADrow("SHACHUHAKKBN") = "1"
+                    WW_HEADrow("SHACHUHAKKBNNAMES") = "✔"
+                End If
+            End If
+
             ''太陽油脂、インフィニアムで積置き（B2）もカウントする
             'For i As Integer = T0005tbl.Rows.Count - 1 To 0 Step -1
             '    Dim WW_NIPPOrow As DataRow = T0005tbl.Rows(i)
