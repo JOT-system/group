@@ -8,6 +8,10 @@ Public Class GRTA0002SELECT
     ''' セッション管理
     ''' </summary>
     Private CS0050Session As New CS0050SESSION                      'セッション管理
+    ''' <summary>
+    ''' 固定値マスタ検索
+    ''' </summary>
+    Private GS0007FIXVALUElst As New GS0007FIXVALUElst              'Leftボックス用固定値リスト取得
 
     '共通処理結果
     ''' <summary>
@@ -383,6 +387,10 @@ Public Class GRTA0002SELECT
         End If
         '■名称設定
         SetNameValue()
+
+        '実行ボタン、実行（新）ボタンの表示／非表示のマスタ設定情報を取得
+        Master.Btn_Control(work.WF_SEL_CAMPCODE.Text, GRTA0002WRKINC.MAPIDS, "WF_ButtonDO", WW_DUMMY)
+        Master.Btn_Control(work.WF_SEL_CAMPCODE.Text, GRTA0002WRKINC.MAPIDS, "WF_ButtonDO_V2", WW_DUMMY)
 
     End Sub
 

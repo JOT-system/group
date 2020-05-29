@@ -18,10 +18,10 @@
             <div id="searchbuttonbox" class="searchbuttonbox">
                 <!-- ■　ボタン　■ -->
                 <a style="position:fixed;top:2.8em;left:58.0em;">
-                    <input type="button" id="WF_ButtonDO" value="実行"  style="Width:5em" onclick="ButtonClick('WF_ButtonDO');" />
+                    <input type="button" id="WF_ButtonDO" value="実行" runat="server" style="Width:5em" onclick="ButtonClick('WF_ButtonDO');" />
                 </a>
                 <a style="position:fixed;top:2.8em;left:62.5em;">
-                    <input type="button" id="WF_ButtonDO_V2" value="実行(新)"  style="Width:5em" onclick="ButtonClick('WF_ButtonDO_V2');" />
+                    <input type="button" id="WF_ButtonDO_V2" value="実行(新)" runat="server" style="Width:5em" onclick="ButtonClick('WF_ButtonDO_V2');" />
                 </a>
                 <a style="position:fixed;top:2.8em;left:67em;">
                     <input type="button" id="WF_ButtonEND" value="終了"  style="Width:5em" onclick="ButtonClick('WF_ButtonEND');" />

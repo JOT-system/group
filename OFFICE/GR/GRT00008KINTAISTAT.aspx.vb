@@ -28,10 +28,11 @@ Public Class GRT00008KINTAISTAT
         Public Const NJS As String = "KJFILE.TXT"
         Public Const JKT As String = "KJFILE.SEQ"
 
-        Public Const ENEX_V2 As String = "KJFILE.csv"
-        Public Const KNK_V2 As String = "KJFILE.csv"
-        Public Const NJS_V2 As String = "KJFILE.csv"
-        Public Const JKT_V2 As String = "KJFILE.csv"
+        Public Const ENEX_V2 As String = "EX_KJFILE_"
+        Public Const KNK_V2 As String = "KI_KJFILE_"
+        Public Const NJS_V2 As String = "NJ_KJFILE_"
+        Public Const JKT_V2 As String = "JK_KJFILE_"
+        Public Const CSV As String = ".csv"
 
         Public Const KJZIP As String = "KYUYO.zip"
     End Class
@@ -172,6 +173,9 @@ Public Class GRT00008KINTAISTAT
         rightview.Initialize(WW_DUMMY)
         rightview.SelectIndex(GRIS0004RightBox.RIGHT_TAB_INDEX.LS_ERROR_LIST)
 
+        '実行ボタン、実行（新）ボタンの表示／非表示のマスタ設定情報を取得
+        Master.Btn_Control(work.WF_SEL_CAMPCODE.Text, GRT00008WRKINC.MAPID, "WF_ButtonJOURNAL", WW_DUMMY)
+        Master.Btn_Control(work.WF_SEL_CAMPCODE.Text, GRT00008WRKINC.MAPID, "WF_ButtonJOURNAL_V2", WW_DUMMY)
 
         '■■■ 画面モード（更新・参照）設定  ■■■
         '総務部所属の場合、「締解除」、「ジャーナル作成」ボタンを有効にする
@@ -702,33 +706,34 @@ Public Class GRT00008KINTAISTAT
                     'コメント行の設定
                     KyuyoJNLCommentPut(JNLtbl, WW_ERRCODE)
 
+                    Dim WW_YYMM As String = CDate(work.WF_SEL_LIMITYM.Text & "/01").ToString("yyMM")
                     Select Case work.WF_SEL_CAMPCODE.Text
                         Case CONST_CAMP_ENEX
                             '-------------------------------------------------------------
                             'ENEXジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.ENEX_V2)
+                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.ENEX_V2 & WW_YYMM & JOURNAL_FILE.CSV)
                             KyuyoJNLOutPut(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
 
                         Case CONST_CAMP_KNK
                             '-------------------------------------------------------------
                             '近石ジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.KNK_V2)
+                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.KNK_V2 & WW_YYMM & JOURNAL_FILE.CSV)
                             KyuyoJNLOutPutKNK(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
 
                         Case CONST_CAMP_NJS
                             '-------------------------------------------------------------
                             'NJSジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.NJS_V2)
+                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.NJS_V2 & WW_YYMM & JOURNAL_FILE.CSV)
                             KyuyoJNLOutPutNJS(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
 
                         Case CONST_CAMP_JKT
                             '-------------------------------------------------------------
                             'JKTジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.JKT_V2)
+                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.JKT_V2 & WW_YYMM & JOURNAL_FILE.CSV)
                             KyuyoJNLOutPutJKT(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
                     End Select
                     If Not isNormal(WW_ERRCODE) Then

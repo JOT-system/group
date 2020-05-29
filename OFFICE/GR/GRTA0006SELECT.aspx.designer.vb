@@ -12,7 +12,25 @@ Option Explicit On
 
 
 Partial Public Class GRTA0006SELECT
-
+    
+    '''<summary>
+    '''WF_ButtonDO コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ButtonDO As Global.System.Web.UI.HtmlControls.HtmlInputButton
+    
+    '''<summary>
+    '''WF_ButtonDO_V2 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ButtonDO_V2 As Global.System.Web.UI.HtmlControls.HtmlInputButton
+    
     '''<summary>
     '''WF_CAMPCODE コントロール。
     '''</summary>
@@ -21,7 +39,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_CAMPCODE_Text コントロール。
     '''</summary>
@@ -30,7 +48,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_CAMPCODE_Text As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''WF_TAISHOYM コントロール。
     '''</summary>
@@ -39,7 +57,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_TAISHOYM As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_HORG コントロール。
     '''</summary>
@@ -48,7 +66,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_HORG As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_HORG_Text コントロール。
     '''</summary>
@@ -57,7 +75,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_HORG_Text As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''WF_STAFFKBN コントロール。
     '''</summary>
@@ -66,7 +84,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_STAFFKBN As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_STAFFKBN_Text コントロール。
     '''</summary>
@@ -75,7 +93,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_STAFFKBN_Text As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''WF_STAFFCODE コントロール。
     '''</summary>
@@ -84,7 +102,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_STAFFCODE As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_STAFFCODE_Text コントロール。
     '''</summary>
@@ -93,7 +111,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_STAFFCODE_Text As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''WF_STAFFNAME コントロール。
     '''</summary>
@@ -102,7 +120,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_STAFFNAME As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_FIELD コントロール。
     '''</summary>
@@ -111,7 +129,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_FIELD As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''WF_SelectedIndex コントロール。
     '''</summary>
@@ -120,7 +138,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_SelectedIndex As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''WF_LeftboxOpen コントロール。
     '''</summary>
@@ -129,7 +147,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_LeftboxOpen As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''WF_LeftMViewChange コントロール。
     '''</summary>
@@ -138,7 +156,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_LeftMViewChange As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''WF_RightViewChange コントロール。
     '''</summary>
@@ -147,7 +165,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_RightViewChange As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''WF_RightboxOpen コントロール。
     '''</summary>
@@ -156,7 +174,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_RightboxOpen As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''WF_ButtonClick コントロール。
     '''</summary>
@@ -165,7 +183,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_ButtonClick As Global.System.Web.UI.HtmlControls.HtmlInputText
-
+    
     '''<summary>
     '''rightview コントロール。
     '''</summary>
@@ -174,7 +192,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents rightview As Global.OFFICE.GRIS0003SRightBox
-
+    
     '''<summary>
     '''leftview コントロール。
     '''</summary>
@@ -183,7 +201,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents leftview As Global.OFFICE.GRIS0005LeftBox
-
+    
     '''<summary>
     '''work コントロール。
     '''</summary>
@@ -192,7 +210,7 @@ Partial Public Class GRTA0006SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents work As Global.OFFICE.GRTA0006WRKINC
-
+    
     '''<summary>
     '''Master プロパティ。
     '''</summary>
@@ -201,7 +219,7 @@ Partial Public Class GRTA0006SELECT
     '''</remarks>
     Public Shadows ReadOnly Property Master() As OFFICE.GRMasterPage
         Get
-            Return CType(MyBase.Master, OFFICE.GRMasterPage)
+            Return CType(MyBase.Master,OFFICE.GRMasterPage)
         End Get
     End Property
 End Class

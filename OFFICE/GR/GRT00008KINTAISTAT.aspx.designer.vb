@@ -59,6 +59,24 @@ Partial Public Class GRT00008KINTAISTAT
     Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''WF_ButtonJOURNAL コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ButtonJOURNAL As Global.System.Web.UI.HtmlControls.HtmlInputButton
+    
+    '''<summary>
+    '''WF_ButtonJOURNAL_V2 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ButtonJOURNAL_V2 As Global.System.Web.UI.HtmlControls.HtmlInputButton
+    
+    '''<summary>
     '''Label6 コントロール。
     '''</summary>
     '''<remarks>

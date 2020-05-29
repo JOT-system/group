@@ -41,10 +41,10 @@
             </a>
 
             <a style="position:fixed;top:2.8em;left:50em;">
-                <input type="button" id="WF_ButtonJOURNAL" value="給与ｼﾞｬｰﾅﾙ作成"  style="Width:10em" onclick="ButtonClick('WF_ButtonJOURNAL');" />
+                <input type="button" id="WF_ButtonJOURNAL" value="給与ｼﾞｬｰﾅﾙ作成" runat="server" style="Width:10em" onclick="ButtonClick('WF_ButtonJOURNAL');" />
             </a>
             <a style="position:fixed;top:4.5em;left:50em;">
-                <input type="button" id="WF_ButtonJOURNAL_V2" value="給与ｼﾞｬｰﾅﾙ作成(新）"  style="Width:10em" onclick="ButtonClick('WF_ButtonJOURNAL_V2');" />
+                <input type="button" id="WF_ButtonJOURNAL_V2" value="給与ｼﾞｬｰﾅﾙ作成(新）" runat="server" style="Width:10em" onclick="ButtonClick('WF_ButtonJOURNAL_V2');" />
             </a>
 
             <a style="position:fixed;top:2.8em;left:59em;">

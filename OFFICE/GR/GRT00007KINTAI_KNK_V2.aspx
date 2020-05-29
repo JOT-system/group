@@ -206,14 +206,14 @@
                     </b>
                 </a>
                 <!-- ■　車中泊　■ -->
-                <a style="position:fixed;top:11.8em;left:33em; width:32em;">
+                <a style="position:fixed;top:12.9em;left:33em; width:32em;">
                     <asp:Label ID="WF_SHACHUHAKKBN_LABEL" runat="server" Text="車中泊" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:CheckBox ID="WF_SHACHUHAKKBN" runat="server" Height="1.2em" Width="6em"  enabled="true"></asp:CheckBox>
                     </b>
                 </a>
                 <!-- ■　点呼回数　■ -->
-                <a style="position:fixed;top:12.9em;left:33em; width:32em;">
+                <a style="position:fixed;top:12.9em;left:33em; width:32em;" hidden="hidden">
                     <asp:Label ID="WF_TENKOKAISU_LABEL" runat="server" Text="点呼回数" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_TENKOKAISU" runat="server" Height="1.2em" Width="4em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_TENKOKAISU')" style="text-align: right; "></asp:TextBox>
@@ -546,21 +546,21 @@
                         <asp:TextBox ID="WF_SHUKCHOKNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:19.9em;left:25em; width:32em;" >
+                    <a style="position:fixed;top:19.9em;left:25em; width:32em;" hidden="hidden">
                         <asp:Label ID="WF_TENKOKAISUTTL_LABEL" runat="server" Text="点呼回数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_TENKOKAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
 
-                    <a style="position:fixed;top:21.0em;left:25em; width:32em;" >
+                    <a style="position:fixed;top:19.9em;left:25em; width:32em;" >
                         <asp:Label ID="WF_OUENKAISUTTL_LABEL" runat="server" Text="応援手当" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_OUENKAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
 
-                    <a style="position:fixed;top:22.1em;left:25em; width:32em;" >
+                    <a style="position:fixed;top:21.0em;left:25em; width:32em;" >
                         <asp:Label ID="WF_HANCHOKAISUTTL_LABEL" runat="server" Text="班長会議" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_HANCHOKAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>

@@ -190,6 +190,10 @@ Public Class GRT00007SELECT
         CODENAME_get("STAFFKBN", WF_STAFFKBN.Text, WF_STAFFKBN_TEXT.Text, WW_DUMMY)         '承認区分
         CODENAME_get("STAFFCODE", WF_STAFFCODE.Text, WF_STAFFCODE_TEXT.Text, WW_DUMMY)      '従業員コード
 
+        '実行ボタン、実行（新）ボタンの表示／非表示のマスタ設定情報を取得
+        Master.Btn_Control(work.WF_T7SEL_CAMPCODE.Text, GRT00007WRKINC.MAPIDS, "WF_ButtonDO", WW_DUMMY)
+        Master.Btn_Control(work.WF_T7SEL_CAMPCODE.Text, GRT00007WRKINC.MAPIDS, "WF_ButtonDO_V2", WW_DUMMY)
+
     End Sub
 
     ''' <summary>

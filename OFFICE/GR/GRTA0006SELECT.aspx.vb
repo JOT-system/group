@@ -471,6 +471,10 @@ Public Class GRTA0006SELECT
         '■名称設定
         SetNameValue()
 
+        '実行ボタン、実行（新）ボタンの表示／非表示のマスタ設定情報を取得
+        Master.Btn_Control(work.WF_SEL_CAMPCODE.Text, GRTA0006WRKINC.MAPIDS, "WF_ButtonDO", WW_DUMMY)
+        Master.Btn_Control(work.WF_SEL_CAMPCODE.Text, GRTA0006WRKINC.MAPIDS, "WF_ButtonDO_V2", WW_DUMMY)
+
     End Sub
     ''' <summary>
     ''' 変数設定用処理

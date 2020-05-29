@@ -39,7 +39,7 @@ OFFICE
 </member>
 <member name="T:OFFICE.COMMON">
  <summary>
- 共通処理
+ 共通処理 
  </summary>
  <remarks></remarks>
 </member>
@@ -7772,6 +7772,7 @@ Master プロパティ。
 <member name="M:OFFICE.GRCO0104XLSUPMULTI.ProcessRequest(System.Web.HttpContext)">
  <summary>
  ファイルがドラッグアンドドロップされたときに呼ばれファイルをサーバに配置する
+ GIT確認
  </summary>
  <param name="context"></param>
  <remarks></remarks>
@@ -11277,6 +11278,16 @@ MF_ALERT コントロール。
  ポップアップ確認画面判定
  </summary>
  <returns>OK=True キャンセル=False</returns>
+</member>
+<member name="M:OFFICE.GRMasterPage.Btn_Control(System.String,System.String,System.String,System.String@)">
+ <summary>
+ ボタンの表示／非表示を制御する
+ </summary>
+ <param name="I_COMP">会社コード</param>
+ <param name="I_MAPID">画面ID</param>
+ <param name="I_BTN">ボタン名</param>
+ <param name="O_RTN">成功可否</param>
+ <remarks></remarks>
 </member>
 <member name="M:OFFICE.GRMasterPage.GetTargetComp">
  <summary>
@@ -53829,6 +53840,24 @@ Master プロパティ。
  </summary>
  <remarks></remarks>
 </member>
+<member name="F:OFFICE.GRT00007SELECT._WF_ButtonDO">
+<summary>
+WF_ButtonDO コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRT00007SELECT._WF_ButtonDO_V2">
+<summary>
+WF_ButtonDO_V2 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
 <member name="F:OFFICE.GRT00007SELECT._WF_CAMPCODE">
 <summary>
 WF_CAMPCODE コントロール。
@@ -54190,6 +54219,24 @@ WF_LIMITMM コントロール。
 <member name="F:OFFICE.GRT00008KINTAISTAT._Label5">
 <summary>
 Label5 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRT00008KINTAISTAT._WF_ButtonJOURNAL">
+<summary>
+WF_ButtonJOURNAL コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRT00008KINTAISTAT._WF_ButtonJOURNAL_V2">
+<summary>
+WF_ButtonJOURNAL_V2 コントロール。
 </summary>
 <remarks>
 自動生成されたフィールド。
@@ -57836,6 +57883,24 @@ Master プロパティ。
  事務員勤務入力（条件）
  </summary>
  <remarks></remarks>
+</member>
+<member name="F:OFFICE.GRT00009SELECT._WF_ButtonDO">
+<summary>
+WF_ButtonDO コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRT00009SELECT._WF_ButtonDO_V2">
+<summary>
+WF_ButtonDO_V2 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
 </member>
 <member name="F:OFFICE.GRT00009SELECT._WF_CAMPCODE">
 <summary>
@@ -66123,6 +66188,24 @@ Master プロパティ。
  </summary>
  <remarks></remarks>
 </member>
+<member name="F:OFFICE.GRTA0002SELECT._WF_ButtonDO">
+<summary>
+WF_ButtonDO コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRTA0002SELECT._WF_ButtonDO_V2">
+<summary>
+WF_ButtonDO_V2 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
 <member name="F:OFFICE.GRTA0002SELECT._WF_CAMPCODE">
 <summary>
 WF_CAMPCODE コントロール。
@@ -66314,6 +66397,11 @@ Master プロパティ。
 <member name="F:OFFICE.GRTA0002SELECT.CS0050Session">
  <summary>
  セッション管理
+ </summary>
+</member>
+<member name="F:OFFICE.GRTA0002SELECT.GS0007FIXVALUElst">
+ <summary>
+ 固定値マスタ検索
  </summary>
 </member>
 <member name="F:OFFICE.GRTA0002SELECT.WW_ERR_SW">
@@ -74600,6 +74688,24 @@ Master プロパティ。
  </summary>
  <remarks></remarks>
 </member>
+<member name="F:OFFICE.GRTA0003SELECT._WF_ButtonDO">
+<summary>
+WF_ButtonDO コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRTA0003SELECT._WF_ButtonDO_V2">
+<summary>
+WF_ButtonDO_V2 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
 <member name="F:OFFICE.GRTA0003SELECT._WF_CAMPCODE">
 <summary>
 WF_CAMPCODE コントロール。
@@ -76381,6 +76487,24 @@ Master プロパティ。
  遷移時の引き渡しパラメータの取得
  </summary>
  <remarks></remarks>
+</member>
+<member name="F:OFFICE.GRTA0007SELECT._WF_ButtonDO">
+<summary>
+WF_ButtonDO コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRTA0007SELECT._WF_ButtonDO_V2">
+<summary>
+WF_ButtonDO_V2 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
 </member>
 <member name="F:OFFICE.GRTA0007SELECT._WF_CAMPCODE">
 <summary>
@@ -94662,6 +94786,24 @@ Master プロパティ。
  </summary>
  <param name="O_RTN">可否判定</param>
  <remarks></remarks>
+</member>
+<member name="F:OFFICE.GRTA0006SELECT._WF_ButtonDO">
+<summary>
+WF_ButtonDO コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
+</member>
+<member name="F:OFFICE.GRTA0006SELECT._WF_ButtonDO_V2">
+<summary>
+WF_ButtonDO_V2 コントロール。
+</summary>
+<remarks>
+自動生成されたフィールド。
+変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+</remarks>
 </member>
 <member name="F:OFFICE.GRTA0006SELECT._WF_CAMPCODE">
 <summary>

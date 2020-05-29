@@ -740,6 +740,50 @@ Public Class GRMasterPage
     Public Function ConfirmOK() As Boolean
         Return MF_ALERT.Value = "OK"
     End Function
+
+    ''' <summary>
+    ''' ボタンの表示／非表示を制御する
+    ''' </summary>
+    ''' <param name="I_COMP">会社コード</param>
+    ''' <param name="I_MAPID">画面ID</param>
+    ''' <param name="I_BTN">ボタン名</param>
+    ''' <param name="O_RTN">成功可否</param>
+    ''' <remarks></remarks>
+    Public Sub Btn_Control(ByVal I_COMP As String, ByVal I_MAPID As String, ByVal I_BTN As String, ByRef O_RTN As String)
+        Dim GS0007FIXVALUElst As New BASEDLL.GS0007FIXVALUElst              '固定値マスタ取得
+
+        O_RTN = "00000"
+
+        'まずは非表示
+        Dim obj = Page.Master.FindControl("contents1").FindControl(I_BTN)
+        If IsNothing(obj) Then
+            O_RTN = "00001"
+            Exit Sub
+        End If
+        DirectCast(obj, HtmlInputButton).Visible = False
+
+        '実行ボタン、実行（新）ボタンの表示／非表示のマスタ設定情報を取得
+        Dim WW_BTNlst As ListBox = New ListBox
+        GS0007FIXVALUElst.CAMPCODE = I_COMP
+        GS0007FIXVALUElst.CLAS = I_MAPID
+        GS0007FIXVALUElst.LISTBOX1 = WW_BTNlst
+        GS0007FIXVALUElst.GS0007FIXVALUElst()
+        If isNormal(GS0007FIXVALUElst.ERR) Then
+            WW_BTNlst = DirectCast(GS0007FIXVALUElst.LISTBOX1, ListBox)
+        Else
+            O_RTN = GS0007FIXVALUElst.ERR
+            Exit Sub
+        End If
+
+        For Each BtnItem As ListItem In WW_BTNlst.Items
+            If I_BTN = BtnItem.Value Then
+                DirectCast(obj, HtmlInputButton).ID = BtnItem.Value
+                DirectCast(obj, HtmlInputButton).Value = BtnItem.Text
+                DirectCast(obj, HtmlInputButton).Visible = True
+            End If
+        Next
+
+    End Sub
 #End Region
 #Region "<< Local Methods >>"
 

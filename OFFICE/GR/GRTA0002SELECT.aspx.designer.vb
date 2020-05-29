@@ -14,6 +14,24 @@ Option Explicit On
 Partial Public Class GRTA0002SELECT
     
     '''<summary>
+    '''WF_ButtonDO コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ButtonDO As Global.System.Web.UI.HtmlControls.HtmlInputButton
+    
+    '''<summary>
+    '''WF_ButtonDO_V2 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ButtonDO_V2 As Global.System.Web.UI.HtmlControls.HtmlInputButton
+    
+    '''<summary>
     '''WF_CAMPCODE コントロール。
     '''</summary>
     '''<remarks>
