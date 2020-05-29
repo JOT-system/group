@@ -174,6 +174,7 @@ Public Class GRT00007ICHIRAN_JKT_V2
 
         '○ 画面ID設定
         Master.MAPID = GRT00007WRKINC_V2.MAPIDIJKT
+        Master.VERSION = "V2"
 
         WF_WORKDATE.Focus()
         WF_FIELD.Value = ""
@@ -1854,7 +1855,7 @@ Public Class GRT00007ICHIRAN_JKT_V2
         End If
 
         '画面遷移
-        Master.transitionPage(work.WF_T7SEL_CAMPCODE.Text)
+        Master.TransitionPage(work.WF_T7SEL_CAMPCODE.Text, "V2")
 
     End Sub
 
@@ -6173,7 +6174,8 @@ Public Class GRT00007ICHIRAN_JKT_V2
         '　　（日報変更が発生したデータは始業（A1）、終業（Z1）、その他（BX）を再作成する。よって既存のデータから除外）
         WW_IDX = 0
         For Each WW_HEADrow As DataRow In WW_T0007HEADtbl.Rows
-            If WW_HEADrow("STATUS") Like "*日報変更*" Then
+            If WW_HEADrow("STATUS") Like "*日報変更*" AndAlso
+               WW_HEADrow("RECODEKBN") = "0" Then
                 Dim WW_MATCH As String = "OFF"
                 For i As Integer = WW_IDX To WW_T0007DTLtbl.Rows.Count - 1
                     Dim WW_DTLrow As DataRow = WW_T0007DTLtbl.Rows(i)

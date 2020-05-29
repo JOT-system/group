@@ -176,6 +176,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
 
         '○ 画面ID設定
         Master.MAPID = GRT00007WRKINC_V2.MAPIDINJS
+        Master.VERSION = "V2"
 
         WF_WORKDATE.Focus()
         WF_FIELD.Value = ""
