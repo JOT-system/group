@@ -15,7 +15,7 @@ Imports System.Drawing
 Imports System.Net
 Imports System.Data
 ''' <summary>
-''' 共通処理 
+''' 共通処理
 ''' </summary>
 ''' <remarks></remarks>
 Public Structure COMMON
