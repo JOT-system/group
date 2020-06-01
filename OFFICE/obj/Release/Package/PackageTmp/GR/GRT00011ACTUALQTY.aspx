@@ -37,7 +37,7 @@
                 <a style="position:fixed;top:2.8em;left:23.5em;" ondblclick="Field_DBclick('WF_STAFFCODE' ,  <%=LIST_BOX_CLASSIFICATION.LC_STAFFCODE%>)">
                     <asp:TextBox ID="WF_STAFFCODE" runat="server" Height="1.1em" Width="7em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
                 </a>
-                <a style="position:fixed;top:2.8em;left:30em;" hidden="hidden">
+                <a style="position:fixed;top:2.8em;left:30em;">
                     <asp:Label ID="WF_STAFFCODE_TEXT" runat="server" Height="1.3em" Width="7em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                 </a>
                 <!-- ■　ボタン　■ -->

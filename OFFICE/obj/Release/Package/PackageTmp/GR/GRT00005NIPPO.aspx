@@ -48,16 +48,16 @@
                         <asp:Label ID="WF_Head_LINECNT_TEXT" runat="server" Height="1.3em" Width="10em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
 
                     </a>
-                    <!-- ■　始業日　■ -->
+                    <!-- ■　開始日　■ -->
                     <a style="position:fixed;top:4.4em;left:22.3em;">
-                        <asp:Label ID="WF_STDATE_L" runat="server" Text="始業日" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_STDATE_L" runat="server" Text="開始日" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_STDATE" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false"></asp:TextBox>
                         </b>
                     </a>
-                    <!-- ■　始業時間　■ -->
+                    <!-- ■　開始時間　■ -->
                     <a style="position:fixed;top:4.4em;left:32.9em;">
-                        <asp:Label ID="WF_STTIME_L" runat="server" Text="始業時間" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_STTIME_L" runat="server" Text="開始時刻" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_STTIME" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false"></asp:TextBox>
                         </b>
@@ -81,16 +81,16 @@
                         <asp:Label ID="WF_YMD_TEXT" runat="server" Height="1.3em" Width="10em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
 
                     </a>
-                    <!-- ■　終業日　■ -->
+                    <!-- ■　終了日　■ -->
                     <a style="position:fixed;top:5.6em;left:22.3em;">
-                        <asp:Label ID="WF_ENDDATE_L" runat="server" Text="終業日" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_ENDDATE_L" runat="server" Text="終了日" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_ENDDATE" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false"></asp:TextBox>
                         </b>
                     </a>
-                    <!-- ■　終業時間　■ -->
+                    <!-- ■　終了時間　■ -->
                     <a style="position:fixed;top:5.6em;left:32.9em;">
-                        <asp:Label ID="WF_ENDTIME_L" runat="server" Text="終業時間" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_ENDTIME_L" runat="server" Text="終了時刻" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_ENDTIME" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false"></asp:TextBox>
                         </b>

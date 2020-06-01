@@ -17,8 +17,11 @@
             <!-- ○ 固定項目 ○ -->
             <div id="searchbuttonbox" class="searchbuttonbox">
                 <!-- ■　ボタン　■ -->
+                <a style="position:fixed;top:2.8em;left:58.0em;">
+                    <input type="button" id="WF_ButtonDO" value="実行" runat="server" style="Width:5em" onclick="ButtonClick('WF_ButtonDO');" />
+                </a>
                 <a style="position:fixed;top:2.8em;left:62.5em;">
-                    <input type="button" id="WF_ButtonDO" value="実行"  style="Width:5em" onclick="ButtonClick('WF_ButtonDO');" />
+                    <input type="button" id="WF_ButtonDO_V2" value="実行(新)" runat="server" style="Width:5em" onclick="ButtonClick('WF_ButtonDO_V2');" />
                 </a>
                 <a style="position:fixed;top:2.8em;left:67em;">
                     <input type="button" id="WF_ButtonEND" value="終了"  style="Width:5em" onclick="ButtonClick('WF_ButtonEND');" />
@@ -30,7 +33,7 @@
                 <!-- 　会社コード　 -->
                     <a style="position:fixed;top:7.7em;left:4em;font-weight:bold;text-decoration:underline">会社コード</a>
 
-                    <a style="position:fixed;top:7.7em;left:18em;" ondblclick="Field_DBclick('WF_CAMPCODE' ,  <%=LIST_BOX_CLASSIFICATION.LC_COMPANY  %>)" >
+                    <a style="position:fixed;top:7.7em;left:18em;" ondblclick="Field_DBclick('WF_CAMPCODE' ,  <%=LIST_BOX_CLASSIFICATION.LC_COMPANY  %>)" onchange="TextBox_change('WF_CAMPCODE');" >
                         <asp:TextBox ID="WF_CAMPCODE" runat="server" Height="1.4em" Width="10em" onblur="MsgClear()"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:7.7em;left:27em;">
@@ -48,7 +51,7 @@
                     <!-- 　配属部署　 -->
                     <a style="position:fixed;top:12.1em;left:4em;font-weight:bold;text-decoration:underline">配属部署</a>
 
-                    <a style="position:fixed;top:12.1em;left:18em;" ondblclick="Field_DBclick('WF_HORG' , <%=LIST_BOX_CLASSIFICATION.LC_ORG %>)" >
+                    <a style="position:fixed;top:12.1em;left:18em;" ondblclick="Field_DBclick('WF_HORG' , <%=LIST_BOX_CLASSIFICATION.LC_ORG %>)" onchange="TextBox_change('WF_HORG');" >
                         <asp:TextBox ID="WF_HORG" runat="server" Height="1.4em" Width="10em" onblur="MsgClear()"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:12.1em;left:27em;">

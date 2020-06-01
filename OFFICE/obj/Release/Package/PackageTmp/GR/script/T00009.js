@@ -1,6 +1,9 @@
 ﻿// ○OnLoad用処理(左右Box非表示)
 function InitDisplay() {
 
+    // テキストボックスEnter縦移動イベントバインド
+    commonBindEnterToVerticalTabStep();
+
     // 全部消す
     document.getElementById("LF_LEFTBOX").style.width = "0em";
     document.getElementById("RF_RIGHTBOX").style.width = "0em";
@@ -87,6 +90,7 @@ function InitDisplay() {
 
     // 月間調整画面変更
     AdjustFormat();
+
 };
 
 // リストの共通イベント
@@ -196,7 +200,10 @@ function DispFormat() {
 
             // 残業時間の有無によって申請、取り下げの状態を変更する
             if (document.getElementsByName("R_ORVERTIME" + (i + 1)) != undefined) {
-                if (document.getElementsByName("R_ORVERTIME" + (i + 1))[0].textContent == "") {
+                if (document.getElementsByName("R_ORVERTIME" + (i + 1))[0].textContent == "" &&
+                    document.getElementsByName("R_WNIGHTTIME" + (i + 1))[0].textContent == "" &&
+                    document.getElementsByName("R_SNIGHTTIME" + (i + 1))[0].textContent == "" &&
+                    document.getElementsByName("R_HNIGHTTIME" + (i + 1))[0].textContent == "") {
                     if (document.getElementById("chkpnlListAreaENTRYFLG" + (i + 1)) != undefined) {
                         document.getElementById("hchkpnlListAreaENTRYFLG" + (i + 1)).innerText = ""
                         document.getElementById("chkpnlListAreaENTRYFLG" + (i + 1)).checked = false;
@@ -214,13 +221,24 @@ function DispFormat() {
         }
 
         // 平日以外または、時間外計算対象外の場合、理由、理由２、申請チェックボックス、取下げチェックボックスは非活性
-        if (document.getElementById("txtpnlListAreaHOLIDAYKBN" + (i + 1)).value != "0" ||
-            document.getElementById("txtpnlListAreaSTAFFKBNTAISHOGAI" + (i + 1)).value != "") {
-            ChangeDisabled(document.getElementById("txtpnlListAreaYENDTIME" + (i + 1)), true);
-            ChangeDisabled(document.getElementById("txtpnlListAreaRIYU" + (i + 1)), true);
-            ChangeDisabled(document.getElementById("txtpnlListAreaRIYUETC" + (i + 1)), true);
-            ChangeDisabled(document.getElementById("chkpnlListAreaENTRYFLG" + (i + 1)), true);
-            ChangeDisabled(document.getElementById("chkpnlListAreaDRAWALFLG" + (i + 1)), true);
+        if (document.getElementById("WF_SEL_CAMPCODE").value == "05") {
+            if (document.getElementById("txtpnlListAreaHOLIDAYKBN" + (i + 1)).value != "0" ||
+                document.getElementById("txtpnlListAreaSTAFFKBNTAISHOGAI" + (i + 1)).value != "") {
+                ChangeDisabled(document.getElementById("txtpnlListAreaYENDTIME" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("txtpnlListAreaRIYU" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("txtpnlListAreaRIYUETC" + (i + 1)), false);
+                ChangeDisabled(document.getElementById("chkpnlListAreaENTRYFLG" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("chkpnlListAreaDRAWALFLG" + (i + 1)), true);
+            }
+        } else {
+            if (document.getElementById("txtpnlListAreaHOLIDAYKBN" + (i + 1)).value != "0" ||
+                document.getElementById("txtpnlListAreaSTAFFKBNTAISHOGAI" + (i + 1)).value != "") {
+                ChangeDisabled(document.getElementById("txtpnlListAreaYENDTIME" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("txtpnlListAreaRIYU" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("txtpnlListAreaRIYUETC" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("chkpnlListAreaENTRYFLG" + (i + 1)), true);
+                ChangeDisabled(document.getElementById("chkpnlListAreaDRAWALFLG" + (i + 1)), true);
+            }
         }
 
         // 申請チェックボックス
@@ -373,4 +391,128 @@ function AdjustFormat() {
         befor.replaceWith(after);
         after.rowSpan = "2";
     }
+}
+
+var commonKeyEnterProgress = false; // これは関数(function)外部に設定(グローバルスコープの変数です)
+
+/**
+ *  リストテーブルのEnterキーで下のテキストにタブを移すイベントバインド
+ * @return {undefined} なし
+ * @description 
+ */
+function commonBindEnterToVerticalTabStep() {
+    let generatedTables = document.querySelectorAll("div[data-generated='1']");
+    if (generatedTables === null) {
+        return;
+    }
+    if (generatedTables.length === 0) {
+        return;
+    }
+    let focusObjKey = document.forms[0].id + "ListFocusObjId";
+    if (sessionStorage.getItem(focusObjKey) !== null) {
+        if (IsPostBack === undefined) {
+            sessionStorage.removeItem(focusObjKey);
+        }
+        if (IsPostBack === '1') {
+            focusObjId = sessionStorage.getItem(focusObjKey);
+            setTimeout(function () {
+                document.getElementById(focusObjId).focus();
+                sessionStorage.removeItem(focusObjKey);
+            }, 10);
+        } else {
+            sessionStorage.removeItem(focusObjKey);
+        }
+
+    }
+    for (let i = 0, len = generatedTables.length; i < len; ++i) {
+        let generatedTable = generatedTables[i];
+        let panelId = generatedTable.id;
+        //生成したテーブルオブジェクトのテキストボックス確認
+        let textBoxes = generatedTable.querySelectorAll('input[type=text]:not([disabled]):not([disabled=""])');
+        //テキストボックスが無ければ次の描画されたリストテーブルへ
+        if (textBoxes === null) {
+            continue;
+        }
+
+        // テキストボックスのループ
+        for (let j = 0; j < textBoxes.length; j++) {
+            let textBox = textBoxes[j];
+            let lineCnt = textBox.attributes.getNamedItem("rownum").value;
+            let fieldName = textBox.id.substring(("txt" + panelId).length);
+            fieldName = fieldName.substring(0, fieldName.length - lineCnt.length);
+            let nextTextFieldName = fieldName;
+            if (textBoxes.length === j + 1) {
+                // 最後のテキストボックスは先頭のフィールド
+                nextTextFieldName = textBoxes[0].id.substring(("txt" + panelId).length);
+                nextTextFieldName = nextTextFieldName.substring(0, nextTextFieldName.length - lineCnt.length);
+            } else if (textBoxes.length > j + 1) {
+                nextTextFieldName = textBoxes[j + 1].id.substring(("txt" + panelId).length);
+                nextTextFieldName = nextTextFieldName.substring(0, nextTextFieldName.length - lineCnt.length);
+            }
+
+            textBox.dataset.fieldName = fieldName;
+            textBox.dataset.nextTextFieldName = nextTextFieldName;
+            textBox.addEventListener('keypress', (function (textBox, panelId) {
+                return function () {
+                    if (event.key === 'Enter') {
+                        if (commonKeyEnterProgress === false) {
+                            commonKeyEnterProgress = true; //Enter連打抑止
+                            commonListEnterToVerticalTabStep(textBox, panelId);
+                            return setTimeout(function () {
+                                commonKeyEnterProgress = false;　///Enter連打抑止
+                            }, 10); // 5ミリ秒だと連打でフォーカスパニックになったので10ミリ秒に
+                        }
+                    }
+                };
+            })(textBox, panelId), true);
+        }
+    }
+}
+/**
+ *  リストテーブルのEnterキーで下のテキストにタブを移すイベント
+ * @param {Node} textBox テキストボックス
+ * @param {string} panelId テキストボックス
+ * @return {undefined} なし
+ * @description 
+ */
+function commonListEnterToVerticalTabStep(textBox, panelId) {
+    let curLineCnt = Number(textBox.attributes.getNamedItem("rownum").value);
+    let fieldName = textBox.dataset.fieldName;
+    let nextTextFieldName = textBox.dataset.nextTextFieldName;
+    let found = false;
+    let focusNode;
+    let maxLineCnt = 999; // 無限ループ抑止用の最大LineCntインクリメント
+    let targetObjPrefix = "txt" + panelId + nextTextFieldName;
+    while (found === false) {
+        //curLineCnt = curLineCnt + 1;
+        let targetObj = targetObjPrefix + curLineCnt;
+        focusNode = document.getElementById(targetObj);
+        if (focusNode !== null) {
+            found = true;
+        } else {
+            curLineCnt = curLineCnt + 1;
+
+            targetObjPrefix = "txt" + panelId + nextTextFieldName;
+        }
+
+        // 無限ループ抑止
+        if (maxLineCnt === curLineCnt) {
+            found = true;
+        }
+    }
+    //onchangeイベント（postbackする）を見つけてセッション変数にフォーカス先を保持する（load時にセッション変数からフォーカス先を取得させる）
+    //注意）T9では、trタグでonchangeしているため（1行毎、全てのテキスト）判定を止める！！
+    //      T9以外で利用する場合、対応が必要かも？
+    //var parentNodeObj = textBox.parentNode;
+    //if (parentNodeObj.hasAttribute('onchange')) {
+
+    var focusObjKey = document.forms[0].id + "ListFocusObjId";
+    sessionStorage.setItem(focusObjKey, focusNode.id);
+    //}
+    //var retValue = sessionStorage.getItem(forcusObjKey);
+    //if (retValue === null) {
+    //    retValue = '';
+    //}
+    focusNode.focus();
+    return;
 }

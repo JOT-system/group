@@ -32,16 +32,19 @@
                 <input type="button" id="WF_ButtonALLCANCEL" value="全解除"  style="Width:5em" onclick="ButtonClick('WF_ButtonALLCANCEL');" />
             </a>
 
-            <a style="position:fixed;top:2.8em;left:35em;">
+            <a style="position:fixed;top:2.8em;left:34em;">
                 <input type="button" id="WF_ButtonLIMIT" value="勤怠締"  style="Width:9em" onclick="ButtonClick('WF_ButtonLIMIT');" />
             </a>
 
-            <a style="position:fixed;top:2.8em;left:43em;">
+            <a style="position:fixed;top:2.8em;left:42em;">
                 <input type="button" id="WF_ButtonRELEASE" value="勤怠締 解除"  style="Width:9em" onclick="ButtonClick('WF_ButtonRELEASE');" />
             </a>
 
-            <a style="position:fixed;top:2.8em;left:51em;">
-                <input type="button" id="WF_ButtonJOURNAL" value="給与ｼﾞｬｰﾅﾙ作成"  style="Width:9em" onclick="ButtonClick('WF_ButtonJOURNAL');" />
+            <a style="position:fixed;top:2.8em;left:50em;">
+                <input type="button" id="WF_ButtonJOURNAL" value="給与ｼﾞｬｰﾅﾙ作成" runat="server" style="Width:10em" onclick="ButtonClick('WF_ButtonJOURNAL');" />
+            </a>
+            <a style="position:fixed;top:4.5em;left:50em;">
+                <input type="button" id="WF_ButtonJOURNAL_V2" value="給与ｼﾞｬｰﾅﾙ作成(新）" runat="server" style="Width:10em" onclick="ButtonClick('WF_ButtonJOURNAL_V2');" />
             </a>
 
             <a style="position:fixed;top:2.8em;left:59em;">
@@ -167,5 +170,7 @@
 
     <!-- Work レイアウト -->
     <LSINC:work id="work" runat="server" />
+    <%-- leftview --%>
+    <MSINC:leftview id="leftview" runat="server" />
            
 </asp:Content>

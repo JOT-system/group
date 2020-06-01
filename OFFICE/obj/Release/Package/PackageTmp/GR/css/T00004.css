@@ -19,7 +19,6 @@
     font-size:small;
 }
 
-
 div[data-generated="1"] td,		
 div[data-generated="1"] th {
     height:1.6em;
@@ -137,4 +136,12 @@ span[class^="WF_DViewRep"] table td {
     z-index:30;
     border: 1px black;
     background-color:white;
+}
+
+/* 一覧OPERATION COLOR定義 */
+.OPERATION_WARNING {
+    color: magenta;
+}
+.OPERATION_ERROR {
+    color: red;
 }

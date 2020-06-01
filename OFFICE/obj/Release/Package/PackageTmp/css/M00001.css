@@ -64,7 +64,7 @@ a:link { color: red; }		-->  <a href="..."> のリンク(未訪問)に対して�
     }
 
     .WF_MenuButton_L{
-        height:2em;
+        height:1.8em;
         width:30em;
          
         position:relative;
@@ -79,7 +79,7 @@ a:link { color: red; }		-->  <a href="..."> のリンク(未訪問)に対して�
     }
 
     .WF_MenuLabel_R{
-        height:2em;
+        height:1.8em;
         width:30em;
 
         position:relative;

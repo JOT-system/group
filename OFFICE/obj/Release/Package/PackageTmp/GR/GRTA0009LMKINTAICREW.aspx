@@ -46,7 +46,7 @@
                     <asp:TextBox ID="WF_MAXORVERTIME" runat="server" Height="1.4em" Width="7em" CssClass="WF_TEXT_RIGHT"></asp:TextBox>
                 </a>
                 <a style="position:fixed;top:2.8em;left:53.5em;" >
-                    <input type="button" id="WF_ButtonEMS" value="EMS"  style="Width:5em; height:1.65em" onclick="ButtonClick('WF_ButtonEMS');" />
+                    <input type="button" id="WF_ButtonEMS" value="　 EMS　　口"  style="Width:5em;" onclick="ButtonClick('WF_ButtonEMS');" />
                 </a>
                 <a style="position:fixed;top:2.8em;left:58em;" hidden="hidden">
                     <input type="button" id="WF_ButtonPDF" value="印刷"  style="Width:5em" onclick="ButtonClick('WF_ButtonPDF');" />
@@ -79,7 +79,7 @@
                 <asp:MultiView ID="WF_SelectorMView" runat="server">
                     <asp:View ID="WF_DView1" runat="server" >
                         <!-- ■　組織セレクター　■ -->
-                        <div id="ORGSelect" style="overflow-y:auto;;width:11.3em;color:black;min-height:30em;background-color: white;border: solid;border-width:1.5px;">
+                        <div id="ORGSelect" style="overflow-y:auto;width:11.3em;height:30em;color:black;background-color: white;border: solid;border-width:1.5px;">
                             <asp:Repeater ID="WF_ORGselector" runat="server">
                                 <HeaderTemplate> 
                                     <table style="border-width:1px;margin:0.1em 0.1em 0.1em 0.1em;">
@@ -104,7 +104,7 @@
                     </asp:View>
                     <asp:View ID="WF_DView2" runat="server" >
                         <!-- ■　従業員セレクター　■ -->
-                        <div id="STAFFSelect" style="overflow-y:auto;min-height:30em;width:11.3em;color:black;background-color: white;border: solid;border-width:1.5px;">
+                        <div id="STAFFSelect" style="overflow-y:auto;width:11.3em;height:30em;color:black;background-color: white;border: solid;border-width:1.5px;">
                             <asp:Repeater ID="WF_STAFFselector" runat="server">
                                 <HeaderTemplate> 
                                     <table style="border-width:1px;margin:0.1em 0.1em 0.1em 0.1em;">

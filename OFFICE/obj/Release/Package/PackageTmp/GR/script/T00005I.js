@@ -291,11 +291,13 @@ function f_dragEvent(e) {
         if (e.currentTarget.status == 200) {
             document.getElementById('WF_ButtonClick').value = "WF_UPLOAD_" + upLoadFile;
             document.body.style.cursor = "wait";
+            commonDispWait();
             document.forms[0].submit();                             //aspx起動
         } else {
             document.getElementById("WF_MESSAGE").textContent = "ファイルアップロードが失敗しました。";
             document.getElementById("WF_MESSAGE").style.color = "red";
             document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+            commonHideWait();
         }
     };
 
@@ -304,6 +306,7 @@ function f_dragEvent(e) {
         document.getElementById("WF_MESSAGE").textContent = "ファイルアップロードが失敗しました。";
         document.getElementById("WF_MESSAGE").style.color = "red";
         document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+        commonHideWait();
     };
 
     // ⇒XHR 通信中止すると実行されるイベント
@@ -311,6 +314,7 @@ function f_dragEvent(e) {
         document.getElementById("WF_MESSAGE").textContent = "通信を中止しました。";
         document.getElementById("WF_MESSAGE").style.color = "red";
         document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+        commonHideWait();
     };
 
     // ⇒送信中にタイムアウトエラーが発生すると実行されるイベント
@@ -318,6 +322,7 @@ function f_dragEvent(e) {
         document.getElementById("WF_MESSAGE").textContent = "タイムアウトエラーが発生しました。";
         document.getElementById("WF_MESSAGE").style.color = "red";
         document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+        commonHideWait();
     };
 
     // 「送信データ」を指定、XHR 通信を開始する

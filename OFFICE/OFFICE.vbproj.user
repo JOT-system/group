@@ -8,12 +8,12 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
     <Use64BitIISExpress />
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>C:\APPL\APPLBIN\SYSLIB\COMLIB\BASEDLL\BASEDLL\obj\</ReferencePath>
+    <ReferencePath>C:\APPL\APPLBIN\SYSLIB\APPLLIB\OFFICE\BASEDLL\obj\</ReferencePath>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

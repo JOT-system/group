@@ -66,6 +66,10 @@
             <a style="position:fixed;top:3.2em;left:77em;">
                 <asp:Image ID="WF_ButtonLAST" runat="server" ImageUrl="~/最終頁.png" Width="1.5em" onclick="ButtonClick('WF_ButtonLAST');" Height="1em" ImageAlign="AbsMiddle" />
             </a>
+            <!-- 削除選択 -->
+            <a style="position:fixed;top:3.2em;left:79.6em;">
+                <asp:CheckBox ID="WF_ButtonALLSELECT" runat="server" Width="5em" TextAlign="Left" TEXT="削除選択" CssClass="WF_TEXT_LEFT"  onclick="ButtonClick('WF_ButtonALLSELECT');" />
+            </a>
         </div>
         <!-- 一覧レイアウト -->
         <div id="divListArea">
@@ -548,6 +552,7 @@
 
         <asp:TextBox ID="WF_DEFORG" runat="server"></asp:TextBox>                       <!-- 所属部署　 -->
         <asp:TextBox ID="WF_JXORDERID" runat="server"></asp:TextBox>                    <!-- JXオーダー識別ID　 -->
+        <asp:TextBox ID="WF_JXORDERSTATUS" runat="server"></asp:TextBox>                <!-- JXオーダーSTATUS　 -->
 
         <input id="WF_FIELD"  runat="server" value=""  type="text" />                   <!-- Textbox DBクリックフィールド -->
         <input id="WF_FIELD_REP"  runat="server" value=""  type="text" />               <!-- Textbox(Repeater) DBクリックフィールド -->

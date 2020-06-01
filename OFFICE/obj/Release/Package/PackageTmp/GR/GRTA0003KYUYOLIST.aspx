@@ -1177,42 +1177,42 @@
                     </b>
                 </a>
 
-                <a style="position:fixed;top:17.9em;left:44em; width:32em;" >
+                <a style="position:fixed;top:17.9em;left:46em; width:32em;" >
                     <asp:Label ID="Label155" runat="server" Text="荷卸時" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
                 <a style="position:fixed;top:19.0em;left:37em; width:32em;" >
-                    <asp:Label ID="Label156" runat="server" Text="卸危険品100" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label156" runat="server" Text="卸危険品100" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADADDCNT1TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
                 <a style="position:fixed;top:20.1em;left:37em; width:32em;" >
-                    <asp:Label ID="Label157" runat="server" Text="卸危険品200" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label157" runat="server" Text="卸危険品200" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADADDCNT2TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
                 <a style="position:fixed;top:21.2em;left:37em; width:32em;" >
-                    <asp:Label ID="Label158" runat="server" Text="卸危険品800" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label158" runat="server" Text="卸危険品800" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADADDCNT3TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
                 <a style="position:fixed;top:22.3em;left:37em; width:32em;" >
-                    <asp:Label ID="Label180" runat="server" Text="積危険品1000" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label180" runat="server" Text="卸危険品1000" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
-                    <asp:TextBox ID="WF_LOADINGCNT1TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
+                    <asp:TextBox ID="WF_UNLOADADDCNT4TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
 
                 <a style="position:fixed;top:24.0em;left:37em; width:32em;" >
-                    <asp:Label ID="Label160" runat="server" Text="短距離1000" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label160" runat="server" Text="短距離1000" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_SHORTDISTANCE1TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
                 <a style="position:fixed;top:25.1em;left:37em; width:32em;" >
-                    <asp:Label ID="Label159" runat="server" Text="短距離2000" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label159" runat="server" Text="短距離2000" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_SHORTDISTANCE2TTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>
@@ -1222,24 +1222,24 @@
                 <a style="position:fixed;top:6.7em;left:37em; width:32em;" >
                     <asp:Label ID="Label161" runat="server" Text="【単車】" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
-                <a style="position:fixed;top:6.7em;left:43.5em; width:32em;" >
+                <a style="position:fixed;top:6.7em;left:45.5em; width:32em;" >
                     <asp:Label ID="Label162" runat="server" Text="荷卸回数" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
-                <a style="position:fixed;top:6.7em;left:49.5em; width:32em;" >
+                <a style="position:fixed;top:6.7em;left:51.5em; width:32em;" >
                     <asp:Label ID="Label163" runat="server" Text="走行㎞" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
-                <a style="position:fixed;top:6.7em;left:55em; width:32em;" >
+                <a style="position:fixed;top:6.7em;left:57em; width:32em;" >
                     <asp:Label ID="Label164" runat="server" Text="【ﾄﾚｰﾗ】" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
-                <a style="position:fixed;top:6.7em;left:61.5em; width:32em;" >
+                <a style="position:fixed;top:6.7em;left:65.5em; width:32em;" >
                     <asp:Label ID="Label165" runat="server" Text="荷卸回数" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
-                <a style="position:fixed;top:6.7em;left:67.5em; width:32em;" >
+                <a style="position:fixed;top:6.7em;left:71.5em; width:32em;" >
                     <asp:Label ID="Label166" runat="server" Text="走行㎞" Height="1.3em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                 </a>
 
                 <a style="position:fixed;top:7.8em;left:37em; width:32em;" >
-                    <asp:Label ID="Label167" runat="server" Text="燃料油" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label167" runat="server" Text="燃料油" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_IPPAN1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1247,8 +1247,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_IPPAN1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:7.8em;left:55em; width:32em;" >
-                    <asp:Label ID="Label168" runat="server" Text="燃料油" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:7.8em;left:57em; width:32em;" >
+                    <asp:Label ID="Label168" runat="server" Text="燃料油" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_IPPAN2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1257,7 +1257,7 @@
                     </b>
                 </a>
                 <a style="position:fixed;top:8.9em;left:37em; width:32em;" >
-                    <asp:Label ID="Label169" runat="server" Text="太陽油脂" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label169" runat="server" Text="太陽油脂(積置含)" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_TAIYO1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1265,8 +1265,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_TAIYO1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:8.9em;left:55em; width:32em;" >
-                    <asp:Label ID="Label170" runat="server" Text="太陽油脂" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:8.9em;left:57em; width:32em;" >
+                    <asp:Label ID="Label170" runat="server" Text="太陽油脂(積置含)" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_TAIYO2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1275,7 +1275,7 @@
                     </b>
                 </a>
                 <a style="position:fixed;top:10.0em;left:37em; width:32em;" >
-                    <asp:Label ID="Label171" runat="server" Text="ｲﾝﾌｨﾆｱﾑ" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label171" runat="server" Text="ｲﾝﾌｨﾆｱﾑ(積置含)" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_INF1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1283,8 +1283,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_INF1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:10.0em;left:55em; width:32em;" >
-                    <asp:Label ID="Label172" runat="server" Text="ｲﾝﾌｨﾆｱﾑ" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:10.0em;left:57em; width:32em;" >
+                    <asp:Label ID="Label172" runat="server" Text="ｲﾝﾌｨﾆｱﾑ(積置含)" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_INF2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1293,7 +1293,7 @@
                     </b>
                 </a>
                 <a style="position:fixed;top:11.1em;left:37em; width:32em;" >
-                    <asp:Label ID="Label173" runat="server" Text="化成・潤滑" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label173" runat="server" Text="化成・潤滑" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_JUN1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1301,8 +1301,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_JUN1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:11.1em;left:55em; width:32em;" >
-                    <asp:Label ID="Label174" runat="server" Text="化成・潤滑" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:11.1em;left:57em; width:32em;" >
+                    <asp:Label ID="Label174" runat="server" Text="化成・潤滑" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_JUN2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1311,7 +1311,7 @@
                     </b>
                 </a>
                 <a style="position:fixed;top:12.2em;left:37em; width:32em;" >
-                    <asp:Label ID="Label175" runat="server" Text="コンテナ" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label175" runat="server" Text="コンテナ" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_CONT1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1319,8 +1319,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_CONT1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:12.2em;left:55em; width:32em;" >
-                    <asp:Label ID="Label176" runat="server" Text="コンテナ" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:12.2em;left:57em; width:32em;" >
+                    <asp:Label ID="Label176" runat="server" Text="コンテナ" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_CONT2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1329,7 +1329,7 @@
                     </b>
                 </a>
                 <a style="position:fixed;top:13.3em;left:37em; width:32em;" >
-                    <asp:Label ID="Label177" runat="server" Text="高圧" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="Label177" runat="server" Text="高圧" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_LPG1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1337,8 +1337,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_LPG1_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:13.3em;left:55em; width:32em;" >
-                    <asp:Label ID="Label178" runat="server" Text="高圧" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:13.3em;left:57em; width:32em;" >
+                    <asp:Label ID="Label178" runat="server" Text="高圧" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNT_LPG2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
@@ -1346,8 +1346,8 @@
                     <asp:TextBox ID="WF_HAIDISTANCE_LPG2_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; " ></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:15.0em;left:55em; width:32em;" >
-                    <asp:Label ID="Label179" runat="server" Text="合計" Height="1.3em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:15.0em;left:57em; width:32em;" >
+                    <asp:Label ID="Label179" runat="server" Text="合計" Height="1.3em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_UNLOADCNTTTL_JKT" runat="server" Height="1.1em" Width="6em" CssClass="WF_TEXTBOX_CSS" Readonly="true" style="text-align: right; "></asp:TextBox>
                     </b>

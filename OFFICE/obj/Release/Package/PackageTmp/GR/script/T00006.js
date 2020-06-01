@@ -14,18 +14,20 @@ function InitDisplay() {
 
     //光英送信ボタン活性／非活性
     if (document.getElementById('WF_IsHideKoueiButton').value == "0") {
-        //表示
-        document.getElementById("WF_ButtonPut").style.visibility = "visible";
+        ////表示
+        //document.getElementById("WF_ButtonPut").style.visibility = "visible";
         if (document.getElementById('WF_MAPpermitcode').value == "TRUE") {
             //活性
-            document.getElementById("WF_ButtonPut").disabled = "";
+            document.getElementById("WF_ButtonPutPlan").disabled = "";
+            document.getElementById("WF_ButtonPutShipper").disabled = "";
         } else {
             //非活性 
-            document.getElementById("WF_ButtonPut").disabled = "disabled";
+            document.getElementById("WF_ButtonPutPlan").disabled = "disabled";
+            document.getElementById("WF_ButtonPutShipper").disabled = "disabled";
         };
     } else {
-        //非表示 
-        document.getElementById("WF_ButtonPut").style.visibility = "hidden";
+        ////非表示 
+        //document.getElementById("WF_ButtonPut").visibility = "hidden";
     };
 
     /* 共通一覧のスクロールイベント紐づけ */

@@ -315,7 +315,7 @@
                     <asp:TextBox ID="WF_HAIDISTANCE" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
-                <a style="position:fixed;top:14.5em;left:71em; width:32em;">
+                <a style="position:fixed;top:14.5em;left:71.1em; width:32em;">
                     <b>
                     <asp:TextBox ID="WF_KAIDISTANCE" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false" style="text-align: right; "></asp:TextBox>
                     </b>
@@ -428,10 +428,13 @@
 
                     <!-- ■■■　手当関連１　■■■ -->
                     <a style="position:fixed;top:13.3em;left:3em; width:32em;" >
-                        <asp:Label ID="WF_NENSHINISSUTTL_LABEL" runat="server" Text="年始出勤日数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_NENSHINISSUTTL_LABEL" runat="server" Text="年末年始" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_NENSHINISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
+                    </a>
+                    <a style="position:fixed;top:14.4em;left:3em; width:32em;" >
+                        <asp:Label ID="Label1" runat="server" Text="出勤日数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
                     <a style="position:fixed;top:13.3em;left:14em; width:32em;" >
                         <asp:Label ID="WF_SHUKCHOKNNISSUTTL_LABEL" runat="server" Text="宿日直年始" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>

@@ -112,10 +112,10 @@
                 </a>
 
                 <!-- ■　休日区分　■ -->
-                <a style="position:fixed;top:8.5em;left:3em; width:32em;">
-                    <asp:Label ID="WF_HOLIDAYKBN_LABEL" runat="server" Text="休日区分" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                <a style="position:fixed;top:8.5em;left:3em; width:32em;" ondblclick="Field_DBclick('WF_HOLIDAYKBN' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
+                    <asp:Label ID="WF_HOLIDAYKBN_LABEL" runat="server" Text="休日区分" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="true"></asp:Label>
                     <b>
-                    <asp:TextBox ID="WF_HOLIDAYKBN" runat="server" Height="1.2em" Width="4em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_HOLIDAYKBN')"></asp:TextBox>
+                    <asp:TextBox ID="WF_HOLIDAYKBN" runat="server" Height="1.2em" Width="4em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_HOLIDAYKBN')"></asp:TextBox>
                     </b>
                     <asp:Label ID="WF_HOLIDAYKBN_TEXT" runat="server" Height="1.2em" Width="10em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                 </a>

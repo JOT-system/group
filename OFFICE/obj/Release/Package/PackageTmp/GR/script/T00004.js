@@ -61,6 +61,56 @@ function InitDisplay() {
     /* 共通一覧のスクロールイベント紐づけ */
     bindListCommonEvents(pnlListAreaId, IsPostBack);
     addLeftBoxExtention(leftListExtentionTarget);
+
+    // チェックボックス
+    ChangeCheckBox();
+};
+// ○チェックボックス表示設定
+function ChangeCheckBox() {
+
+    var objTable = document.getElementById("pnlListArea_DR").children[0];
+    // オブジェクトが存在しない場合抜ける
+    if (objTable == undefined) {
+        return;
+    }
+
+    var chkObjs = objTable.querySelectorAll("input[id^='chkpnlListAreaROWDEL']");
+    var spnObjs = objTable.querySelectorAll("span[id^='hchkpnlListAreaROWDEL']");
+
+    for (let i = 0; i < chkObjs.length; i++) {
+
+        if (chkObjs[i] !== null) {
+            if (spnObjs[i].innerText == "1") {
+                chkObjs[i].checked = true;
+            } else {
+                chkObjs[i].checked = false;
+            }
+        }
+    }
+};
+
+// ○チェックボックス変更
+function f_onchange(obj, Line, fieldNM) {
+    if (document.getElementById("MF_SUBMIT").value == "FALSE") {
+
+        let trlst = document.getElementById("pnlListArea_DL").getElementsByTagName("tr");
+        var objTable = document.getElementById("pnlListArea_DR").children[0];
+        // オブジェクトが存在しない場合抜ける
+        if (objTable == undefined) {
+            return;
+        }
+        var chkObjs = objTable.querySelectorAll("input[id^='chkpnlListAreaROWDEL']");
+        for (let i = 0; i < trlst.length; i++) {
+            // イベント発生時のLINECNTと一致する行
+            if (trlst[i].getElementsByTagName("th")[0].innerText == Line) {
+                if (chkObjs[i].checked == false) {
+                    document.getElementById("WF_ButtonALLSELECT").checked = false;
+                }
+
+                return;
+            }
+        }
+    }
 };
 
 // ○左BOX[テーブル]用処理（DBクリック選択+値反映）
@@ -179,11 +229,13 @@ function f_dragEvent(e) {
         if (e.currentTarget.status == 200) {
             document.getElementById('WF_ButtonClick').value = "WF_UPLOAD_" + upLoadFile;
             document.body.style.cursor = "wait";
+            commonDispWait();
             document.forms[0].submit();                             //aspx起動
         } else {
             document.getElementById("WF_MESSAGE").textContent = "ファイルアップロードが失敗しました。";
             document.getElementById("WF_MESSAGE").style.color = "red";
             document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+            commonHideWait();
         }
     };
 
@@ -192,6 +244,7 @@ function f_dragEvent(e) {
         document.getElementById("WF_MESSAGE").textContent = "ファイルアップロードが失敗しました。";
         document.getElementById("WF_MESSAGE").style.color = "red";
         document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+        commonHideWait();
     };
 
     // ⇒XHR 通信中止すると実行されるイベント
@@ -199,6 +252,7 @@ function f_dragEvent(e) {
         document.getElementById("WF_MESSAGE").textContent = "通信を中止しました。";
         document.getElementById("WF_MESSAGE").style.color = "red";
         document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+        commonHideWait();
     };
 
     // ⇒送信中にタイムアウトエラーが発生すると実行されるイベント
@@ -206,6 +260,7 @@ function f_dragEvent(e) {
         document.getElementById("WF_MESSAGE").textContent = "タイムアウトエラーが発生しました。";
         document.getElementById("WF_MESSAGE").style.color = "red";
         document.getElementById("WF_MESSAGE").style.fontWeight = "bold";
+        commonHideWait();
     };
 
     // 「送信データ」を指定、XHR 通信を開始する

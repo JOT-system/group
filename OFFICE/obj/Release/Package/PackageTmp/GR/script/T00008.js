@@ -17,12 +17,14 @@ function InitDisplay() {
         //活性
         document.getElementById("WF_ButtonRELEASE").hidden = "";
         document.getElementById("WF_ButtonJOURNAL").hidden = "";
+        document.getElementById("WF_ButtonJOURNAL_V2").hidden = "";
         document.getElementById("WF_ButtonBUMON").hidden = "";
                 
     } else {
         //非活性 
         document.getElementById("WF_ButtonRELEASE").hidden = "hidden";
         document.getElementById("WF_ButtonJOURNAL").hidden = "hidden";
+        document.getElementById("WF_ButtonJOURNAL_V2").hidden = "hidden";
         document.getElementById("WF_ButtonBUMON").hidden = "hidden";
     };
 

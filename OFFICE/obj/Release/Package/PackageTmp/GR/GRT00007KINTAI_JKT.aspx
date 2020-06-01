@@ -207,6 +207,13 @@
                     <asp:TextBox ID="WF_SENJYOCNT" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_SENJYOCNT')" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
+                <!-- ■　太陽・インフィニアム積置回数　■ -->
+                <a style="position:fixed;top:15.5em;left:29.8em; width:25em;" hidden="hidden">
+                    <asp:Label ID="WF_LOADINGCNT_LABEL" runat="server" Text="積置回数(太陽・ｲﾝﾌｨﾆｱﾑ)" Height="1.2em" Width="12em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <b>
+                    <asp:TextBox ID="WF_LOADINGCNT" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false"  style="text-align: right; "></asp:TextBox>
+                    </b>
+                </a>
                 <!-- ■　危険品回数100（荷卸時加算単価）　■ -->
                 <a style="position:fixed;top:8.5em;left:47em; width:32em;">
                     <asp:Label ID="WF_UNLOADADDCNT1_LABEL" runat="server" Text="卸危険品100" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
@@ -230,9 +237,9 @@
                 </a>
                 <!-- ■　危険品回数1000（荷積時加算単価）　■ -->
                 <a style="position:fixed;top:11.8em;left:47em; width:32em;">
-                    <asp:Label ID="WF_LOADINGCNT1_LABEL" runat="server" Text="積危険品1000" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="WF_UNLOADADDCNT4_LABEL" runat="server" Text="積危険品1000" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
-                    <asp:TextBox ID="WF_LOADINGCNT1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_LOADINGCNT1')" style="text-align: right; "></asp:TextBox>
+                    <asp:TextBox ID="WF_UNLOADADDCNT4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_LOADINGCNT1')" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
                 <!-- ■　短距離手当（短距離1000）　■ -->
@@ -465,46 +472,46 @@
 
                     <!-- ■■■　手当関連３　■■■ -->
                     <a style="position:fixed;top:19.0em;left:25em; width:30em;" >
-                        <asp:Label ID="WF_TOKUSA1TIMETTL_LABEL" runat="server" Text="特 作 Ｉ" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_TOKUSA1TIMETTL_LABEL" runat="server" Text="特 作 Ｉ" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_TOKUSA1TIMETTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: center; "></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:17.9em;left:44em; width:32em;" >
+                    <a style="position:fixed;top:17.9em;left:46em; width:32em;" >
                         <asp:Label ID="WF_UNLOADING_LABEL" runat="server" Text="荷卸時" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
                     <a style="position:fixed;top:19.0em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_UNLOADADDCNT1TTL_LABEL" runat="server" Text="卸危険品100" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_UNLOADADDCNT1TTL_LABEL" runat="server" Text="卸危険品100" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADADDCNT1TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:20.1em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_UNLOADADDCNT2TTL_LABEL" runat="server" Text="卸危険品200" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_UNLOADADDCNT2TTL_LABEL" runat="server" Text="卸危険品200" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADADDCNT2TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:21.2em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_UNLOADADDCNT3TTL_LABEL" runat="server" Text="卸危険品800" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_UNLOADADDCNT3TTL_LABEL" runat="server" Text="卸危険品800" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADADDCNT3TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:22.3em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_LOADINGCNT1TTL_LABEL" runat="server" Text="積危険品1000" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_UNLOADADDCNT4TTL_LABEL" runat="server" Text="積危険品1000" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_LOADINGCNT1TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
+                        <asp:TextBox ID="WF_UNLOADADDCNT4TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:24.0em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_SHORTDISTANCE1TTL_LABEL" runat="server" Text="短距離1000" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_SHORTDISTANCE1TTL_LABEL" runat="server" Text="短距離1000" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_SHORTDISTANCE1TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:25.1em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_SHORTDISTANCE2TTL_LABEL" runat="server" Text="短距離2000" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_SHORTDISTANCE2TTL_LABEL" runat="server" Text="短距離2000" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_SHORTDISTANCE2TTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
@@ -565,26 +572,26 @@
 
                     <!-- ■■■　油種別（卸回数、走行距離）　■■■ -->
                     <a style="position:fixed;top:6.7em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_MOTORCYCLE_LABEL" runat="server" Text="【単車】" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_MOTORCYCLE_LABEL" runat="server" Text="【単車】" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:6.7em;left:43.5em; width:32em;" >
+                    <a style="position:fixed;top:6.7em;left:45.5em; width:32em;" >
                         <asp:Label ID="WF_MOT_KAITENCNT_LABEL" runat="server" Text="荷卸回数" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:6.7em;left:49.5em; width:32em;" >
+                    <a style="position:fixed;top:6.7em;left:51.5em; width:32em;" >
                         <asp:Label ID="WF_MOT_HAIDISTANCE_LABEL" runat="server" Text="走行㎞" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:6.7em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_TRAILER_LABEL" runat="server" Text="【ﾄﾚｰﾗ】" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:6.7em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_TRAILER_LABEL" runat="server" Text="【ﾄﾚｰﾗ】" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:6.7em;left:61.5em; width:32em;" >
+                    <a style="position:fixed;top:6.7em;left:65.5em; width:32em;" >
                         <asp:Label ID="WF_TRA_KAITENCNT_LABEL" runat="server" Text="荷卸回数" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:6.7em;left:67.5em; width:32em;" >
+                    <a style="position:fixed;top:6.7em;left:71.5em; width:32em;" >
                         <asp:Label ID="WF_TRA_HAIDISTANCE_LABEL" runat="server" Text="走行㎞" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
 
                     <a style="position:fixed;top:7.8em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_IPPAN1_LABEL" runat="server" Text="燃料油" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_IPPAN1_LABEL" runat="server" Text="燃料油" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_IPPAN1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -592,8 +599,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_IPPAN1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:7.8em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_IPPAN2_LABEL" runat="server" Text="燃料油" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:7.8em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_IPPAN2_LABEL" runat="server" Text="燃料油" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_IPPAN2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -602,7 +609,7 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:8.9em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_TAIYO1_LABEL" runat="server" Text="太陽油脂" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_TAIYO1_LABEL" runat="server" Text="太陽油脂(積置含)" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_TAIYO1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -610,8 +617,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_TAIYO1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:8.9em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_TAIYO2_LABEL" runat="server" Text="太陽油脂" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:8.9em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_TAIYO2_LABEL" runat="server" Text="太陽油脂(積置含)" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_TAIYO2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -620,7 +627,7 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:10.0em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_INF1_LABEL" runat="server" Text="ｲﾝﾌｨﾆｱﾑ" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_INF1_LABEL" runat="server" Text="ｲﾝﾌｨﾆｱﾑ(積置含)" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_INF1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -628,8 +635,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_INF1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:10.0em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_INF2_LABEL" runat="server" Text="ｲﾝﾌｨﾆｱﾑ" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:10.0em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_INF2_LABEL" runat="server" Text="ｲﾝﾌｨﾆｱﾑ(積置含)" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_INF2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -638,7 +645,7 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:11.1em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_JUN1_LABEL" runat="server" Text="化成・潤滑" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_JUN1_LABEL" runat="server" Text="化成・潤滑" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_JUN1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -646,8 +653,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_JUN1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:11.1em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_JUN2_LABEL" runat="server" Text="化成・潤滑" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:11.1em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_JUN2_LABEL" runat="server" Text="化成・潤滑" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_JUN2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -656,7 +663,7 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:12.2em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_CONT1_LABEL" runat="server" Text="コンテナ" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_CONT1_LABEL" runat="server" Text="コンテナ" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_CONT1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -664,8 +671,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_CONT1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:12.2em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_CONT2_LABEL" runat="server" Text="コンテナ" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:12.2em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_CONT2_LABEL" runat="server" Text="コンテナ" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_CONT2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -674,7 +681,7 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:13.3em;left:37em; width:32em;" >
-                        <asp:Label ID="WF_LPG1_LABEL" runat="server" Text="高圧" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_LPG1_LABEL" runat="server" Text="高圧" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_LPG1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -682,8 +689,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_LPG1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:13.3em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_LPG2_LABEL" runat="server" Text="高圧" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:13.3em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_LPG2_LABEL" runat="server" Text="高圧" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNT_LPG2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
@@ -691,8 +698,8 @@
                         <asp:TextBox ID="WF_HAIDISTANCE_LPG2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " OnChange="TTL_SUM()"></asp:TextBox>
                         </b>
                     </a>
-                    <a style="position:fixed;top:15.0em;left:55em; width:32em;" >
-                        <asp:Label ID="WF_SUM_LABEL" runat="server" Text="合計" Height="1.2em" Width="6em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <a style="position:fixed;top:15.0em;left:57em; width:32em;" >
+                        <asp:Label ID="WF_SUM_LABEL" runat="server" Text="合計" Height="1.2em" Width="8em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_UNLOADCNTTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; "></asp:TextBox>
                         </b>
