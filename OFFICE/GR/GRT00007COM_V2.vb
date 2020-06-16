@@ -1046,6 +1046,9 @@ Public Class GRT0007COM_V2
                     jikyusha = getList2(WW_CHOrow("CAMPCODE"), GRT00007WRKINC.CONST_JIKYU, jikyusha)
                     If Not IsNothing(jikyusha.Items.FindByValue(WW_CHOrow("STAFFKBN"))) Then
                         WW_CHOrow("WORKNISSUTTL") = Val(WW_CHOrow("WORKNISSU"))
+                    Else
+                        WW_CHOrow("WORKNISSUCHO") = Val(WW_CHOrow("KYOTEIWEEKNISSUTTL")) * -1
+                        WW_CHOrow("WORKNISSUTTL") = Val(WW_CHOrow("WORKNISSU")) - Val(WW_CHOrow("KYOTEIWEEKNISSUTTL"))
                     End If
                 End If
 
