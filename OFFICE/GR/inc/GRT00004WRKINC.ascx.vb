@@ -315,7 +315,7 @@ Public Class GRT00004WRKINC
 
             For Each target In FTP_LIST
                 'FTPリクエスト実行
-                'control.Request(target, orgCode)
+                control.Request(target, orgCode)
                 If Not isNormal(control.ERR) Then
                     'O_RTN = control.ERR
                     'Exit Sub
