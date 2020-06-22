@@ -1895,6 +1895,7 @@ Public Class GRT00009JIMKINTAI_V2
                     col.ColumnName = "SWORKTIMEADD" OrElse
                     col.ColumnName = "SNIGHTTIMEADD" OrElse
                     col.ColumnName = "YENDTIME" OrElse
+                    col.ColumnName = "JIKYUSHATIME" OrElse
                     col.ColumnName = "HDAIWORKTIME" OrElse
                     col.ColumnName = "HDAINIGHTTIME" OrElse
                     col.ColumnName = "SDAIWORKTIME" OrElse

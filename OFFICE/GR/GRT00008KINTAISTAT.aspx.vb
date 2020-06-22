@@ -675,7 +675,8 @@ Public Class GRT00008KINTAISTAT
         '----------------------------------------
         Dim WW_ERR_CODE As String = C_MESSAGE_NO.NORMAL
         Dim WW_FileOut As String = "OFF"
-        WW_Dir = Path.Combine(CS0050SESSION.UPLOAD_PATH, "TEXTWORK", Master.USERID, "KYUYO")
+        Dim WW_Gfile As String = ""
+        WW_Dir = Path.Combine(CS0050SESSION.UPLOAD_PATH, "TEXTWORK", Master.USERID)
 
         For i As Integer = 0 To WF_Repeater.Items.Count - 1
             If CType(WF_Repeater.Items(i).FindControl("WF_Rep_CheckBox"), System.Web.UI.WebControls.CheckBox).Checked = True Then
@@ -698,7 +699,8 @@ Public Class GRT00008KINTAISTAT
                     End If
 
                     '給与ジャーナル作成
-                    Dim P_DIR As String = Path.Combine(WW_Dir, T00008row("OUTDIR"))
+                    'Dim P_DIR As String = Path.Combine(WW_Dir, T00008row("OUTDIR"))
+                    Dim P_DIR As String = WW_Dir
                     Dim P_FILE As String = ""
 
                     'ジャーナル編集用テーブル
@@ -712,34 +714,37 @@ Public Class GRT00008KINTAISTAT
                             '-------------------------------------------------------------
                             'ENEXジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.ENEX_V2 & WW_YYMM & JOURNAL_FILE.CSV)
+                            WW_Gfile = JOURNAL_FILE.ENEX_V2 & WW_YYMM & JOURNAL_FILE.CSV
+                            P_FILE = Path.Combine(P_DIR, WW_Gfile)
                             KyuyoJNLOutPut(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
 
                         Case CONST_CAMP_KNK
                             '-------------------------------------------------------------
                             '近石ジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.KNK_V2 & WW_YYMM & JOURNAL_FILE.CSV)
+                            WW_Gfile = JOURNAL_FILE.KNK_V2 & WW_YYMM & JOURNAL_FILE.CSV
+                            P_FILE = Path.Combine(P_DIR, WW_Gfile)
                             KyuyoJNLOutPutKNK(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
 
                         Case CONST_CAMP_NJS
                             '-------------------------------------------------------------
                             'NJSジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.NJS_V2 & WW_YYMM & JOURNAL_FILE.CSV)
+                            WW_Gfile = JOURNAL_FILE.NJS_V2 & WW_YYMM & JOURNAL_FILE.CSV
+                            P_FILE = Path.Combine(P_DIR, WW_Gfile)
                             KyuyoJNLOutPutNJS(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
 
                         Case CONST_CAMP_JKT
                             '-------------------------------------------------------------
                             'JKTジャーナル編集
                             '-------------------------------------------------------------
-                            P_FILE = Path.Combine(P_DIR, JOURNAL_FILE.JKT_V2 & WW_YYMM & JOURNAL_FILE.CSV)
+                            WW_Gfile = JOURNAL_FILE.JKT_V2 & WW_YYMM & JOURNAL_FILE.CSV
+                            P_FILE = Path.Combine(P_DIR, WW_Gfile)
                             KyuyoJNLOutPutJKT(T00008row("ORGCODE"), JNLtbl, WW_ERRCODE)
                     End Select
                     If Not isNormal(WW_ERRCODE) Then
                         Exit Sub
                     End If
-
                     '○ CSV出力
                     CS0030REPORTtbl.CAMPCODE = work.WF_SEL_CAMPCODE.Text       '会社コード
                     CS0030REPORTtbl.PROFID = Master.PROF_REPORT                'プロファイルID
@@ -803,22 +808,14 @@ Public Class GRT00008KINTAISTAT
         Try
             If WW_FileOut = "On" Then
                 '■ ダウンロード
-                '○ 圧縮実行
-                Dim WW_Dir2 As String = Path.Combine(CS0050SESSION.UPLOAD_PATH(), "TEXTWORK", "TEMP", Master.USERID, JOURNAL_FILE.KJZIP)
-                ZipFile.CreateFromDirectory(WW_Dir, WW_Dir2, CompressionLevel.Fastest, True, Encoding.GetEncoding("sjis"))
                 Dim uri As UriBuilder = New UriBuilder() With {
                     .Scheme = HttpContext.Current.Request.Url.Scheme,
                     .Host = HttpContext.Current.Request.Url.Host,
-                    .Path = "TEXT/TEMP/" & Master.USERID & "/" & JOURNAL_FILE.KJZIP
+                    .Path = "TEXT/" & Master.USERID & "/" & WW_Gfile
                 }
                 WF_DownURL.Value = uri.Uri.ToString
-                '○ ダウンロード処理へ遷移
-                ClientScript.RegisterStartupScript(Me.GetType(), "key", "Z_DownLoad() ", True)
+                ClientScript.RegisterStartupScript(Me.GetType(), "key", "f_DownLoad();", True)
 
-                'dir削除
-                My.Computer.FileSystem.DeleteDirectory(WW_Dir,
-                                                    FileIO.UIOption.OnlyErrorDialogs,
-                                                    FileIO.RecycleOption.DeletePermanently)
             End If
 
         Catch ex As Exception

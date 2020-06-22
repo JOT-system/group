@@ -6378,6 +6378,7 @@ Public Class GRT0007COM_V2
         Dim WW_CONVERT As String = ""
         Dim WW_RTN As String = ""
         Dim jikyusha As ListBox = New ListBox
+        Dim jikyusha2 As ListBox = New ListBox
 
         Try
             '削除レコードを取得
@@ -6430,6 +6431,7 @@ Public Class GRT0007COM_V2
 
                 '時給者の取得
                 jikyusha = getList2(WW_HEADrow("CAMPCODE"), GRT00007WRKINC.CONST_JIKYU, jikyusha)
+                jikyusha2 = getList2(WW_HEADrow("CAMPCODE"), "T0009_JIKYUSHA2", jikyusha2)
 
                 '************************************************************
                 '*   勤怠日数設定                                           *
@@ -7308,6 +7310,36 @@ Public Class GRT0007COM_V2
                     If WW_JIKYUSHATIME < 0 Then
                         WW_HEADrow("JIKYUSHATIME") = "00:00"
                     Else
+                        WW_HEADrow("JIKYUSHATIME") = formatHHMM(WW_JIKYUSHATIME)
+                    End If
+                    WW_HEADrow("JIKYUSHATIMETTL") = formatHHMM(WW_JIKYUSHATIME + HHMMtoMinutes(WW_HEADrow("JIKYUSHATIMECHO")))
+                End If
+                '時給者（特別処理）
+                If Not IsNothing(jikyusha2.Items.FindByValue(WW_HEADrow("STAFFKBN"))) Then
+                    WW_NIGHTTIME = WW_WNIGHTTIME + WW_HNIGHTTIME + WW_SNIGHTTIME
+                    '所定内深夜時
+                    If WW_NIGHTTIME < 0 Then
+                        WW_HEADrow("NIGHTTIME") = "00:00"
+                        WW_HEADrow("WNIGHTTIME") = "00:00"
+                        WW_HEADrow("HNIGHTTIME") = "00:00"
+                        WW_HEADrow("SNIGHTTIME") = "00:00"
+                    Else
+                        WW_HEADrow("NIGHTTIME") = formatHHMM(WW_NIGHTTIME)
+                        WW_HEADrow("WNIGHTTIME") = "00:00"
+                        WW_HEADrow("HNIGHTTIME") = "00:00"
+                        WW_HEADrow("SNIGHTTIME") = "00:00"
+                    End If
+                    '時給者所定時間=平日残業+休日残業+日曜残業+平日深夜+休日深夜+日曜深夜
+                    WW_JIKYUSHATIME = WW_ORVERTIME + WW_HWORKTIME + WW_SWORKTIME + WW_WNIGHTTIME + WW_HNIGHTTIME + WW_SNIGHTTIME
+                    If WW_JIKYUSHATIME < 0 Then
+                        WW_HEADrow("ORVERTIME") = "00:00"
+                        WW_HEADrow("HWORKTIME") = "00:00"
+                        WW_HEADrow("SWORKTIME") = "00:00"
+                        WW_HEADrow("JIKYUSHATIME") = "00:00"
+                    Else
+                        WW_HEADrow("ORVERTIME") = "00:00"
+                        WW_HEADrow("HWORKTIME") = "00:00"
+                        WW_HEADrow("SWORKTIME") = "00:00"
                         WW_HEADrow("JIKYUSHATIME") = formatHHMM(WW_JIKYUSHATIME)
                     End If
                     WW_HEADrow("JIKYUSHATIMETTL") = formatHHMM(WW_JIKYUSHATIME + HHMMtoMinutes(WW_HEADrow("JIKYUSHATIMECHO")))
