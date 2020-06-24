@@ -740,6 +740,7 @@ Public Class GRT0007COM_V2
                     WW_WKDTLrow("MODELDISTANCE") = 0
                     WW_WKDTLrow("MODELDISTANCECHO") = 0
                     WW_WKDTLrow("MODELDISTANCETTL") = 0
+                    WW_WKDTLrow("KAITENCNTCHO") = 0
 
                     Select Case WW_WKDTLrow("OILPAYKBN")
                         Case "01"  '一般
@@ -748,12 +749,14 @@ Public Class GRT0007COM_V2
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT1_1")
                                 WW_WKDTLrow("KAITENCNT1_1") = WW_CHOrow("KAITENCNT1_1")
                                 WW_WKDTLrow("KAITENCNTTTL1_1") = WW_CHOrow("KAITENCNT1_1")
+                                WW_WKDTLrow("KAITENCNTCHO1_1") = 0
                             End If
                             If WW_WKDTLrow("SHARYOKBN") = "2" Then
                                 WW_WKDTLrow("KAITENCNT") = WW_CHOrow("KAITENCNT2_1")
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT2_1")
                                 WW_WKDTLrow("KAITENCNT2_1") = WW_CHOrow("KAITENCNT2_1")
                                 WW_WKDTLrow("KAITENCNTTTL2_1") = WW_CHOrow("KAITENCNT2_1")
+                                WW_WKDTLrow("KAITENCNTCHO2_1") = 0
                             End If
                         Case "02"  '潤滑油
                             If WW_WKDTLrow("SHARYOKBN") = "1" Then
@@ -761,12 +764,14 @@ Public Class GRT0007COM_V2
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT1_2")
                                 WW_WKDTLrow("KAITENCNT1_2") = WW_CHOrow("KAITENCNT1_2")
                                 WW_WKDTLrow("KAITENCNTTTL1_2") = WW_CHOrow("KAITENCNT1_2")
+                                WW_WKDTLrow("KAITENCNTCHO1_2") = 0
                             End If
                             If WW_WKDTLrow("SHARYOKBN") = "2" Then
                                 WW_WKDTLrow("KAITENCNT") = WW_CHOrow("KAITENCNT2_2")
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT2_2")
                                 WW_WKDTLrow("KAITENCNT2_2") = WW_CHOrow("KAITENCNT2_2")
                                 WW_WKDTLrow("KAITENCNTTTL2_2") = WW_CHOrow("KAITENCNT2_2")
+                                WW_WKDTLrow("KAITENCNTCHO2_2") = 0
                             End If
                         Case "03"  'ＬＰ等
                             If WW_WKDTLrow("SHARYOKBN") = "1" Then
@@ -774,12 +779,14 @@ Public Class GRT0007COM_V2
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT1_3")
                                 WW_WKDTLrow("KAITENCNT1_3") = WW_CHOrow("KAITENCNT1_3")
                                 WW_WKDTLrow("KAITENCNTTTL1_3") = WW_CHOrow("KAITENCNT1_3")
+                                WW_WKDTLrow("KAITENCNTCHO1_3") = 0
                             End If
                             If WW_WKDTLrow("SHARYOKBN") = "2" Then
                                 WW_WKDTLrow("KAITENCNT") = WW_CHOrow("KAITENCNT2_3")
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT2_3")
                                 WW_WKDTLrow("KAITENCNT2_3") = WW_CHOrow("KAITENCNT2_3")
                                 WW_WKDTLrow("KAITENCNTTTL2_3") = WW_CHOrow("KAITENCNT2_3")
+                                WW_WKDTLrow("KAITENCNTCHO2_3") = 0
                             End If
                         Case "04"  'ＬＮＧ
                             If WW_WKDTLrow("SHARYOKBN") = "1" Then
@@ -787,12 +794,14 @@ Public Class GRT0007COM_V2
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT1_4")
                                 WW_WKDTLrow("KAITENCNT1_4") = WW_CHOrow("KAITENCNT1_4")
                                 WW_WKDTLrow("KAITENCNTTTL1_4") = WW_CHOrow("KAITENCNT1_4")
+                                WW_WKDTLrow("KAITENCNTCHO1_4") = 0
                             End If
                             If WW_WKDTLrow("SHARYOKBN") = "2" Then
                                 WW_WKDTLrow("KAITENCNT") = WW_CHOrow("KAITENCNT2_4")
                                 WW_WKDTLrow("KAITENCNTTTL") = WW_CHOrow("KAITENCNT2_4")
                                 WW_WKDTLrow("KAITENCNT2_4") = WW_CHOrow("KAITENCNT2_4")
                                 WW_WKDTLrow("KAITENCNTTTL2_4") = WW_CHOrow("KAITENCNT2_4")
+                                WW_WKDTLrow("KAITENCNTCHO2_4") = 0
                             End If
                         Case "05"  'コンテナ
                         Case "06"  '酸素

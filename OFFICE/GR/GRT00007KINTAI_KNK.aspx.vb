@@ -1429,6 +1429,15 @@ Public Class GRT00007KINTAI_KNK
         If WW_UPD_FLG2 = "ON" Then
             For Each T0007HEADrow As DataRow In T0007INPtbl.Rows
                 'HDKBN（H:ﾍｯﾀﾞﾚｺｰﾄﾞ、D:明細ﾚｺｰﾄﾞ）、RECODEKBN（0:指定日ﾚｺｰﾄﾞ、1:月調整ﾚｺｰﾄﾞ、2:合計ﾚｺｰﾄﾞ）
+                If T0007HEADrow("HDKBN") = "D" AndAlso T0007HEADrow("RECODEKBN") = "2" Then
+                    T0007HEADrow("KAITENCNT") = Val(T0007HEADrow("KAITENCNT1_1")) + Val(T0007HEADrow("KAITENCNT1_2")) + Val(T0007HEADrow("KAITENCNT1_3")) + Val(T0007HEADrow("KAITENCNT1_4")) +
+                                                Val(T0007HEADrow("KAITENCNT2_1")) + Val(T0007HEADrow("KAITENCNT2_2")) + Val(T0007HEADrow("KAITENCNT2_3")) + Val(T0007HEADrow("KAITENCNT2_4"))
+                    T0007HEADrow("KAITENCNTCHO") = Val(T0007HEADrow("KAITENCNTCHO1_1")) + Val(T0007HEADrow("KAITENCNTCHO1_2")) + Val(T0007HEADrow("KAITENCNTCHO1_3")) + Val(T0007HEADrow("KAITENCNTCHO1_4")) +
+                                                Val(T0007HEADrow("KAITENCNTCHO2_1")) + Val(T0007HEADrow("KAITENCNTCHO2_2")) + Val(T0007HEADrow("KAITENCNTCHO2_3")) + Val(T0007HEADrow("KAITENCNTCHO2_4"))
+                    T0007HEADrow("KAITENCNTTTL") = CInt(T0007HEADrow("KAITENCNT")) + CInt(T0007HEADrow("KAITENCNTCHO"))
+                End If
+
+                'HDKBN（H:ﾍｯﾀﾞﾚｺｰﾄﾞ、D:明細ﾚｺｰﾄﾞ）、RECODEKBN（0:指定日ﾚｺｰﾄﾞ、1:月調整ﾚｺｰﾄﾞ、2:合計ﾚｺｰﾄﾞ）
                 If T0007HEADrow("HDKBN") = "H" AndAlso T0007HEADrow("RECODEKBN") = "2" Then
                     T0007HEADrow("OPERATION") = "更新"
 

@@ -2528,27 +2528,27 @@ Public Class GRTA0003KYUYOLIST_V2
                     WF_HANCHOKAISUTTL.Text = TA003row("HANCHOKAISUTTL") '班長会議手当回数
                     '2020/04/13 ADD END
 
-                    WF_KAITENCNTTTL_KNK.Text = TA003row("UNLOADCNTTTL") '回転数
+                    WF_KAITENCNTTTL_KNK.Text = TA003row("KAITENCNTTTL") '回転数
                     WF_HAIDISTANCETTL_KNK.Text = Val(TA003row("HAIDISTANCETTL")).ToString("0") '走行距離
                     '白油
-                    WF_KAITENCNT_WHITE1_KNK.Text = TA003row("UNLOADCNTTTL101")
+                    WF_KAITENCNT_WHITE1_KNK.Text = TA003row("KAITENCNTTTL101")
                     WF_HAIDISTANCE_WHITE1_KNK.Text = Val(TA003row("HAIDISTANCETTL101")).ToString("0")
-                    WF_KAITENCNT_WHITE2_KNK.Text = TA003row("UNLOADCNTTTL201")
+                    WF_KAITENCNT_WHITE2_KNK.Text = TA003row("KAITENCNTTTL201")
                     WF_HAIDISTANCE_WHITE2_KNK.Text = Val(TA003row("HAIDISTANCETTL201")).ToString("0")
                     '黒油
-                    WF_KAITENCNT_BLACK1_KNK.Text = TA003row("UNLOADCNTTTL102")
+                    WF_KAITENCNT_BLACK1_KNK.Text = TA003row("KAITENCNTTTL102")
                     WF_HAIDISTANCE_BLACK1_KNK.Text = Val(TA003row("HAIDISTANCETTL102")).ToString("0")
-                    WF_KAITENCNT_BLACK2_KNK.Text = TA003row("UNLOADCNTTTL202")
+                    WF_KAITENCNT_BLACK2_KNK.Text = TA003row("KAITENCNTTTL202")
                     WF_HAIDISTANCE_BLACK2_KNK.Text = Val(TA003row("HAIDISTANCETTL202")).ToString("0")
                     'ＬＰ等
-                    WF_KAITENCNT_LPG1_KNK.Text = TA003row("UNLOADCNTTTL103")
+                    WF_KAITENCNT_LPG1_KNK.Text = TA003row("KAITENCNTTTL103")
                     WF_HAIDISTANCE_LPG1_KNK.Text = Val(TA003row("HAIDISTANCETTL103")).ToString("0")
-                    WF_KAITENCNT_LPG2_KNK.Text = TA003row("UNLOADCNTTTL203")
+                    WF_KAITENCNT_LPG2_KNK.Text = TA003row("KAITENCNTTTL203")
                     WF_HAIDISTANCE_LPG2_KNK.Text = Val(TA003row("HAIDISTANCETTL203")).ToString("0")
                     'ＬＮＧ
-                    WF_KAITENCNT_LNG1_KNK.Text = TA003row("UNLOADCNTTTL104")
+                    WF_KAITENCNT_LNG1_KNK.Text = TA003row("KAITENCNTTTL104")
                     WF_HAIDISTANCE_LNG1_KNK.Text = Val(TA003row("HAIDISTANCETTL104")).ToString("0")
-                    WF_KAITENCNT_LNG2_KNK.Text = TA003row("UNLOADCNTTTL204")
+                    WF_KAITENCNT_LNG2_KNK.Text = TA003row("KAITENCNTTTL204")
                     WF_HAIDISTANCE_LNG2_KNK.Text = Val(TA003row("HAIDISTANCETTL204")).ToString("0")
                 Case GRTA0003WRKINC_V2.CONST_CAMP_NJS  'NJS
                     '月合計（編集）
