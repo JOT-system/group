@@ -358,3 +358,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# JOT setting
+/OFFICE/.thumbnail
+/OFFICE/.webaxs_L
+/OFFICE/.webaxs_M
+/OFFICE/.webview
+/OFFICE/.webaxs_S
