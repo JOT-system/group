@@ -1046,7 +1046,7 @@ Public Class GRTA0006JIMKINTAILIST_V2
                     SQLWhere = SQLWhere & " and STAFFNAMES like '%" & Trim(work.WF_SEL_STAFFNAME.Text) & "%' "
                 End If
 
-                Dim WW_SORT As String = "ORDER BY HORG, STAFFCODE, WORKDATE, RECODEKBN, STDATE, STTIME, ENDDATE, ENDTIME, HDKBN DESC"
+                Dim WW_SORT As String = "ORDER BY STAFFCODE, WORKDATE, RECODEKBN, STDATE, STTIME, ENDDATE, ENDTIME, HDKBN DESC"
 
                 SQLStr = SQLStr & SQLWhere & WW_SORT
                 Dim SQLcmd As New SqlCommand(SQLStr, SQLcon)
@@ -1273,14 +1273,14 @@ Public Class GRTA0006JIMKINTAILIST_V2
                     TA0006ALLrow("MORGNAMES") = ""
                     CodeToName("ORG", TA0006ALLrow("MORG"), TA0006ALLrow("MORGNAMES"), WW_DUMMY)
 
-                    If TA0006ALLrow("HORG") = "" Then
-                        TA0006ALLrow("HORG") = work.WF_SEL_HORG.Text
-                        TA0006ALLrow("HORGNAMES") = ""
-                        CodeToName("ORG", TA0006ALLrow("HORG"), TA0006ALLrow("HORGNAMES"), WW_DUMMY)
-                    Else
-                        TA0006ALLrow("HORGNAMES") = ""
-                        CodeToName("ORG", TA0006ALLrow("HORG"), TA0006ALLrow("HORGNAMES"), WW_DUMMY)
-                    End If
+                    'If TA0006ALLrow("HORG") = "" Then
+                    TA0006ALLrow("HORG") = work.WF_SEL_HORG.Text
+                    TA0006ALLrow("HORGNAMES") = ""
+                    CodeToName("ORG", TA0006ALLrow("HORG"), TA0006ALLrow("HORGNAMES"), WW_DUMMY)
+                    'Else
+                    '    TA0006ALLrow("HORGNAMES") = ""
+                    '    CodeToName("ORG", TA0006ALLrow("HORG"), TA0006ALLrow("HORGNAMES"), WW_DUMMY)
+                    'End If
 
                     If TA0006ALLrow("SORG") = "" Then
                         TA0006ALLrow("SORG") = TA0006ALLrow("HORG")
@@ -1785,26 +1785,24 @@ Public Class GRTA0006JIMKINTAILIST_V2
         If IsNothing(SELECTORtbl) Then SELECTORtbl = New DataTable
         'テンポラリDB項目作成
         SELECTORtbl.Clear()
-        SELECTORtbl.Columns.Add("HORG", GetType(String))                        'HORG               配属部署
         SELECTORtbl.Columns.Add("CODE", GetType(String))                        'CODE               コード
         SELECTORtbl.Columns.Add("NAME", GetType(String))                        'NAME               名称
 
 
-        Dim WW_Cols As String() = {"HORG", "STAFFCODE", "STAFFCODE_TXT"}
+        Dim WW_Cols As String() = {"STAFFCODE", "STAFFCODE_TXT"}
         WW_TBLview = New DataView(TA0006ALL)
-        WW_TBLview.Sort = "HORG, STAFFCODE"
+        WW_TBLview.Sort = "STAFFCODE"
         WW_GRPtbl = WW_TBLview.ToTable(True, WW_Cols)
 
         For Each TA0006ALLrow As DataRow In WW_GRPtbl.Rows
             Dim SELECTORrow As DataRow = SELECTORtbl.NewRow
-            SELECTORrow("HORG") = TA0006ALLrow("HORG")
             SELECTORrow("CODE") = TA0006ALLrow("STAFFCODE")
             SELECTORrow("NAME") = TA0006ALLrow("STAFFCODE_TXT")
             SELECTORtbl.Rows.Add(SELECTORrow)
         Next
 
         CS0026TblSort.TABLE = SELECTORtbl
-        CS0026TblSort.SORTING = "HORG, CODE, NAME"
+        CS0026TblSort.SORTING = "CODE, NAME"
         CS0026TblSort.FILTER = ""
         SELECTORtbl = CS0026TblSort.Sort()
 

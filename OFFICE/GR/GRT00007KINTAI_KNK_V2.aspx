@@ -228,7 +228,7 @@
                 </a>
                 <!-- ■　班長会議手当回数　■ -->
                 <a style="position:fixed;top:15.1em;left:33em; width:32em;">
-                    <asp:Label ID="WF_HANCHOKAISU_LABEL" runat="server" Text="班長会議" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="WF_HANCHOKAISU_LABEL" runat="server" Text="班会手当" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_HANCHOKAISU" runat="server" Height="1.2em" Width="4em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_HANCHOKAISU')" style="text-align: right; "></asp:TextBox>
                     </b>
@@ -561,7 +561,7 @@
                     </a>
 
                     <a style="position:fixed;top:21.0em;left:25em; width:32em;" >
-                        <asp:Label ID="WF_HANCHOKAISUTTL_LABEL" runat="server" Text="班長会議" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_HANCHOKAISUTTL_LABEL" runat="server" Text="班会手当" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
                         <asp:TextBox ID="WF_HANCHOKAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>

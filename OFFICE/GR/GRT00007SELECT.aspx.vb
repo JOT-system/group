@@ -216,120 +216,123 @@ Public Class GRT00007SELECT
         'End If
         T0007PARMtbl = New DataTable
         T0007PARMtbl_ColumnsAdd(T0007PARMtbl)
-        If System.IO.File.Exists(work.WF_T7SEL_XMLsavePARM.Text) Then
-            If Not Master.RecoverTable(T0007PARMtbl, work.WF_T7SEL_XMLsavePARM.Text) Then
-                Master.Output(C_MESSAGE_NO.SYSTEM_ADM_ERROR, C_MESSAGE_TYPE.ABORT, work.WF_T7SEL_XMLsavePARM.Text)
-                Exit Sub
+        If String.IsNullOrEmpty(Master.VERSION) Then
+            If System.IO.File.Exists(work.WF_T7SEL_XMLsavePARM.Text) Then
+                If Not Master.RecoverTable(T0007PARMtbl, work.WF_T7SEL_XMLsavePARM.Text) Then
+                    Master.Output(C_MESSAGE_NO.SYSTEM_ADM_ERROR, C_MESSAGE_TYPE.ABORT, work.WF_T7SEL_XMLsavePARM.Text)
+                    Exit Sub
+                End If
+
+                '○ 条件選択画面の入力値退避
+                With T0007PARMtbl.Rows(0)
+                    work.WF_T7SEL_CAMPCODE.Text = .Item("CAMPCODE")        '会社コード
+                    work.WF_T7SEL_TAISHOYM.Text = .Item("TAISHOYM")        '申請年月
+                    work.WF_T7SEL_HORG.Text = .Item("HORG")                '配属部署
+                    work.WF_T7SEL_STAFFKBN.Text = .Item("STAFFKBN")        '職務区分
+                    work.WF_T7SEL_STAFFCODE.Text = .Item("STAFFCODE")      '従業員コード
+                    work.WF_T7SEL_STAFFNAME.Text = .Item("STAFFNAME")      '従業員名称
+                End With
+
+                work.WF_T7SEL_BUTTON.Text = "RESTART"
+
+                '○ 画面レイアウト設定
+                Master.VIEWID = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
+
+                work.WF_SEL_VIEWID.Text = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
+                work.WF_SEL_VIEWID_DTL.Text = rightview.GetViewDtlId(work.WF_T7SEL_CAMPCODE.Text)
+
+                '勤怠締テーブル取得
+                Dim WW_LIMITFLG As String = "0"
+                T0007COM.T00008get(work.WF_T7SEL_CAMPCODE.Text,
+                                     work.WF_T7SEL_HORG.Text,
+                                     CDate(work.WF_T7SEL_TAISHOYM.Text).ToString("yyyy/MM"),
+                                     WW_LIMITFLG,
+                                     WW_ERRCODE)
+                If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
+                    Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0008_KINTAISTAT")
+                    Exit Sub
+                End If
+
+                work.WF_T7SEL_LIMITFLG.Text = WW_LIMITFLG
+
+                '権限テーブル取得
+                Dim WW_PERMITCODE As String = "0"
+                T0007COM.OrgCheck(work.WF_T7SEL_CAMPCODE.Text, work.WF_T7SEL_HORG.Text, Master.ROLE_ORG, WW_PERMITCODE, WW_ERRCODE)
+                If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
+                    Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "S0012_SRVAUTHOR")
+                    Exit Sub
+                End If
+
+                work.WF_T7SEL_PERMITCODE.Text = WW_PERMITCODE
+
+                '○ SQL異常対応
+                work.SQLAbnormalityRepair()
+
+                Master.CheckParmissionCode(work.WF_T7SEL_CAMPCODE.Text)
+                If Not Master.MAPpermitcode = C_PERMISSION.INVALID Then
+                    '画面遷移
+                    Master.TransitionPage(work.WF_T7SEL_CAMPCODE.Text)
+                End If
             End If
+        Else
+            If System.IO.File.Exists(work.WF_T7SEL_XMLsavePARM.Text) Then
+                If Not Master.RecoverTable(T0007PARMtbl, work.WF_T7SEL_XMLsavePARM.Text) Then
+                    Master.Output(C_MESSAGE_NO.SYSTEM_ADM_ERROR, C_MESSAGE_TYPE.ABORT, work.WF_T7SEL_XMLsavePARM.Text)
+                    Exit Sub
+                End If
 
-            '○ 条件選択画面の入力値退避
-            With T0007PARMtbl.Rows(0)
-                work.WF_T7SEL_CAMPCODE.Text = .Item("CAMPCODE")        '会社コード
-                work.WF_T7SEL_TAISHOYM.Text = .Item("TAISHOYM")        '申請年月
-                work.WF_T7SEL_HORG.Text = .Item("HORG")                '配属部署
-                work.WF_T7SEL_STAFFKBN.Text = .Item("STAFFKBN")        '職務区分
-                work.WF_T7SEL_STAFFCODE.Text = .Item("STAFFCODE")      '従業員コード
-                work.WF_T7SEL_STAFFNAME.Text = .Item("STAFFNAME")      '従業員名称
-            End With
+                '○ 条件選択画面の入力値退避
+                With T0007PARMtbl.Rows(0)
+                    work.WF_T7SEL_CAMPCODE.Text = .Item("CAMPCODE")        '会社コード
+                    work.WF_T7SEL_TAISHOYM.Text = .Item("TAISHOYM")        '申請年月
+                    work.WF_T7SEL_HORG.Text = .Item("HORG")                '配属部署
+                    work.WF_T7SEL_STAFFKBN.Text = .Item("STAFFKBN")        '職務区分
+                    work.WF_T7SEL_STAFFCODE.Text = .Item("STAFFCODE")      '従業員コード
+                    work.WF_T7SEL_STAFFNAME.Text = .Item("STAFFNAME")      '従業員名称
+                End With
 
-            work.WF_T7SEL_BUTTON.Text = "RESTART"
+                work.WF_T7SEL_BUTTON.Text = "RESTART"
 
-            '○ 画面レイアウト設定
-            Master.VIEWID = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
+                '○ 画面レイアウト設定
+                Master.VIEWID = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
 
-            work.WF_SEL_VIEWID.Text = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
-            work.WF_SEL_VIEWID_DTL.Text = rightview.GetViewDtlId(work.WF_T7SEL_CAMPCODE.Text)
+                work.WF_SEL_VIEWID.Text = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
+                work.WF_SEL_VIEWID_DTL.Text = rightview.GetViewDtlId(work.WF_T7SEL_CAMPCODE.Text)
 
-            '勤怠締テーブル取得
-            Dim WW_LIMITFLG As String = "0"
-            T0007COM.T00008get(work.WF_T7SEL_CAMPCODE.Text,
-                                 work.WF_T7SEL_HORG.Text,
-                                 CDate(work.WF_T7SEL_TAISHOYM.Text).ToString("yyyy/MM"),
-                                 WW_LIMITFLG,
-                                 WW_ERRCODE)
-            If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
-                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0008_KINTAISTAT")
-                Exit Sub
+                '勤怠締テーブル取得
+                Dim WW_LIMITFLG As String = "0"
+                T0007COM.T00008get(work.WF_T7SEL_CAMPCODE.Text,
+                                     work.WF_T7SEL_HORG.Text,
+                                     CDate(work.WF_T7SEL_TAISHOYM.Text).ToString("yyyy/MM"),
+                                     WW_LIMITFLG,
+                                     WW_ERRCODE)
+                If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
+                    Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0008_KINTAISTAT")
+                    Exit Sub
+                End If
+
+                work.WF_T7SEL_LIMITFLG.Text = WW_LIMITFLG
+
+                '権限テーブル取得
+                Dim WW_PERMITCODE As String = "0"
+                T0007COM.OrgCheck(work.WF_T7SEL_CAMPCODE.Text, work.WF_T7SEL_HORG.Text, Master.ROLE_ORG, WW_PERMITCODE, WW_ERRCODE)
+                If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
+                    Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "S0012_SRVAUTHOR")
+                    Exit Sub
+                End If
+
+                work.WF_T7SEL_PERMITCODE.Text = WW_PERMITCODE
+
+                '○ SQL異常対応
+                work.SQLAbnormalityRepair()
+
+                Master.CheckParmissionCode(work.WF_T7SEL_CAMPCODE.Text)
+                If Not Master.MAPpermitcode = C_PERMISSION.INVALID Then
+                    '画面遷移
+                    Master.TransitionPage(work.WF_T7SEL_CAMPCODE.Text, "V2")
+                End If
+
             End If
-
-            work.WF_T7SEL_LIMITFLG.Text = WW_LIMITFLG
-
-            '権限テーブル取得
-            Dim WW_PERMITCODE As String = "0"
-            T0007COM.OrgCheck(work.WF_T7SEL_CAMPCODE.Text, work.WF_T7SEL_HORG.Text, Master.ROLE_ORG, WW_PERMITCODE, WW_ERRCODE)
-            If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
-                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "S0012_SRVAUTHOR")
-                Exit Sub
-            End If
-
-            work.WF_T7SEL_PERMITCODE.Text = WW_PERMITCODE
-
-            '○ SQL異常対応
-            work.SQLAbnormalityRepair()
-
-            Master.CheckParmissionCode(work.WF_T7SEL_CAMPCODE.Text)
-            If Not Master.MAPpermitcode = C_PERMISSION.INVALID Then
-                '画面遷移
-                Master.TransitionPage(work.WF_T7SEL_CAMPCODE.Text)
-            End If
-
-        ElseIf System.IO.File.Exists(work.WF_T7SEL_XMLsavePARM.Text) Then
-            If Not Master.RecoverTable(T0007PARMtbl, work.WF_T7SEL_XMLsavePARM.Text) Then
-                Master.Output(C_MESSAGE_NO.SYSTEM_ADM_ERROR, C_MESSAGE_TYPE.ABORT, work.WF_T7SEL_XMLsavePARM.Text)
-                Exit Sub
-            End If
-
-            '○ 条件選択画面の入力値退避
-            With T0007PARMtbl.Rows(0)
-                work.WF_T7SEL_CAMPCODE.Text = .Item("CAMPCODE")        '会社コード
-                work.WF_T7SEL_TAISHOYM.Text = .Item("TAISHOYM")        '申請年月
-                work.WF_T7SEL_HORG.Text = .Item("HORG")                '配属部署
-                work.WF_T7SEL_STAFFKBN.Text = .Item("STAFFKBN")        '職務区分
-                work.WF_T7SEL_STAFFCODE.Text = .Item("STAFFCODE")      '従業員コード
-                work.WF_T7SEL_STAFFNAME.Text = .Item("STAFFNAME")      '従業員名称
-            End With
-
-            work.WF_T7SEL_BUTTON.Text = "RESTART"
-
-            '○ 画面レイアウト設定
-            Master.VIEWID = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
-
-            work.WF_SEL_VIEWID.Text = rightview.GetViewId(work.WF_T7SEL_CAMPCODE.Text)
-            work.WF_SEL_VIEWID_DTL.Text = rightview.GetViewDtlId(work.WF_T7SEL_CAMPCODE.Text)
-
-            '勤怠締テーブル取得
-            Dim WW_LIMITFLG As String = "0"
-            T0007COM.T00008get(work.WF_T7SEL_CAMPCODE.Text,
-                                 work.WF_T7SEL_HORG.Text,
-                                 CDate(work.WF_T7SEL_TAISHOYM.Text).ToString("yyyy/MM"),
-                                 WW_LIMITFLG,
-                                 WW_ERRCODE)
-            If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
-                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0008_KINTAISTAT")
-                Exit Sub
-            End If
-
-            work.WF_T7SEL_LIMITFLG.Text = WW_LIMITFLG
-
-            '権限テーブル取得
-            Dim WW_PERMITCODE As String = "0"
-            T0007COM.OrgCheck(work.WF_T7SEL_CAMPCODE.Text, work.WF_T7SEL_HORG.Text, Master.ROLE_ORG, WW_PERMITCODE, WW_ERRCODE)
-            If WW_ERRCODE <> C_MESSAGE_NO.NORMAL Then
-                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "S0012_SRVAUTHOR")
-                Exit Sub
-            End If
-
-            work.WF_T7SEL_PERMITCODE.Text = WW_PERMITCODE
-
-            '○ SQL異常対応
-            work.SQLAbnormalityRepair()
-
-            Master.CheckParmissionCode(work.WF_T7SEL_CAMPCODE.Text)
-            If Not Master.MAPpermitcode = C_PERMISSION.INVALID Then
-                '画面遷移
-                Master.TransitionPage(work.WF_T7SEL_CAMPCODE.Text, "V2")
-            End If
-
         End If
 
     End Sub
