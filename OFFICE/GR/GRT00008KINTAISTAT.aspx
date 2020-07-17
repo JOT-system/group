@@ -21,9 +21,9 @@
     <div class="headerbox" id="headerbox">
         <div class="Operation">
             <asp:Label ID="Label3"  runat="server" Text="締年月:" Height="1.1em" Width="4em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
-            <asp:Label ID="WF_LIMITYY"  runat="server"  Height="1.1em" Width="2.0em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
+            <asp:Label ID="WF_LIMITYY"  runat="server"  Height="1.1em" Width="2.5em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
             <asp:Label ID="Label4"  runat="server" Text="年" Height="1.1em" Width="1.5em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
-            <asp:Label ID="WF_LIMITMM"  runat="server"  Height="1.1em" Width="1.0em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
+            <asp:Label ID="WF_LIMITMM"  runat="server"  Height="1.1em" Width="1.5em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
             <asp:Label ID="Label5"  runat="server" Text="月" Height="1.1em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="True" ForeColor="Red" Font-Size="Large"></asp:Label>
             <a style="position:fixed;top:2.8em;left:23em;">
                 <input type="button" id="WF_ButtonALLSELECT" value="全選択"  style="Width:5em" onclick="ButtonClick('WF_ButtonALLSELECT');" />

@@ -1348,12 +1348,13 @@ Public Class GRT00008KINTAISTAT
                & "            ) Z " _
                & "   ON    Z.CODE      = Y.CODE " _
                & "  and    Z.CODE      = MB1.HORG " _
-               & " where  MB1.CAMPCODE                         =  @CAMPCODE                               " _
-               & "   and  MB1.STYMD                           <=  @SEL_ENDYMD                             " _
-               & "   and  MB1.ENDYMD                          >=  @SEL_STYMD                              " _
-               & "   and  MB1.STAFFKBN                    NOT IN  ('01102','01412','03902')               " _
-               & "   and  MB1.DELFLG                          <>  '1'                                     " _
-               & " group by MB1.CAMPCODE, MB1.STAFFCODE                                                   "
+               & " where  MB1.CAMPCODE =  @CAMPCODE                               " _
+               & "   and  MB1.STYMD   <=  @SEL_ENDYMD                             " _
+               & "   and  MB1.ENDYMD  >=  @SEL_STYMD                              " _
+               & "   and  MB1.ENDYMD   = (select max(ENDYMD) from MB001_STAFF where CAMPCODE = @CAMPCODE and STAFFCODE = MB1.STAFFCODE and STYMD <= @SEL_ENDYMD and ENDYMD >= @SEL_STYMD and DELFLG <> '1') " _
+               & "   and  MB1.STAFFKBN NOT IN  ('01102','01412','03902')          " _
+               & "   and  MB1.DELFLG  <>  '1'                                     " _
+               & " group by MB1.CAMPCODE, MB1.STAFFCODE                           "
 
 
             Dim WW_MBtbl As DataTable = New DataTable
@@ -7290,12 +7291,20 @@ Public Class GRT00008KINTAISTAT
                 JNLrow("日曜代休出勤時間") = "0"
 
                 '2509.勤務時間（時給）（残業＋休日出勤＋日曜出勤＋日曜深夜＋（平日深夜＋休日深夜）
-                WW_INT = Minute10UpEdit(Val(T00007row("ORVERTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("HWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL")))
-                JNLrow("勤務時間（時給）") = formatHHHMM(WW_INT, "#0.00")
+                WW_FIND = "OFF"
+                WW_NAME = String.Empty
+                CodeToName("JIKYUSHASTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                If Not String.IsNullOrEmpty(WW_NAME) Then WW_FIND = "ON"
+                If WW_FIND = "ON" Then
+                    WW_INT = Minute10UpEdit(Val(T00007row("ORVERTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("HWORKTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("SWORKTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL")))
+                    JNLrow("勤務時間（時給）") = formatHHHMM(WW_INT, "#0.00")
+                Else
+                    JNLrow("勤務時間（時給）") = formatHHHMM(0, "#0.00")
+                End If
 
                 '2510.所定内残業時間
                 JNLrow("所定内残業時間") = "0"
@@ -7860,10 +7869,10 @@ Public Class GRT00008KINTAISTAT
 
                 '2506.深夜時間（所定内深夜＋平日深夜＋休日深夜＋日曜深夜＋休日代休深夜＋日曜代休深夜）
                 WW_INT = Minute10UpEdit(Val(T00007row("NIGHTTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("HDAINIGHTTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SDAINIGHTTIMETTL")))
+                             Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("HDAINIGHTTIMETTL"))) +
+                             Minute10UpEdit(Val(T00007row("SDAINIGHTTIMETTL")))
                 JNLrow("深夜時間") = formatHHHMM(WW_INT, "#0.00")
 
                 '2507.休日代休出勤時間（代日代休出勤時間＋代日代休深夜）
@@ -7876,13 +7885,16 @@ Public Class GRT00008KINTAISTAT
                          Minute10UpEdit(Val(T00007row("SDAINIGHTTIMETTL")))
                 JNLrow("日曜代休出勤時間") = formatHHHMM(WW_INT, "#0.00")
 
-                '2509.勤務時間（時給）（残業＋休日出勤＋日曜出勤＋日曜深夜＋（平日深夜＋休日深夜）
-                WW_INT = Minute10UpEdit(Val(T00007row("ORVERTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("HWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL")))
-                JNLrow("勤務時間（時給）") = formatHHHMM(WW_INT, "#0.00")
+                '2509.勤務時間（時給）（=所定内時間）
+                WW_FIND = "OFF"
+                WW_NAME = String.Empty
+                CodeToName("JIKYUSHASTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                If Not String.IsNullOrEmpty(WW_NAME) Then WW_FIND = "ON"
+                If WW_FIND = "ON" Then
+                    JNLrow("勤務時間（時給）") = formatHHHMM(Val(T00007row("WWORKTIMETTL")), "#0.00")
+                Else
+                    JNLrow("勤務時間（時給）") = formatHHHMM(0, "#0.00")
+                End If
 
                 '2510.所定内残業時間
                 JNLrow("所定内残業時間") = "0"
@@ -8358,7 +8370,15 @@ Public Class GRT00008KINTAISTAT
                 JNLrow("日曜代休出勤時間") = "0"
 
                 '2509.勤務時間（時給）
-                JNLrow("勤務時間（時給）") = formatHHHMM5up(Val(T00007row("JIKYUSHATIMETTL")), "#0.00")
+                WW_FIND = "OFF"
+                WW_NAME = String.Empty
+                CodeToName("JIKYUSHASTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                If Not String.IsNullOrEmpty(WW_NAME) Then WW_FIND = "ON"
+                If WW_FIND = "ON" Then
+                    JNLrow("勤務時間（時給）") = formatHHHMM5up(Val(T00007row("JIKYUSHATIMETTL")), "#0.00")
+                Else
+                    JNLrow("勤務時間（時給）") = formatHHHMM5up(0, "#0.00")
+                End If
 
                 '2510.所定内残業時間
                 JNLrow("所定内残業時間") = "0"
@@ -8827,7 +8847,15 @@ Public Class GRT00008KINTAISTAT
                 JNLrow("日曜代休出勤時間") = "0"
 
                 '2509.勤務時間（時給）
-                JNLrow("勤務時間（時給）") = formatHHHMM5(Val(T00007row("JIKYUSHATIMETTL")), "#0.00")
+                WW_FIND = "OFF"
+                WW_NAME = String.Empty
+                CodeToName("JIKYUSHASTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                If Not String.IsNullOrEmpty(WW_NAME) Then WW_FIND = "ON"
+                If WW_FIND = "ON" Then
+                    JNLrow("勤務時間（時給）") = formatHHHMM5(Val(T00007row("JIKYUSHATIMETTL")), "#0.00")
+                Else
+                    JNLrow("勤務時間（時給）") = formatHHHMM5(0, "#0.00")
+                End If
 
                 '2510.所定内残業時間
                 JNLrow("所定内残業時間") = "0"
@@ -19005,6 +19033,9 @@ Public Class GRT00008KINTAISTAT
                 Case "OVERTIMESTAFFKBN"
                     '社員区分名称
                     leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.createFIXParam(work.WF_SEL_CAMPCODE.Text, "T0009_STAFFKBN"))
+                Case "JIKYUSHASTAFFKBN"
+                    '社員区分名称（時給者）
+                    leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.createFIXParam(work.WF_SEL_CAMPCODE.Text, "T0009_JIKYUSHA"))
             End Select
         End If
 

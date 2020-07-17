@@ -8895,6 +8895,7 @@ Public Class GRT0007COM_V2
             ioRow("ACTTIME") = formatHHMM(Val(ioRow("ACTTIME")))
         End If
         ioRow("BINDTIME") = formatHHMM(Val(ioRow("BINDTIME")))
+        ioRow("NIPPOBREAKTIME") = formatHHMM(Val(ioRow("NIPPOBREAKTIME")))
         ioRow("BREAKTIME") = formatHHMM(Val(ioRow("BREAKTIME")))
         ioRow("BREAKTIMECHO") = formatHHMM(Val(ioRow("BREAKTIMECHO")))
         ioRow("BREAKTIMETTL") = formatHHMM(Val(ioRow("BREAKTIMETTL")))

@@ -607,7 +607,7 @@ function f_dragEventCancel(event) {
 // ○ダウンロード処理
 function f_ExcelPrint() {
     // リンク参照
-    window.open(document.getElementById("WF_PrintURL").value, "view", "_blank");
+    window.open(document.getElementById("WF_PrintURL").value, "view", "_blank, width=900, height=400");
 };
 
 function f_PDFPrint() {

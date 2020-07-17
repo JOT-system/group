@@ -12,6 +12,15 @@ input[type=submit]:focus,
 button:focus {
     outline: none;
 }
+/* 新Edge（ボタンの高さ調整） */
+input[type=button] {
+    height: 21px;
+}
+td, th {
+    /* bodyにも同じ定義をしました。 */
+    font-family: helvetica, arial, 'hiragino kaku gothic pro', meiryo, 'ms pgothic', sans-serif;
+}
+/* 新Edge（chromiumベース）対応 END */
 
 /* ブラウザのデフォルト初期化 */
 * {
@@ -20,15 +29,16 @@ button:focus {
 }
 
 html {
-    font-size:62.5%;
+    font-size: 62.5%;
 }
 
 /* ブラウザのデフォルト初期化 */
 body {
-    margin:0;
-    padding:0;
-    overflow:auto;
-    font-size:1.6em;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    font-size: 1.6em;
+    font-family: helvetica, arial, 'hiragino kaku gothic pro', meiryo, 'ms pgothic', sans-serif;
 }
 
 div {

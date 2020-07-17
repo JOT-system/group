@@ -10,27 +10,28 @@ var firstAltYMD = "&nbsp";
 
 //行事テーブル(フラグ(1:祝日 2:記念日など),月,日,メッセージ)
 var gyouji_tbl = new Array(
- 1, 1, 1, "元旦",
- 1, 1, 0, "成人の日",
- 1, 2, 11, "建国記念の日",
- 1, 4, 29, "みどりの日",
- 1, 5, 3, "憲法記念日",
- 1, 5, 4, "国民の休日",
- 1, 5, 5, "こどもの日",
- 1, 7, 0, "海の日",
- 1, 9, 0, "敬老の日",
- 1, 10, 0, "体育の日",
- 1, 11, 3, "文化の日",
- 1, 11, 23, "勤労感謝の日",
- 1, 2, 23, "天皇誕生日",
- 1, 3, 0, "春分の日",
- 1, 9, 0, "秋分の日"
+    1, 1, 1, "元旦",
+    1, 1, 0, "成人の日",
+    1, 2, 11, "建国記念の日",
+    1, 4, 29, "みどりの日",
+    1, 5, 3, "憲法記念日",
+    1, 5, 4, "国民の休日",
+    1, 5, 5, "こどもの日",
+    1, 7, 0, "海の日",
+    1, 9, 0, "敬老の日",
+    1, 10, 0, "体育の日",
+    1, 11, 3, "文化の日",
+    1, 11, 23, "勤労感謝の日",
+    1, 2, 23, "天皇誕生日",
+    1, 3, 0, "春分の日",
+    1, 9, 0, "秋分の日",
+    1, 8, 0, "山の日"
 );
 var kokuminLastCnt = gyouji_tbl.length / 4;
 var saveBgColor = ""
 var saveFgColor = ""
 
-function carenda(num,calId) {
+function carenda(num, calId) {
     var now = new Date();
     var year;
     var month;
@@ -106,19 +107,15 @@ function carenda(num,calId) {
     editMsg += "<tr>" + defTD("日", "red", kabe_sun) + defTD("月", "black", kabe_mon) + defTD("火", "black", kabe_tue) + defTD("水", "black", kabe_wed) + defTD("木", "black", kabe_thu) + defTD("金", "black", kabe_fri) + defTD("土", "blue", kabe_sat) + "</tr>\n";
     editMsg += "<tr>";
 
-    for (dayIndex = 0; dayIndex < (new Date(year, month - 1, 1)).getDay() ; dayIndex++) {
+    for (dayIndex = 0; dayIndex < (new Date(year, month - 1, 1)).getDay(); dayIndex++) {
         editMsg += defTD("&nbsp;", "white", "white");
     }
 
     //行事テーブル（祝日）の再設定
     //成人の日
     gyouji_tbl[1 * 4 + 2] = getSyukujituDate(year, 1, 2);
-    //海の日
-    gyouji_tbl[7 * 4 + 2] = getSyukujituDate(year, 7, 3);
     //敬老の日
     gyouji_tbl[8 * 4 + 2] = getSyukujituDate(year, 9, 3);
-    //体育の日
-    gyouji_tbl[9 * 4 + 2] = getSyukujituDate(year, 10, 2);
     //みどりの日4/29→昭和の日 国民の休日5/4→みどりの日
     if (year <= 2006) {
         gyouji_tbl[3 * 4 + 3] = "みどりの日";
@@ -127,10 +124,43 @@ function carenda(num,calId) {
         gyouji_tbl[3 * 4 + 3] = "昭和の日";
         gyouji_tbl[5 * 4 + 3] = "みどりの日";
     }
+
+    //2020年以降　名称変更
+    if (year >= 2020) {
+        gyouji_tbl[9 * 4 + 3] = "スポーツの日";
+    } else {
+        gyouji_tbl[9 * 4 + 3] = "体育の日";
+    }
+
     //春分の日
     gyouji_tbl[13 * 4 + 2] = shunbun(year);
     //秋分の日
     gyouji_tbl[14 * 4 + 2] = shubun(year);
+
+    //2020年オリンピック対応
+    if (year == 2020) {
+        //山の日
+        gyouji_tbl[15 * 4 + 2] = 10;
+
+        //海の日
+        gyouji_tbl[7 * 4 + 2] = 23;
+
+        //スポーツの日
+        gyouji_tbl[9 * 4 + 1] = 7;
+        gyouji_tbl[9 * 4 + 2] = 24;
+
+    } else {
+        //山の日
+        gyouji_tbl[15 * 4 + 2] = 11;
+
+        //海の日
+        gyouji_tbl[7 * 4 + 2] = getSyukujituDate(year, 7, 3);
+
+        //スポーツの日
+        gyouji_tbl[9 * 4 + 1] = 10;
+        gyouji_tbl[9 * 4 + 2] = getSyukujituDate(year, 10, 2);
+
+    }
 
     //当日と行事が重なる場合の初期設定
     if (date != -1) {
