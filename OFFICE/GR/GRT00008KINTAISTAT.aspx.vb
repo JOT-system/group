@@ -8334,24 +8334,24 @@ Public Class GRT00008KINTAISTAT
                 CodeToName("OVERTIMESTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
                 If Not String.IsNullOrEmpty(WW_NAME) Then WW_FIND = "ON"
                 If WW_FIND = "ON" Then
-                    JNLrow("平日残業時間") = formatHHHMM(0, "#0.00")
-                    JNLrow("休日出勤時間") = formatHHHMM(0, "#0.00")
-                    JNLrow("日曜出勤時間") = formatHHHMM(0, "#0.00")
+                    JNLrow("平日残業時間") = formatHHHMM5up(0, "#0.00")
+                    JNLrow("休日出勤時間") = formatHHHMM5up(0, "#0.00")
+                    JNLrow("日曜出勤時間") = formatHHHMM5up(0, "#0.00")
                 Else
                     '2502.平日残業時間（平日残業＋平日深夜）
-                    WW_INT = Minute10UpEdit(Val(T00007row("ORVERTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")))
-                    JNLrow("平日残業時間") = formatHHHMM(WW_INT, "#0.00")
+                    WW_INT = Minute5UpEdit(Val(T00007row("ORVERTIMETTL"))) +
+                         Minute5UpEdit(Val(T00007row("WNIGHTTIMETTL")))
+                    JNLrow("平日残業時間") = formatHHHMM5up(WW_INT, "#0.00")
 
                     '2504.休日出勤時間（休日出勤＋休日深夜）
-                    WW_INT = Minute10UpEdit(Val(T00007row("HWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("HNIGHTTIMETTL")))
-                    JNLrow("休日出勤時間") = formatHHHMM(WW_INT, "#0.00")
+                    WW_INT = Minute5UpEdit(Val(T00007row("HWORKTIMETTL"))) +
+                         Minute5UpEdit(Val(T00007row("HNIGHTTIMETTL")))
+                    JNLrow("休日出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
 
                     '2505.日曜出勤時間（日曜出勤＋日曜深夜）
-                    WW_INT = Minute10UpEdit(Val(T00007row("SWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL")))
-                    JNLrow("日曜出勤時間") = formatHHHMM(WW_INT, "#0.00")
+                    WW_INT = Minute5UpEdit(Val(T00007row("SWORKTIMETTL"))) +
+                         Minute5UpEdit(Val(T00007row("SNIGHTTIMETTL")))
+                    JNLrow("日曜出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
                 End If
 
                 '2503.残業時間（60時間超）
@@ -8811,24 +8811,24 @@ Public Class GRT00008KINTAISTAT
                 CodeToName("OVERTIMESTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
                 If Not String.IsNullOrEmpty(WW_NAME) Then WW_FIND = "ON"
                 If WW_FIND = "ON" Then
-                    JNLrow("平日残業時間") = formatHHHMM(0, "#0.00")
-                    JNLrow("休日出勤時間") = formatHHHMM(0, "#0.00")
-                    JNLrow("日曜出勤時間") = formatHHHMM(0, "#0.00")
+                    JNLrow("平日残業時間") = formatHHHMM5(0, "#0.00")
+                    JNLrow("休日出勤時間") = formatHHHMM5(0, "#0.00")
+                    JNLrow("日曜出勤時間") = formatHHHMM5(0, "#0.00")
                 Else
                     '2502.平日残業時間（平日残業＋平日深夜）
-                    WW_INT = Minute10UpEdit(Val(T00007row("ORVERTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("WNIGHTTIMETTL")))
-                    JNLrow("平日残業時間") = formatHHHMM(WW_INT, "#0.00")
+                    WW_INT = Minute5RoundEdit(Val(T00007row("ORVERTIMETTL"))) +
+                         Minute5RoundEdit(Val(T00007row("WNIGHTTIMETTL")))
+                    JNLrow("平日残業時間") = formatHHHMM5(WW_INT, "#0.00")
 
                     '2504.休日出勤時間（休日出勤＋休日深夜）
-                    WW_INT = Minute10UpEdit(Val(T00007row("HWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("HNIGHTTIMETTL")))
-                    JNLrow("休日出勤時間") = formatHHHMM(WW_INT, "#0.00")
+                    WW_INT = Minute5RoundEdit(Val(T00007row("HWORKTIMETTL"))) +
+                         Minute5RoundEdit(Val(T00007row("HNIGHTTIMETTL")))
+                    JNLrow("休日出勤時間") = formatHHHMM5(WW_INT, "#0.00")
 
                     '2505.日曜出勤時間（日曜出勤＋日曜深夜）
-                    WW_INT = Minute10UpEdit(Val(T00007row("SWORKTIMETTL"))) +
-                         Minute10UpEdit(Val(T00007row("SNIGHTTIMETTL")))
-                    JNLrow("日曜出勤時間") = formatHHHMM(WW_INT, "#0.00")
+                    WW_INT = Minute5RoundEdit(Val(T00007row("SWORKTIMETTL"))) +
+                         Minute5RoundEdit(Val(T00007row("SNIGHTTIMETTL")))
+                    JNLrow("日曜出勤時間") = formatHHHMM5(WW_INT, "#0.00")
                 End If
 
                 '2503.残業時間（60時間超）
