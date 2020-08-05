@@ -918,7 +918,7 @@ Public Class GRTA0005LMKINTAI
                     End If
 
                     '締まっていたらサマリーテーブルから取得するためスキップする
-                    If WW_LIMITFLG = "1" Then Continue For
+                    If WW_LIMITFLG <> "0" Then Continue For
 
                     Try
 

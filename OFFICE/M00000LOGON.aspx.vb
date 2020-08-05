@@ -69,6 +69,13 @@ Public Class M00000LOGON
         If IsPostBack Then
             PassWord.Attributes.Add("value", PassWord.Text)
 
+            Dim CS001INIFILE As New CS0001INIFILEget            'INIファイル読み込み
+            CS001INIFILE.CS0001INIFILEget()
+            If Not isNormal(CS001INIFILE.ERR) Then
+                Master.Output(CS001INIFILE.ERR, C_MESSAGE_TYPE.ABORT)
+                Exit Sub
+            End If
+
             '■■■ 各ボタン押下処理 ■■■
             If Not String.IsNullOrEmpty(WF_ButtonClick.Value) Then
                 Select Case WF_ButtonClick.Value
