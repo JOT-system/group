@@ -1161,55 +1161,25 @@ Public Class GRTA0007JIMKYUYOLIST_V2
                         TA0007ALLrow("NIGHTTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("NIGHTTIME"))
                         TA0007ALLrow("NIGHTTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("NIGHTTIMECHO"))
 
-                        '時間外計算対象外を判定し、対象外の場合は深夜ゼロとして、所定内深夜に設定する
-                        Dim WW_FIND As String = "OFF"
-                        Dim WW_TEXT As String = String.Empty
-                        Dim WW_RTN As String = C_MESSAGE_NO.NORMAL
-                        CodeToName("OVERTIMESTAFFKBN", TA0007ALLrow("STAFFKBN"), WW_TEXT, WW_RTN)
-                        If Not String.IsNullOrEmpty(WW_TEXT) Then WW_FIND = "ON"
-
-                        If WW_FIND = "ON" Then
-                            '所定内深夜に平日深夜、休日深夜、日曜深夜を設定
-                            TA0007ALLrow("NIGHTTIMETTL") = T0009TIME.MinutesToHHMM(Val(TA0007ALLrow("NIGHTTIMETTL")) + Val(TA0007ALLrow("WNIGHTTIMETTL")) + Val(TA0007ALLrow("HNIGHTTIMETTL")) + Val(TA0007ALLrow("SNIGHTTIMETTL")))
-                        Else
-                            '所定内深夜そのまま
-                            TA0007ALLrow("NIGHTTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("NIGHTTIMETTL"))
-                        End If
-
+                        TA0007ALLrow("NIGHTTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("NIGHTTIMETTL"))
                         TA0007ALLrow("ORVERTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("ORVERTIME"))
                         TA0007ALLrow("ORVERTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("ORVERTIMECHO"))
                         TA0007ALLrow("ORVERTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("ORVERTIMETTL"))
                         TA0007ALLrow("WNIGHTTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("WNIGHTTIME"))
                         TA0007ALLrow("WNIGHTTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("WNIGHTTIMECHO"))
-
-                        If WW_FIND = "ON" Then
-                            '平日深夜にゼロ
-                            TA0007ALLrow("WNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(0)
-                        Else
-                            '平日深夜に休日深夜を加算
-                            TA0007ALLrow("WNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(Val(TA0007ALLrow("WNIGHTTIMETTL")) + Val(TA0007ALLrow("HNIGHTTIMETTL")))
-                        End If
-
-
+                        TA0007ALLrow("WNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("WNIGHTTIMETTL"))
                         TA0007ALLrow("SWORKTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SWORKTIME"))
                         TA0007ALLrow("SWORKTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SWORKTIMECHO"))
                         TA0007ALLrow("SWORKTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SWORKTIMETTL"))
                         TA0007ALLrow("SNIGHTTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SNIGHTTIME"))
                         TA0007ALLrow("SNIGHTTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SNIGHTTIMECHO"))
-                        If WW_FIND = "ON" Then
-                            '日曜深夜にゼロを設定
-                            TA0007ALLrow("SNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(0)
-                        Else
-                            '日曜深夜そのまま
-                            TA0007ALLrow("SNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SNIGHTTIMETTL"))
-                        End If
+                        TA0007ALLrow("SNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("SNIGHTTIMETTL"))
                         TA0007ALLrow("HWORKTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HWORKTIME"))
                         TA0007ALLrow("HWORKTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HWORKTIMECHO"))
                         TA0007ALLrow("HWORKTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HWORKTIMETTL"))
                         TA0007ALLrow("HNIGHTTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HNIGHTTIME"))
                         TA0007ALLrow("HNIGHTTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HNIGHTTIMECHO"))
-                        '休日深夜にゼロを設定
-                        TA0007ALLrow("HNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(0)
+                        TA0007ALLrow("HNIGHTTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HNIGHTTIMETTL"))
                         TA0007ALLrow("HOANTIME") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HOANTIME"))
                         TA0007ALLrow("HOANTIMECHO") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HOANTIMECHO"))
                         TA0007ALLrow("HOANTIMETTL") = T0009TIME.MinutesToHHMM(TA0007ALLrow("HOANTIMETTL"))
@@ -2796,6 +2766,8 @@ Public Class GRTA0007JIMKYUYOLIST_V2
         Dim WW_ROUND_TYPE As GRT00009TIMEFORMAT.EM_ROUND_TYPE
         work.GetRoundType(work.WF_SEL_CAMPCODE.Text, WW_SPLIT_MINUITE, WW_ROUND_TYPE)
         For Each Orow As DataRow In O_TBL.Rows
+            Dim WW_WNIGHTTIME As String = ""
+            Dim WW_HNIGHTTIME As String = ""
             Orow("NIGHTTIME") = T0009TIME.RoundMinute(Orow("NIGHTTIME"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("NIGHTTIMECHO") = T0009TIME.RoundMinute(Orow("NIGHTTIMECHO"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("NIGHTTIMETTL") = T0009TIME.RoundMinute(Orow("NIGHTTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
@@ -2804,7 +2776,9 @@ Public Class GRTA0007JIMKYUYOLIST_V2
             Orow("ORVERTIMETTL") = T0009TIME.RoundMinute(Orow("ORVERTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("WNIGHTTIME") = T0009TIME.RoundMinute(Orow("WNIGHTTIME"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("WNIGHTTIMECHO") = T0009TIME.RoundMinute(Orow("WNIGHTTIMECHO"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
-            Orow("WNIGHTTIMETTL") = T0009TIME.RoundMinute(Orow("WNIGHTTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
+            WW_WNIGHTTIME = T0009TIME.RoundMinute(Orow("WNIGHTTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
+            Orow("WNIGHTTIMETTL") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("WNIGHTTIMETTL")) +
+                                                            T0009TIME.HHMMToMinutes(Orow("HNIGHTTIMETTL"))), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("SWORKTIME") = T0009TIME.RoundMinute(Orow("SWORKTIME"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("SWORKTIMECHO") = T0009TIME.RoundMinute(Orow("SWORKTIMECHO"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("SWORKTIMETTL") = T0009TIME.RoundMinute(Orow("SWORKTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
@@ -2816,7 +2790,8 @@ Public Class GRTA0007JIMKYUYOLIST_V2
             Orow("HWORKTIMETTL") = T0009TIME.RoundMinute(Orow("HWORKTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HNIGHTTIME") = T0009TIME.RoundMinute(Orow("HNIGHTTIME"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HNIGHTTIMECHO") = T0009TIME.RoundMinute(Orow("HNIGHTTIMECHO"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
-            Orow("HNIGHTTIMETTL") = T0009TIME.RoundMinute(Orow("HNIGHTTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
+            WW_HNIGHTTIME = T0009TIME.RoundMinute(Orow("HNIGHTTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
+            Orow("HNIGHTTIMETTL") = T0009TIME.RoundMinute("00:00", WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HDAIWORKTIME") = T0009TIME.RoundMinute(Orow("HDAIWORKTIME"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HDAIWORKTIMECHO") = T0009TIME.RoundMinute(Orow("HDAIWORKTIMECHO"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HDAIWORKTIMETTL") = T0009TIME.RoundMinute(Orow("HDAIWORKTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
@@ -2842,29 +2817,23 @@ Public Class GRTA0007JIMKYUYOLIST_V2
                 Orow("SDAIWORKTIMETTL_V2") = "00:00"
                 Orow("HDAIWORKTIMETTL_V2") = "00:00"
             Else
-                Orow("ORVERTIMETTL_V2") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("ORVERTIME")) + T0009TIME.HHMMToMinutes(Orow("ORVERTIMECHO")) +
-                                                                T0009TIME.HHMMToMinutes(Orow("WNIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("WNIGHTTIMECHO")) +
-                                                                T0009TIME.HHMMToMinutes(Orow("ORVERTIMEADD"))),
-                                                                WW_SPLIT_MINUITE, WW_ROUND_TYPE)
-                Orow("SWORKTIMETTL_V2") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("SWORKTIME")) + T0009TIME.HHMMToMinutes(Orow("SWORKTIMECHO")) +
-                                                                T0009TIME.HHMMToMinutes(Orow("SNIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("SNIGHTTIMECHO")) +
-                                                                T0009TIME.HHMMToMinutes(Orow("SWORKTIMEADD"))),
-                                                                WW_SPLIT_MINUITE, WW_ROUND_TYPE)
-                Orow("HWORKTIMETTL_V2") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("HWORKTIME")) + T0009TIME.HHMMToMinutes(Orow("HWORKTIMECHO")) +
-                                                                T0009TIME.HHMMToMinutes(Orow("HNIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("HNIGHTTIMECHO"))), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
-                Orow("SDAIWORKTIMETTL_V2") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("SDAIWORKTIME")) + T0009TIME.HHMMToMinutes(Orow("SDAIWORKTIMECHO")) +
-                                                                   T0009TIME.HHMMToMinutes(Orow("SDAINIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("SDAINIGHTTIMECHO"))), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
-                Orow("HDAIWORKTIMETTL_V2") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("HDAIWORKTIME")) + T0009TIME.HHMMToMinutes(Orow("HDAIWORKTIMECHO")) +
-                                                                   T0009TIME.HHMMToMinutes(Orow("HDAINIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("HDAINIGHTTIMECHO"))), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
+                Orow("ORVERTIMETTL_V2") = T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("ORVERTIMETTL")) +
+                                                                  T0009TIME.HHMMToMinutes(WW_WNIGHTTIME))
+                Orow("SWORKTIMETTL_V2") = T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("SWORKTIMETTL")) +
+                                                                  T0009TIME.HHMMToMinutes(Orow("SNIGHTTIMETTL")))
+                Orow("HWORKTIMETTL_V2") = T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("HWORKTIMETTL")) +
+                                                                  T0009TIME.HHMMToMinutes(WW_HNIGHTTIME))
+                Orow("SDAIWORKTIMETTL_V2") = T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("SDAIWORKTIMETTL")) +
+                                                                     T0009TIME.HHMMToMinutes(Orow("SDAINIGHTTIMETTL")))
+                Orow("HDAIWORKTIMETTL_V2") = T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("HDAIWORKTIMETTL")) +
+                                                                     T0009TIME.HHMMToMinutes(Orow("HDAINIGHTTIMETTL")))
             End If
-            Orow("WNIGHTTIMETTL_V2") = T0009TIME.RoundMinute(T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("NIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("NIGHTTIMECHO")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("WNIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("WNIGHTTIMECHO")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("WNIGHTTIMEADD")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("SNIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("SNIGHTTIMECHO")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("SNIGHTTIMEADD")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("HNIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("HNIGHTTIMECHO")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("SDAINIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("SDAINIGHTTIMECHO")) +
-                                                               T0009TIME.HHMMToMinutes(Orow("HDAINIGHTTIME")) + T0009TIME.HHMMToMinutes(Orow("HDAINIGHTTIMECHO"))), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
+            Orow("WNIGHTTIMETTL_V2") = T0009TIME.MinutesToHHMM(T0009TIME.HHMMToMinutes(Orow("NIGHTTIMETTL")) +
+                                                               T0009TIME.HHMMToMinutes(Orow("WNIGHTTIMETTL")) +
+                                                               T0009TIME.HHMMToMinutes(Orow("SNIGHTTIMETTL")) +
+                                                               T0009TIME.HHMMToMinutes(Orow("HNIGHTTIMETTL")) +
+                                                               T0009TIME.HHMMToMinutes(Orow("SDAINIGHTTIMETTL")) +
+                                                               T0009TIME.HHMMToMinutes(Orow("HDAINIGHTTIMETTL")))
             Orow("HOANTIME") = T0009TIME.RoundMinute(Orow("HOANTIME"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HOANTIMECHO") = T0009TIME.RoundMinute(Orow("HOANTIMECHO"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
             Orow("HOANTIMETTL") = T0009TIME.RoundMinute(Orow("HOANTIMETTL"), WW_SPLIT_MINUITE, WW_ROUND_TYPE)
