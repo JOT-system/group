@@ -8950,10 +8950,10 @@ Public Class GRT00008KINTAISTAT
                 JNLrow("洗浄回数") = T00007row("SENJYOCNTTTL")
 
                 '2621.近距離手当50ｷﾛ以下日数
-                JNLrow("近距離手当50ｷﾛ以下日数") = T00007row("SHORTDISTANCE1TTL")
+                JNLrow("近距離手当50ｷﾛ以下日数") = T00007row("SHORTDISTANCE2TTL")
 
                 '2622.近距離手当100ｷﾛ以下日数
-                JNLrow("近距離手当100ｷﾛ以下日数") = T00007row("SHORTDISTANCE2TTL")
+                JNLrow("近距離手当100ｷﾛ以下日数") = T00007row("SHORTDISTANCE1TTL")
 
                 '2623.トレーラ乗務日数
                 JNLrow("トレーラ乗務日数") = "0"
