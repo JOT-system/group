@@ -6424,6 +6424,7 @@ Public Class GRT00005NIPPO
 
                 Case "GSHABAN"
                     '業務車番
+                    O_RTN = C_MESSAGE_NO.BOX_ERROR_EXIST
                     Dim list As ListBox = work.CreateWorkLorryList(work.WF_SEL_CAMPCODE.Text, work.WF_SEL_UORG.Text)
                     For i As Integer = 0 To list.Items.Count - 1
                         Dim WW_SPRIT() As String = list.Items(i).Value.Split(",")
@@ -6434,7 +6435,6 @@ Public Class GRT00005NIPPO
                             Exit For
                         End If
                     Next
-
                 Case "TSHABANF"
                     '統一車番名（前）
                     leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CARCODE, I_VALUE, O_TEXT, O_RTN, work.CreateCarCodeParam(work.WF_SEL_CAMPCODE.Text, True))

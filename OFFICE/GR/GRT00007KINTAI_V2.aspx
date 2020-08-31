@@ -247,16 +247,16 @@
                 </a>
                 <!-- ■　容器再検査台数　■ -->
                 <a style="position:fixed;top:12.9em;left:49em; width:32em;">
-                    <asp:Label ID="WF_YOKSAIKENSADAISU_LABEL" runat="server" Text="容器再検査" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false" ForeColor="Red"></asp:Label>
+                    <asp:Label ID="WF_YOKSAIKENSADAISU_LABEL" runat="server" Text="容器再検査" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
-                    <asp:TextBox ID="WF_YOKSAIKENSADAISU" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_HANCHOKAISU')" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                    <asp:TextBox ID="WF_YOKSAIKENSADAISU" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_HANCHOKAISU')" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
                 <!-- ■　気密検査台数　■ -->
                 <a style="position:fixed;top:14em;left:49em; width:32em;">
-                    <asp:Label ID="WF_KIMITUKENSADAISU_LABEL" runat="server" Text="気密検査" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                    <asp:Label ID="WF_KIMITUKENSADAISU_LABEL" runat="server" Text="気密検査" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
-                    <asp:TextBox ID="WF_KIMITUKENSADAISU" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_HANCHOKAISUCHO')" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                    <asp:TextBox ID="WF_KIMITUKENSADAISU" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_HANCHOKAISUCHO')" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
 
@@ -400,9 +400,9 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:8.9em;left:25em; width:32em;" >
-                        <asp:Label ID="WF_TOKUKYUMUKYUNISSUTTL_LABEL" runat="server" Text="特 休 無 給" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                        <asp:Label ID="WF_TOKUKYUMUKYUNISSUTTL_LABEL" runat="server" Text="特 休 無 給" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_TOKUKYUMUKYUNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                        <asp:TextBox ID="WF_TOKUKYUMUKYUNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
 
@@ -440,23 +440,23 @@
                         </b>
                     </a>
                     <a style="position:fixed;top:11.1em;left:25em; width:32em;" >
-                        <asp:Label ID="WF_ROSAIYUKYNIUSSUTTL_LABEL" runat="server" Text="労 　 　 災" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                        <asp:Label ID="WF_ROSAIYUKYNIUSSUTTL_LABEL" runat="server" Text="労 　 　 災" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_ROSAIYUKYNIUSSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                        <asp:TextBox ID="WF_ROSAIYUKYNIUSSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
 
                     <!-- ■■■　勤怠区分関連５　■■■ -->
                     <a style="position:fixed;top:12.2em;left:3em; width:32em;" >
-                        <asp:Label ID="WF_KOKANGOYUKYUNISSUTTL_LABEL" runat="server" Text="子 看 有 給" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                        <asp:Label ID="WF_KOKANGOYUKYUNISSUTTL_LABEL" runat="server" Text="子 看 有 給" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false" ForeColor="Red"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_KOKANGOYUKYUNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                        <asp:TextBox ID="WF_KOKANGOYUKYUNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red" ReadOnly="true"></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:12.2em;left:14em; width:32em;" >
-                        <asp:Label ID="WF_KOKANGOMUKYUNISSUTTL_LABEL" runat="server" Text="子 看 無 給" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                        <asp:Label ID="WF_KOKANGOMUKYUNISSUTTL_LABEL" runat="server" Text="子 看 無 給" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_KOKANGOMUKYUNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                        <asp:TextBox ID="WF_KOKANGOMUKYUNISSUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
 
@@ -555,15 +555,15 @@
                         <asp:Label ID="Label2" runat="server" Text="【 検 査 回 数 】" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     </a>
                     <a style="position:fixed;top:24.4em;left:14em; width:32em;" >
-                        <asp:Label ID="WF_YOKSAIKENSADAISUTTL_LABEL" runat="server" Text="容器再検査台数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                        <asp:Label ID="WF_YOKSAIKENSADAISUTTL_LABEL" runat="server" Text="容器再検査台数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_YOKSAIKENSADAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                        <asp:TextBox ID="WF_YOKSAIKENSADAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
                     <a style="position:fixed;top:24.4em;left:25em; width:32em;" >
-                        <asp:Label ID="WF_KIMITUKENSADAISUTTL_LABEL" runat="server" Text="気密検査台数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"  ForeColor="Red"></asp:Label>
+                        <asp:Label ID="WF_KIMITUKENSADAISUTTL_LABEL" runat="server" Text="気密検査台数" Height="1.2em" Width="5.3em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         <b>
-                        <asp:TextBox ID="WF_KIMITUKENSADAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " BackColor="Red"></asp:TextBox>
+                        <asp:TextBox ID="WF_KIMITUKENSADAISUTTL" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; "></asp:TextBox>
                         </b>
                     </a>
 

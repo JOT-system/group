@@ -7579,14 +7579,15 @@ Public Class GRT00009JIMKINTAI_V2
                 WF_JIKYUSHATIMETTL_L2.Visible = False
                 WF_JIKYUSHATIMETTL.Visible = False
                 '2020/05/28 ADD
-                WF_TOKUKYUMUKYUNISSUTTL_L.ForeColor = Color.Red
-                WF_ROSAIYUKYNIUSSUTTL_L.ForeColor = Color.Red
+                'WF_TOKUKYUMUKYUNISSUTTL_L.ForeColor = Color.Red
+                'WF_ROSAIYUKYNIUSSUTTL_L.ForeColor = Color.Red
                 WF_KOKANGOYUKYUNISSUTTL_L.ForeColor = Color.Red
-                WF_KOKANGOMUKYUNISSUTTL_L.ForeColor = Color.Red
-                WF_TOKUKYUMUKYUNISSUTTL.BackColor = Color.Red
-                WF_ROSAIYUKYNIUSSUTTL.BackColor = Color.Red
+                'WF_KOKANGOMUKYUNISSUTTL_L.ForeColor = Color.Red
+                'WF_TOKUKYUMUKYUNISSUTTL.BackColor = Color.Red
+                'WF_ROSAIYUKYNIUSSUTTL.BackColor = Color.Red
                 WF_KOKANGOYUKYUNISSUTTL.BackColor = Color.Red
-                WF_KOKANGOMUKYUNISSUTTL.BackColor = Color.Red
+                WF_KOKANGOYUKYUNISSUTTL.ReadOnly = True
+                'WF_KOKANGOMUKYUNISSUTTL.BackColor = Color.Red
                 '2020/05/28 ADD END
 
             Case GRT00009WRKINC_V2.CAMP_KNK        '近石
