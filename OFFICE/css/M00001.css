@@ -35,7 +35,7 @@ a:link { color: red; }		-->  <a href="..."> のリンク(未訪問)に対して�
         position:fixed;
         margin: 5px 0px 0px 0px;
         left:7em;
-        overflow-y:auto;
+        /*overflow-y:auto;*/
 }
 
     #Menu_R{
@@ -45,7 +45,7 @@ a:link { color: red; }		-->  <a href="..."> のリンク(未訪問)に対して�
         position:fixed;
         margin: 5px 0px 0px 0px;
         left:41em;
-        overflow-y:auto;
+        /*overflow-y:auto;*/
     }
 
 
