@@ -8724,7 +8724,7 @@ Public Class GRT00008KINTAISTAT
                 JNLrow("組合欠勤日数") = "0"
 
                 '2405.労災欠勤日数
-                JNLrow("労災欠勤日数") = T00007row("ETCKETUNISSUTTL")
+                JNLrow("労災欠勤日数") = T00007row("ROSAIYUKYNIUSSUTTL")
 
                 '2406.その他欠勤日数
                 JNLrow("その他欠勤日数") = T00007row("ETCKETUNISSUTTL")
