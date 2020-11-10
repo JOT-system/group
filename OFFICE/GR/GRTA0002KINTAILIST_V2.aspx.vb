@@ -3689,6 +3689,9 @@ Public Class GRTA0002KINTAILIST_V2
                         '    WW_DISTANCE = 0
                         'End If
                         WW_DISTANCE = T0005row("SOUDISTANCE")
+                    End If
+
+                    If T0005row("WORKKBN") = "Z1" Then
                         '-----------------------------------
                         '日報項目編集＆出力
                         '-----------------------------------
