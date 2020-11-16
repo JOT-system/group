@@ -6035,10 +6035,11 @@ Public Class GRT00005IMPORT
                     If WW_T5row("HDKBN") = "H" Then
                         Continue For
                     End If
-                    If CDate(WW_KEYrow("ENDDATE2") & " " & WW_KEYrow("ENDTIME2")) >= CDate(WW_T5row("STDATE") & " " & WW_T5row("STTIME")) AndAlso
-                       CDate(WW_KEYrow("ENDDATE2") & " " & WW_KEYrow("ENDTIME2")) <= CDate(WW_T5row("ENDDATE") & " " & WW_T5row("ENDTIME")) Then
+                    'If CDate(WW_KEYrow("ENDDATE2") & " " & WW_KEYrow("ENDTIME2")) >= CDate(WW_T5row("STDATE") & " " & WW_T5row("STTIME")) AndAlso
+                    '   CDate(WW_KEYrow("ENDDATE2") & " " & WW_KEYrow("ENDTIME2")) <= CDate(WW_T5row("ENDDATE") & " " & WW_T5row("ENDTIME")) Then
+                    If CDate(WW_KEYrow("ENDDATE2") & " " & WW_KEYrow("ENDTIME2")) <= CDate(WW_T5row("ENDDATE") & " " & WW_T5row("ENDTIME")) Then
                         WW_ENDtrip = WW_T5row("TWOMANTRIP")
-                        Exit For
+                        'Exit For
                     End If
                 Next
 

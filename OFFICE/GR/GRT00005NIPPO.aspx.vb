@@ -3690,6 +3690,24 @@ Public Class GRT00005NIPPO
         '-------------------------------------------------------------------------------
         If T0005INProw("WORKKBN") = "B2" OrElse T0005INProw("WORKKBN") = "B3" Then
             If T0005INProw("DELFLG") = C_DELETE_FLG.ALIVE Then
+                '・キー項目(業務車番：GSHABAN)
+                '①必須・項目属性チェック
+                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "GSHABAN", T0005INProw("GSHABAN"), WW_RTN, WW_CHECKREPORT, S0013tbl)
+                If Not isNormal(WW_RTN) Then
+                    'エラーレポート編集
+                    WW_CheckMES1 = "・更新できないレコード(業務車番エラー)です。"
+                    WriteErrorMessage(WW_CheckMES1, WW_CHECKREPORT, WW_LINEerr, T0005INProw, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR)
+                End If
+                '②LeftBox存在チェック
+                If T0005INProw("GSHABAN") <> "" Then
+                    CodeToName("GSHABAN", T0005INProw("GSHABAN"), WW_TEXT, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        'エラーレポート編集
+                        WW_CheckMES1 = "・更新できないレコード(業務車番エラー)です。"
+                        WW_CheckMES2 = "マスタに存在しません。(" & T0005INProw("GSHABAN") & ")"
+                        WriteErrorMessage(WW_CheckMES1, WW_CheckMES2, WW_LINEerr, T0005INProw, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR)
+                    End If
+                End If
                 '・キー項目(出荷場所：SHUKABASHO)
                 '①必須・項目属性チェック
                 Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", T0005INProw("SHUKABASHO"), WW_RTN, WW_CHECKREPORT, S0013tbl)
@@ -3746,6 +3764,24 @@ Public Class GRT00005NIPPO
         '------------------------------------
         If T0005INProw("WORKKBN") = "BY" OrElse T0005INProw("WORKKBN") = "G1" Then
             If T0005INProw("DELFLG") = C_DELETE_FLG.ALIVE Then
+                '・キー項目(業務車番：GSHABAN)
+                '①必須・項目属性チェック
+                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "GSHABAN", T0005INProw("GSHABAN"), WW_RTN, WW_CHECKREPORT, S0013tbl)
+                If Not isNormal(WW_RTN) Then
+                    'エラーレポート編集
+                    WW_CheckMES1 = "・更新できないレコード(業務車番エラー)です。"
+                    WriteErrorMessage(WW_CheckMES1, WW_CHECKREPORT, WW_LINEerr, T0005INProw, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR)
+                End If
+                '②LeftBox存在チェック
+                If T0005INProw("GSHABAN") <> "" Then
+                    CodeToName("GSHABAN", T0005INProw("GSHABAN"), WW_TEXT, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        'エラーレポート編集
+                        WW_CheckMES1 = "・更新できないレコード(業務車番エラー)です。"
+                        WW_CheckMES2 = "マスタに存在しません。(" & T0005INProw("GSHABAN") & ")"
+                        WriteErrorMessage(WW_CheckMES1, WW_CheckMES2, WW_LINEerr, T0005INProw, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR)
+                    End If
+                End If
                 '②LeftBox存在チェック
                 If T0005INProw("TORICODE") <> "" Then
                     CodeToName("TORICODE", T0005INProw("TORICODE"), WW_TEXT, WW_RTN_SW)
