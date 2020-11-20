@@ -388,7 +388,9 @@ Public Class CS0033AutoNumber
 
         Try
             '○Web要求定義
-            Dim WW_req As WebRequest = WebRequest.Create(HttpContext.Current.Request.Url.Scheme & "://" & I_IPADDR & C_URL.NUMBER_ASSIGNMENT)
+            'Dim WW_req As WebRequest = WebRequest.Create(HttpContext.Current.Request.Url.Scheme & "://" & I_IPADDR & C_URL.NUMBER_ASSIGNMENT)
+            'グローバルURL対応（採番は、httpで実行する）2020/10/06
+            Dim WW_req As WebRequest = WebRequest.Create("http://" & I_IPADDR & C_URL.NUMBER_ASSIGNMENT)
             ' 権限設定
             WW_req.Credentials = CredentialCache.DefaultCredentials
             '○ポスト・データの作成

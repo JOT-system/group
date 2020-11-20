@@ -8,24 +8,32 @@
 }
 
 .Operation {
-    top: 2em;
-    left: 50em;
-    position:relative;
-    z-index:20;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 360px; /* 横幅 */
+    height: 160px; /* 高さ */
+    background-color: aquamarine;
+    margin-left: -180px; /* マイナス「横幅÷2」 */
+    margin-top: -80px; /* マイナス「高さ÷2」 */
+    background: radial-gradient(circle at 20% 20%, #8dff8d, #003300, rgba(0, 51, 0, 0.79)); /* BOXのグラデーション */
+    border-radius: 0.75em; /*半径0.75文字分の大きさで角が丸*/
+    z-index: 20;
 }
 .logonkeybox {
-    top: 0em;
-    left: 8em;
-    position:relative;
+    position: relative;
+    top: 15%;
+    left: 10%;
 }
 .logonkeybox p {
-    margin-bottom:1em;
+    margin-bottom: 1em;
 }
-.logonkeybox span{
-    min-width: 8em;
-    position:relative;
+.logonkeybox span {
+    min-width: 1em;
+    position: relative;
 }
 .guidancebox {
+    display:none;
     left:7em;
     width:67em;
     height: 28em;

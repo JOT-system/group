@@ -169,8 +169,8 @@ Public Class M00000LOGON
         '○ 車検切れ、容器検査切れ車両の検索表示（運用ガイダンスに表示）d
         Dim WW_RTN As String = C_MESSAGE_NO.NORMAL
 
-        GetSHARYOC(WW_RTN, ClientIP3)
-        If Not isNormal(WW_RTN) Then Exit Sub
+        'GetSHARYOC(WW_RTN, ClientIP3)
+        'If Not isNormal(WW_RTN) Then Exit Sub
 
         '■■■　オンラインサービス判定　■■■
 
@@ -182,10 +182,10 @@ Public Class M00000LOGON
         If isNormal(CS0008ONLINEstat.ERR) Then
             If CS0008ONLINEstat.ONLINESW = 0 Then
                 Master.output(C_MESSAGE_NO.CLOSED_SERVICE, C_MESSAGE_TYPE.ERR)
-                WF_Guidance.Text = String.Empty
+                'WF_Guidance.Text = String.Empty
                 Exit Sub
             Else
-                WF_Guidance.Text = WF_Guidance.Text & CS0008ONLINEstat.TEXT.Replace(vbCrLf, "<br />")
+                'WF_Guidance.Text = WF_Guidance.Text & CS0008ONLINEstat.TEXT.Replace(vbCrLf, "<br />")
             End If
         Else
             Master.output(CS0008ONLINEstat.ERR, C_MESSAGE_TYPE.ABORT, "CS0008ONLINEstat")

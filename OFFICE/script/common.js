@@ -19,6 +19,13 @@ window.addEventListener('load', function () {
             }
         });
     }
+    /* テキストボックスフォーカスがあった時点で選択 */
+    var texboxObjList = document.querySelectorAll("input[type='text']");
+    for (let i = 0; i < texboxObjList.length; i++) {
+        texboxObjList[i].addEventListener('focus', function () {
+            this.select();
+        });
+    }
 });
 
 // 処理後カーソルを戻す

@@ -20,7 +20,10 @@ Public Class M00001MENU
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         If IsPostBack Then
-
+            Select Case WF_ButtonClick.Value
+                Case "WF_WARNNING", "WF_GUID"        '更新ボタン
+                    Initialize()
+            End Select
         Else
             '★★★ 初期画面表示 ★★★
             Initialize()
@@ -199,6 +202,66 @@ Public Class M00001MENU
             End If
 
         End Using
+
+        '2020/10/30 ADD +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        '運用ガイダンス、車検切れ等の情報取得
+        Dim CS001INIFILE As New CS0001INIFILEget            'INIファイル読み込み
+        Dim CS0006TERMchk As New CS0006TERMchk              'ローカルコンピュータ名存在チェック
+        Dim CS0008ONLINEstat As New CS0008ONLINEstat        'ONLINE状態
+
+        '○ 固定項目設定
+        If String.IsNullOrEmpty(CS0050Session.USERID) Then
+            CS0050Session.USERID = "INIT"
+            CS0050Session.APSV_ID = "INIT"
+            CS0050Session.APSV_COMPANY = "INIT"
+            CS0050Session.APSV_ORG = "INIT"
+            CS0050Session.SELECTED_COMPANY = "INIT"
+            CS0050Session.DRIVERS = ""
+        End If
+
+
+        CS001INIFILE.CS0001INIFILEget()
+        If Not isNormal(CS001INIFILE.ERR) Then
+            Master.Output(CS001INIFILE.ERR, C_MESSAGE_TYPE.ABORT)
+            Exit Sub
+        End If
+
+        '○ APサーバー情報からAPサーバー設置会社(APSRVCamp)、APサーバー設置部署(APSRVOrg)取得
+
+        '〇クライアント端末のIPを取得する
+
+        '■■■　運用ガイダンス表示　■■■
+        Dim WW_RTN As String = C_MESSAGE_NO.NORMAL
+        Dim WW_CAMP As String = ""
+        Dim WW_ORG As String = ""
+
+        WF_OnlineStat.Text = ""
+        WF_Guidance.Text = ""
+
+        'ユーザーマスタよりログオンユーザー情報を取得
+        GetSTAFF(Master.USERID, WW_CAMP, WW_ORG, WW_RTN)
+        If Not isNormal(WW_RTN) Then Exit Sub
+
+        '○オンラインサービス停止なら画面遷移しない 
+        '接続サーバ（INIファイルのサーバ）、対象会社がオンラインか確認
+        CS0008ONLINEstat.COMPCODE = WW_CAMP
+        CS0008ONLINEstat.CS0008ONLINEstat()
+        If isNormal(CS0008ONLINEstat.ERR) Then
+            If CS0008ONLINEstat.ONLINESW = 0 Then
+                Master.Output(C_MESSAGE_NO.CLOSED_SERVICE, C_MESSAGE_TYPE.ERR)
+                WF_OnlineStat.Text = String.Empty
+            Else
+                WF_OnlineStat.Text = CS0008ONLINEstat.TEXT.Replace(vbCrLf, "<br />")
+            End If
+        Else
+            Master.Output(CS0008ONLINEstat.ERR, C_MESSAGE_TYPE.ABORT, "CS0008ONLINEstat")
+            Exit Sub
+        End If
+
+        '○ 車検切れ、容器検査切れ車両の検索表示（運用ガイダンスに表示）
+        GetSHARYOC(WW_ORG, WW_RTN)
+        If Not isNormal(WW_RTN) Then Exit Sub
+        '2020/10/30 ADD END +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     End Sub
     ' ******************************************************************************
@@ -461,6 +524,345 @@ Public Class M00001MENU
         HttpContext.Current.Session("Selected_MAPIDG5") = ""
 
         Server.Transfer(WW_URL.Text)
+
+    End Sub
+    ''' <summary>
+    ''' 車両マスタ（申請）取得（車検切れ、容器検査切れ判定）  
+    ''' </summary>
+    ''' <param name="I_ORG">組織コード</param>
+    ''' <param name="O_RTN">可否判定</param>
+    ''' <remarks>
+    ''' <para>S0001_TERMを検索　IPADDRを見る　TERMID取得</para>
+    ''' <para>TERMIDを基にM00006_STRUCTを検索</para>
+    ''' <para >部署を基に運用ガイダンス表示</para>
+    ''' </remarks>
+    Private Sub GetSHARYOC(ByVal I_ORG As String, ByRef O_RTN As String)
+        Dim CS0009MESSAGEout As New CS0009MESSAGEout        'Message out
+        Dim CS0011LOGWRITE As New CS0011LOGWrite            'LogOutput DirString Get
+        Dim GS0007FIXVALUElst As New GS0007FIXVALUElst      'FIXVALUE Get
+
+        '○ ユーザ
+        Try
+            O_RTN = C_MESSAGE_NO.NORMAL
+
+            Dim iTbl As DataTable = New DataTable
+            iTbl.Columns.Add("SHARYOTYPE", GetType(String))                    '車両タイプ
+            iTbl.Columns.Add("TSHABAN", GetType(String))                       '車両番号
+            iTbl.Columns.Add("LICNPLTNO1", GetType(String))                    '登録番号１
+            iTbl.Columns.Add("LICNPLTNO2", GetType(String))                    '登録番号２
+            iTbl.Columns.Add("INSKBN", GetType(String))                        '検査区分
+            iTbl.Columns.Add("LICNYMD", GetType(Date))                         '車検有効期限
+            iTbl.Columns.Add("OTNKTINSNYMD", GetType(Date))                    '石油気密検査
+            iTbl.Columns.Add("HPRSINSNYMD", GetType(Date))                     '高圧容器再検査
+            iTbl.Columns.Add("SORTYMD", GetType(String))                       'ソート用年月日
+            iTbl.Columns.Add("MSG", GetType(String))                           'メッセージ
+
+            Dim SQLStr0 As String =
+                     " SELECT                                                                                                " _
+                   & "         Z.TERMID           as TERMID                                                                  " _
+                   & "       , Z.TERMCAMP         as COMPCODE                                                                " _
+                   & " FROM     S0001_TERM Z                                                                                 " _
+                   & " WHERE                                                                                                 " _
+                   & "         Z.TERMORG           = @P01                                                                    " _
+                   & "   and   Z.TERMCLASS         = @P04                                                                    " _
+                   & "   and   Z.STYMD            <= @P02                                                                    " _
+                   & "   and   Z.ENDYMD           >= @P02                                                                    " _
+                   & "   and   Z.DELFLG           <> @P03                                                                    "
+
+            Dim SQLStr As String =
+                     " SELECT  isnull(rtrim(A.SHARYOTYPE),'')              as SHARYOTYPE                                     " _
+                   & "      ,  isnull(rtrim(A.TSHABAN),'')                  as TSHABAN                                       " _
+                   & "      ,  isnull(rtrim(C.LICNPLTNO1),'')               as LICNPLTNO1                                    " _
+                   & "      ,  isnull(rtrim(C.LICNPLTNO2),'')               as LICNPLTNO2                                    " _
+                   & "      ,  isnull(rtrim(format(C.LICNYMD,'yyyy/MM/dd')),'" & C_DEFAULT_YMD & "') as LICNYMD              " _
+                   & "      ,  isnull(rtrim(format(C.OTNKTINSNYMD,'yyyy/MM/dd')),'" & C_DEFAULT_YMD & "') as OTNKTINSNYMD    " _
+                   & "      ,  isnull(rtrim(format(C.HPRSINSNYMD,'yyyy/MM/dd')),'" & C_DEFAULT_YMD & "') as HPRSINSNYMD      " _
+                   & "      ,  isnull(rtrim(C.INSKBN),'')                   as INSKBN                                        " _
+                   & "      ,  ''                                           as SORTYMD                                       " _
+                   & "      ,  ''                                           as MSG                                           " _
+                   & " FROM       MA002_SHARYOA                             A                                                " _
+                   & " INNER JOIN M0006_STRUCT                              S                                         ON     " _
+                   & "         S.STRUCT            = @P01                                                                    " _
+                   & "   and   S.CAMPCODE          = @P05                                                                    " _
+                   & "   and   S.OBJECT            = @P04                                                                    " _
+                   & "   and   S.CODE              = A.MANGSORG                                                              " _
+                   & "   and   S.STYMD            <= @P02                                                                    " _
+                   & "   and   S.ENDYMD           >= @P02                                                                    " _
+                   & "   and   S.DELFLG           <> @P03                                                                    " _
+                   & " INNER JOIN MA003_SHARYOB                             B                                         ON     " _
+                   & "         B.CAMPCODE          = A.CAMPCODE                                                              " _
+                   & "   and   B.SHARYOTYPE        = A.SHARYOTYPE                                                            " _
+                   & "   and   B.TSHABAN           = A.TSHABAN                                                               " _
+                   & "   and   B.STYMD            <= @P02                                                                    " _
+                   & "   and   B.ENDYMD           >= @P02                                                                    " _
+                   & "   and   B.DELFLG           <> @P03                                                                    " _
+                   & " LEFT  JOIN MA004_SHARYOC                             C                                         ON     " _
+                   & "         C.CAMPCODE          = A.CAMPCODE                                                              " _
+                   & "   and   C.SHARYOTYPE        = A.SHARYOTYPE                                                            " _
+                   & "   and   C.TSHABAN           = A.TSHABAN                                                               " _
+                   & "   and   C.STYMD            <= B.ENDYMD                                                                " _
+                   & "   and   C.ENDYMD           >= B.STYMD                                                                 " _
+                   & "   and   C.ENDYMD            = (                                                                       " _
+                   & "           select   max(ENDYMD)                                                                        " _
+                   & "           from     MA004_SHARYOC                                                                      " _
+                   & "           where    CAMPCODE    = A.CAMPCODE                                                           " _
+                   & "             and    SHARYOTYPE  = A.SHARYOTYPE                                                         " _
+                   & "             and    TSHABAN     = A.TSHABAN                                                            " _
+                   & "             and    STYMD      <= B.ENDYMD                                                             " _
+                   & "             and    ENDYMD     >= B.STYMD                                                              " _
+                   & "             and    DELFLG     <> '1'                                                                  " _
+                   & "          )                                                                                            " _
+                   & "   and   C.DELFLG           <> @P03                                                                    " _
+                   & " WHERE                                                                                                 " _
+                   & "         A.STYMD            <= @P02                                                                    " _
+                   & "   and   A.ENDYMD           >= @P02                                                                    " _
+                   & "   and   A.DELFLG           <> @P03                                                                    " _
+                   & " ORDER BY C.INSKBN, A.SHARYOTYPE, A.TSHABAN                                                            "
+
+            'DataBase接続文字
+            Using SQLcon As SqlConnection = CS0050Session.getConnection
+                SQLcon.Open() 'DataBase接続(Open)
+
+                Using SQLcmd0 As New SqlCommand(SQLStr0, SQLcon)
+                    Dim PARA1 As SqlParameter = SQLcmd0.Parameters.Add("@P01", System.Data.SqlDbType.NVarChar, 20)
+                    Dim PARA2 As SqlParameter = SQLcmd0.Parameters.Add("@P02", System.Data.SqlDbType.Date)
+                    Dim PARA3 As SqlParameter = SQLcmd0.Parameters.Add("@P03", System.Data.SqlDbType.NVarChar, 1)
+                    Dim PARA4 As SqlParameter = SQLcmd0.Parameters.Add("@P04", System.Data.SqlDbType.NVarChar, 1)
+
+                    PARA1.Value = I_ORG
+                    PARA2.Value = Date.Now
+                    PARA3.Value = C_DELETE_FLG.DELETE
+                    PARA4.Value = C_TERMCLASS.CLIENT
+
+                    Dim SQLdr As SqlDataReader = SQLcmd0.ExecuteReader()
+                    If SQLdr.Read Then
+                        WF_TERMID.Text = SQLdr("TERMID")
+                        WF_TERMCAMP.Text = SQLdr("COMPCODE")
+                    End If
+
+                    'Close
+                    SQLdr.Close() 'Reader(Close)
+                    SQLdr = Nothing
+
+                End Using
+                Using SQLcmd As New SqlCommand(SQLStr, SQLcon)
+                    Dim PARA1 As SqlParameter = SQLcmd.Parameters.Add("@P01", System.Data.SqlDbType.NVarChar, 20)
+                    Dim PARA2 As SqlParameter = SQLcmd.Parameters.Add("@P02", System.Data.SqlDbType.Date)
+                    Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P03", System.Data.SqlDbType.NVarChar, 1)
+                    Dim PARA4 As SqlParameter = SQLcmd.Parameters.Add("@P04", System.Data.SqlDbType.NVarChar, 20)
+                    Dim PARA5 As SqlParameter = SQLcmd.Parameters.Add("@P05", System.Data.SqlDbType.NVarChar, 20)
+
+                    PARA1.Value = WF_TERMID.Text
+                    PARA2.Value = Date.Now
+                    PARA3.Value = C_DELETE_FLG.DELETE
+                    PARA4.Value = "SYARYOCHK"
+                    PARA5.Value = WF_TERMCAMP.Text
+
+                    Dim SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
+                    iTbl.Load(SQLdr)
+
+                    'Close
+                    SQLdr.Close() 'Reader(Close)
+                    SQLdr = Nothing
+
+                End Using
+            End Using
+
+            Dim oTbl As DataTable = iTbl.Clone
+            Dim oRow As DataRow = Nothing
+
+            For Each iRow As DataRow In iTbl.Rows
+
+                '車検チェック
+                If iRow("SHARYOTYPE") = "A" OrElse
+                   iRow("SHARYOTYPE") = "C" OrElse
+                   iRow("SHARYOTYPE") = "D" Then
+                    If IsDate(iRow("LICNYMD")) Then
+                        If iRow("LICNYMD") <> C_DEFAULT_YMD Then
+                            Dim WW_days As String = DateDiff("d", Date.Now, CDate(iRow("LICNYMD")))
+                            If CDate(iRow("LICNYMD")) < Date.Now Then
+                                '車検切れ
+                                oRow = oTbl.NewRow()
+                                oRow.ItemArray = iRow.ItemArray
+                                oRow("SORTYMD") = CDate(iRow("LICNYMD")).ToString("yyyy/MM/dd")
+                                oRow("MSG") = "車検切れ"
+                                oTbl.Rows.Add(oRow)
+                            ElseIf CDate(iRow("LICNYMD")).AddMonths(-1) < Date.Now Then
+                                '1カ月前から警告
+                                oRow = oTbl.NewRow()
+                                oRow.ItemArray = iRow.ItemArray
+                                oRow("SORTYMD") = CDate(iRow("LICNYMD")).ToString("yyyy/MM/dd")
+                                oRow("MSG") = "車検" & WW_days & "日前"
+                                oTbl.Rows.Add(oRow)
+                            End If
+                        End If
+                    End If
+                End If
+                '容器チェック
+                If iRow("INSKBN") = "1" Then
+                    If iRow("SHARYOTYPE") = "B" OrElse
+                       iRow("SHARYOTYPE") = "D" Then
+                        If IsDate(iRow("OTNKTINSNYMD")) Then
+                            If iRow("OTNKTINSNYMD") <> C_DEFAULT_YMD Then
+                                Dim WW_days As String = DateDiff("d", Date.Now, CDate(iRow("OTNKTINSNYMD")))
+                                If CDate(iRow("OTNKTINSNYMD")) < Date.Now Then
+                                    '容器検査切れ
+                                    oRow = oTbl.NewRow()
+                                    oRow.ItemArray = iRow.ItemArray
+                                    oRow("SORTYMD") = CDate(iRow("OTNKTINSNYMD")).ToString("yyyy/MM/dd")
+                                    oRow("MSG") = "石油気密検査切れ"
+                                    oTbl.Rows.Add(oRow)
+                                ElseIf CDate(iRow("OTNKTINSNYMD")).AddMonths(-2) < Date.Now Then
+                                    '2カ月前から警告
+                                    oRow = oTbl.NewRow()
+                                    oRow.ItemArray = iRow.ItemArray
+                                    oRow("SORTYMD") = CDate(iRow("OTNKTINSNYMD")).ToString("yyyy/MM/dd")
+                                    oRow("MSG") = "石油気密検査" & WW_days & "日前"
+                                    oTbl.Rows.Add(oRow)
+                                End If
+                            End If
+                        End If
+                    End If
+                ElseIf iRow("INSKBN") = "2" Then
+                    If iRow("SHARYOTYPE") = "B" OrElse
+                       iRow("SHARYOTYPE") = "D" Then
+                        If IsDate(iRow("HPRSINSNYMD")) Then
+                            If iRow("HPRSINSNYMD") <> C_DEFAULT_YMD Then
+                                Dim WW_days As String = DateDiff("d", Date.Now, CDate(iRow("HPRSINSNYMD")))
+                                If CDate(iRow("HPRSINSNYMD")) < Date.Now Then
+                                    '容器検査切れ
+                                    oRow = oTbl.NewRow()
+                                    oRow.ItemArray = iRow.ItemArray
+                                    oRow("SORTYMD") = CDate(iRow("HPRSINSNYMD")).ToString("yyyy/MM/dd")
+                                    oRow("MSG") = "高圧容器再検査切れ"
+                                    oTbl.Rows.Add(oRow)
+                                ElseIf CDate(iRow("HPRSINSNYMD")).AddMonths(-2) < Date.Now Then
+                                    '2カ月前から警告
+                                    oRow = oTbl.NewRow()
+                                    oRow.ItemArray = iRow.ItemArray
+                                    oRow("SORTYMD") = CDate(iRow("HPRSINSNYMD")).ToString("yyyy/MM/dd")
+                                    oRow("MSG") = "高圧容器再検査" & WW_days & "日前"
+                                    oTbl.Rows.Add(oRow)
+                                End If
+                            End If
+                        End If
+                    End If
+                End If
+            Next
+
+            'ソート
+            Dim WW_TBLview As DataView
+            WW_TBLview = New DataView(oTbl)
+            WW_TBLview.Sort = "SORTYMD, SHARYOTYPE, TSHABAN"
+            oTbl = WW_TBLview.ToTable
+
+            For Each wRow As DataRow In oTbl.Rows
+                WF_Guidance.Text = WF_Guidance.Text & "・"
+                WF_Guidance.Text = WF_Guidance.Text & wRow("MSG")
+                WF_Guidance.Text = WF_Guidance.Text & " （"
+                WF_Guidance.Text = WF_Guidance.Text & wRow("LICNPLTNO1")
+                WF_Guidance.Text = WF_Guidance.Text & wRow("LICNPLTNO2")
+                WF_Guidance.Text = WF_Guidance.Text & " "
+                WF_Guidance.Text = WF_Guidance.Text & wRow("SHARYOTYPE")
+                WF_Guidance.Text = WF_Guidance.Text & wRow("TSHABAN")
+                WF_Guidance.Text = WF_Guidance.Text & " "
+                WF_Guidance.Text = WF_Guidance.Text & wRow("SORTYMD")
+                WF_Guidance.Text = WF_Guidance.Text & "）"
+                WF_Guidance.Text = WF_Guidance.Text & "<br />"
+            Next
+            If oTbl.Rows.Count > 0 Then
+                WF_Guidance.Text = WF_Guidance.Text & "<br />"
+            End If
+
+            WW_TBLview.Dispose()
+            WW_TBLview = Nothing
+
+            iTbl.Dispose()
+            iTbl = Nothing
+
+            oTbl.Dispose()
+            oTbl = Nothing
+        Catch ex As Exception
+            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "S0012_SRVAUTHOR SELECT")
+            CS0011LOGWRITE.INFSUBCLASS = "GetSHARYOC"                   'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "DB:S0012_SRVAUTHOR SELECT"          '
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT                                  '
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+            O_RTN = C_MESSAGE_NO.DB_ERROR
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 従業員マスタ取得  
+    ''' </summary>
+    ''' <param name="I_USERID">ユーザーID</param>
+    ''' <param name="O_CAMP">会社コード</param>
+    ''' <param name="O_ORG">部署</param>
+    ''' <param name="O_RTN">結果</param>
+    ''' <remarks>
+    ''' <para>ログインユーザーの会社コードと所属部署を取得</para>
+    ''' </remarks>
+    Private Sub GetSTAFF(ByVal I_USERID As String, ByRef O_CAMP As String, ByRef O_ORG As String, ByRef O_RTN As String)
+        Dim CS0009MESSAGEout As New CS0009MESSAGEout        'Message out
+        Dim CS0011LOGWRITE As New CS0011LOGWrite            'LogOutput DirString Get
+        Dim GS0007FIXVALUElst As New GS0007FIXVALUElst      'FIXVALUE Get
+
+        '○ ユーザ
+        Try
+            O_RTN = C_MESSAGE_NO.NORMAL
+            O_CAMP = ""
+            O_ORG = ""
+
+            Dim SQLStr As String =
+                     " SELECT            " _
+                   & "        CAMPCODE   " _
+                   & "       ,ORG        " _
+                   & " FROM   S0004_USER " _
+                   & " WHERE                                                                                                 " _
+                   & "         USERID    = @P01 " _
+                   & "   and   STYMD    <= @P02 " _
+                   & "   and   ENDYMD   >= @P02 " _
+                   & "   and   DELFLG   <> @P03 "
+
+            'DataBase接続文字
+            Using SQLcon As SqlConnection = CS0050Session.getConnection
+                SQLcon.Open() 'DataBase接続(Open)
+
+                Using SQLcmd As New SqlCommand(SQLStr, SQLcon)
+                    Dim PARA1 As SqlParameter = SQLcmd.Parameters.Add("@P01", System.Data.SqlDbType.NVarChar, 20)
+                    Dim PARA2 As SqlParameter = SQLcmd.Parameters.Add("@P02", System.Data.SqlDbType.Date)
+                    Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P03", System.Data.SqlDbType.NVarChar, 1)
+
+                    PARA1.Value = I_USERID
+                    PARA2.Value = Date.Now
+                    PARA3.Value = C_DELETE_FLG.DELETE
+
+                    Dim SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
+                    If SQLdr.Read Then
+                        O_CAMP = SQLdr("CAMPCODE")
+                        O_ORG = SQLdr("ORG")
+                    End If
+
+                    'Close
+                    SQLdr.Close() 'Reader(Close)
+                    SQLdr = Nothing
+
+                End Using
+            End Using
+
+        Catch ex As Exception
+            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "S0004_USER SELECT")
+            CS0011LOGWRITE.INFSUBCLASS = "GetSTAFF"                   'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "DB:S0004_USER SELECT"           '
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT               '
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+            O_RTN = C_MESSAGE_NO.DB_ERROR
+        End Try
 
     End Sub
 

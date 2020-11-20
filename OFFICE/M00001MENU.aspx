@@ -63,9 +63,43 @@
             </asp:Repeater>
           </a>
 
-            <a hidden="hidden">
-                <input id="WF_ButtonClick" runat="server" value=""  type="text" />        <!-- ボタン押下 -->
-            </a>
+          <a hidden="hidden">
+              <input id="WF_ButtonClick" runat="server" value=""  type="text" />        <!-- ボタン押下 -->
+              <asp:TextBox ID="WF_TERMID" runat="server"></asp:TextBox>               <!-- 端末ID　 -->
+              <asp:TextBox ID="WF_TERMCAMP" runat="server"></asp:TextBox>             <!-- 端末会社　 -->
+          </a>
+        </div>
+        <div id="msgbox" class="msgbox">
+            <table id="warnningbox" class="warnningbox" style="width:100%">
+                <tr>
+                    <td style="width:2em;">
+                        <input type="button" id="WF_WARNNING" class="ZoomBtn" runat="server" value="◀ 車検、気密検査、容器検査" onclick="OpenClose();"/>
+                    </td>
+                    <td style="width:100%;text-align:right" >
+                        <input type="button" class="UpdBtn" id="Button1" runat="server" value="🔄更新" arighn="right" onclick="ButtonClick('WF_WARNNING');" />
+                    </td>
+                </tr>
+            </table>
+            <div id="guidancebox" class="guidancebox">
+                <span>
+                    <asp:Label ID="WF_Guidance" runat="server" Text=""></asp:Label><br />
+                </span>
+            </div> 
+            <table id="guidbox" class="guidbox" style="width:100%">
+                <tr>
+                    <td style="width:2em;">
+                        <input type="button" id="WF_GUID" class="ZoomBtn" runat="server" value="◀ 運用ガイダンス" onclick="OpenClose();"/>
+                    </td>
+                    <td style="width:100%;text-align:right">
+                        <input type="button" class="UpdBtn" id="Button2" runat="server" value="🔄更新" arighn="right" onclick="ButtonClick('WF_GUID');" />
+                    </td>
+                </tr>
+            </table> 
+            <div id="onlinestatbox" class="onlinestatbox">
+                <span>
+                    <asp:Label ID="WF_OnlineStat" runat="server" Text=""></asp:Label><br />
+                </span>
+            </div> 
         </div>
             <!-- Work レイアウト -->
         <LSINC:work id="work" runat="server" />

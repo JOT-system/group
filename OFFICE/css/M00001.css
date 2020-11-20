@@ -16,93 +16,182 @@ a:link { color: red; }		-->  <a href="..."> のリンク(未訪問)に対して�
  擬似フレーム　スタイル定義
 ------------------------------ */
 
-    #Menuheaderbox {
-        width:auto; 
-        top:2.4em;
-        bottom:1.4em;
-        position:fixed;
-        left:0px; 
-        right:0px; 
+#Menuheaderbox {
+    width:auto; 
+    top:2.4em;
+    bottom:1.4em;
+    position:fixed;
+    left:0px; 
+    right:0px; 
 
-        overflow:hidden;
-       	background-color: rgb(220,230,240); 
-    }
+    overflow:hidden;
+    background-color: rgb(220,230,240); 
+}
         
-    #Menu_L{
-        height:auto; 
-        width:33em;
+#Menu_L{
+    height:auto; 
+    width:30em;
 
-        position:fixed;
-        margin: 5px 0px 0px 0px;
-        left:7em;
-        /*overflow-y:auto;*/
+    position:fixed;
+    margin: 5px 0px 0px 0px;
+    left:2em;
+    /*overflow-y:auto;*/
 }
 
-    #Menu_R{
-        height:auto; 
-        width:33em;
+#Menu_R{
+    height:auto; 
+    width:30em;
 
-        position:fixed;
-        margin: 5px 0px 0px 0px;
-        left:41em;
-        /*overflow-y:auto;*/
-    }
+    position:fixed;
+    margin: 5px 0px 0px 0px;
+    left:30em;
+    /*overflow-y:auto;*/
+}
 
 
-    .WF_MenuLabel_L{
-        height:2em;
-        width:30em;
+.WF_MenuLabel_L{
+    height:2em;
+    width:28em;
 
-        position:relative;
-        left:0em;
-        overflow:hidden;
+    position:relative;
+    left:0em;
+    overflow:hidden;
 
-        color:black;
-        font-weight:bold;
-        vertical-align:middle;
-        text-align:left;
-    }
+    color:black;
+    font-weight:bold;
+    vertical-align:middle;
+    text-align:left;
+}
 
-    .WF_MenuButton_L{
-        height:1.8em;
-        width:30em;
+.WF_MenuButton_L{
+    height:1.8em;
+    width:28em;
          
-        position:relative;
-        left:2em;
-        overflow:hidden;
+    position:relative;
+    left:2em;
+    overflow:hidden;
 
-        color:black;
-        border:none;
-        background-color:gray;
-        vertical-align:middle;
-        text-align:left;
-    }
+    color:black;
+    border:none;
+    background-color:gray;
+    vertical-align:middle;
+    text-align:left;
+}
 
-    .WF_MenuLabel_R{
-        height:1.8em;
-        width:30em;
+.WF_MenuLabel_R{
+    height:1.8em;
+    width:28em;
 
-        position:relative;
-        left:0em;
-        overflow:hidden;
+    position:relative;
+    left:0em;
+    overflow:hidden;
 
-        color:black;
-        font-weight:bold;
-        vertical-align:middle;
-        text-align:left;
-    }
+    color:black;
+    font-weight:bold;
+    vertical-align:middle;
+    text-align:left;
+}
 
-    .WF_MenuButton_R{
-        height:2em;
-        width:30em;
+.WF_MenuButton_R{
+    height:2em;
+    width:28em;
 
-        position:relative;
-        left:2em;
-        overflow:hidden;
+    position:relative;
+    left:2em;
+    overflow:hidden;
 
-        color:black;
-        border:none;
-        background-color:gray;
-        vertical-align:middle;
-        text-align:left;
-    }
+    color:black;
+    border:none;
+    background-color:gray;
+    vertical-align:middle;
+    text-align:left;
+}
+
+/* インフォメーション表示画面（右端）　*/
+.msgbox {
+    top: 2.7em;
+    bottom: 1.4em;
+    right:2em;
+    position: fixed;
+    left: 60em;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: rgb(220,230,240);
+}
+.msgboxZoom {
+    top: 2.7em;
+    bottom: 1.4em;
+    right: 2em;
+    position: fixed;
+    left: 45em;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: rgb(220,230,240);
+}
+
+/* 拡張ボタン　*/
+.ZoomBtn {
+    font-size:15px;
+    border:none;
+    background-color: transparent;
+}
+
+/* 更新ボタン　*/
+.UpdBtn {
+    font-size: 15px;
+    border: none;
+    background-color: transparent;
+}
+
+/* マウスオーバー時、赤色　*/
+.UpdBtn:hover {
+    color: red;
+}
+
+/*車検、気密検査、容器検査*/
+.warnningbox {
+    top: 0.5em;
+    left: 0em;
+    white-space: nowrap;
+}
+.guidancebox {
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    height: 20em;
+    background-color: white;
+    border: inset;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+.guidancebox span {
+    font-size: small;
+    color: red;
+    background-color: white;
+    white-space: nowrap;
+}
+
+/*運用ガイダンス*/
+.guidbox {
+    top: 2em;
+    left: 0em;
+    white-space: nowrap;
+}
+
+.onlinestatbox {
+    top: 0em;
+    left: 0em;
+    right: 0em;
+    height: 10em;
+    background-color: white;
+    border: inset;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.onlinestatbox span {
+    font-size: small;
+    color: red;
+    background-color: white;
+    white-space: nowrap;
+}

@@ -10,27 +10,32 @@
         <!-- LOGON　TOPbox -->
         <div id="logonbox" class="logonbox">
             <div class="Operation" >
-                <span>
-                    <input type="button" id="OK" value="実行"  style="Width:5em" onclick="ButtonClick('WF_ButtonOK');" />
-                </span>
-            </div>
-            <div id="logonkeybox" class="logonkeybox">
-                <p class="LINE_1">
+                <div id="logonkeybox" class="logonkeybox">
+                    <p class="LINE_1">
+                        <span>
+                            <asp:Label ID="UserName" runat="server" Text="ユーザＩＤ" Width="100px" Font-Bold="True" BorderStyle="NotSet"></asp:Label>
+                        </span>
+                        <span>
+                            <asp:TextBox ID="UserID" runat="server" Width="120pt"></asp:TextBox>
+                        </span>
+                    </p>
+                    <p class="LINE_2">
                     <span>
-                        <asp:Label ID="UserName" runat="server" Text="ユーザＩＤ" Width="100px" Font-Bold="True" BorderStyle="NotSet"></asp:Label>
+                        <asp:Label ID="PassName" runat="server" Text="パスワード" Width="100px" Font-Bold="True"></asp:Label>
                     </span>
                     <span>
-                        <asp:TextBox ID="UserID" runat="server" Width="120pt"></asp:TextBox>
+                        <asp:TextBox ID="PassWord" runat="server" Width="120pt" TextMode="Password"></asp:TextBox>
                     </span>
-                </p>
-                <p class="LINE_2">
-                <span>
-                    <asp:Label ID="PassName" runat="server" Text="パスワード" Width="100px" Font-Bold="True"></asp:Label>
-                </span>
-                <span>
-                    <asp:TextBox ID="PassWord" runat="server" Width="120pt" TextMode="Password"></asp:TextBox>
-                </span>
-                </p>
+                    </p>
+                    <p class="LINE_3">
+                        <span>
+                            <asp:Label ID="Label1" runat="server" Text="" Width="100px" Font-Bold="True"></asp:Label>
+                        </span>
+                        <span>
+                            <input type="button" id="OK" value="実行"  style="Width:12em" onclick="ButtonClick('WF_ButtonOK');" />
+                        </span>
+                    </p>
+                </div>
             </div>
             <div id="guidancebox" class="guidancebox">
                 <span>
