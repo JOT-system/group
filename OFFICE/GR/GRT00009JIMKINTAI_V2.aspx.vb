@@ -7593,6 +7593,7 @@ Public Class GRT00009JIMKINTAI_V2
             Case GRT00009WRKINC_V2.CAMP_KNK        '近石
                 WF_NENMATUNISSUTTL_L.Visible = False            '年末出勤日非表示
                 WF_NENMATUNISSUTTL.Visible = False
+                WF_NENSHINISSUTTL_L.Text = "年 末 年 始"
                 WF_SHUKCHOKNNISSUTTL_L.Text = "宿日直年始"
                 WF_SHUKCHOKNISSUTTL_L.Text = "宿日直通常"
                 WF_SHUKCHOKNHLDNISSUTTL_L.Visible = False       '宿日直年始(翌日休み)非表示
