@@ -3,9 +3,23 @@
 }
 
 #detailbox {
-    top:16.0em;
+    top:21.0em;
 }
 
+#timebox td {
+    width: 4.2em;
+    border-color: white;
+    border: 1px solid;
+}
+#timebox table {
+    border: 1px solid;
+    font-size: 12.8px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
 
 #pnlListArea {
     margin-left:0.7em;
@@ -22,4 +36,8 @@ div[data-generated='1'] td {
 
 #detailbox {
     background-color: rgb(220, 230, 240) !important;
+}
+
+a.disabled {
+    pointer-events: none;
 }

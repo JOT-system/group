@@ -163,4 +163,73 @@ Public Class GRT00008WRKINC
     '    Return prmData
     'End Function
 
+    ''' <summary>
+    ''' 職務区分パラメーター
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function CreateStaffKbnParam(ByVal I_COMPCODE As String) As Hashtable
+
+        Dim prmData As New Hashtable
+        Dim StaffKbnList As New ListBox
+        Dim SQLcon = CS0050SESSION.getConnection()
+        SQLcon.Open()
+        Dim SQLcmd As New SqlCommand()
+        Dim SQLdr As SqlDataReader = Nothing
+        Dim PARA(10) As SqlParameter
+        Dim SQLStr As New StringBuilder
+
+        '○ 職務区分リストボックス作成
+        Try
+
+            '検索SQL文
+            SQLStr.AppendLine(" SELECT rtrim(KEYCODE) as KEYCODE    ")
+            SQLStr.AppendLine("       ,rtrim(VALUE1)  as VALUE1     ")
+            SQLStr.AppendLine(" FROM  MC001_FIXVALUE                ")
+            SQLStr.AppendLine(" Where CAMPCODE  = @P1               ")
+            SQLStr.AppendLine("   and CLASS     = @P2               ")
+            SQLStr.AppendLine("   and STYMD    <= @P3               ")
+            SQLStr.AppendLine("   and ENDYMD   >= @P4               ")
+            SQLStr.AppendLine("   and DELFLG   <> @P5               ")
+            SQLStr.AppendLine("   and KEYCODE LIKE '03%'        ")
+            SQLStr.AppendLine("ORDER BY KEYCODE                     ")
+
+            SQLcmd = New SqlCommand(SQLStr.ToString, SQLcon)
+            PARA(1) = SQLcmd.Parameters.Add("@P1", System.Data.SqlDbType.NVarChar)
+            PARA(2) = SQLcmd.Parameters.Add("@P2", System.Data.SqlDbType.NVarChar)
+            PARA(3) = SQLcmd.Parameters.Add("@P3", System.Data.SqlDbType.Date)
+            PARA(4) = SQLcmd.Parameters.Add("@P4", System.Data.SqlDbType.Date)
+            PARA(5) = SQLcmd.Parameters.Add("@P5", System.Data.SqlDbType.NVarChar)
+            PARA(1).Value = I_COMPCODE
+            PARA(2).Value = "STAFFKBN"
+            PARA(3).Value = Date.Now
+            PARA(4).Value = Date.Now
+            PARA(5).Value = C_DELETE_FLG.DELETE
+
+            SQLdr = SQLcmd.ExecuteReader()
+
+            While SQLdr.Read
+                StaffKbnList.Items.Add(New ListItem(SQLdr("VALUE1"), SQLdr("KEYCODE")))
+            End While
+
+            prmData.Item(C_PARAMETERS.LP_LIST) = StaffKbnList
+
+        Finally
+            If Not IsNothing(SQLdr) Then
+                SQLdr.Close()
+                SQLdr = Nothing
+            End If
+
+            SQLcmd.Dispose()
+            SQLcmd = Nothing
+
+            SQLcon.Close()
+            SQLcon.Dispose()
+            SQLcon = Nothing
+        End Try
+
+        CreateStaffKbnParam = prmData
+
+    End Function
+
 End Class

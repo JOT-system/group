@@ -164,7 +164,9 @@
     <Content Include="GR\css\T00008.css" />
     <Content Include="GR\css\T00008S.css" />
     <Content Include="GR\css\T00009.css" />
+    <Content Include="GR\css\T00013S.css" />
     <Content Include="GR\css\T00009S.css" />
+    <Content Include="GR\css\T00013.css" />
     <Content Include="GR\css\T00009_V2.css" />
     <Content Include="GR\css\T00011.css" />
     <Content Include="GR\css\T00011S.css" />
@@ -303,8 +305,10 @@
     <Content Include="GR\GRT00007SELECT.aspx" />
     <Content Include="GR\GRT00008KINTAISTAT.aspx" />
     <Content Include="GR\GRT00008SELECT.aspx" />
+    <Content Include="GR\GRT00013TIMEMANAGE.aspx" />
     <Content Include="GR\GRT00009JIMKINTAI.aspx" />
     <Content Include="GR\GRT00009JIMKINTAI_V2.aspx" />
+    <Content Include="GR\GRT00013SELECT.aspx" />
     <Content Include="GR\GRT00009SELECT.aspx" />
     <Content Include="GR\GRT00010APPROVE.aspx" />
     <Content Include="GR\GRT00010SELECT.aspx" />
@@ -358,6 +362,7 @@
     <Content Include="GR\inc\GRT00007WRKINC_V2.ascx" />
     <Content Include="GR\inc\GRT00007WRKINC.ascx" />
     <Content Include="GR\inc\GRT00008WRKINC.ascx" />
+    <Content Include="GR\inc\GRT00013WRKINC.ascx" />
     <Content Include="GR\inc\GRT00009WRKINC_V2.ascx" />
     <Content Include="GR\inc\GRT00009WRKINC.ascx" />
     <Content Include="GR\inc\GRT00011WRKINC.ascx" />
@@ -464,6 +469,8 @@
     <Content Include="GR\script\T00008.js" />
     <Content Include="GR\script\T00008S.js" />
     <Content Include="GR\script\T00009.js" />
+    <Content Include="GR\script\T00013.js" />
+    <Content Include="GR\script\T00013S.js" />
     <Content Include="GR\script\T00009S.js" />
     <Content Include="GR\script\T00009_V2.js" />
     <Content Include="GR\script\T00011.js" />
@@ -1162,6 +1169,13 @@
     </Compile>
     <Compile Include="GR\GRT00009COM_V2.vb" />
     <Compile Include="GR\GRT00009COM.vb" />
+    <Compile Include="GR\GRT00013TIMEMANAGE.aspx.designer.vb">
+      <DependentUpon>GRT00013TIMEMANAGE.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRT00013TIMEMANAGE.aspx.vb">
+      <DependentUpon>GRT00013TIMEMANAGE.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="GR\GRT00009JIMKINTAI.aspx.designer.vb">
       <DependentUpon>GRT00009JIMKINTAI.aspx</DependentUpon>
     </Compile>
@@ -1174,6 +1188,13 @@
     </Compile>
     <Compile Include="GR\GRT00009JIMKINTAI_V2.aspx.vb">
       <DependentUpon>GRT00009JIMKINTAI_V2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\GRT00013SELECT.aspx.designer.vb">
+      <DependentUpon>GRT00013SELECT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRT00013SELECT.aspx.vb">
+      <DependentUpon>GRT00013SELECT.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GR\GRT00009SELECT.aspx.designer.vb">
@@ -1545,6 +1566,13 @@
     </Compile>
     <Compile Include="GR\inc\GRT00008WRKINC.ascx.vb">
       <DependentUpon>GRT00008WRKINC.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\inc\GRT00013WRKINC.ascx.designer.vb">
+      <DependentUpon>GRT00013WRKINC.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\inc\GRT00013WRKINC.ascx.vb">
+      <DependentUpon>GRT00013WRKINC.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GR\inc\GRT00009WRKINC_V2.ascx.designer.vb">

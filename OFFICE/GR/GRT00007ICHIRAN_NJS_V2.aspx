@@ -59,7 +59,7 @@
                 <asp:Label ID="WF_NIPPO_TO_LABEL" runat="server" Text="日" Height="1.0em"  Font-Underline="false"></asp:Label>
             </a>
             <a style="position:fixed;top:4.3em;left:28.5em;">
-                <input type="button" id="WF_ButtonNIPPO" value="日報一括取込" style="width:7em" onclick="ButtonClick('WF_ButtonNIPPO');" />
+                <input type="button" id="WF_ButtonNIPPO" value="一括取込" style="width:7em" onclick="ButtonClick('WF_ButtonNIPPO');" />
             </a>
             <a style="position:fixed;top:4.3em;left:35em;">
                 <input type="button" id="WF_ButtonCALC" value="一括残業計算"  style="width:7em" onclick="ButtonClick('WF_ButtonCALC');" />

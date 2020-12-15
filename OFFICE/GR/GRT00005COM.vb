@@ -5703,6 +5703,436 @@ Public Class GRT0005UPDATE
 End Class
 
 ''' <summary>
+''' 休憩・配送時刻ＤＢ更新
+''' </summary>
+''' <remarks></remarks>
+Public Class GRT0013UPDATE
+
+    '統計DB出力dll Interface
+    ''' <summary>
+    ''' DB接続情報
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property SQLcon As SqlConnection                                   'DB接続文字列
+    ''' <summary>
+    ''' トランザクション
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property SQLtrn As SqlTransaction                                  'トランザクション
+    ''' <summary>
+    ''' 日報情報テーブル
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property T0005tbl As DataTable                                     '日報テーブル
+    ''' <summary>
+    ''' 更新ユーザID
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property UPDUSERID As String                                       '更新ユーザID
+    ''' <summary>
+    ''' 更新端末ID
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property UPDTERMID As String                                       '更新端末ID
+    ''' <summary>
+    ''' エラーコード
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property ERR As String                                             'リターン値
+    ''' <summary>
+    ''' ログ出力クラス
+    ''' </summary>
+    Private CS0011LOGWRITE As New CS0011LOGWrite                              'LogOutput DirString Get
+    ''' <summary>
+    ''' テーブルソート
+    ''' </summary>
+    Private CS0026TblSort As New CS0026TBLSORT                                'テーブルソート
+
+    ''' <summary>
+    ''' 休憩・配送時間テーブル更新処理
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Sub Update()
+        Dim T0005COM As New GRT0005COM
+        Dim WW_T5tbl As DataTable = New DataTable
+        Dim WW_T5HeadTbl As DataTable = New DataTable
+        Dim WW_T5BBTbl As DataTable = New DataTable
+        Dim WW_T5G1Tbl As DataTable = New DataTable
+        Dim WW_DATENOW As DateTime = Date.Now
+        Try
+            ERR = C_MESSAGE_NO.NORMAL
+
+            '更新SQL文･･･マスタへ更新
+            Dim WW_T0013UPDtbl As New DataTable
+            Dim WW_T0013UPDrow As DataRow = Nothing
+
+            '----------------------------------------------------------------------------------------------------
+            '休憩・配送時間テーブル追加
+            '----------------------------------------------------------------------------------------------------
+            CS0026TblSort.TABLE = T0005tbl
+            CS0026TblSort.FILTER = "OPERATION = '更新' and SELECT = '1' and HDKBN = 'H'"
+            CS0026TblSort.SORTING = "SELECT, YMD, STAFFCODE"
+            WW_T5HeadTbl = CS0026TblSort.Sort()
+
+            AddColumnT0013UPDtbl(WW_T0013UPDtbl)
+
+            Dim OLD_YMD As String = ""
+            Dim OLD_STAFF As String = ""
+            Dim WW_BBcnt As Integer = 0
+            Dim WW_G1cnt As Integer = 0
+            Dim WW_TTLTIME As Integer = 0
+
+            '休憩時間取得編集
+            For Each HEADrow As DataRow In WW_T5HeadTbl.Rows
+                '休憩レコード抽出
+                CS0026TblSort.TABLE = T0005tbl
+                CS0026TblSort.FILTER = "OPERATION = '更新' and SELECT = '1' and WORKKBN = 'BB' and STAFFCODE = '" & HEADrow("STAFFCODE") & "' and YMD = '" & HEADrow("YMD") & "'"
+                CS0026TblSort.SORTING = "SELECT, YMD, STAFFCODE, STDATE, STTIME, ENDDATE, ENDTIME"
+                WW_T5BBTbl = CS0026TblSort.Sort()
+                '配送レコード抽出
+                CS0026TblSort.TABLE = T0005tbl
+                CS0026TblSort.FILTER = "OPERATION = '更新' and SELECT = '1' and WORKKBN = 'G1' and STAFFCODE = '" & HEADrow("STAFFCODE") & "' and YMD = '" & HEADrow("YMD") & "'"
+                CS0026TblSort.SORTING = "SELECT, YMD, STAFFCODE, STDATE, STTIME, ENDDATE, ENDTIME"
+                WW_T5G1Tbl = CS0026TblSort.Sort()
+
+                '休憩時間取得
+                WW_BBcnt = 0
+                WW_TTLTIME = 0
+                If WW_T5BBTbl.Rows.Count > 0 Then
+                    WW_T0013UPDrow = WW_T0013UPDtbl.NewRow
+                End If
+                For Each BBrow As DataRow In WW_T5BBTbl.Rows
+                    WW_T0013UPDrow("CAMPCODE") = BBrow("CAMPCODE")
+                    WW_T0013UPDrow("TAISHOYM") = Mid(BBrow("YMD"), 1, 7)
+                    WW_T0013UPDrow("STAFFCODE") = BBrow("STAFFCODE")
+                    WW_T0013UPDrow("WORKDATE") = BBrow("YMD")
+                    WW_T0013UPDrow("WORKKBN") = BBrow("WORKKBN")
+                    WW_BBcnt += 1
+                    Dim WW_STTIME As String = "STTIME" & WW_BBcnt.ToString("00")
+                    Dim WW_ENDTIME As String = "ENDTIME" & WW_BBcnt.ToString("00")
+                    WW_T0013UPDrow(WW_STTIME) = BBrow("STTIME")
+                    WW_T0013UPDrow(WW_ENDTIME) = BBrow("ENDTIME")
+                    WW_TTLTIME += T0005COM.HHMMToMinutes(BBrow("WORKTIME"))
+                Next
+                If WW_BBcnt > 0 Then
+                    For cnt As Integer = WW_BBcnt + 1 To 10
+                        Dim WW_STTIME As String = "STTIME" & cnt.ToString("00")
+                        Dim WW_ENDTIME As String = "ENDTIME" & cnt.ToString("00")
+                        WW_T0013UPDrow(WW_STTIME) = "00:00"
+                        WW_T0013UPDrow(WW_ENDTIME) = "00:00"
+                    Next
+                    WW_T0013UPDrow("TTLTIME") = WW_TTLTIME
+                    If WW_TTLTIME = 0 Then
+                        WW_T0013UPDrow("DELFLG") = C_DELETE_FLG.DELETE                                  '削除フラグ
+                    Else
+                        WW_T0013UPDrow("DELFLG") = C_DELETE_FLG.ALIVE                                   '削除フラグ
+                    End If
+                    WW_T0013UPDrow("INITYMD") = WW_DATENOW
+                    WW_T0013UPDrow("UPDYMD") = WW_DATENOW
+                    WW_T0013UPDtbl.Rows.Add(WW_T0013UPDrow)
+                End If
+
+                '配送時間取得
+                WW_G1cnt = 0
+                WW_TTLTIME = 0
+                If WW_T5G1Tbl.Rows.Count > 0 Then
+                    WW_T0013UPDrow = WW_T0013UPDtbl.NewRow
+                End If
+                For Each G1row As DataRow In WW_T5G1Tbl.Rows
+                    WW_T0013UPDrow("CAMPCODE") = G1row("CAMPCODE")
+                    WW_T0013UPDrow("TAISHOYM") = Mid(G1row("YMD"), 1, 7)
+                    WW_T0013UPDrow("STAFFCODE") = G1row("STAFFCODE")
+                    WW_T0013UPDrow("WORKDATE") = G1row("YMD")
+                    WW_T0013UPDrow("WORKKBN") = G1row("WORKKBN")
+                    WW_G1cnt += 1
+                    Dim WW_STTIME As String = "STTIME" & WW_G1cnt.ToString("00")
+                    Dim WW_ENDTIME As String = "ENDTIME" & WW_G1cnt.ToString("00")
+                    WW_T0013UPDrow(WW_STTIME) = G1row("STTIME")
+                    WW_T0013UPDrow(WW_ENDTIME) = G1row("ENDTIME")
+                    WW_TTLTIME += T0005COM.HHMMToMinutes(G1row("WORKTIME"))
+                Next
+                If WW_G1cnt > 0 Then
+                    For cnt As Integer = WW_G1cnt + 1 To 10
+                        Dim WW_STTIME As String = "STTIME" & cnt.ToString("00")
+                        Dim WW_ENDTIME As String = "ENDTIME" & cnt.ToString("00")
+                        WW_T0013UPDrow(WW_STTIME) = "00:00"
+                        WW_T0013UPDrow(WW_ENDTIME) = "00:00"
+                    Next
+                    WW_T0013UPDrow("TTLTIME") = WW_TTLTIME
+                    If WW_TTLTIME = 0 Then
+                        WW_T0013UPDrow("DELFLG") = C_DELETE_FLG.DELETE                                  '削除フラグ
+                    Else
+                        WW_T0013UPDrow("DELFLG") = C_DELETE_FLG.ALIVE                                   '削除フラグ
+                    End If
+
+                    WW_T0013UPDrow("INITYMD") = WW_DATENOW
+                    WW_T0013UPDrow("UPDYMD") = WW_DATENOW
+                    WW_T0013UPDtbl.Rows.Add(WW_T0013UPDrow)
+                End If
+            Next
+
+            'DB更新
+            For Each T13row As DataRow In WW_T0013UPDtbl.Rows
+                UpdateT0013(T13row, ERR)
+                If Not isNormal(ERR) Then
+                    Exit Sub
+                End If
+            Next
+
+            WW_T0013UPDtbl.Dispose()
+            WW_T0013UPDtbl = Nothing
+            WW_T5tbl.Dispose()
+            WW_T5tbl = Nothing
+
+        Catch ex As Exception
+            'SQLtrn.Rollback()
+            ERR = C_MESSAGE_NO.SYSTEM_ADM_ERROR
+            CS0011LOGWRITE.INFSUBCLASS = "T0013UPDATE"                  'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "例外発生"                         '
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = ERR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+            Exit Sub
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' 休憩・配送時間テーブル登録処理
+    ''' </summary>
+    ''' <param name="I_ROW"></param>
+    ''' <remarks></remarks>
+    Public Sub UpdateT0013(ByVal I_ROW As DataRow, ByRef O_RTN As String)
+
+        Try
+            O_RTN = C_MESSAGE_NO.NORMAL
+
+            '日報ＤＢ更新
+            Dim SQLStr As String =
+                          " DECLARE @hensuu as bigint ; " _
+                        & " set @hensuu = 0 ; " _
+                        & " DECLARE hensuu CURSOR FOR " _
+                        & "   SELECT CAST(UPDTIMSTP as bigint) as hensuu  " _
+                        & "     FROM T0013_TIMEMANAGE " _
+                        & " WHERE CAMPCODE     = @P01 " _
+                        & "  and TAISHOYM      = @P02 " _
+                        & "  and STAFFCODE     = @P03 " _
+                        & "  and WORKDATE      = @P04 " _
+                        & "  and WORKKBN       = @P05 " _
+                        & " OPEN hensuu ; " _
+                        & " FETCH NEXT FROM hensuu INTO @hensuu ; " _
+                        & " IF ( @@FETCH_STATUS = 0 ) " _
+                        & "    UPDATE T0013_TIMEMANAGE " _
+                        & "    SET STTIME01    = @P06 " _
+                        & "      , ENDTIME01   = @P07 " _
+                        & "      , STTIME02    = @P08 " _
+                        & "      , ENDTIME02   = @P09 " _
+                        & "      , STTIME03    = @P10 " _
+                        & "      , ENDTIME03   = @P11 " _
+                        & "      , STTIME04    = @P12 " _
+                        & "      , ENDTIME04   = @P13 " _
+                        & "      , STTIME05    = @P14 " _
+                        & "      , ENDTIME05   = @P15 " _
+                        & "      , STTIME06    = @P16 " _
+                        & "      , ENDTIME06   = @P17 " _
+                        & "      , STTIME07    = @P18 " _
+                        & "      , ENDTIME07   = @P19 " _
+                        & "      , STTIME08    = @P20 " _
+                        & "      , ENDTIME08   = @P21 " _
+                        & "      , STTIME09    = @P22 " _
+                        & "      , ENDTIME09   = @P23 " _
+                        & "      , STTIME10    = @P24 " _
+                        & "      , ENDTIME10   = @P25 " _
+                        & "      , TTLTIME     = @P26 " _
+                        & "      , DELFLG      = @P27 " _
+                        & "      , UPDYMD      = @P29 " _
+                        & "      , UPDUSER     = @P30 " _
+                        & "      , UPDTERMID   = @P31 " _
+                        & "      , RECEIVEYMD  = @P32  " _
+                        & " WHERE CAMPCODE     = @P01 " _
+                        & "  and TAISHOYM      = @P02 " _
+                        & "  and STAFFCODE     = @P03 " _
+                        & "  and WORKDATE      = @P04 " _
+                        & "  and WORKKBN       = @P05 " _
+                        & " IF ( @@FETCH_STATUS <> 0 ) " _
+                        & "    INSERT INTO T0013_TIMEMANAGE " _
+                        & "             (CAMPCODE , " _
+                        & "              TAISHOYM , " _
+                        & "              STAFFCODE , " _
+                        & "              WORKDATE , " _
+                        & "              WORKKBN , " _
+                        & "              STTIME01 , " _
+                        & "              ENDTIME01 , " _
+                        & "              STTIME02 , " _
+                        & "              ENDTIME02 , " _
+                        & "              STTIME03 , " _
+                        & "              ENDTIME03 , " _
+                        & "              STTIME04 , " _
+                        & "              ENDTIME04 , " _
+                        & "              STTIME05 , " _
+                        & "              ENDTIME05 , " _
+                        & "              STTIME06 , " _
+                        & "              ENDTIME06 , " _
+                        & "              STTIME07 , " _
+                        & "              ENDTIME07 , " _
+                        & "              STTIME08 , " _
+                        & "              ENDTIME08 , " _
+                        & "              STTIME09 , " _
+                        & "              ENDTIME09 , " _
+                        & "              STTIME10 , " _
+                        & "              ENDTIME10 , " _
+                        & "              TTLTIME , " _
+                        & "              DELFLG , " _
+                        & "              INITYMD , " _
+                        & "              UPDYMD , " _
+                        & "              UPDUSER ,  " _
+                        & "              UPDTERMID , " _
+                        & "              RECEIVEYMD ) " _
+                        & "      VALUES (@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10, " _
+                        & "              @P11,@P12,@P13,@P14,@P15,@P16,@P17,@P18,@P19,@P20, " _
+                        & "              @P21,@P22,@P23,@P24,@P25,@P26,@P27,@P28,@P29,@P30, " _
+                        & "              @P31,@P32); " _
+                        & " CLOSE hensuu ; " _
+                        & " DEALLOCATE hensuu ; "
+
+            Using SQLcmd As SqlCommand = New SqlCommand(SQLStr, SQLcon, SQLtrn)
+                Dim PARA01 As SqlParameter = SQLcmd.Parameters.Add("@P01", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@P02", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@P03", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@P04", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@P05", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA06 As SqlParameter = SQLcmd.Parameters.Add("@P06", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA07 As SqlParameter = SQLcmd.Parameters.Add("@P07", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA08 As SqlParameter = SQLcmd.Parameters.Add("@P08", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA09 As SqlParameter = SQLcmd.Parameters.Add("@P09", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA10 As SqlParameter = SQLcmd.Parameters.Add("@P10", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA11 As SqlParameter = SQLcmd.Parameters.Add("@P11", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA12 As SqlParameter = SQLcmd.Parameters.Add("@P12", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA13 As SqlParameter = SQLcmd.Parameters.Add("@P13", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA14 As SqlParameter = SQLcmd.Parameters.Add("@P14", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA15 As SqlParameter = SQLcmd.Parameters.Add("@P15", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA19 As SqlParameter = SQLcmd.Parameters.Add("@P19", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA20 As SqlParameter = SQLcmd.Parameters.Add("@P20", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA21 As SqlParameter = SQLcmd.Parameters.Add("@P21", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA22 As SqlParameter = SQLcmd.Parameters.Add("@P22", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA23 As SqlParameter = SQLcmd.Parameters.Add("@P23", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA24 As SqlParameter = SQLcmd.Parameters.Add("@P24", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA25 As SqlParameter = SQLcmd.Parameters.Add("@P25", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA26 As SqlParameter = SQLcmd.Parameters.Add("@P26", System.Data.SqlDbType.NVarChar, 20)
+
+                Dim PARA27 As SqlParameter = SQLcmd.Parameters.Add("@P27", System.Data.SqlDbType.NVarChar, 1)
+                Dim PARA28 As SqlParameter = SQLcmd.Parameters.Add("@P28", System.Data.SqlDbType.DateTime)
+                Dim PARA29 As SqlParameter = SQLcmd.Parameters.Add("@P29", System.Data.SqlDbType.DateTime)
+                Dim PARA30 As SqlParameter = SQLcmd.Parameters.Add("@P30", System.Data.SqlDbType.NVarChar, 20)
+                Dim PARA31 As SqlParameter = SQLcmd.Parameters.Add("@P31", System.Data.SqlDbType.NVarChar, 30)
+                Dim PARA32 As SqlParameter = SQLcmd.Parameters.Add("@P32", System.Data.SqlDbType.DateTime)
+
+                PARA01.Value = I_ROW("CAMPCODE")
+                PARA02.Value = I_ROW("TAISHOYM")
+                PARA03.Value = I_ROW("STAFFCODE")
+                PARA04.Value = I_ROW("WORKDATE")
+                PARA05.Value = I_ROW("WORKKBN")
+                PARA06.Value = I_ROW("STTIME01")
+                PARA07.Value = I_ROW("ENDTIME01")
+                PARA08.Value = I_ROW("STTIME02")
+                PARA09.Value = I_ROW("ENDTIME02")
+                PARA10.Value = I_ROW("STTIME03")
+                PARA11.Value = I_ROW("ENDTIME03")
+                PARA12.Value = I_ROW("STTIME04")
+                PARA13.Value = I_ROW("ENDTIME04")
+                PARA14.Value = I_ROW("STTIME05")
+                PARA15.Value = I_ROW("ENDTIME05")
+                PARA16.Value = I_ROW("STTIME06")
+                PARA17.Value = I_ROW("ENDTIME06")
+                PARA18.Value = I_ROW("STTIME07")
+                PARA19.Value = I_ROW("ENDTIME07")
+                PARA20.Value = I_ROW("STTIME08")
+                PARA21.Value = I_ROW("ENDTIME08")
+                PARA22.Value = I_ROW("STTIME09")
+                PARA23.Value = I_ROW("ENDTIME09")
+                PARA24.Value = I_ROW("STTIME10")
+                PARA25.Value = I_ROW("ENDTIME10")
+                PARA26.Value = I_ROW("TTLTIME")
+
+                PARA27.Value = I_ROW("DELFLG")
+                PARA28.Value = I_ROW("INITYMD")
+                PARA29.Value = I_ROW("UPDYMD")
+                PARA30.Value = UPDUSERID
+                PARA31.Value = UPDTERMID
+                PARA32.Value = C_DEFAULT_YMD
+
+                SQLcmd.CommandTimeout = 300
+                SQLcmd.ExecuteNonQuery()
+
+                'CLOSE
+            End Using
+
+        Catch ex As Exception
+            CS0011LOGWRITE.INFSUBCLASS = "T0013_Update"                 'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "DB:UPDATE T0013_TIMEMANAGE"       '
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+            O_RTN = C_MESSAGE_NO.DB_ERROR
+            Exit Sub
+
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' 休憩・配送時間テーブルカラム定義
+    ''' </summary>
+    ''' <param name="IO_TBL"></param>
+    ''' <remarks></remarks>
+    Public Sub AddColumnT0013UPDtbl(ByRef IO_TBL As DataTable)
+
+        If IsNothing(IO_TBL) Then IO_TBL = New DataTable
+        If IO_TBL.Columns.Count <> 0 Then IO_TBL.Columns.Clear()
+        'T0013DB項目作成
+        IO_TBL.Clear()
+        IO_TBL.Columns.Add("CAMPCODE", GetType(String))
+        IO_TBL.Columns.Add("TAISHOYM", GetType(String))
+        IO_TBL.Columns.Add("STAFFCODE", GetType(String))
+        IO_TBL.Columns.Add("WORKDATE", GetType(String))
+        IO_TBL.Columns.Add("WORKKBN", GetType(String))
+        IO_TBL.Columns.Add("STTIME01", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME01", GetType(String))
+        IO_TBL.Columns.Add("STTIME02", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME02", GetType(String))
+        IO_TBL.Columns.Add("STTIME03", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME03", GetType(String))
+        IO_TBL.Columns.Add("STTIME04", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME04", GetType(String))
+        IO_TBL.Columns.Add("STTIME05", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME05", GetType(String))
+        IO_TBL.Columns.Add("STTIME06", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME06", GetType(String))
+        IO_TBL.Columns.Add("STTIME07", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME07", GetType(String))
+        IO_TBL.Columns.Add("STTIME08", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME08", GetType(String))
+        IO_TBL.Columns.Add("STTIME09", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME09", GetType(String))
+        IO_TBL.Columns.Add("STTIME10", GetType(String))
+        IO_TBL.Columns.Add("ENDTIME10", GetType(String))
+        IO_TBL.Columns.Add("TTLTIME", GetType(String))
+
+        IO_TBL.Columns.Add("DELFLG", GetType(String))
+        IO_TBL.Columns.Add("INITYMD", GetType(String))
+        IO_TBL.Columns.Add("UPDYMD", GetType(String))
+        IO_TBL.Columns.Add("UPDUSER", GetType(String))
+        IO_TBL.Columns.Add("UPDTERMID", GetType(String))
+        IO_TBL.Columns.Add("RECEIVEYMD", GetType(String))
+
+    End Sub
+End Class
+
+''' <summary>
 ''' 日報画面共通クラス
 ''' </summary>
 ''' <remarks></remarks>

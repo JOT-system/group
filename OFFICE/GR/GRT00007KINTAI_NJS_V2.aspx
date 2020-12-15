@@ -22,7 +22,7 @@
     <div class="headerbox" id="headerbox">
         <div class="Operation" style="margin-left:3em;margin-top:0.5em;">
             <!-- ■　ボタン　■ -->
-            <a style="position:fixed;top:3.1em;left:33em;">
+            <a style="position:fixed;top:3.1em;left:33em;" hidden="hidden">
                 <input type="button" id="WF_ButtonBREAKTIME" value="休憩不足分" runat="server" style="Width:6em" onclick="ButtonClick('WF_ButtonBREAKTIME');" />
             </a>
             <a style="position:fixed;top:3.1em;left:40em;">
@@ -45,7 +45,7 @@
             </a>
         </div>
 
-        <div style="position:fixed;top:4.55em;left:0em; right:0em; bottom:1.2em">
+        <div style="position:fixed;top:4.55em;left:0em; right:0em; bottom:1.0em">
         <asp:MultiView ID="WF_DetailMView" runat="server">
 
             <!--◆◆◆◆◆◆ Tab No1　（指定日） ◆◆◆◆◆◆◆-->
@@ -180,13 +180,13 @@
                 </a>
                 <!-- ■　日報休憩　■ -->
                 <a style="position:fixed;top:8.5em;left:37em; width:32em;">
-                    <asp:Label ID="WF_BREAKTIME_L" runat="server" Text="日報休憩" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="WF_BREAKTIME_L" runat="server" Text="休憩" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_NIPPOBREAKTIME" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false" style="text-align: center; "></asp:TextBox>
                     </b>
                 </a>
                 <!-- ■　休憩　■ -->
-                <a style="position:fixed;top:9.6em;left:37em; width:32em;">
+                <a style="position:fixed;top:9.6em;left:37em; width:32em;" hidden="hidden">
                     <asp:Label ID="WF_BREAKTIME_LABEL" runat="server" Text="休憩" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                     <b>
                     <asp:TextBox ID="WF_BREAKTIME" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="true" onchange="ItemChange('WF_BREAKTIME')" style="text-align: center; "></asp:TextBox>
@@ -300,6 +300,172 @@
                     <asp:TextBox ID="WF_KAIDISTANCE" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" enabled="false" style="text-align: right; "></asp:TextBox>
                     </b>
                 </a>
+                <div class="timebox" id="timebox" style="position:fixed;top: 16.5em;left:1em;" >
+                    <table style="width:100%" >
+	                    <tbody>
+                            <tr style="background-color:rgb(22, 54, 92);color:white;height: 1.7em;">
+		                        <td title="区分" >区分</td>
+		                        <td title="合計" >合計</td>
+		                        <td title="開始０１" >開始０１</td>
+		                        <td title="終了０１" >終了０１</td>
+		                        <td title="開始０２" >開始０２</td>
+		                        <td title="終了０２" >終了０２</td>
+		                        <td title="開始０３" >開始０３</td>
+		                        <td title="終了０３" >終了０３</td>
+		                        <td title="開始０４" >開始０４</td>
+		                        <td title="終了０４" >終了０４</td>
+		                        <td title="開始０５" >開始０５</td>
+		                        <td title="終了０５" >終了０５</td>
+		                        <td title="開始０６" >開始０６</td>
+		                        <td title="終了０６" >終了０６</td>
+		                        <td title="開始０７" >開始０７</td>
+		                        <td title="終了０７" >終了０７</td>
+		                        <td title="開始０８" >開始０８</td>
+		                        <td title="終了０８" >終了０８</td>
+		                        <td title="開始０９" >開始０９</td>
+		                        <td title="終了０９" >終了０９</td>
+		                        <td title="開始１０" >開始１０</td>
+		                        <td title="終了１０" >終了１０</td>
+	                        </tr>
+	                        <tr style="height: 1.7em;">
+		                        <td>
+                                    <asp:Label ID="Label1" runat="server" Text="休憩" Height="1.2em" ></asp:Label>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBTTLTIME" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" enabled="false"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME01" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME01')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME01" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME01')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME02" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME02')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME02" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME02')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME03" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME03')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME03" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME03')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME04" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME04')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME04" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME04')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME05" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME05')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME05" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME05')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME06" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME06')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME06" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME06')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME07" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME07')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME07" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME07')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME08" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME08')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME08" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME08')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME09" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME09')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME09" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME09')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBSTTIME10" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBSTTIME10')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_BBENDTIME10" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_BBENDTIME10')"></asp:TextBox>
+		                        </td>
+		                    </tr>
+	                        <tr style="height: 1.7em;">
+		                        <td>
+                                    <asp:Label ID="Label2" runat="server" Text="配送" Height="1.2em"></asp:Label>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1TTLTIME" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" enabled="false"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME01" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME01')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME01" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME01')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME02" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME02')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME02" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME02')" ></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME03" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME03')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME03" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME03')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME04" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME04')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME04" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME04')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME05" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME05')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME05" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME05')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME06" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME06')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME06" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME06')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME07" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME07')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME07" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME07')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME08" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME08')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME08" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME08')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME09" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME09')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME09" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME09')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1STTIME10" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1STTIME10')"></asp:TextBox>
+		                        </td>
+		                        <td>
+                                    <asp:TextBox ID="WF_G1ENDTIME10" runat="server" Height="1.1em" Width="3em" CssClass="WF_TEXTBOX_CENTER" onchange="ItemChange('WF_G1ENDTIME10')"></asp:TextBox>
+		                        </td>
+		                    </tr>
+	                    </tbody>
+                    </table>
+                </div>
 
                 <!-- 全体レイアウト　detailbox -->
                 <div class="detailbox" id="detailbox">
@@ -308,6 +474,7 @@
                         <asp:panel id="pnlListArea" runat="server"></asp:panel>
                     </div>
                 </div>
+
             </asp:View>
 
             <!--◆◆◆◆◆◆ Tab No2　（月調整） ◆◆◆◆◆◆◆-->
@@ -616,54 +783,54 @@
                         <asp:Label ID="WF_ONE_LABEL" runat="server" Text="１．" Height="1.2em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         </b>
                     </a>
-                    <a style="position:fixed;top:8.9em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN1' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_SHARYOKBN1" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHARYOKBN1')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHARYOKBN_DB1" style="position:fixed;top:8.9em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN1' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
+                        <asp:TextBox ID="WF_SHARYOKBN1" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHARYOKBN1')" ></asp:TextBox>
                         <asp:Label ID="WF_SHARYOKBN1_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:8.9em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN1' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_OILPAYKBN1" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_OILPAYKBN1')"></asp:TextBox>
+                    <a class="disabled" id="WF_OILPAYKBN_DB1" style="position:fixed;top:8.9em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN1' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_OILPAYKBN1" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_OILPAYKBN1')"></asp:TextBox>
                         <asp:Label ID="WF_OILPAYKBN1_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:8.9em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO1' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)"  >
-                        <asp:TextBox ID="WF_SHUKABASHO1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHUKABASHO1')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHUKABASHO_DB1" style="position:fixed;top:8.9em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO1' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)"  >
+                        <asp:TextBox ID="WF_SHUKABASHO1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHUKABASHO1')"></asp:TextBox>
                         <asp:Label ID="WF_SHUKABASHO1_TEXT" runat="server" Height="1.2em" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:8.9em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE1' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_TODOKECODE1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_TODOKECODE1')"></asp:TextBox>
+                    <a class="disabled" id="WF_TODOKECODE_DB1" style="position:fixed;top:8.9em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE1' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_TODOKECODE1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_TODOKECODE1')"></asp:TextBox>
                         <asp:Label ID="WF_TODOKECODE1_TEXT" runat="server" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                     <a style="position:fixed;top:8.9em;left:54.5em; width:32em;" >
-                        <asp:TextBox ID="WF_MODELDISTANCE1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE1')"></asp:TextBox>
+                        <asp:TextBox ID="WF_MODELDISTANCE1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE1')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:9.1em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN1" runat="server" Height="1.2em" enabled="true"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN1" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('1')"></asp:CheckBox>
                     </a>
                     <a style="position:fixed;top:10.0em;left:3em; width:100em;" >
                         <b>
                         <asp:Label ID="WF_TWO_LABEL" runat="server" Text="２．" Height="1.2em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         </b>
                     </a>
-                    <a style="position:fixed;top:10.0em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN2' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_SHARYOKBN2" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHARYOKBN2')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHARYOKBN_DB2" style="position:fixed;top:10.0em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN2' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_SHARYOKBN2" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHARYOKBN2')"></asp:TextBox>
                         <asp:Label ID="WF_SHARYOKBN2_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:10.0em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN2' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_OILPAYKBN2" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_OILPAYKBN2')"></asp:TextBox>
+                    <a class="disabled" id="WF_OILPAYKBN_DB2"  style="position:fixed;top:10.0em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN2' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_OILPAYKBN2" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_OILPAYKBN2')"></asp:TextBox>
                         <asp:Label ID="WF_OILPAYKBN2_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:10.0em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO2' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_SHUKABASHO2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHUKABASHO2')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHUKABASHO_DB2"  style="position:fixed;top:10.0em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO2' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_SHUKABASHO2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHUKABASHO2')"></asp:TextBox>
                         <asp:Label ID="WF_SHUKABASHO2_TEXT" runat="server" Height="1.2em" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:10.0em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE2' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_TODOKECODE2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_TODOKECODE2')"></asp:TextBox>
+                    <a class="disabled" id="WF_TODOKECODE_DB2" style="position:fixed;top:10.0em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE2' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_TODOKECODE2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_TODOKECODE2')"></asp:TextBox>
                         <asp:Label ID="WF_TODOKECODE2_TEXT" runat="server" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                     <a style="position:fixed;top:10.0em;left:54.5em; width:32em;" >
-                        <asp:TextBox ID="WF_MODELDISTANCE2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE2')"></asp:TextBox>
+                        <asp:TextBox ID="WF_MODELDISTANCE2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE2')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:10.2em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN2" runat="server" Height="1.2em" enabled="true"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN2" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('2')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:11.1em;left:3em; width:100em;" >
@@ -671,28 +838,28 @@
                         <asp:Label ID="WF_THREE_LABEL" runat="server" Text="３．" Height="1.2em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         </b>
                     </a>
-                    <a style="position:fixed;top:11.1em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN3' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_SHARYOKBN3" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHARYOKBN3')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHARYOKBN_DB3" style="position:fixed;top:11.1em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN3' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_SHARYOKBN3" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHARYOKBN3')"></asp:TextBox>
                         <asp:Label ID="WF_SHARYOKBN3_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:11.1em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN3' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_OILPAYKBN3" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_OILPAYKBN3')"></asp:TextBox>
+                    <a class="disabled" id="WF_OILPAYKBN_DB3" style="position:fixed;top:11.1em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN3' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_OILPAYKBN3" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_OILPAYKBN3')"></asp:TextBox>
                         <asp:Label ID="WF_OILPAYKBN3_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:11.1em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO3' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_SHUKABASHO3" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHUKABASHO3')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHUKABASHO_DB3" style="position:fixed;top:11.1em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO3' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_SHUKABASHO3" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHUKABASHO3')"></asp:TextBox>
                         <asp:Label ID="WF_SHUKABASHO3_TEXT" runat="server" Height="1.2em" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:11.1em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE3' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_TODOKECODE3" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_TODOKECODE3')"></asp:TextBox>
+                    <a class="disabled" id="WF_TODOKECODE_DB3" style="position:fixed;top:11.1em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE3' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_TODOKECODE3" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_TODOKECODE3')"></asp:TextBox>
                         <asp:Label ID="WF_TODOKECODE3_TEXT" runat="server" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                     <a style="position:fixed;top:11.1em;left:54.5em; width:32em;" >
-                        <asp:TextBox ID="WF_MODELDISTANCE3" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE3')"></asp:TextBox>
+                        <asp:TextBox ID="WF_MODELDISTANCE3" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE3')"></asp:TextBox>
                     </a>
 
                     <a style="position:fixed;top:11.3em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN3" runat="server" Height="1.2em" enabled="true"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN3" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('3')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:12.2em;left:3em; width:100em;" >
@@ -700,27 +867,27 @@
                         <asp:Label ID="WF_FOUR_LABEL" runat="server" Text="４．" Height="1.2em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         </b>
                     </a>
-                    <a style="position:fixed;top:12.2em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN4' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_SHARYOKBN4" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHARYOKBN4')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHARYOKBN_DB4" style="position:fixed;top:12.2em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN4' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_SHARYOKBN4" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHARYOKBN4')"></asp:TextBox>
                         <asp:Label ID="WF_SHARYOKBN4_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:12.2em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN4' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_OILPAYKBN4" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_OILPAYKBN4')"></asp:TextBox>
+                    <a class="disabled" id="WF_OILPAYKBN_DB4" style="position:fixed;top:12.2em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN4' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_OILPAYKBN4" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_OILPAYKBN4')"></asp:TextBox>
                         <asp:Label ID="WF_OILPAYKBN4_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:12.2em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO4' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_SHUKABASHO4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHUKABASHO4')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHUKABASHO_DB4" style="position:fixed;top:12.2em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO4' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_SHUKABASHO4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHUKABASHO4')"></asp:TextBox>
                         <asp:Label ID="WF_SHUKABASHO4_TEXT" runat="server" Height="1.2em" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:12.2em;left:37em; width:32em;"  ondblclick="Field_DBclick('WF_TODOKECODE4' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_TODOKECODE4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_TODOKECODE4')"></asp:TextBox>
+                    <a class="disabled" id="WF_TODOKECODE_DB4" style="position:fixed;top:12.2em;left:37em; width:32em;"  ondblclick="Field_DBclick('WF_TODOKECODE4' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_TODOKECODE4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_TODOKECODE4')"></asp:TextBox>
                         <asp:Label ID="WF_TODOKECODE4_TEXT" runat="server" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                     <a style="position:fixed;top:12.2em;left:54.5em; width:32em;" >
-                        <asp:TextBox ID="WF_MODELDISTANCE4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE4')"></asp:TextBox>
+                        <asp:TextBox ID="WF_MODELDISTANCE4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE4')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:12.4em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN4" runat="server" Height="1.2em" enabled="true"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN4" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('4')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:13.3em;left:3em; width:100em;" >
@@ -728,27 +895,27 @@
                         <asp:Label ID="WF_FIVE_LABEL" runat="server" Text="５．" Height="1.2em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         </b>
                     </a>
-                    <a style="position:fixed;top:13.3em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN5' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_SHARYOKBN5" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHARYOKBN5')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHARYOKBN_DB5" style="position:fixed;top:13.3em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN5' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_SHARYOKBN5" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHARYOKBN5')"></asp:TextBox>
                         <asp:Label ID="WF_SHARYOKBN5_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:13.3em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN5' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_OILPAYKBN5" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_OILPAYKBN5')"></asp:TextBox>
+                    <a class="disabled" id="WF_OILPAYKBN_DB5" style="position:fixed;top:13.3em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN5' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_OILPAYKBN5" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_OILPAYKBN5')"></asp:TextBox>
                         <asp:Label ID="WF_OILPAYKBN5_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:13.3em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO5' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_SHUKABASHO5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHUKABASHO5')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHUKABASHO_DB5" style="position:fixed;top:13.3em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO5' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_SHUKABASHO5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHUKABASHO5')"></asp:TextBox>
                         <asp:Label ID="WF_SHUKABASHO5_TEXT" runat="server" Height="1.2em" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:13.3em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE5' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_TODOKECODE5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_TODOKECODE5')"></asp:TextBox>
+                    <a class="disabled" id="WF_TODOKECODE_DB5" style="position:fixed;top:13.3em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE5' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_TODOKECODE5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_TODOKECODE5')"></asp:TextBox>
                         <asp:Label ID="WF_TODOKECODE5_TEXT" runat="server" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                     <a style="position:fixed;top:13.3em;left:54.5em; width:32em;" >
-                        <asp:TextBox ID="WF_MODELDISTANCE5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE5')"></asp:TextBox>
+                        <asp:TextBox ID="WF_MODELDISTANCE5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE5')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:13.5em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN5" runat="server" Height="1.2em" enabled="true"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN5" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('5')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:14.4em;left:3em; width:100em;" >
@@ -756,27 +923,27 @@
                         <asp:Label ID="WF_SIX_LABEL" runat="server" Text="６．" Height="1.2em" Width="2em" CssClass="WF_TEXT_LEFT" Font-Bold="false" Font-Underline="false"></asp:Label>
                         </b>
                     </a>
-                    <a style="position:fixed;top:14.4em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN6' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_SHARYOKBN6" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHARYOKBN6')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHARYOKBN_DB6" style="position:fixed;top:14.4em;left:5em; width:32em;" ondblclick="Field_DBclick('WF_SHARYOKBN6' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_SHARYOKBN6" runat="server" Height="1.2em" Width="2em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHARYOKBN6')"></asp:TextBox>
                         <asp:Label ID="WF_SHARYOKBN6_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:14.4em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN6' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
-                        <asp:TextBox ID="WF_OILPAYKBN6" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_OILPAYKBN6')"></asp:TextBox>
+                    <a class="disabled" id="WF_OILPAYKBN_DB6" style="position:fixed;top:14.4em;left:12em; width:32em;" ondblclick="Field_DBclick('WF_OILPAYKBN6' , <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)" >
+                        <asp:TextBox ID="WF_OILPAYKBN6" runat="server" Height="1.2em" Width="3em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_OILPAYKBN6')"></asp:TextBox>
                         <asp:Label ID="WF_OILPAYKBN6_TEXT" runat="server" Height="1.2em" Width="5em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:14.4em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO6' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_SHUKABASHO6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_SHUKABASHO6')"></asp:TextBox>
+                    <a class="disabled" id="WF_SHUKABASHO_DB6" style="position:fixed;top:14.4em;left:19.5em; width:32em;" ondblclick="Field_DBclick('WF_SHUKABASHO6' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_SHUKABASHO6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_SHUKABASHO6')"></asp:TextBox>
                         <asp:Label ID="WF_SHUKABASHO6_TEXT" runat="server" Height="1.2em" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
-                    <a style="position:fixed;top:14.4em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE6' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
-                        <asp:TextBox ID="WF_TODOKECODE6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" onchange="ItemChange('WF_TODOKECODE6')"></asp:TextBox>
+                    <a class="disabled" id="WF_TODOKECODE_DB6" style="position:fixed;top:14.4em;left:37em; width:32em;" ondblclick="Field_DBclick('WF_TODOKECODE6' , <%=LIST_BOX_CLASSIFICATION.LC_DISTINATION%>)" >
+                        <asp:TextBox ID="WF_TODOKECODE6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" onchange="ItemChange('WF_TODOKECODE6')"></asp:TextBox>
                         <asp:Label ID="WF_TODOKECODE6_TEXT" runat="server" Height="1.2em" Width="15em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                     <a style="position:fixed;top:14.4em;left:54.5em; width:32em;" >
-                        <asp:TextBox ID="WF_MODELDISTANCE6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="true" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE6')"></asp:TextBox>
+                        <asp:TextBox ID="WF_MODELDISTANCE6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE6')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:14.6em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN6" runat="server" Height="1.2em" enabled="true"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN6" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('6')"></asp:CheckBox>
                     </a>
 
                 </asp:View>

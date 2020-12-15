@@ -24,6 +24,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
     Private T0005COM As New GRT0005COM                              '勤怠共通
     Private T0007COM As New GRT0007COM_V2                           '勤怠共通
     Private T0007UPDATE As New GRT0007UPDATE_V2                     '勤怠更新
+    Private T0013UPDATE As New GRT0013UPDATE                        '休憩・配送時間DB更新
 
     'CSV検索結果格納ds
     Private T0007tbl As DataTable                                   '勤怠テーブル（GridView用）
@@ -699,20 +700,15 @@ Public Class GRT00007ICHIRAN_NJS_V2
             Exit Sub
         End If
 
-        'ListBox取得
-        WW_ListBoxMODELCODE = T0007COM.getList(work.WF_T7SEL_CAMPCODE.Text, "MODELCODE")
-        WW_ListBoxMODELDISTANCE = T0007COM.getList(work.WF_T7SEL_CAMPCODE.Text, "MODELDISTANCE")
-
         Dim WW_MODELtbl As DataTable = New DataTable
         T0007COM.ModelDistanceTbl(T0005tbl, work.WF_T7SEL_CAMPCODE.Text, work.WF_T7SEL_TAISHOYM.Text,
-                                  WW_ListBoxMODELCODE, WW_ListBoxMODELDISTANCE,
                                   WW_MODELtbl, Master.USERID, Master.USERTERMID)
 
         Dim WW_T0007SELtbl As DataTable = New DataTable
         Dim WW_T0007tbl As DataTable = T0007tbl.Clone
         Dim WW_Filter As String = ""
 
-        WW_Filter = "SELECT = '1' and HDKBN = 'H' and STATUS like '*日報*' and RECODEKBN = '0' and WORKDATE >= #" & WW_STDATE & "# and WORKDATE <= #" & WW_ENDDATE & "#"
+        WW_Filter = "SELECT = '1' and HDKBN = 'H' and (STATUS like '*日報*' or STATUS like '*休憩*') and RECODEKBN = '0' and WORKDATE >= #" & WW_STDATE & "# and WORKDATE <= #" & WW_ENDDATE & "#"
         CS0026TblSort.TABLE = T0007tbl
         CS0026TblSort.FILTER = WW_Filter
         CS0026TblSort.SORTING = "SELECT, STAFFCODE, WORKDATE, HDKBN DESC, STDATE, STTIME, ENDDATE, ENDTIME, RECODEKBN"
@@ -734,7 +730,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
         Dim WW_KEYTBL As String = ""
         For Each T0007INProw As DataRow In WW_T0007SELtbl.Rows
             WW_KEYINP = T0007INProw("STAFFCODE") & T0007INProw("WORKDATE") & "0"
-            If T0007INProw("STATUS") Like "*日報*" Then
+            If T0007INProw("STATUS") Like "*日報*" Or T0007INProw("STATUS") Like "*休憩*" Then
 
                 For i As Integer = WW_IDX To T0007tbl.Rows.Count - 1
                     Dim T0007row As DataRow = T0007tbl.Rows(i)
@@ -759,7 +755,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
         For i As Integer = T0007tbl.Rows.Count - 1 To 0 Step -1
             Dim T7row As DataRow = T0007tbl.Rows(i)
             If T7row("WORKDATE") >= WW_STDATE And T7row("WORKDATE") <= WW_ENDDATE Then
-                If T7row("STATUS") Like "*日報*" Then
+                If T7row("STATUS") Like "*日報*" Or T7row("STATUS") Like "*休憩*" Then
                     If T7row("HDKBN") = "D" And T7row("RECODEKBN") = "0" Then
                         T7row.Delete()
                     End If
@@ -832,7 +828,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
         '----------------------------------------------
         '残業計算
         '----------------------------------------------
-        WW_Filter = "SELECT = '1' and STATUS like '*日報*' and RECODEKBN = '0' and WORKDATE >= #" & WW_STDATE & "# and WORKDATE <= #" & WW_ENDDATE & "#"
+        WW_Filter = "SELECT = '1' and STATUS <> '' and RECODEKBN = '0' and WORKDATE >= #" & WW_STDATE & "# and WORKDATE <= #" & WW_ENDDATE & "#"
         CS0026TblSort.TABLE = T0007tbl
         CS0026TblSort.FILTER = WW_Filter
         CS0026TblSort.SORTING = "SELECT, STAFFCODE, WORKDATE, HDKBN DESC, STDATE, STTIME, ENDDATE, ENDTIME, RECODEKBN"
@@ -928,35 +924,35 @@ Public Class GRT00007ICHIRAN_NJS_V2
 
             End If
 
-            If WW_TBLrow("HDKBN") = "H" Then
-                If T0007COM.CheckHOLIDAY(WW_TBLrow("HOLIDAYKBN"), WW_TBLrow("PAYKBN")) Then
+            'If WW_TBLrow("HDKBN") = "H" Then
+            '    If T0007COM.CheckHOLIDAY(WW_TBLrow("HOLIDAYKBN"), WW_TBLrow("PAYKBN")) Then
 
-                    For j As Integer = i - 1 To 0 Step -1
-                        Dim WW_row As DataRow = T0007tbl.Rows(j)
-                        If WW_row("HDKBN") = "D" Then
-                            Continue For
-                        End If
+            '        For j As Integer = i - 1 To 0 Step -1
+            '            Dim WW_row As DataRow = T0007tbl.Rows(j)
+            '            If WW_row("HDKBN") = "D" Then
+            '                Continue For
+            '            End If
 
-                        Dim WW_DATE As Date = CDate(WW_TBLrow("WORKDATE")).AddDays(-1)
-                        If WW_row("WORKDATE") = WW_DATE.ToString("yyyy/MM/dd") And
-                            WW_row("STAFFCODE") = WW_TBLrow("STAFFCODE") Then
-                            If WW_row("ENDDATE") >= WW_TBLrow("WORKDATE") Then
-                                If InStr(WW_row("STATUS"), "Ｂ勤再計算") > 0 Then
-                                Else
-                                    If WW_row("STATUS") = "" Then
-                                        WW_row("STATUS") = WW_row("STATUS") & "Ｂ勤再計算"
-                                    Else
-                                        WW_row("STATUS") = WW_row("STATUS") & ",Ｂ勤再計算"
-                                    End If
-                                    Exit For
-                                End If
-                            Else
-                                Exit For
-                            End If
-                        End If
-                    Next
-                End If
-            End If
+            '            Dim WW_DATE As Date = CDate(WW_TBLrow("WORKDATE")).AddDays(-1)
+            '            If WW_row("WORKDATE") = WW_DATE.ToString("yyyy/MM/dd") And
+            '                WW_row("STAFFCODE") = WW_TBLrow("STAFFCODE") Then
+            '                If WW_row("ENDDATE") >= WW_TBLrow("WORKDATE") Then
+            '                    If InStr(WW_row("STATUS"), "Ｂ勤再計算") > 0 Then
+            '                    Else
+            '                        If WW_row("STATUS") = "" Then
+            '                            WW_row("STATUS") = WW_row("STATUS") & "Ｂ勤再計算"
+            '                        Else
+            '                            WW_row("STATUS") = WW_row("STATUS") & ",Ｂ勤再計算"
+            '                        End If
+            '                        Exit For
+            '                    End If
+            '                Else
+            '                    Exit For
+            '                End If
+            '            End If
+            '        Next
+            '    End If
+            'End If
         Next
 
         WW_T0007SELtbl.Dispose()
@@ -1369,12 +1365,44 @@ Public Class GRT00007ICHIRAN_NJS_V2
 
         End Try
 
+        Dim WW_T00013tbl As DataTable = Nothing
+        Try
+            '○ 休憩・配送時間DB出力編集
+            T0013UPDATE.AddColumnT0013UPDtbl(WW_T00013tbl)
+            UpdTableEdit(WW_T0007UPDtbl, WW_T00013tbl, WW_DATENOW)
+
+            '○ 休憩・配送時間DB更新
+            T0013UPDATE.SQLcon = SQLcon
+            T0013UPDATE.SQLtrn = SQLtrn
+            T0013UPDATE.UPDUSERID = Master.USERID
+            T0013UPDATE.UPDTERMID = Master.USERTERMID
+            For Each T13row As DataRow In WW_T00013tbl.Rows
+                T0013UPDATE.UpdateT0013(T13row, WW_ERR)
+                If Not isNormal(WW_ERR) Then
+                    Exit Sub
+                End If
+            Next
+
+        Catch ex As Exception
+            CS0011LOGWRITE.INFSUBCLASS = "WF_ButtonUPDATE_Click"        'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "DB:INSERT T0013_TIMEMANAGE"       '
+            CS0011LOGWRITE.NIWEA = "A"                                  '
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, ex.ToString())
+            Exit Sub
+
+        End Try
+
         WW_T0007UPDtbl.Dispose()
         WW_T0007UPDtbl = Nothing
         WW_T0007tbl.Dispose()
         WW_T0007tbl = Nothing
         WW_T0010tbl.Dispose()
         WW_T0010tbl = Nothing
+        WW_T00013tbl.Dispose
+        WW_T00013tbl = Nothing
 
         '----------------------------------------------------------------------------------------------------
         '統計ＤＢ追加
@@ -1898,6 +1926,109 @@ Public Class GRT00007ICHIRAN_NJS_V2
             SQLcmd = Nothing
         Next
 
+
+    End Sub
+
+    ''' <summary>
+    ''' 更新テーブル編集
+    ''' </summary>
+    ''' <param name="I_TABLE"></param>
+    ''' <param name="O_TABLE"></param>
+    ''' <param name="I_NOW"></param>
+    ''' <remarks></remarks>
+    Protected Sub UpdTableEdit(ByVal I_TABLE As DataTable, ByRef O_TABLE As DataTable, ByVal I_NOW As DateTime)
+
+        For Each I_ROW As DataRow In I_TABLE.Rows
+            Dim O_ROW As DataRow = O_TABLE.NewRow
+
+            '----------------------------------------------------------
+            '休憩
+            O_ROW("CAMPCODE") = I_ROW("CAMPCODE")                                               '会社コード
+            O_ROW("TAISHOYM") = I_ROW("TAISHOYM")                                               '対象年月
+            O_ROW("STAFFCODE") = I_ROW("STAFFCODE")                                             '従業員コード
+            O_ROW("WORKDATE") = I_ROW("WORKDATE")                                               '勤務年月日
+            O_ROW("WORKKBN") = "BB"                                                             '作業区分
+
+            For i As Integer = 1 To 10
+                Dim WW_T13STTIME As String = "T13BBSTTIME" & i.ToString("00")
+                Dim WW_T13ENDTIME As String = "T13BBENDTIME" & i.ToString("00")
+                Dim WW_STTIME As String = "STTIME" & i.ToString("00")
+                Dim WW_ENDTIME As String = "ENDTIME" & i.ToString("00")
+
+                '開始時刻
+                If IsDate(I_ROW(WW_T13STTIME)) Then
+                    O_ROW(WW_STTIME) = I_ROW(WW_T13STTIME)
+                Else
+                    O_ROW(WW_STTIME) = "00:00"
+                End If
+
+                '終了時刻
+                If IsDate(I_ROW(WW_T13ENDTIME)) Then
+                    O_ROW(WW_ENDTIME) = I_ROW(WW_T13ENDTIME)
+                Else
+                    O_ROW(WW_ENDTIME) = "00:00"
+                End If
+            Next
+
+            O_ROW("TTLTIME") = I_ROW("T13BBTTLTIME")                                            '合計時間
+            If O_ROW("TTLTIME") = 0 Then
+                O_ROW("DELFLG") = C_DELETE_FLG.DELETE                                           '削除フラグ
+            Else
+                O_ROW("DELFLG") = C_DELETE_FLG.ALIVE                                            '削除フラグ
+            End If
+            O_ROW("INITYMD") = I_NOW                                                            '登録年月日
+            O_ROW("UPDYMD") = I_NOW                                                             '更新年月日
+            O_ROW("UPDUSER") = Master.USERID                                                    '更新ユーザID
+            O_ROW("UPDTERMID") = Master.USERTERMID                                              '更新端末
+            O_ROW("RECEIVEYMD") = C_DEFAULT_YMD                                                 '集信日時
+
+            O_TABLE.Rows.Add(O_ROW)
+
+            '----------------------------------------------------------
+            '配送
+            O_ROW = O_TABLE.NewRow
+
+            O_ROW("CAMPCODE") = I_ROW("CAMPCODE")                                               '会社コード
+            O_ROW("TAISHOYM") = I_ROW("TAISHOYM")                                               '対象年月
+            O_ROW("STAFFCODE") = I_ROW("STAFFCODE")                                             '従業員コード
+            O_ROW("WORKDATE") = I_ROW("WORKDATE")                                               '勤務年月日
+            O_ROW("WORKKBN") = "G1"                                                             '作業区分
+
+            For i As Integer = 1 To 10
+                Dim WW_T13STTIME As String = "T13G1STTIME" & i.ToString("00")
+                Dim WW_T13ENDTIME As String = "T13G1ENDTIME" & i.ToString("00")
+                Dim WW_STTIME As String = "STTIME" & i.ToString("00")
+                Dim WW_ENDTIME As String = "ENDTIME" & i.ToString("00")
+
+                '開始時刻
+                If IsDate(I_ROW(WW_T13STTIME)) Then
+                    O_ROW(WW_STTIME) = I_ROW(WW_T13STTIME)
+                Else
+                    O_ROW(WW_STTIME) = "00:00"
+                End If
+
+                '終了時刻
+                If IsDate(I_ROW(WW_T13ENDTIME)) Then
+                    O_ROW(WW_ENDTIME) = I_ROW(WW_T13ENDTIME)
+                Else
+                    O_ROW(WW_ENDTIME) = "00:00"
+                End If
+            Next
+
+            O_ROW("TTLTIME") = I_ROW("T13G1TTLTIME")                                            '合計時間
+            If O_ROW("TTLTIME") = 0 Then
+                O_ROW("DELFLG") = C_DELETE_FLG.DELETE                                           '削除フラグ
+            Else
+                O_ROW("DELFLG") = C_DELETE_FLG.ALIVE                                            '削除フラグ
+            End If
+            O_ROW("INITYMD") = I_NOW                                                            '登録年月日
+            O_ROW("UPDYMD") = I_NOW                                                             '更新年月日
+            O_ROW("UPDUSER") = Master.USERID                                                    '更新ユーザID
+            O_ROW("UPDTERMID") = Master.USERTERMID                                              '更新端末
+            O_ROW("RECEIVEYMD") = C_DEFAULT_YMD                                                 '集信日時
+
+            O_TABLE.Rows.Add(O_ROW)
+        Next
 
     End Sub
 
@@ -2779,7 +2910,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
                & "               and   T05.YMD         = CAL.WORKINGYMD " _
                & "               and   T05.DELFLG     <> '1' " _
                & "               and   T05.SEQ         = 1 " _
-               & "               and   T05.ENTRYDATE   = (select MAX(ENTRYDATE) from T0005_NIPPO where CAMPCODE = @CAMPCODE and STAFFCODE = MB.STAFFCODE and YMD = CAL.WORKINGYMD and DELFLG <> '1' and SEQ = 1) " _
+               & "               and   T05.ENTRYDATE   = (select MAX(ENTRYDATE) from T0005_NIPPO where CAMPCODE= @CAMPCODE and STAFFCODE = MB.STAFFCODE and YMD = CAL.WORKINGYMD and DELFLG <> '1' and SEQ = 1) " _
                & "       ),'') as LATITUDE , " _
                & "       isnull((select rtrim(T05.LONGITUDE) from T0005_NIPPO T05 " _
                & "               where T05.CAMPCODE    = @CAMPCODE " _
@@ -2787,7 +2918,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
                & "               and   T05.YMD         = CAL.WORKINGYMD " _
                & "               and   T05.DELFLG     <> '1' " _
                & "               and   T05.SEQ         = 1 " _
-               & "               and   T05.ENTRYDATE   = (select MAX(ENTRYDATE) from T0005_NIPPO where CAMPCODE = @CAMPCODE and STAFFCODE = MB.STAFFCODE and YMD = CAL.WORKINGYMD and DELFLG <> '1' and SEQ = 1) " _
+               & "               and   T05.ENTRYDATE   = (select MAX(ENTRYDATE) from T0005_NIPPO where CAMPCODE= @CAMPCODE and STAFFCODE = MB.STAFFCODE and YMD = CAL.WORKINGYMD and DELFLG <> '1' and SEQ = 1) " _
                & "       ),'') as LONGITUDE , " _
                & "       isnull(A.HAISOTIME,0) as HAISOTIME , " _
                & "       isnull(A.NENMATUNISSU,0) as NENMATUNISSU , " _
@@ -2836,6 +2967,55 @@ Public Class GRT00007ICHIRAN_NJS_V2
                & "       isnull(T10.TODOKECODE6,'') as T10TODOKECODE6 , " _
                & "       isnull(T10.MODELDISTANCE6,0) as T10MODELDISTANCE6 , " _
                & "       isnull(T10.MODIFYKBN6,'') as T10MODIFYKBN6 , " _
+               & "       isnull((select rtrim(format(MAX(T13.UPDYMD),'yyyyMMddHHmmss')) from T0013_TIMEMANAGE T13 " _
+               & "               where T13.CAMPCODE    = @CAMPCODE " _
+               & "               and   T13.TAISHOYM    = format(CAL.WORKINGYMD, 'yyyy/MM') " _
+               & "               and   T13.STAFFCODE   = MB.STAFFCODE " _
+               & "               and   T13.WORKDATE    = CAL.WORKINGYMD " _
+               & "               and   T13.DELFLG     <> '1' " _
+               & "       ),'') as T13ENTRYDATE , " _
+               & "       isnull(T131.STTIME01,'00:00') as T13BBSTTIME01 , " _
+               & "       isnull(T131.ENDTIME01,'00:00') as T13BBENDTIME01 , " _
+               & "       isnull(T131.STTIME02,'00:00') as T13BBSTTIME02 , " _
+               & "       isnull(T131.ENDTIME02,'00:00') as T13BBENDTIME02 , " _
+               & "       isnull(T131.STTIME03,'00:00') as T13BBSTTIME03 , " _
+               & "       isnull(T131.ENDTIME03,'00:00') as T13BBENDTIME03 , " _
+               & "       isnull(T131.STTIME04,'00:00') as T13BBSTTIME04 , " _
+               & "       isnull(T131.ENDTIME04,'00:00') as T13BBENDTIME04 , " _
+               & "       isnull(T131.STTIME05,'00:00') as T13BBSTTIME05 , " _
+               & "       isnull(T131.ENDTIME05,'00:00') as T13BBENDTIME05 , " _
+               & "       isnull(T131.STTIME06,'00:00') as T13BBSTTIME06 , " _
+               & "       isnull(T131.ENDTIME06,'00:00') as T13BBENDTIME06 , " _
+               & "       isnull(T131.STTIME07,'00:00') as T13BBSTTIME07 , " _
+               & "       isnull(T131.ENDTIME07,'00:00') as T13BBENDTIME07 , " _
+               & "       isnull(T131.STTIME08,'00:00') as T13BBSTTIME08 , " _
+               & "       isnull(T131.ENDTIME08,'00:00') as T13BBENDTIME08 , " _
+               & "       isnull(T131.STTIME09,'00:00') as T13BBSTTIME09 , " _
+               & "       isnull(T131.ENDTIME09,'00:00') as T13BBENDTIME09 , " _
+               & "       isnull(T131.STTIME10,'00:00') as T13BBSTTIME10 , " _
+               & "       isnull(T131.ENDTIME10,'00:00') as T13BBENDTIME10 , " _
+               & "       isnull(T131.TTLTIME,'0') as T13BBTTLTIME , " _
+               & "       isnull(T132.STTIME01,'00:00') as T13G1STTIME01 , " _
+               & "       isnull(T132.ENDTIME01,'00:00') as T13G1ENDTIME01 , " _
+               & "       isnull(T132.STTIME02,'00:00') as T13G1STTIME02 , " _
+               & "       isnull(T132.ENDTIME02,'00:00') as T13G1ENDTIME02 , " _
+               & "       isnull(T132.STTIME03,'00:00') as T13G1STTIME03 , " _
+               & "       isnull(T132.ENDTIME03,'00:00') as T13G1ENDTIME03 , " _
+               & "       isnull(T132.STTIME04,'00:00') as T13G1STTIME04 , " _
+               & "       isnull(T132.ENDTIME04,'00:00') as T13G1ENDTIME04 , " _
+               & "       isnull(T132.STTIME05,'00:00') as T13G1STTIME05 , " _
+               & "       isnull(T132.ENDTIME05,'00:00') as T13G1ENDTIME05 , " _
+               & "       isnull(T132.STTIME06,'00:00') as T13G1STTIME06 , " _
+               & "       isnull(T132.ENDTIME06,'00:00') as T13G1ENDTIME06 , " _
+               & "       isnull(T132.STTIME07,'00:00') as T13G1STTIME07 , " _
+               & "       isnull(T132.ENDTIME07,'00:00') as T13G1ENDTIME07 , " _
+               & "       isnull(T132.STTIME08,'00:00') as T13G1STTIME08 , " _
+               & "       isnull(T132.ENDTIME08,'00:00') as T13G1ENDTIME08 , " _
+               & "       isnull(T132.STTIME09,'00:00') as T13G1STTIME09 , " _
+               & "       isnull(T132.ENDTIME09,'00:00') as T13G1ENDTIME09 , " _
+               & "       isnull(T132.STTIME10,'00:00') as T13G1STTIME10 , " _
+               & "       isnull(T132.ENDTIME10,'00:00') as T13G1ENDTIME10 , " _
+               & "       isnull(T132.TTLTIME,'0') as T13G1TTLTIME , " _
                & "       isnull(A.HDAIWORKTIME,0) as HDAIWORKTIME , " _
                & "       isnull(A.HDAIWORKTIMECHO,0) as HDAIWORKTIMECHO , " _
                & "       isnull(A.HDAINIGHTTIME,0) as HDAINIGHTTIME , " _
@@ -2915,8 +3095,26 @@ Public Class GRT00007ICHIRAN_NJS_V2
                & "   and   T10.STAFFCODE   = MB.STAFFCODE " _
                & "   and   T10.WORKDATE    = CAL.WORKINGYMD " _
                & "   and   T10.DELFLG     <> '1' " _
-               & "   and   A.HDKBN         = 'H' " _
-               & "   and   A.RECODEKBN     = '0' " _
+               & "   and   isnull(A.HDKBN,'H')     = 'H' " _
+               & "   and   isnull(A.RECODEKBN,'0') = '0' " _
+               & " LEFT JOIN T0013_TIMEMANAGE T131 " _
+               & "   ON    T131.CAMPCODE    = @CAMPCODE " _
+               & "   and   T131.TAISHOYM    = format(CAL.WORKINGYMD, 'yyyy/MM') " _
+               & "   and   T131.STAFFCODE   = MB.STAFFCODE " _
+               & "   and   T131.WORKDATE    = CAL.WORKINGYMD " _
+               & "   and   T131.WORKKBN     = 'BB' " _
+               & "   and   T131.DELFLG     <> '1' " _
+               & "   and   isnull(A.HDKBN,'H')     = 'H' " _
+               & "   and   isnull(A.RECODEKBN,'0') = '0' " _
+               & " LEFT JOIN T0013_TIMEMANAGE T132 " _
+               & "   ON    T132.CAMPCODE    = @CAMPCODE " _
+               & "   and   T132.TAISHOYM    = format(CAL.WORKINGYMD, 'yyyy/MM') " _
+               & "   and   T132.STAFFCODE   = MB.STAFFCODE " _
+               & "   and   T132.WORKDATE    = CAL.WORKINGYMD " _
+               & "   and   T132.WORKKBN     = 'G1' " _
+               & "   and   T132.DELFLG     <> '1' " _
+               & "   and   isnull(A.HDKBN,'H')     = 'H' " _
+               & "   and   isnull(A.RECODEKBN,'0') = '0' " _
                & " WHERE   MB.CAMPCODE     = @CAMPCODE "
 
             Dim SQLWhere As String = ""
@@ -2968,72 +3166,6 @@ Public Class GRT00007ICHIRAN_NJS_V2
             For i As Integer = 0 To T0007tbl.Rows.Count - 1
                 T0007row = WW_T0007WKtbl.NewRow
                 T0007row.ItemArray = T0007tbl.Rows(i).ItemArray
-
-                'SQL操作で列幅を減らす
-                '& "       isnull(A.NIGHTTIME,0) + isnull(A.NIGHTTIMECHO,0) as NIGHTTIMETTL , " _
-                '& "       isnull(A.ORVERTIME,0) + isnull(A.ORVERTIMECHO,0) as ORVERTIMETTL , " _
-                '& "       isnull(A.WNIGHTTIME,0) + isnull(A.WNIGHTTIMECHO,0) as WNIGHTTIMETTL , " _
-                '& "       isnull(A.SWORKTIME,0) + isnull(A.SWORKTIMECHO,0) as SWORKTIMETTL , " _
-                '& "       isnull(A.SNIGHTTIME,0) + isnull(A.SNIGHTTIMECHO,0) as SNIGHTTIMETTL , " _
-                '& "       isnull(A.HWORKTIME,0) + isnull(A.HWORKTIMECHO,0) as HWORKTIMETTL , " _
-                '& "       isnull(A.HNIGHTTIME,0) + isnull(A.HNIGHTTIMECHO,0) as HNIGHTTIMETTL , " _
-                '& "       isnull(A.WORKNISSU, 0) + isnull(A.WORKNISSUCHO, 0) as WORKNISSUTTL , " _
-                '& "       isnull(A.SHOUKETUNISSU, 0) + isnull(A.SHOUKETUNISSUCHO, 0) as SHOUKETUNISSUTTL , " _
-                '& "       isnull(A.KUMIKETUNISSU, 0) + isnull(A.KUMIKETUNISSUCHO, 0) as KUMIKETUNISSUTTL , " _
-                '& "       isnull(A.ETCKETUNISSU, 0) + isnull(A.ETCKETUNISSUCHO, 0) as ETCKETUNISSUTTL , " _
-                '& "       isnull(A.NENKYUNISSU, 0) + isnull(A.NENKYUNISSUCHO, 0) as NENKYUNISSUTTL , " _
-                '& "       isnull(A.TOKUKYUNISSU, 0) + isnull(A.TOKUKYUNISSUCHO, 0) as TOKUKYUNISSUTTL , " _
-                '& "       isnull(A.CHIKOKSOTAINISSU, 0) + isnull(A.CHIKOKSOTAINISSUCHO, 0) as CHIKOKSOTAINISSUTTL , " _
-                '& "       isnull(A.STOCKNISSU, 0) + isnull(A.STOCKNISSUCHO, 0) as STOCKNISSUTTL , " _
-                '& "       isnull(A.KYOTEIWEEKNISSU, 0) + isnull(A.KYOTEIWEEKNISSUCHO, 0) as KYOTEIWEEKNISSUTTL , " _
-                '& "       isnull(A.WEEKNISSU, 0) + isnull(A.WEEKNISSUCHO, 0) as WEEKNISSUTTL , " _
-                '& "       isnull(A.DAIKYUNISSU, 0) + isnull(A.DAIKYUNISSUCHO, 0) as DAIKYUNISSUTTL , " _
-                '& "       isnull(A.NENSHINISSU, 0) + isnull(A.NENSHINISSUCHO, 0) as NENSHINISSUTTL , " _
-                '& "       isnull(A.SHUKCHOKNNISSU, 0) + isnull(A.SHUKCHOKNNISSUCHO, 0) as SHUKCHOKNNISSUTTL , " _
-                '& "       isnull(A.SHUKCHOKNISSU, 0) + isnull(A.SHUKCHOKNISSUCHO, 0) as SHUKCHOKNISSUTTL , " _
-                '& "       isnull(A.SHUKCHOKNHLDNISSU, 0) + isnull(A.SHUKCHOKNHLDNISSUCHO, 0) as SHUKCHOKNHLDNISSUTTL , " _
-                '& "       isnull(A.SHUKCHOKHLDNISSU, 0) + isnull(A.SHUKCHOKHLDNISSUCHO, 0) as SHUKCHOKHLDNISSUTTL , " _
-                '& "       isnull(A.TOKSAAKAISU, 0) + isnull(A.TOKSAAKAISUCHO, 0) as TOKSAAKAISUTTL , " _
-                '& "       isnull(A.TOKSABKAISU, 0) + isnull(A.TOKSABKAISUCHO, 0) as TOKSABKAISUTTL , " _
-                '& "       isnull(A.TOKSACKAISU, 0) + isnull(A.TOKSACKAISUCHO, 0) as TOKSACKAISUTTL , " _
-                '& "       isnull(A.TENKOKAISU, 0) + isnull(A.TENKOKAISUCHO, 0) as TENKOKAISUTTL , " _
-                '& "       isnull(A.HOANTIME, 0) + isnull(A.HOANTIMECHO, 0) as HOANTIMETTL , " _
-                '& "       isnull(A.KOATUTIME, 0) + isnull(A.KOATUTIMECHO, 0) as KOATUTIMETTL , " _
-                '& "       isnull(A.TOKUSA1TIME, 0) + isnull(A.TOKUSA1TIMECHO, 0) as TOKUSA1TIMETTL , " _
-                '& "       isnull(A.HAYADETIME, 0) + isnull(A.HAYADETIMECHO, 0) as HAYADETIMETTL , " _
-                '& "       isnull(A.PONPNISSU, 0) + isnull(A.PONPNISSUCHO, 0) as PONPNISSUTTL , " _
-                '& "       isnull(A.BULKNISSU, 0) + isnull(A.BULKNISSUCHO, 0) as BULKNISSUTTL , " _
-                '& "       isnull(A.TRAILERNISSU, 0) + isnull(A.TRAILERNISSUCHO, 0) as TRAILERNISSUTTL , " _
-                '& "       isnull(A.BKINMUKAISU, 0) + isnull(A.BKINMUKAISUCHO, 0) as BKINMUKAISUTTL , " _
-                '& "       isnull(A.UNLOADCNT, 0) + isnull(A.UNLOADCNTCHO, 0) as UNLOADCNTTTL , " _
-                '& "       isnull(A.HAIDISTANCE,0) + isnull(A.HAIDISTANCECHO, 0) as HAIDISTANCETTL , " _
-                '& "       isnull(A.KAIDISTANCE, 0) + isnull(A.KAIDISTANCECHO, 0) as KAIDISTANCETTL , " _
-                '& "       isnull(A.NENMATUNISSU, 0) + isnull(A.NENMATUNISSUCHO, 0) as NENMATUNISSUTTL , " _
-                '& "       isnull(A.JIKYUSHATIME,0) + isnull(A.JIKYUSHATIMECHO,0) as JIKYUSHATIMETTL , " _
-                '& "       isnull(A.MODELDISTANCE,0) + isnull(A.MODELDISTANCECHO, 0) as MODELDISTANCETTL , " _
-                '& "       isnull(A.HDAIWORKTIME, 0) + isnull(A.HDAIWORKTIMECHO, 0) as HDAIWORKTIMETTL , " _
-                '& "       isnull(A.HDAINIGHTTIME, 0) + isnull(A.HDAINIGHTTIMECHO, 0) as HDAINIGHTTIMETTL , " _
-                '& "       isnull(A.SDAIWORKTIME, 0) + isnull(A.SDAIWORKTIMECHO, 0) as SDAIWORKTIMETTL , " _
-                '& "       isnull(A.SDAINIGHTTIME, 0) + isnull(A.SDAINIGHTTIMECHO, 0) as SDAINIGHTTIMETTL , " _
-                '& "       isnull(A.WWORKTIME, 0) + isnull(A.WWORKTIMECHO, 0) as WWORKTIMETTL , " _
-                '& "       isnull(A.JYOMUTIME, 0) + isnull(A.JYOMUTIMECHO, 0) as JYOMUTIMETTL , " _
-                '& "       isnull(A.HWORKNISSU, 0) + isnull(A.HWORKNISSUCHO, 0) as HWORKNISSUTTL , " _
-                '& "       isnull(A.KAITENCNT, 0) + isnull(A.KAITENCNTCHO, 0) as KAITENCNTTTL , " _
-                '& "       isnull(A.SENJYOCNT, 0) + isnull(A.SENJYOCNTCHO, 0) as SENJYOCNTTTL , " _
-                '& "       isnull(A.UNLOADADDCNT1, 0) + isnull(A.UNLOADADDCNT1CHO, 0) as UNLOADADDCNT1TTL , " _
-                '& "       isnull(A.UNLOADADDCNT2, 0) + isnull(A.UNLOADADDCNT2CHO, 0) as UNLOADADDCNT2TTL , " _
-                '& "       isnull(A.UNLOADADDCNT3, 0) + isnull(A.UNLOADADDCNT3CHO, 0) as UNLOADADDCNT3TTL , " _
-                '& "       isnull(A.UNLOADADDCNT4, 0) + isnull(A.UNLOADADDCNT4CHO, 0) as UNLOADADDCNT4TTL , " _
-                '& "       isnull(A.SHORTDISTANCE1, 0) + isnull(A.SHORTDISTANCE1CHO, 0) as SHORTDISTANCE1TTL , " _
-                '& "       isnull(A.SHORTDISTANCE2, 0) + isnull(A.SHORTDISTANCE2CHO, 0) as SHORTDISTANCE2TTL , " _
-                '& "       'K' as DATAKBN , " _
-                '& "       '' as SHIPORG , " _
-                '& "       '' as SHIPORGNAMES , " _
-                '& "       '' as NIPPONO , " _
-                '& "       '' as GSHABAN , " _
-                '& "       '0' as RUIDISTANCE , " _
-                '& "       '0' as JIDISTANCE , " _
-                '& "       '0' as KUDISTANCE , " _
 
                 T0007row("NIGHTTIMETTL") = Val(T0007row("NIGHTTIME")) + Val(T0007row("NIGHTTIMECHO"))
                 T0007row("ORVERTIMETTL") = Val(T0007row("ORVERTIME")) + Val(T0007row("ORVERTIMECHO"))
@@ -3244,14 +3376,59 @@ Public Class GRT00007ICHIRAN_NJS_V2
                 T0007row("KAIDISTANCE") = Int(T0007row("KAIDISTANCE"))
                 T0007row("KAIDISTANCETTL") = Int(T0007row("KAIDISTANCETTL"))
 
+                For j As Integer = 1 To 10
+                    Dim WW_STTIME As String = "T13BBSTTIME" & j.ToString("00")
+                    Dim WW_ENDTIME As String = "T13BBENDTIME" & j.ToString("00")
+                    If IsDate(T0007row(WW_STTIME)) Then
+                        T0007row(WW_STTIME) = CDate(T0007row(WW_STTIME)).ToString("HH:mm")
+                    Else
+                        T0007row(WW_STTIME) = "00:00"
+                    End If
+                    If IsDate(T0007row(WW_ENDTIME)) Then
+                        T0007row(WW_ENDTIME) = CDate(T0007row(WW_ENDTIME)).ToString("HH:mm")
+                    Else
+                        T0007row(WW_ENDTIME) = "00:00"
+                    End If
+
+                    WW_STTIME = "T13G1STTIME" & j.ToString("00")
+                    WW_ENDTIME = "T13G1ENDTIME" & j.ToString("00")
+                    If IsDate(T0007row(WW_STTIME)) Then
+                        T0007row(WW_STTIME) = CDate(T0007row(WW_STTIME)).ToString("HH:mm")
+                    Else
+                        T0007row(WW_STTIME) = "00:00"
+                    End If
+                    If IsDate(T0007row(WW_ENDTIME)) Then
+                        T0007row(WW_ENDTIME) = CDate(T0007row(WW_ENDTIME)).ToString("HH:mm")
+                    Else
+                        T0007row(WW_ENDTIME) = "00:00"
+                    End If
+                Next
+
                 If work.WF_T7SEL_LIMITFLG.Text = "0" Then
                     '日報取込判定
-                    If T0007row("T5ENTRYDATE") <> "" AndAlso T0007row("HDKBN") = "H" AndAlso T0007row("RECODEKBN") = "0" AndAlso T0007row("NIPPOLINKCODE") = "" Then
+                    Dim WW_NIPPOLINK() As String = Split(T0007row("NIPPOLINKCODE"), "_")
+                    If WW_NIPPOLINK.Length < 2 Then
+                        ReDim Preserve WW_NIPPOLINK(1)
+                        WW_NIPPOLINK(1) = ""
+                    End If
+                    If T0007row("T5ENTRYDATE") <> "" AndAlso T0007row("HDKBN") = "H" AndAlso T0007row("RECODEKBN") = "0" AndAlso String.IsNullOrEmpty(WW_NIPPOLINK(0)) Then
                         T0007row("STATUS") = "日報取込"
                     End If
 
-                    If T0007row("T5ENTRYDATE") <> "" AndAlso T0007row("HDKBN") = "H" AndAlso T0007row("RECODEKBN") = "0" AndAlso T0007row("NIPPOLINKCODE") <> "" AndAlso T0007row("NIPPOLINKCODE") <> T0007row("T5ENTRYDATE") Then
+                    If T0007row("T13ENTRYDATE") <> "" AndAlso T0007row("HDKBN") = "H" AndAlso T0007row("RECODEKBN") = "0" AndAlso String.IsNullOrEmpty(WW_NIPPOLINK(1)) Then
+                        If String.IsNullOrEmpty(T0007row("STATUS")) Then
+                            T0007row("STATUS") = "休憩,配送取込"
+                        End If
+                    End If
+
+                    If T0007row("T5ENTRYDATE") <> "" AndAlso T0007row("HDKBN") = "H" AndAlso T0007row("RECODEKBN") = "0" AndAlso Not String.IsNullOrEmpty(WW_NIPPOLINK(0)) AndAlso WW_NIPPOLINK(0) <> T0007row("T5ENTRYDATE") Then
                         T0007row("STATUS") = "日報変更"
+                    End If
+
+                    If T0007row("T13ENTRYDATE") <> "" AndAlso T0007row("HDKBN") = "H" AndAlso T0007row("RECODEKBN") = "0" AndAlso Not String.IsNullOrEmpty(WW_NIPPOLINK(1)) AndAlso WW_NIPPOLINK(1) <> T0007row("T13ENTRYDATE") Then
+                        If String.IsNullOrEmpty(T0007row("STATUS")) Then
+                            T0007row("STATUS") = "休憩,配送変更"
+                        End If
                     End If
                 End If
 
@@ -4009,60 +4186,65 @@ Public Class GRT00007ICHIRAN_NJS_V2
             WW_row("RECODEKBN") = iRow("RECODEKBN")                             'レコード区分
             WW_row("SEQ") = iRow("SEQ")                                         '明細行番号
             WW_row("ENTRYDATE") = iDATENOW.ToString("yyyyMMddHHmmssfff")        'エントリー日時
-            WW_row("NIPPOLINKCODE") = iRow("NIPPOLINKCODE")                     '日報連結コード
-            WW_row("MORG") = iRow("MORG")                                                 '管理部署
-            WW_row("HORG") = iRow("HORG")                                                 '配属部署
-            WW_row("SORG") = iRow("SORG")                                                 '作業部署
-            WW_row("STAFFKBN") = iRow("STAFFKBN")                                             '社員区分
-            WW_row("HOLIDAYKBN") = iRow("HOLIDAYKBN")                                           '休日区分
-            WW_row("PAYKBN") = iRow("PAYKBN")                                               '勤怠区分
-            WW_row("SHUKCHOKKBN") = iRow("SHUKCHOKKBN")                                          '宿日直区分
+            If String.IsNullOrEmpty(iRow("NIPPOLINKCODE")) Then
+                WW_row("NIPPOLINKCODE") = iRow("NIPPOLINKCODE")                 '日報連結コード
+            Else
+                Dim WW_LINKCODE As String = Mid(iRow("NIPPOLINKCODE"), 1, InStr(iRow("NIPPOLINKCODE"), "_")) & iDATENOW.ToString("yyyyMMddHHmmss")
+                WW_row("NIPPOLINKCODE") = WW_LINKCODE                               '日報連結コード
+            End If
+            WW_row("MORG") = iRow("MORG")                                       '管理部署
+            WW_row("HORG") = iRow("HORG")                                       '配属部署
+            WW_row("SORG") = iRow("SORG")                                       '作業部署
+            WW_row("STAFFKBN") = iRow("STAFFKBN")                               '社員区分
+            WW_row("HOLIDAYKBN") = iRow("HOLIDAYKBN")                           '休日区分
+            WW_row("PAYKBN") = iRow("PAYKBN")                                   '勤怠区分
+            WW_row("SHUKCHOKKBN") = iRow("SHUKCHOKKBN")                         '宿日直区分
             WW_row("WORKKBN") = iRow("WORKKBN")                                 '作業区分
             If IsDate(iRow("STDATE")) Then
-                WW_row("STDATE") = iRow("STDATE")                                   '開始日
+                WW_row("STDATE") = iRow("STDATE")                               '開始日
             Else
                 WW_row("STDATE") = DBNull.Value
             End If
             If IsDate(iRow("STTIME")) Then
-                WW_row("STTIME") = iRow("STTIME")                                   '開始時刻
+                WW_row("STTIME") = iRow("STTIME")                               '開始時刻
             Else
-                WW_row("STTIME") = DBNull.Value                                   '開始時刻
+                WW_row("STTIME") = DBNull.Value                                 '開始時刻
             End If
             If IsDate(iRow("ENDDATE")) Then
-                WW_row("ENDDATE") = iRow("ENDDATE")                                 '終了日
+                WW_row("ENDDATE") = iRow("ENDDATE")                             '終了日
             Else
                 WW_row("ENDDATE") = DBNull.Value
             End If
             If IsDate(iRow("ENDTIME")) Then
-                WW_row("ENDTIME") = iRow("ENDTIME")                                 '終了時刻
+                WW_row("ENDTIME") = iRow("ENDTIME")                             '終了時刻
             Else
-                WW_row("ENDTIME") = DBNull.Value                                 '終了時刻
+                WW_row("ENDTIME") = DBNull.Value                                '終了時刻
             End If
-            WW_row("WORKTIME") = T0007COM.HHMMtoMinutes(iRow("WORKTIME"))  '作業時間
-            WW_row("MOVETIME") = T0007COM.HHMMtoMinutes(iRow("MOVETIME"))  '移動時間
-            WW_row("ACTTIME") = T0007COM.HHMMtoMinutes(iRow("ACTTIME"))    '稼働時間
+            WW_row("WORKTIME") = T0007COM.HHMMtoMinutes(iRow("WORKTIME"))       '作業時間
+            WW_row("MOVETIME") = T0007COM.HHMMtoMinutes(iRow("MOVETIME"))       '移動時間
+            WW_row("ACTTIME") = T0007COM.HHMMtoMinutes(iRow("ACTTIME"))         '稼働時間
             WW_row("NIPPOBREAKTIME") = T0007COM.HHMMtoMinutes(iRow("NIPPOBREAKTIME"))                                        '日報休憩時間
             If IsDate(iRow("BINDSTDATE")) Then
-                WW_row("BINDSTDATE") = iRow("BINDSTDATE")                                 '拘束開始時刻
+                WW_row("BINDSTDATE") = iRow("BINDSTDATE")                       '拘束開始時刻
             Else
-                WW_row("BINDSTDATE") = DBNull.Value                               '拘束開始時刻
+                WW_row("BINDSTDATE") = DBNull.Value                             '拘束開始時刻
             End If
-            WW_row("BINDTIME") = T0007COM.HHMMtoMinutes(iRow("BINDTIME"))                                              '拘束時間（分）
-            WW_row("BREAKTIME") = T0007COM.HHMMtoMinutes(iRow("BREAKTIME"))                                         '休憩時間（分）
-            WW_row("BREAKTIMECHO") = T0007COM.HHMMtoMinutes(iRow("BREAKTIMECHO"))                                         '休憩調整時間（分）
-            WW_row("NIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("NIGHTTIME"))                                            '所定深夜時間（分）
-            WW_row("NIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("NIGHTTIMECHO"))                                         '所定深夜調整時間（分）
-            WW_row("ORVERTIME") = T0007COM.HHMMtoMinutes(iRow("ORVERTIME"))                                           '平日残業時間（分）
-            WW_row("ORVERTIMECHO") = T0007COM.HHMMtoMinutes(iRow("ORVERTIMECHO"))                                      '平日残業調整時間（分）
-            WW_row("WNIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("WNIGHTTIME"))                                          '平日深夜時間（分）
-            WW_row("WNIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("WNIGHTTIMECHO"))                                        '平日深夜調整時間（分）
-            WW_row("SWORKTIME") = T0007COM.HHMMtoMinutes(iRow("SWORKTIME"))                                            '日曜出勤時間（分）
-            WW_row("SWORKTIMECHO") = T0007COM.HHMMtoMinutes(iRow("SWORKTIMECHO"))                                          '日曜出勤調整時間（分）
-            WW_row("SNIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("SNIGHTTIME"))                                            '日曜深夜時間（分）
-            WW_row("SNIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("SNIGHTTIMECHO"))                                         '日曜深夜調整時間（分）
-            WW_row("HWORKTIME") = T0007COM.HHMMtoMinutes(iRow("HWORKTIME"))                                             '休日出勤時間（分）
-            WW_row("HWORKTIMECHO") = T0007COM.HHMMtoMinutes(iRow("HWORKTIMECHO"))                                          '休日出勤調整時間（分）
-            WW_row("HNIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("HNIGHTTIME"))                                            '休日深夜時間（分）
+            WW_row("BINDTIME") = T0007COM.HHMMtoMinutes(iRow("BINDTIME"))                          '拘束時間（分）
+            WW_row("BREAKTIME") = T0007COM.HHMMtoMinutes(iRow("BREAKTIME"))                        '休憩時間（分）
+            WW_row("BREAKTIMECHO") = T0007COM.HHMMtoMinutes(iRow("BREAKTIMECHO"))                  '休憩調整時間（分）
+            WW_row("NIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("NIGHTTIME"))                        '所定深夜時間（分）
+            WW_row("NIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("NIGHTTIMECHO"))                  '所定深夜調整時間（分）
+            WW_row("ORVERTIME") = T0007COM.HHMMtoMinutes(iRow("ORVERTIME"))                        '平日残業時間（分）
+            WW_row("ORVERTIMECHO") = T0007COM.HHMMtoMinutes(iRow("ORVERTIMECHO"))                  '平日残業調整時間（分）
+            WW_row("WNIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("WNIGHTTIME"))                      '平日深夜時間（分）
+            WW_row("WNIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("WNIGHTTIMECHO"))                '平日深夜調整時間（分）
+            WW_row("SWORKTIME") = T0007COM.HHMMtoMinutes(iRow("SWORKTIME"))                        '日曜出勤時間（分）
+            WW_row("SWORKTIMECHO") = T0007COM.HHMMtoMinutes(iRow("SWORKTIMECHO"))                  '日曜出勤調整時間（分）
+            WW_row("SNIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("SNIGHTTIME"))                      '日曜深夜時間（分）
+            WW_row("SNIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("SNIGHTTIMECHO"))                '日曜深夜調整時間（分）
+            WW_row("HWORKTIME") = T0007COM.HHMMtoMinutes(iRow("HWORKTIME"))                        '休日出勤時間（分）
+            WW_row("HWORKTIMECHO") = T0007COM.HHMMtoMinutes(iRow("HWORKTIMECHO"))                  '休日出勤調整時間（分）
+            WW_row("HNIGHTTIME") = T0007COM.HHMMtoMinutes(iRow("HNIGHTTIME"))                      '休日深夜時間（分）
             WW_row("HNIGHTTIMECHO") = T0007COM.HHMMtoMinutes(iRow("HNIGHTTIMECHO"))                                         '休日深夜調整時間（分）
             WW_row("WORKNISSU") = iRow("WORKNISSU")                                                '所労
             WW_row("WORKNISSUCHO") = iRow("WORKNISSUCHO")                                          '所労調整
@@ -4112,12 +4294,12 @@ Public Class GRT00007ICHIRAN_NJS_V2
             WW_row("TOKSACKAISUCHO") = iRow("TOKSACKAISUCHO")                                      '特作C調整
             WW_row("TENKOKAISU") = iRow("TENKOKAISU")                                              '点呼回数
             WW_row("TENKOKAISUCHO") = iRow("TENKOKAISUCHO")                                        '点呼回数調整
-            WW_row("HOANTIME") = T0007COM.HHMMtoMinutes(iRow("HOANTIME"))                                   '保安検査（分）
-            WW_row("HOANTIMECHO") = T0007COM.HHMMtoMinutes(iRow("HOANTIMECHO"))                             '保安検査調整（分）
-            WW_row("KOATUTIME") = T0007COM.HHMMtoMinutes(iRow("KOATUTIME"))                                 '高圧作業（分）
-            WW_row("KOATUTIMECHO") = T0007COM.HHMMtoMinutes(iRow("KOATUTIMECHO"))                           '高圧作業調整（分）
-            WW_row("TOKUSA1TIME") = T0007COM.HHMMtoMinutes(iRow("TOKUSA1TIME"))                             '特作Ⅰ（分）
-            WW_row("TOKUSA1TIMECHO") = T0007COM.HHMMtoMinutes(iRow("TOKUSA1TIMECHO"))                       '特作Ⅰ調整（分）
+            WW_row("HOANTIME") = T0007COM.HHMMtoMinutes(iRow("HOANTIME"))                          '保安検査（分）
+            WW_row("HOANTIMECHO") = T0007COM.HHMMtoMinutes(iRow("HOANTIMECHO"))                    '保安検査調整（分）
+            WW_row("KOATUTIME") = T0007COM.HHMMtoMinutes(iRow("KOATUTIME"))                        '高圧作業（分）
+            WW_row("KOATUTIMECHO") = T0007COM.HHMMtoMinutes(iRow("KOATUTIMECHO"))                  '高圧作業調整（分）
+            WW_row("TOKUSA1TIME") = T0007COM.HHMMtoMinutes(iRow("TOKUSA1TIME"))                    '特作Ⅰ（分）
+            WW_row("TOKUSA1TIMECHO") = T0007COM.HHMMtoMinutes(iRow("TOKUSA1TIMECHO"))              '特作Ⅰ調整（分）
             WW_row("HAYADETIME") = T0007COM.HHMMtoMinutes(iRow("HAYADETIME"))                      '時差出勤手当（分）
             WW_row("HAYADETIMECHO") = T0007COM.HHMMtoMinutes(iRow("HAYADETIMECHO"))                '時差出勤手当調整（分）
             WW_row("PONPNISSU") = iRow("PONPNISSU")                                                'ポンプ
@@ -4176,10 +4358,10 @@ Public Class GRT00007ICHIRAN_NJS_V2
             WW_row("UNLOADADDCNT3CHO") = iRow("UNLOADADDCNT3CHO")                                  '危険品荷卸３回数調整
             WW_row("UNLOADADDCNT4") = "0"                                                          '危険品荷卸４回数
             WW_row("UNLOADADDCNT4CHO") = "0"                                                       '危険品荷卸４回数調整
-            WW_row("SHORTDISTANCE1") = iRow("SHORTDISTANCE1")                                            '危険品積込１回数
-            WW_row("SHORTDISTANCE1CHO") = iRow("SHORTDISTANCE1CHO")                                      '危険品積込１回数調整
-            WW_row("SHORTDISTANCE2") = "0"                                                            '危険品積込２回数
-            WW_row("SHORTDISTANCE2CHO") = "0"                                                         '危険品積込２回数調整
+            WW_row("SHORTDISTANCE1") = iRow("SHORTDISTANCE1")                                      '危険品積込１回数
+            WW_row("SHORTDISTANCE1CHO") = iRow("SHORTDISTANCE1CHO")                                '危険品積込１回数調整
+            WW_row("SHORTDISTANCE2") = "0"                                                         '危険品積込２回数
+            WW_row("SHORTDISTANCE2CHO") = "0"                                                      '危険品積込２回数調整
 
             WW_row("DELFLG") = iRow("DELFLG")                                                      '削除フラグ
             WW_row("INITYMD") = iDATENOW                                                           '登録年月日
@@ -6488,7 +6670,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
                 WW_HEADrow("STATUS") = wSTATUS
                 wSTATUS = ""
             Else
-                If (WW_HEADrow("STATUS") Like "*日報取込*" And wSTATUS = "") Or (WW_HEADrow("STATUS") Like "*日報変更*") Then
+                If (WW_HEADrow("STATUS") Like "*日報取込*" And wSTATUS = "") Or (WW_HEADrow("STATUS") Like "*日報変更*") Or (WW_HEADrow("STATUS") Like "*休憩*") Then
                     wSTATUS = WW_HEADrow("STATUS")
                 End If
             End If
@@ -6502,7 +6684,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
         '　　（日報変更が発生したデータは始業（A1）、終業（Z1）、その他（BX）を再作成する。よって既存のデータから除外）
         WW_IDX = 0
         For Each WW_HEADrow As DataRow In WW_T0007HEADtbl.Rows
-            If WW_HEADrow("STATUS") Like "*日報変更*" AndAlso
+            If (WW_HEADrow("STATUS") Like "*日報変更*" Or WW_HEADrow("STATUS") Like "*休憩*") AndAlso
                WW_HEADrow("RECODEKBN") = "0" Then
                 Dim WW_MATCH As String = "OFF"
                 For i As Integer = WW_IDX To WW_T0007DTLtbl.Rows.Count - 1
@@ -6538,7 +6720,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
         Dim iT0007view As DataView
         iT0007view = New DataView(WW_T0007HEADtbl)
         iT0007view.Sort = "RECODEKBN, STATUS, WORKDATE"
-        iT0007view.RowFilter = "RECODEKBN ='0' and STATUS Like '*日報*' and WORKDATE >= #" & iSTDATE & "# and WORKDATE <= #" & iENDDATE & "#"
+        iT0007view.RowFilter = "RECODEKBN ='0' and (STATUS Like '*日報*' or STATUS Like '*休憩*') and WORKDATE >= #" & iSTDATE & "# and WORKDATE <= #" & iENDDATE & "#"
         Dim wT0007tbl As DataTable = iT0007view.ToTable
 
         'T7ディテイル作成
@@ -7021,7 +7203,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
         '勤怠ヘッダの集計
         WW_IDX = 0
         For Each WW_HEADrow As DataRow In WW_T0007HEADtbl.Rows
-            If WW_HEADrow("STATUS") Like "*日報*" And WW_HEADrow("RECODEKBN") = "0" And
+            If (WW_HEADrow("STATUS") Like "*日報*" Or WW_HEADrow("STATUS") Like "*休憩*") And WW_HEADrow("RECODEKBN") = "0" And
                WW_HEADrow("WORKDATE") >= iSTDATE And WW_HEADrow("WORKDATE") <= iENDDATE Then
             Else
                 Continue For
@@ -7042,6 +7224,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
             Dim WW_LONGITUDE_F1 As String = ""
             Dim WW_LATITUDE_F3 As String = ""
             Dim WW_LONGITUDE_F3 As String = ""
+            Dim WW_A1sttime As String = ""
 
             '勤怠レコードの必要情報からヘッダを集計
             For i As Integer = WW_IDX To iT0007view.Count - 1
@@ -7052,29 +7235,55 @@ Public Class GRT00007ICHIRAN_NJS_V2
                     '出社レコードより開始日、開始時間を取得
                     WW_HEADrow("STDATE") = WW_DTLrow("STDATE")
                     WW_HEADrow("STTIME") = T0007COM.Minute30Edit(WW_DTLrow("STTIME"))
+                    WW_A1sttime = WW_DTLrow("STTIME")
                 End If
 
                 If WW_DTLrow("WORKKBN") = "F1" And WW_F1 = "OFF" Then
                     '最初の出庫の緯度経度を取得
                     WW_LATITUDE_F1 = WW_DTLrow("LATITUDE")
                     WW_LONGITUDE_F1 = WW_DTLrow("LONGITUDE")
+
+                    '配送開始01、配送終了01が00:00以外の場合、配送ボタンONとなる
+                    If WW_HEADrow("T13G1STTIME01") <> "00:00" AndAlso WW_HEADrow("T13G1ENDTIME01") <> "00:00" Then
+                        Dim WW_date As DateTime = CDate(WW_HEADrow("STDATE") & " " & WW_A1sttime)
+                        Dim WW_dateG1 As DateTime = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("T13G1STTIME01"))
+                        Dim WW_dateAdd60 As DateTime = WW_date.AddMinutes(60)
+                        '出庫時刻から60分以内であれば、配送作業（グループ作業ではない）とする
+                        If WW_dateG1 <= WW_dateAdd60 Then
+                            If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F1, WW_LONGITUDE_F1) = "OK" Then
+                                '配送ボタンで車庫出発の場合、配送開始-１０分
+                                WW_date = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("T13G1STTIME01"))
+                                WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
+                                WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                            Else
+                                '配送ボタンで車庫以外出発の場合、配送開始そのまま
+                                WW_HEADrow("STDATE") = WW_HEADrow("STDATE")
+                                WW_HEADrow("STTIME") = WW_HEADrow("T13G1STTIME01")
+                            End If
+                        End If
+                    Else
+                        '配送ボタン以外（グループ作業）の場合、上記のA1で決定した30分編集となる
+                    End If
+
                     WW_F1 = "ON"
                 End If
 
-                If WW_DTLrow("WORKKBN") = "G1" And WW_G1 = "OFF" And WW_F3 = "OFF" Then
-                    '最初の配送ボタン取得
-                    If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F1, WW_LONGITUDE_F1) = "OK" Then
-                        '配送ボタンで車庫出発の場合、配送開始-１０分
-                        Dim WW_date As DateTime = CDate(WW_DTLrow("STDATE") & " " & WW_DTLrow("STTIME"))
-                        WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
-                        WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
-                    Else
-                        '配送ボタンで車庫以外出発の場合、配送開始そのまま
-                        WW_HEADrow("STDATE") = WW_DTLrow("STDATE")
-                        WW_HEADrow("STTIME") = WW_DTLrow("STTIME")
-                    End If
-                    WW_G1 = "ON"
-                End If
+                '2020/11/17 UPD
+                'If WW_DTLrow("WORKKBN") = "G1" And WW_G1 = "OFF" And WW_F3 = "OFF" Then
+                '    '最初の配送ボタン取得
+                '    If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F1, WW_LONGITUDE_F1) = "OK" Then
+                '        '配送ボタンで車庫出発の場合、配送開始-１０分
+                '        Dim WW_date As DateTime = CDate(WW_DTLrow("STDATE") & " " & WW_DTLrow("STTIME"))
+                '        WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
+                '        WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                '    Else
+                '        '配送ボタンで車庫以外出発の場合、配送開始そのまま
+                '        WW_HEADrow("STDATE") = WW_DTLrow("STDATE")
+                '        WW_HEADrow("STTIME") = WW_DTLrow("STTIME")
+                '    End If
+                '    WW_G1 = "ON"
+                'End If
+                '2020/11/17 UPD END
 
                 If WW_DTLrow("WORKKBN") = "Z1" Then
                     '退社レコードの終了日、終了時間を取得
@@ -7082,10 +7291,12 @@ Public Class GRT00007ICHIRAN_NJS_V2
                     WW_HEADrow("ENDTIME") = WW_DTLrow("ENDTIME")
                 End If
 
-                If WW_DTLrow("WORKKBN") = "BB" Then
-                    '休憩レコードを取得
-                    WW_BREAKTIME += T0007COM.HHMMtoMinutes(WW_DTLrow("BREAKTIME"))
-                End If
+                '2020/11/17 UPD
+                'If WW_DTLrow("WORKKBN") = "BB" Then
+                '    '休憩レコードを取得
+                '    WW_BREAKTIME += T0007COM.HHMMtoMinutes(WW_DTLrow("BREAKTIME"))
+                'End If
+                '2020/11/17 UPD END
 
                 If WW_DTLrow("WORKKBN") = "F3" Then
                     WW_F3 = "ON"
@@ -7097,8 +7308,12 @@ Public Class GRT00007ICHIRAN_NJS_V2
                 WW_MATCH = "ON"
             Next
             If WW_MATCH = "ON" Then
-                WW_HEADrow("BREAKTIME") = T0007COM.formatHHMM(WW_BREAKTIME)
-                WW_HEADrow("BREAKTIMETTL") = T0007COM.formatHHMM(WW_BREAKTIME)
+                '2020/11/17 UPD
+                'WW_HEADrow("BREAKTIME") = T0007COM.formatHHMM(WW_BREAKTIME)
+                'WW_HEADrow("BREAKTIMETTL") = T0007COM.formatHHMM(WW_BREAKTIME)
+                WW_HEADrow("BREAKTIME") = "00:00"
+                WW_HEADrow("BREAKTIMETTL") = T0007COM.formatHHMM(WW_HEADrow("T13BBTTLTIME"))
+                '2020/11/17 UPD END
                 WW_HEADrow("BINDSTDATE") = WW_HEADrow("STTIME")
                 If IsDBNull(WW_HEADrow("STDATE")) Or
                     IsDBNull(WW_HEADrow("ENDDATE")) Or
@@ -7132,7 +7347,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
 
             '日報取得
             '該当する日報を抽出し、新しいテーブルを作成する
-            iT0005view.RowFilter = "YMD = #" & WW_HEADrow("WORKDATE") & "# and STAFFCODE ='" & WW_HEADrow("STAFFCODE") & "' and WORKKBN in ('F3','B3','BB')"
+            iT0005view.RowFilter = "YMD = #" & WW_HEADrow("WORKDATE") & "# and STAFFCODE ='" & WW_HEADrow("STAFFCODE") & "' and WORKKBN in ('F3','B3','B2')"
 
             Dim WW_BREAKTIME2 As Integer = 0
             Dim WW_HAISO As Integer = 0
@@ -7143,26 +7358,6 @@ Public Class GRT00007ICHIRAN_NJS_V2
             For i As Integer = 0 To iT0005view.Count - 1
                 Dim WW_NIPPOrow As DataRow = iT0005view.Item(i).Row
 
-                If WW_NIPPOrow("WORKKBN") = "F1" And WW_F1 = "OFF" Then
-                    '最初の出庫の緯度経度を取得
-                    WW_LATITUDE_F1 = WW_NIPPOrow("LATITUDE")
-                    WW_LONGITUDE_F1 = WW_NIPPOrow("LONGITUDE")
-                    WW_F1 = "ON"
-                End If
-                If WW_NIPPOrow("WORKKBN") = "G1" And WW_G1 = "OFF" And WW_F3 = "OFF" Then
-                    '最初の配送ボタン取得
-                    If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F1, WW_LONGITUDE_F1) = "OK" Then
-                        '配送ボタンで車庫出発の場合、配送開始-１０分
-                        Dim WW_date As DateTime = CDate(WW_NIPPOrow("STDATE") & " " & WW_NIPPOrow("STTIME"))
-                        WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
-                        WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
-                    Else
-                        '配送ボタンで車庫以外出発の場合、配送開始そのまま
-                        WW_HEADrow("STDATE") = WW_NIPPOrow("STDATE")
-                        WW_HEADrow("STTIME") = WW_NIPPOrow("STTIME")
-                    End If
-                    WW_G1 = "ON"
-                End If
                 If WW_NIPPOrow("WORKKBN") = "F3" Then
                     WW_F3 = "ON"
                     '最後の帰庫の緯度経度を取得
@@ -7176,11 +7371,12 @@ Public Class GRT00007ICHIRAN_NJS_V2
                         WW_HAISO = WW_HAISO + WW_NIPPOrow("SOUDISTANCE")
                     End If
                 End If
-
-                If WW_NIPPOrow("WORKKBN") = "BB" Then
-                    '休憩（BB）レコードの作業時間（休憩時間）を全て加算
-                    WW_BREAKTIME2 += WW_NIPPOrow("WORKTIME")
-                End If
+                '2020/11/17 UPD
+                'If WW_NIPPOrow("WORKKBN") = "BB" Then
+                '    '休憩（BB）レコードの作業時間（休憩時間）を全て加算
+                '    WW_BREAKTIME2 += WW_NIPPOrow("WORKTIME")
+                'End If
+                '2020/11/17 UPD END
                 If WW_NIPPOrow("WORKKBN") = "B3" Then
                     If WW_NIPPOrow("SUISOKBN") <> "1" Then
                         '荷卸（B3）をカウントする（水素はカウントしない）
@@ -7191,46 +7387,14 @@ Public Class GRT00007ICHIRAN_NJS_V2
                     '荷積（B2）積置きをカウントする
                     WW_B2CNT += 1
                 End If
-                WW_HEADrow("NIPPOLINKCODE") = WW_NIPPOrow("UPDYMD")
+                '2020/11/17 UPD
+                'WW_HEADrow("NIPPOLINKCODE") = WW_NIPPOrow("UPDYMD")
+                WW_HEADrow("NIPPOLINKCODE") = WW_NIPPOrow("UPDYMD") & "_" & WW_HEADrow("T13ENTRYDATE")
+                '2020/11/17 UPD END
             Next
 
-            If WW_MATCH = "ON" Then
-                WW_HEADrow("BREAKTIME") = T0007COM.formatHHMM(WW_BREAKTIME)
-                WW_HEADrow("BREAKTIMETTL") = T0007COM.formatHHMM(WW_BREAKTIME)
-                WW_HEADrow("BINDSTDATE") = WW_HEADrow("STTIME")
-                If IsDBNull(WW_HEADrow("STDATE")) Or
-                    IsDBNull(WW_HEADrow("ENDDATE")) Or
-                    IsDBNull(WW_HEADrow("STTIME")) Or
-                    IsDBNull(WW_HEADrow("ENDTIME")) Then
-                    WW_HEADrow("WORKTIME") = T0007COM.formatHHMM(0)
-                    WW_HEADrow("ACTTIME") = T0007COM.formatHHMM(0)
-                Else
-                    Dim WW_WORKTIME As Integer = 0
-                    WW_WORKTIME = DateDiff("n",
-                                         WW_HEADrow("STDATE") + " " + WW_HEADrow("STTIME"),
-                                         WW_HEADrow("ENDDATE") + " " + WW_HEADrow("ENDTIME")
-                                        )
-                    WW_HEADrow("WORKTIME") = T0007COM.formatHHMM(WW_WORKTIME)
-                    WW_HEADrow("ACTTIME") = T0007COM.formatHHMM(WW_WORKTIME)
-                End If
-
-                '出庫が車庫で、帰庫が車庫以外の場合、車中泊１泊目
-                WW_HEADrow("SHACHUHAKKBN") = "0"
-                WW_HEADrow("SHACHUHAKKBNNAMES") = ""
-                If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F1, WW_LONGITUDE_F1) = "OK" Then
-                    If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F3, WW_LONGITUDE_F3) = "OK" Then
-                        '出庫、帰庫が車庫の場合、車中泊ではない
-                    Else
-                        '出庫が車庫で、帰庫が車庫以外の場合、車中泊１泊目
-                        WW_HEADrow("SHACHUHAKKBN") = "1"
-                        WW_HEADrow("SHACHUHAKKBNNAMES") = "✔"
-                    End If
-                End If
-            End If
             '日報の休憩
-            WW_HEADrow("NIPPOBREAKTIME") = T0007COM.formatHHMM(WW_BREAKTIME2)
-            '勤怠の休憩＋日報の休憩を合計に
-            WW_HEADrow("BREAKTIMETTL") = T0007COM.formatHHMM(WW_BREAKTIME + WW_BREAKTIME2)
+            WW_HEADrow("NIPPOBREAKTIME") = T0007COM.formatHHMM(WW_HEADrow("T13BBTTLTIME"))
 
             WW_HEADrow("UNLOADCNT") = WW_B3CNT
             WW_HEADrow("UNLOADCNTTTL") = WW_B3CNT
@@ -7260,13 +7424,23 @@ Public Class GRT00007ICHIRAN_NJS_V2
                         Dim WW_T10TODOKECODE As String = "T10TODOKECODE" & j.ToString
                         Dim WW_T10MODELDISTANCE As String = "T10MODELDISTANCE" & j.ToString
                         Dim WW_T10MODIFYKBN As String = "T10MODIFYKBN" & j.ToString
-
-                        WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
-                        WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
-                        WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
-                        WW_HEADrow(WW_T10TODOKECODE) = WW_MODELrow(WW_TODOKECODE)
-                        WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
-                        WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
+                        '車中泊の場合、モデル距離不要（但し、手入力した場合のモデル距離は生かす）
+                        If WW_HEADrow("SHACHUHAKKBN") = "0" OrElse
+                           WW_MODELrow(WW_MODIFYKBN) = "1" Then
+                            WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
+                            WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
+                            WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
+                            WW_HEADrow(WW_T10TODOKECODE) = WW_MODELrow(WW_TODOKECODE)
+                            WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
+                            WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
+                        Else
+                            WW_HEADrow(WW_T10SHARYOKBN) = ""
+                            WW_HEADrow(WW_T10OILPAYKBN) = ""
+                            WW_HEADrow(WW_T10SHUKABASHO) = ""
+                            WW_HEADrow(WW_T10TODOKECODE) = ""
+                            WW_HEADrow(WW_T10MODELDISTANCE) = 0
+                            WW_HEADrow(WW_T10MODIFYKBN) = "0"
+                        End If
                     Next
                 End If
             Next
@@ -7367,7 +7541,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
 
         WW_IDX = 0
         For Each WW_HEADrow As DataRow In WW_T0007HEADtbl.Rows
-            If WW_HEADrow("STATUS") Like "*日報*" And WW_HEADrow("RECODEKBN") = "0" And
+            If (WW_HEADrow("STATUS") Like "*日報*" Or WW_HEADrow("STATUS") Like "*休憩*") And WW_HEADrow("RECODEKBN") = "0" And
                WW_HEADrow("WORKDATE") >= iSTDATE And WW_HEADrow("WORKDATE") <= iENDDATE Then
             Else
                 Continue For

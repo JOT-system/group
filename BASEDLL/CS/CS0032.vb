@@ -163,7 +163,7 @@ Public Structure CS0032TABLERecover
             CS0011LOGWRITE.INFSUBCLASS = METHOD_NAME           'SUBクラス名
             CS0011LOGWRITE.INFPOSI = "I_Table ADD"                      '
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT                                   '
-            CS0011LOGWRITE.TEXT = C_MESSAGE_TEXT.IN_PARAM_ERROR_TEXT
+            CS0011LOGWRITE.TEXT = C_MESSAGE_TEXT.IN_PARAM_ERROR_TEXT & ex.ToString
             CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.SYSTEM_ADM_ERROR
             CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
             Exit Sub

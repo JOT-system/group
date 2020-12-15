@@ -9167,16 +9167,17 @@ Public Class GRT00004HORDER
 
 
                 '****************************
-                '日跨ぎデータ増幅
-                '　※出庫～届日までの日数分
+                '日跨ぎデータ増幅 WW_KIKODATE
+                '　※出庫～届日までの日数分（修正前）
+                '　※出庫～帰庫までの日数分（修正後　2020/10/28）
                 '****************************
-                If Not IsNothing(WW_SHUKODATE) AndAlso Not IsNothing(WW_TODOKEDATE) Then
-                    Dim days As Integer = (WW_TODOKEDATE - WW_SHUKODATE).Days
+                If Not IsNothing(WW_SHUKODATE) AndAlso Not IsNothing(WW_KIKODATE) Then
+                    Dim days As Integer = (WW_KIKODATE - WW_SHUKODATE).Days
                     For i As Integer = 1 To days
                         Dim T00004INPAddrow = T00004INPtbl.NewRow()
                         T00004INPAddrow.ItemArray = T00004INProw.ItemArray
                         '
-                        T00004INPAddrow("SHUKODATE") = WW_SHUKODATE.AddDays(days).ToString("yyyy/MM/dd")
+                        T00004INPAddrow("SHUKODATE") = WW_SHUKODATE.AddDays(i).ToString("yyyy/MM/dd")
                         '増幅時のトリップは001にリセット
                         T00004INPAddrow("TRIPNO") = "001"
                         '積置区分名称編集（積置→積配）
@@ -9483,6 +9484,92 @@ Public Class GRT00004HORDER
                 Exit For
             End If
 
+            '2020/08/27 ADD
+            '従業員マスタ取得（乗務員）
+            Dim datStaff As JOT_MASTER.STAFF = Nothing
+            Dim splitStaff() As String = rowStart.STAFFINFO.Split("|")
+            If String.IsNullOrEmpty(splitStaff(0)) Then
+                '入力データに乗務員なし
+                datStaff = New JOT_MASTER.STAFF With {
+                        .STAFFCODE = "",
+                        .STAFFNAMES = ""
+                    }
+            Else
+                '入力データに乗務員あり
+                Dim tmpStaff = KOUEIMASTER.GetStaff2Code(rowStart.KOUEITYPE, splitStaff(0))
+                If Not IsNothing(tmpStaff) Then
+                    '光英マスタ存在
+                    Dim staffCode As String = tmpStaff.STAFFNO
+                    datStaff = JOTMASTER.GetStaff(staffCode)
+                    If IsNothing(datStaff) Then
+                        datStaff = New JOT_MASTER.STAFF With {
+                            .STAFFCODE = "!" & staffCode & "!",
+                            .STAFFNAMES = "★マスタエラー★"
+                        }
+                        ErrMsgEditForKOUEI(rowStart, "乗務員", "従業員マスタ不備(" & staffCode & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
+                        tripStatus = 1
+                    End If
+                Else
+                    '光英マスタ未存在
+                    tmpStaff = New KOUEI_MASTER.KOUEI_STAFF With {
+                        .STAFFCODE = "!" & splitStaff(0) & "!",
+                        .STAFFNAME = ""
+                    }
+                    datStaff = New JOT_MASTER.STAFF With {
+                        .STAFFCODE = tmpStaff.STAFFCODE,
+                        .STAFFNAMES = tmpStaff.STAFFNAME
+                    }
+                    ErrMsgEditForKOUEI(rowStart, "乗務員", "光英マスタ未存在(" & splitStaff(0) & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
+                    tripStatus = 1
+                End If
+            End If
+
+            '従業員マスタ取得（副乗務員）
+            Dim datSubStaff As JOT_MASTER.STAFF = Nothing
+            Dim splitSubStaff() As String = rowStart.SUBSTAFFINFO.Split("|")
+            If String.IsNullOrEmpty(splitSubStaff(0)) Then
+                '入力データに乗務員なし
+                datSubStaff = New JOT_MASTER.STAFF With {
+                        .STAFFCODE = "",
+                        .STAFFNAMES = ""
+                    }
+            Else
+                Dim tmpSubStaff = KOUEIMASTER.GetStaff2Code(rowStart.KOUEITYPE, splitSubStaff(0))
+                If Not IsNothing(tmpSubStaff) Then
+                    '光英マスタ存在
+                    Dim staffCode As String = tmpSubStaff.STAFFNO
+                    datSubStaff = JOTMASTER.GetStaff(staffCode)
+                    If IsNothing(datSubStaff) Then
+                        datSubStaff = New JOT_MASTER.STAFF With {
+                            .STAFFCODE = "!" & staffCode & "!",
+                            .STAFFNAMES = "★マスタエラー★"
+                        }
+                        ErrMsgEditForKOUEI(rowStart, "副乗務員", "従業員マスタ不備(" & staffCode & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
+                        tripStatus = 1
+                    End If
+                Else
+                    '光英マスタ未存在
+                    tmpSubStaff = New KOUEI_MASTER.KOUEI_STAFF With {
+                        .STAFFCODE = splitSubStaff(0),
+                        .STAFFNAME = ""
+                    }
+                    datSubStaff = New JOT_MASTER.STAFF With {
+                        .STAFFCODE = tmpSubStaff.STAFFCODE,
+                        .STAFFNAMES = tmpSubStaff.STAFFNAME
+                    }
+                    ErrMsgEditForKOUEI(rowStart, "副乗務員", "光英マスタ未存在(" & splitSubStaff(0) & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
+                    tripStatus = 1
+                End If
+            End If
+            '出社指定時間
+            Dim datSttime As String = ""
+            If String.IsNullOrEmpty(rowStart.STTIME) Then
+                datSttime = ""
+            Else
+                datSttime = (rowStart.STTIME / 60).ToString("00") & ":" & (rowStart.STTIME Mod 60).ToString("00")
+            End If
+            '2020/08/27 ADD END
+
             '届先マスタ取得（出荷場所）
             Dim datShukabasho As JOT_MASTER.TODOKESAKI = Nothing
             '光英届先マスタ取得
@@ -9704,9 +9791,9 @@ Public Class GRT00004HORDER
                     T00004INProw("SHUKADENNO") = ""
                     T00004INProw("INTIME") = ""
                     T00004INProw("OUTTIME") = ""
-                    T00004INProw("STAFFCODE") = ""
-                    T00004INProw("SUBSTAFFCODE") = ""
-                    T00004INProw("STTIME") = ""
+                    T00004INProw("STAFFCODE") = datStaff.STAFFCODE
+                    T00004INProw("SUBSTAFFCODE") = datSubStaff.STAFFCODE
+                    T00004INProw("STTIME") = datSttime
                     T00004INProw("RYOME") = "1"
                     T00004INProw("TODOKECODE") = datTodoke.TODOKECODE
                     T00004INProw("TODOKETIME") = ""

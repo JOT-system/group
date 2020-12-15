@@ -761,6 +761,402 @@ Partial Public Class GRT00007KINTAI_NJS_V2
     Protected WithEvents WF_KAIDISTANCE As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''Label1 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''WF_BBTTLTIME コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBTTLTIME As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME01 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME01 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME01 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME01 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME02 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME02 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME02 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME02 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME03 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME03 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME03 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME03 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME04 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME04 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME04 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME04 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME05 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME05 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME05 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME05 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME06 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME06 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME06 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME06 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME07 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME07 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME07 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME07 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME08 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME08 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME08 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME08 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME09 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME09 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME09 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME09 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBSTTIME10 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBSTTIME10 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_BBENDTIME10 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_BBENDTIME10 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''Label2 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''WF_G1TTLTIME コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1TTLTIME As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME01 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME01 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME01 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME01 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME02 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME02 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME02 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME02 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME03 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME03 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME03 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME03 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME04 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME04 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME04 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME04 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME05 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME05 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME05 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME05 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME06 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME06 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME06 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME06 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME07 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME07 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME07 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME07 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME08 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME08 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME08 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME08 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME09 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME09 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME09 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME09 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1STTIME10 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1STTIME10 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_G1ENDTIME10 コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_G1ENDTIME10 As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''pnlListArea コントロール。
     '''</summary>
     '''<remarks>

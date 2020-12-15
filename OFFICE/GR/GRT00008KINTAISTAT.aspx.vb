@@ -609,24 +609,11 @@ Public Class GRT00008KINTAISTAT
         Dim JNLtbl As DataTable = New DataTable
         Dim WW_Dir As String = ""
         Dim WW_TEMPDir As String = ""
-        Dim WW_ListSTAFFKBN As ListBox = New ListBox
 
         WW_ERRLIST_ALL = New List(Of String)
 
         '■ 作業用フォルダ・作業用ファイルの事前操作
         Try
-            '○　時間外対象外従業員区分ListBox設定
-            GS0007FIXVALUElst.CAMPCODE = work.WF_SEL_CAMPCODE.Text
-            GS0007FIXVALUElst.CLAS = "T0009_STAFFKBN"
-            GS0007FIXVALUElst.LISTBOX1 = WW_ListSTAFFKBN
-            GS0007FIXVALUElst.GS0007FIXVALUElst()
-            If isNormal(GS0007FIXVALUElst.ERR) Then
-                WW_ListSTAFFKBN = GS0007FIXVALUElst.LISTBOX1
-            Else
-                Master.Output(GS0007FIXVALUElst.ERR, C_MESSAGE_TYPE.ABORT)
-                Exit Sub
-            End If
-
             '○ 作業フォルダ存在確認＆作成(C:\apple\files\TEXTWORK)
             WW_Dir = Path.Combine(CS0050SESSION.UPLOAD_PATH, "TEXTWORK")
             If System.IO.Directory.Exists(WW_Dir) Then
@@ -1447,24 +1434,91 @@ Public Class GRT00008KINTAISTAT
                & "       isnull(A.NIGHTTIME,0) as NIGHTTIME , " _
                & "       isnull(A.NIGHTTIMECHO,0) as NIGHTTIMECHO , " _
                & "       isnull(A.NIGHTTIME,0) + isnull(A.NIGHTTIMECHO,0) as NIGHTTIMETTL , " _
+               & "       CASE WHEN A.NIGHTTIME = 0 " _
+               & "            THEN CEILING(cast(A.NIGHTTIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(NIGHTTIME + NIGHTTIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as NIGHTTIME5UP, " _
                & "       isnull(A.ORVERTIME,0) as ORVERTIME , " _
                & "       isnull(A.ORVERTIMECHO,0) as ORVERTIMECHO , " _
                & "       isnull(A.ORVERTIME,0) + isnull(A.ORVERTIMECHO,0) + isnull(A.ORVERTIMEADD,0) as ORVERTIMETTL , " _
+               & "       CASE WHEN A.ORVERTIME = 0 " _
+               & "            THEN CEILING(cast(A.ORVERTIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(ORVERTIME + ORVERTIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as ORVERTIME5UP, " _
                & "       isnull(A.WNIGHTTIME,0) as WNIGHTTIME , " _
                & "       isnull(A.WNIGHTTIMECHO,0) as WNIGHTTIMECHO , " _
                & "       isnull(A.WNIGHTTIME,0) + isnull(A.WNIGHTTIMECHO,0) + isnull(A.WNIGHTTIMEADD,0) as WNIGHTTIMETTL , " _
+               & "       CASE WHEN A.WNIGHTTIME = 0 and A.HNIGHTTIME = 0" _
+               & "            THEN CEILING(cast(A.WNIGHTTIMECHO +A.HNIGHTTIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(WNIGHTTIME + WNIGHTTIMECHO + HNIGHTTIME + HNIGHTTIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as WNIGHTTIME5UP, " _
                & "       isnull(A.SWORKTIME,0) as SWORKTIME , " _
                & "       isnull(A.SWORKTIMECHO,0) as SWORKTIMECHO , " _
                & "       isnull(A.SWORKTIME,0) + isnull(A.SWORKTIMECHO,0) + isnull(A.SWORKTIMEADD,0) as SWORKTIMETTL , " _
+               & "       CASE WHEN A.SWORKTIME = 0 " _
+               & "            THEN CEILING(cast(A.SWORKTIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(SWORKTIME + SWORKTIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as SWORKTIME5UP, " _
                & "       isnull(A.SNIGHTTIME,0) as SNIGHTTIME , " _
                & "       isnull(A.SNIGHTTIMECHO,0) as SNIGHTTIMECHO , " _
                & "       isnull(A.SNIGHTTIME,0) + isnull(A.SNIGHTTIMECHO,0) + isnull(A.SNIGHTTIMEADD,0) as SNIGHTTIMETTL , " _
+               & "       CASE WHEN A.SNIGHTTIME = 0 " _
+               & "            THEN CEILING(cast(A.SNIGHTTIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(SNIGHTTIME + SNIGHTTIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as SNIGHTTIME5UP, " _
                & "       isnull(A.HWORKTIME,0) as HWORKTIME , " _
                & "       isnull(A.HWORKTIMECHO,0) as HWORKTIMECHO , " _
                & "       isnull(A.HWORKTIME,0) + isnull(A.HWORKTIMECHO,0) as HWORKTIMETTL , " _
+               & "       CASE WHEN A.HWORKTIME = 0 " _
+               & "            THEN CEILING(cast(A.HWORKTIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(HWORKTIME + HWORKTIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as HWORKTIME5UP, " _
                & "       isnull(A.HNIGHTTIME,0) as HNIGHTTIME , " _
                & "       isnull(A.HNIGHTTIMECHO,0) as HNIGHTTIMECHO , " _
                & "       isnull(A.HNIGHTTIME,0) + isnull(A.HNIGHTTIMECHO,0) as HNIGHTTIMETTL , " _
+               & "       0 as HNIGHTTIME5UP, " _
                & "       isnull(A.WORKNISSU,0) as WORKNISSU , " _
                & "       isnull(A.WORKNISSUCHO,0) as WORKNISSUCHO , " _
                & "       isnull(A.WORKNISSU, 0) + isnull(A.WORKNISSUCHO, 0) as WORKNISSUTTL , " _
@@ -1546,6 +1600,17 @@ Public Class GRT00008KINTAISTAT
                & "       isnull(A.TOKUSA1TIME,0) as TOKUSA1TIME , " _
                & "       isnull(A.TOKUSA1TIMECHO,0) as TOKUSA1TIMECHO , " _
                & "       isnull(A.TOKUSA1TIME, 0) + isnull(A.TOKUSA1TIMECHO, 0) as TOKUSA1TIMETTL , " _
+               & "       CASE WHEN A.TOKUSA1TIME = 0 " _
+               & "            THEN CEILING(cast(A.TOKUSA1TIMECHO as numeric) / 5) * 5 " _
+               & "            ELSE (select sum(CEILING(cast(TOKUSA1TIME + TOKUSA1TIMECHO as numeric) / 5) * 5) " _
+               & "                  from T0007_KINTAI " _
+               & "                  where CAMPCODE  = A.CAMPCODE " _
+               & "                  and   TAISHOYM  = A.TAISHOYM " _
+               & "                  and   STAFFCODE = A.STAFFCODE  " _
+               & "                  and   RECODEKBN ='0'  " _
+               & "                  and   HDKBN     ='H' " _
+               & "                  and   DELFLG    ='0')  " _
+               & "       END as TOKUSA1TIME5UP, " _
                & "       isnull(A.HAYADETIME,0) as HAYADETIME , " _
                & "       isnull(A.HAYADETIMECHO,0) as HAYADETIMECHO , " _
                & "       isnull(A.HAYADETIME, 0) + isnull(A.HAYADETIMECHO, 0) as HAYADETIMETTL , " _
@@ -1583,6 +1648,15 @@ Public Class GRT00008KINTAISTAT
                & "       isnull(rtrim(O2.HORGCODEK),'') as HORGCODEK ,      " _
                & "       'K' as DATAKBN , " _
                & "       isnull(A.HAISOTIME,0) as HAISOTIME , " _
+               & "       (select sum(CEILING(cast(HAISOTIME as numeric) / 5) * 5) " _
+               & "        from T0007_KINTAI " _
+               & "        where CAMPCODE  = A.CAMPCODE " _
+               & "        and   TAISHOYM  = A.TAISHOYM " _
+               & "        and   STAFFCODE = A.STAFFCODE  " _
+               & "        and   RECODEKBN ='0'  " _
+               & "        and   HDKBN     ='H' " _
+               & "        and   DELFLG    ='0' " _
+               & "       )  as HAISOTIME5UP, " _
                & "       isnull(A.NENMATUNISSU,0) as NENMATUNISSU , " _
                & "       isnull(A.NENMATUNISSUCHO,0) as NENMATUNISSUCHO , " _
                & "       isnull(A.NENMATUNISSU, 0) + isnull(A.NENMATUNISSUCHO, 0) as NENMATUNISSUTTL , " _
@@ -2957,24 +3031,31 @@ Public Class GRT00008KINTAISTAT
         iTbl.Columns.Add("NIGHTTIME", GetType(String))
         iTbl.Columns.Add("NIGHTTIMECHO", GetType(String))
         iTbl.Columns.Add("NIGHTTIMETTL", GetType(String))
+        iTbl.Columns.Add("NIGHTTIME5UP", GetType(String))
         iTbl.Columns.Add("ORVERTIME", GetType(String))
         iTbl.Columns.Add("ORVERTIMECHO", GetType(String))
         iTbl.Columns.Add("ORVERTIMETTL", GetType(String))
+        iTbl.Columns.Add("ORVERTIME5UP", GetType(String))
         iTbl.Columns.Add("WNIGHTTIME", GetType(String))
         iTbl.Columns.Add("WNIGHTTIMECHO", GetType(String))
         iTbl.Columns.Add("WNIGHTTIMETTL", GetType(String))
+        iTbl.Columns.Add("WNIGHTTIME5UP", GetType(String))
         iTbl.Columns.Add("SWORKTIME", GetType(String))
         iTbl.Columns.Add("SWORKTIMECHO", GetType(String))
         iTbl.Columns.Add("SWORKTIMETTL", GetType(String))
+        iTbl.Columns.Add("SWORKTIME5UP", GetType(String))
         iTbl.Columns.Add("SNIGHTTIME", GetType(String))
         iTbl.Columns.Add("SNIGHTTIMECHO", GetType(String))
         iTbl.Columns.Add("SNIGHTTIMETTL", GetType(String))
+        iTbl.Columns.Add("SNIGHTTIME5UP", GetType(String))
         iTbl.Columns.Add("HWORKTIME", GetType(String))
         iTbl.Columns.Add("HWORKTIMECHO", GetType(String))
         iTbl.Columns.Add("HWORKTIMETTL", GetType(String))
+        iTbl.Columns.Add("HWORKTIME5UP", GetType(String))
         iTbl.Columns.Add("HNIGHTTIME", GetType(String))
         iTbl.Columns.Add("HNIGHTTIMECHO", GetType(String))
         iTbl.Columns.Add("HNIGHTTIMETTL", GetType(String))
+        iTbl.Columns.Add("HNIGHTTIME5UP", GetType(String))
         iTbl.Columns.Add("WORKNISSU", GetType(String))
         iTbl.Columns.Add("WORKNISSUCHO", GetType(String))
         iTbl.Columns.Add("WORKNISSUTTL", GetType(String))
@@ -3058,6 +3139,7 @@ Public Class GRT00008KINTAISTAT
         iTbl.Columns.Add("TOKUSA1TIME", GetType(String))
         iTbl.Columns.Add("TOKUSA1TIMECHO", GetType(String))
         iTbl.Columns.Add("TOKUSA1TIMETTL", GetType(String))
+        iTbl.Columns.Add("TOKUSA1TIME5UP", GetType(String))
         iTbl.Columns.Add("HAYADETIME", GetType(String))
         iTbl.Columns.Add("HAYADETIMECHO", GetType(String))
         iTbl.Columns.Add("HAYADETIMETTL", GetType(String))
@@ -3470,6 +3552,7 @@ Public Class GRT00008KINTAISTAT
 
         'NJS専用
         iTbl.Columns.Add("HAISOTIME", GetType(String))
+        iTbl.Columns.Add("HAISOTIME5UP", GetType(String))
         iTbl.Columns.Add("NENMATUNISSU", GetType(String))
         iTbl.Columns.Add("NENMATUNISSUCHO", GetType(String))
         iTbl.Columns.Add("NENMATUNISSUTTL", GetType(String))
@@ -8338,29 +8421,57 @@ Public Class GRT00008KINTAISTAT
                     JNLrow("休日出勤時間") = formatHHHMM5up(0, "#0.00")
                     JNLrow("日曜出勤時間") = formatHHHMM5up(0, "#0.00")
                 Else
-                    '2502.平日残業時間（平日残業＋平日深夜）
-                    WW_INT = Minute5UpEdit(Val(T00007row("ORVERTIMETTL"))) +
+                    '乗務員の判定
+                    CodeToName("CREWSTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                    If Not String.IsNullOrEmpty(WW_NAME) Then
+                        '-- 乗務員の場合 ----------------------
+                        '2502.平日残業時間（平日残業＋平日深夜）
+                        WW_INT = Val(T00007row("ORVERTIME5UP")) + Val(T00007row("WNIGHTTIME5UP"))
+                        JNLrow("平日残業時間") = formatHHHMM5up(WW_INT, "#0.00")
+
+                        '2504.休日出勤時間（休日出勤＋休日深夜）
+                        WW_INT = Val(T00007row("HWORKTIME5UP")) + Val(T00007row("HNIGHTTIME5UP"))
+                        JNLrow("休日出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
+
+                        '2505.日曜出勤時間（日曜出勤＋日曜深夜）
+                        WW_INT = Val(T00007row("SWORKTIME5UP")) + Val(T00007row("SNIGHTTIME5UP"))
+                        JNLrow("日曜出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
+                    Else
+                        '-- 事務員の場合 ----------------------
+                        '2502.平日残業時間（平日残業＋平日深夜）
+                        WW_INT = Minute5UpEdit(Val(T00007row("ORVERTIMETTL"))) +
                          Minute5UpEdit(Val(T00007row("WNIGHTTIMETTL")))
-                    JNLrow("平日残業時間") = formatHHHMM5up(WW_INT, "#0.00")
+                        JNLrow("平日残業時間") = formatHHHMM5up(WW_INT, "#0.00")
 
-                    '2504.休日出勤時間（休日出勤＋休日深夜）
-                    WW_INT = Minute5UpEdit(Val(T00007row("HWORKTIMETTL"))) +
-                         Minute5UpEdit(Val(T00007row("HNIGHTTIMETTL")))
-                    JNLrow("休日出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
+                        '2504.休日出勤時間（休日出勤＋休日深夜）
+                        WW_INT = Minute5UpEdit(Val(T00007row("HWORKTIMETTL"))) +
+                             Minute5UpEdit(Val(T00007row("HNIGHTTIMETTL")))
+                        JNLrow("休日出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
 
-                    '2505.日曜出勤時間（日曜出勤＋日曜深夜）
-                    WW_INT = Minute5UpEdit(Val(T00007row("SWORKTIMETTL"))) +
-                         Minute5UpEdit(Val(T00007row("SNIGHTTIMETTL")))
-                    JNLrow("日曜出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
+                        '2505.日曜出勤時間（日曜出勤＋日曜深夜）
+                        WW_INT = Minute5UpEdit(Val(T00007row("SWORKTIMETTL"))) +
+                             Minute5UpEdit(Val(T00007row("SNIGHTTIMETTL")))
+                        JNLrow("日曜出勤時間") = formatHHHMM5up(WW_INT, "#0.00")
+                    End If
                 End If
 
                 '2503.残業時間（60時間超）
                 JNLrow("残業時間（60時間超）") = "0"
 
                 '2506.深夜時間（所定内深夜＋平日深夜＋休日深夜＋日曜深夜）
-                WW_INT = Minute5UpEdit(Val(T00007row("NIGHTTIMETTL"))) +
-                         Minute5UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL"))) +
-                         Minute5UpEdit(Val(T00007row("SNIGHTTIMETTL")))
+                '乗務員の判定
+                CodeToName("CREWSTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                If Not String.IsNullOrEmpty(WW_NAME) Then
+                    '乗務員の場合
+                    WW_INT = Val(T00007row("NIGHTTIME5UP")) +
+                             Val(T00007row("WNIGHTTIME5UP")) + Val(T00007row("HNIGHTTIME5UP")) +
+                             Val(T00007row("SNIGHTTIME5UP"))
+                Else
+                    '事務員の場合
+                    WW_INT = Minute5UpEdit(Val(T00007row("NIGHTTIMETTL"))) +
+                             Minute5UpEdit(Val(T00007row("WNIGHTTIMETTL")) + Val(T00007row("HNIGHTTIMETTL"))) +
+                             Minute5UpEdit(Val(T00007row("SNIGHTTIMETTL")))
+                End If
                 JNLrow("深夜時間") = formatHHHMM5up(WW_INT, "#0.00")
 
                 '2507.休日代休出勤時間
@@ -8405,7 +8516,15 @@ Public Class GRT00008KINTAISTAT
                 JNLrow("月間乗務時間") = "0"
 
                 '2550.特作Ⅰ時間
-                JNLrow("特作時間") = formatHHHMM5up(Val(T00007row("TOKUSA1TIMETTL")), "#0.00")
+                '乗務員の判定
+                CodeToName("CREWSTAFFKBN", T00007row("STAFFKBN"), WW_NAME, WW_RTN)
+                If Not String.IsNullOrEmpty(WW_NAME) Then
+                    '乗務員の場合
+                    JNLrow("特作時間") = formatHHHMM5up(Val(T00007row("TOKUSA1TIME5UP")), "#0.00")
+                Else
+                    '事務員の場合
+                    JNLrow("特作時間") = formatHHHMM5up(Val(T00007row("TOKUSA1TIMETTL")), "#0.00")
+                End If
 
                 '2551.保安検査時間
                 JNLrow("保安検査時間") = "0"
@@ -19036,6 +19155,9 @@ Public Class GRT00008KINTAISTAT
                 Case "JIKYUSHASTAFFKBN"
                     '社員区分名称（時給者）
                     leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.createFIXParam(work.WF_SEL_CAMPCODE.Text, "T0009_JIKYUSHA"))
+                Case "CREWSTAFFKBN"
+                    '職務区分（乗務員）
+                    leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_EXTRA_LIST, I_VALUE, O_TEXT, O_RTN, work.CreateStaffKbnParam(work.WF_SEL_CAMPCODE.Text))
             End Select
         End If
 

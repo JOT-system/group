@@ -441,13 +441,13 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const T00012 As String = "ASP.GR_GRT00012WORKINGTIME_ASPX"
         ''' <summary>
-        ''' 庸車実績入力（条件）
+        ''' 休憩・配送時刻入力（条件）
         ''' </summary>
         Public Const T00013S As String = "ASP.GR_GRT00013SELECT_ASPX"
         ''' <summary>
-        ''' 庸車実績入力（実行）
+        ''' 休憩・配送時刻入力（実行）
         ''' </summary>
-        Public Const T00013 As String = "ASP.GR_GRT00013YOSHARESULT_ASPX"
+        Public Const T00013 As String = "ASP.GR_GRT00013TIMEMANAGE_ASPX"
         ''' <summary>
         ''' 配送照会（条件）
         ''' </summary>

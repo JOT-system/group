@@ -273,7 +273,10 @@ Public Class GRMB0002STAFFORG
             & "    INNER JOIN M0002_ORG M002" _
             & "        ON  M002.CAMPCODE  = MB01.CAMPCODE" _
             & "        AND M002.ORGCODE   = MB01.HORG" _
-            & "        AND M002.ORGLEVEL IN ('00010', '00001')" _
+            & "        AND (M002.ORGLEVEL = (CASE WHEN MB01.CAMPCODE = '04' THEN '02000' ELSE '00010' END)" _
+            & "        OR   M002.ORGLEVEL = (CASE WHEN MB01.CAMPCODE = '04' THEN '01000' ELSE '00010' END)" _
+            & "        OR   M002.ORGLEVEL = (CASE WHEN MB01.CAMPCODE = '04' THEN '00010' ELSE '00001' END)" _
+            & "        OR   M002.ORGLEVEL = (CASE WHEN MB01.CAMPCODE = '04' THEN '00001' ELSE '00001' END))" _
             & "        AND M002.STYMD    <= @P3" _
             & "        AND M002.ENDYMD   >= @P3" _
             & "        AND M002.DELFLG   <> @P5" _

@@ -45,10 +45,11 @@ Public Class GRT00005NIPPO
     ''' 日報共通クラス
     ''' </summary>
     Private T0005COM As New GRT0005COM                              '日報共通
-    Private MA002UPDATE As New GRMA002UPDATE                '車両台帳更新
-    Private MB003UPDATE As New GRMB003UPDATE                '従業員（配送時間）更新
-    Private T0004UPDATE As New GRT0004UPDATE                '配送受注、荷主受注ＤＢ更新
-    Private T0005UPDATE As New GRT0005UPDATE                '日報ＤＢ更新
+    Private MA002UPDATE As New GRMA002UPDATE                        '車両台帳更新
+    Private MB003UPDATE As New GRMB003UPDATE                        '従業員（配送時間）更新
+    Private T0004UPDATE As New GRT0004UPDATE                        '配送受注、荷主受注ＤＢ更新
+    Private T0005UPDATE As New GRT0005UPDATE                        '日報ＤＢ更新
+    Private T0013UPDATE As New GRT0013UPDATE                        '休憩・配送時間管理ＤＢ更新
     Private CS0044L1INSERT As New CS0044L1INSERT
 
     '検索結果格納ds
@@ -950,6 +951,22 @@ Public Class GRT00005NIPPO
             Else
                 Master.Output(C_MESSAGE_NO.SYSTEM_ADM_ERROR, C_MESSAGE_TYPE.ABORT, "例外発生")
                 Exit Sub
+            End If
+
+            '〇NJSの場合のみ　T0011更新処理（休憩・配送時間管理テーブル）
+            If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
+                'SQLtrn = SQLcon.BeginTransaction
+                T0013UPDATE.SQLcon = SQLcon
+                T0013UPDATE.SQLtrn = SQLtrn
+                T0013UPDATE.T0005tbl = T0005tbl
+                T0013UPDATE.UPDUSERID = Master.USERID
+                T0013UPDATE.UPDTERMID = Master.USERTERMID
+                T0013UPDATE.Update()
+                If Not isNormal(T0013UPDATE.ERR) Then
+                    Master.Output(T0013UPDATE.ERR, C_MESSAGE_TYPE.ABORT, "例外発生")
+                    'SQLtrn.Rollback()
+                    Exit Sub
+                End If
             End If
 
             '日報ＤＢ更新

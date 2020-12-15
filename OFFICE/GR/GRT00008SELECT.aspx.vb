@@ -410,9 +410,17 @@ Public Class GRT00008SELECT
 
         Master.checkFIeld(WF_CAMPCODE.Text, "LIMITYM", WW_Check, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
         If isNormal(WW_CS0024FCHECKERR) Then
-            Dim WW_LIMITYM As Date
-            If Not Date.TryParse(WF_LIMITYM.Text & "/01", WW_LIMITYM) Then
-                WW_LIMITYM = C_DEFAULT_YMD
+            If WF_LIMITYM.Text <> "" Then
+                Dim WW_DATE As Date
+                Try
+                    Date.TryParse(WF_LIMITYM.Text, WW_DATE)
+                    WF_LIMITYM.Text = WW_DATE.ToString("yyyy/MM")
+                Catch ex As Exception
+                    Master.Output(C_MESSAGE_NO.DATE_FORMAT_ERROR, C_MESSAGE_TYPE.ERR, "締年月 : " & WF_LIMITYM.Text)
+                    WF_LIMITYM.Focus()
+                    O_RTN = "ERR"
+                    Exit Sub
+                End Try
             End If
         Else
             Master.output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR, "締年月")

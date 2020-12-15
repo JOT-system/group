@@ -34,6 +34,13 @@ Public Class GRT00005WRKINC
     'コンスタント
     Public Const C_TORICODE_JX As String = "0005700000"                    '取引先コード（JX)
     Public Const C_TORICODE_COSMO As String = "0094000000"                 '取引先コード（COSMO)
+
+    Public Const C_TORICODE_NJS_DUMMY As String = "8888800001"             '取引先コード（NJSダミー)
+    Public Const C_SHUKABASHO_NJS_DUMMY As String = "NJS8888"              '出荷場所コード（NJSダミー)
+    Public Const C_TODOKECODE_NJS_DUMMY As String = "NJS888888"            '届先コード（NJSダミー)
+    Public Const C_PRODUCT2_NJS_DUMMY As String = "88888"                  '品名２コード（NJSダミー)
+    Public Const C_PRODUCTCODE_NJS_DUMMY As String = "04033188888"         '品名コード（NJSダミー)
+
     Public Const C_COMP_ENEX As String = "02"                              '会社コード（ENEX)
     Public Const C_COMP_KNK As String = "03"                               '会社コード（近石)
     Public Const C_COMP_NJS As String = "04"                               '会社コード（NJS)

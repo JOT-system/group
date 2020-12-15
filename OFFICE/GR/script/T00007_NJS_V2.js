@@ -45,6 +45,9 @@ function InitDisplay() {
     // リストの共通イベント(ホイール、横スクロール)をバインド
     bindListCommonEvents(pnlListAreaId, IsPostBack, false, true, true, false);
 
+    for (let i = 1; i <= 6; i++) {
+        ModifyChange(i);
+    }
 };
 
 // ○ディテール(タブ切替)処理
@@ -58,7 +61,7 @@ function DtabChange(tabNo) {
     } else {
         return false;
     }
-}
+};
 
 function TTL_SUM() {
     document.getElementById('WF_MODELDISTANCETTL').value = eval(document.getElementById('WF_MODELDISTANCE_LNG1').value)
@@ -78,4 +81,46 @@ function ItemChange(fieldNM) {
     } else {
         return false;
     }
-}
+};
+
+// ○モデル距離画面制御（１行目～６行目）
+function ModifyChange(rowNo) {
+    var SHARYOKBN = "WF_SHARYOKBN" + rowNo
+    var OILPAYKBN = "WF_OILPAYKBN" + rowNo;
+    var SHUKABASHO = "WF_SHUKABASHO" + rowNo;
+    var TODOKECODE = "WF_TODOKECODE" + rowNo;
+    var MODELDISTANCE = "WF_MODELDISTANCE" + rowNo;
+    var MODIFYKBN = "WF_MODIFYKBN" + rowNo;
+
+    var SHARYOKBN_DB = "WF_SHARYOKBN_DB" + rowNo;
+    var OILPAYKBN_DB = "WF_OILPAYKBN_DB" + rowNo;
+    var SHUKABASHO_DB = "WF_SHUKABASHO_DB" + rowNo;
+    var TODOKECODE_DB = "WF_TODOKECODE_DB" + rowNo;
+
+    //チェックボックスが☑の場合、非活性。□の場合、活性化する
+    if (document.getElementById(MODIFYKBN).checked == true) {
+        //チェックボックスが☑の場合、非活性
+        document.getElementById(SHARYOKBN).disabled = false;
+        document.getElementById(OILPAYKBN).disabled = false;
+        document.getElementById(SHUKABASHO).disabled = false;
+        document.getElementById(TODOKECODE).disabled = false;
+        document.getElementById(MODELDISTANCE).disabled = false;
+        //左BOXの表示を有効にする（無効にするクラス名（CCS）を消す）
+        document.getElementById(SHARYOKBN_DB).className = "";
+        document.getElementById(OILPAYKBN_DB).className = "";
+        document.getElementById(SHUKABASHO_DB).className = "";
+        document.getElementById(TODOKECODE_DB).className = "";
+    } else {
+        document.getElementById(SHARYOKBN).disabled = true;
+        document.getElementById(OILPAYKBN).disabled = true;
+        document.getElementById(SHUKABASHO).disabled = true;
+        document.getElementById(TODOKECODE).disabled = true;
+        document.getElementById(MODELDISTANCE).disabled = true;
+        //左BOXの表示を無効にする（無効にするクラス名（CCS）を設定）
+        document.getElementById(SHARYOKBN_DB).className = "disabled";
+        document.getElementById(OILPAYKBN_DB).className = "disabled";
+        document.getElementById(SHUKABASHO_DB).className = "disabled";
+        document.getElementById(TODOKECODE_DB).className = "disabled";
+
+    }
+};

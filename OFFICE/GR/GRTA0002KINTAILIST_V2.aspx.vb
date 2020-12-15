@@ -890,36 +890,47 @@ Public Class GRTA0002KINTAILIST_V2
                & "       isnull(A.NIGHTTIME,0) as NIGHTTIME , " _
                & "       isnull(A.NIGHTTIMECHO,0) as NIGHTTIMECHO , " _
                & "       isnull(A.NIGHTTIME,0) + isnull(A.NIGHTTIMECHO,0) as NIGHTTIMETTL , " _
+               & "       CEILING(cast(NIGHTTIME + NIGHTTIMECHO as numeric) / 5) * 5 as NIGHTTIME5UP , " _
                & "       isnull(A.ORVERTIME,0) as ORVERTIME , " _
                & "       isnull(A.ORVERTIMECHO,0) as ORVERTIMECHO , " _
                & "       isnull(A.ORVERTIME,0) + isnull(A.ORVERTIMECHO,0) as ORVERTIMETTL , " _
+               & "       CEILING(cast(ORVERTIME + ORVERTIMECHO as numeric) / 5) * 5 as ORVERTIME5UP , " _
                & "       isnull(A.WNIGHTTIME,0) as WNIGHTTIME , " _
                & "       isnull(A.WNIGHTTIMECHO,0) as WNIGHTTIMECHO , " _
                & "       isnull(A.WNIGHTTIME,0) + isnull(A.WNIGHTTIMECHO,0) as WNIGHTTIMETTL , " _
+               & "       CEILING(cast(WNIGHTTIME + WNIGHTTIMECHO as numeric) / 5) * 5 as WNIGHTTIME5UP , " _
                & "       isnull(A.SWORKTIME,0) as SWORKTIME , " _
                & "       isnull(A.SWORKTIMECHO,0) as SWORKTIMECHO , " _
                & "       isnull(A.SWORKTIME,0) + isnull(A.SWORKTIMECHO,0) as SWORKTIMETTL , " _
+               & "       CEILING(cast(SWORKTIME + SWORKTIMECHO as numeric) / 5) * 5 as SWORKTIME5UP , " _
                & "       isnull(A.SNIGHTTIME,0) as SNIGHTTIME , " _
                & "       isnull(A.SNIGHTTIMECHO,0) as SNIGHTTIMECHO , " _
                & "       isnull(A.SNIGHTTIME,0) + isnull(A.SNIGHTTIMECHO,0) as SNIGHTTIMETTL , " _
+               & "       CEILING(cast(SNIGHTTIME + SNIGHTTIMECHO as numeric) / 5) * 5 as SNIGHTTIME5UP , " _
                & "       isnull(A.HWORKTIME,0) as HWORKTIME , " _
                & "       isnull(A.HWORKTIMECHO,0) as HWORKTIMECHO , " _
                & "       isnull(A.HWORKTIME,0) + isnull(A.HWORKTIMECHO,0) as HWORKTIMETTL , " _
+               & "       CEILING(cast(HWORKTIME + HWORKTIMECHO as numeric) / 5) * 5 as HWORKTIME5UP , " _
                & "       isnull(A.HNIGHTTIME,0) as HNIGHTTIME , " _
                & "       isnull(A.HNIGHTTIMECHO,0) as HNIGHTTIMECHO , " _
                & "       isnull(A.HNIGHTTIME,0) + isnull(A.HNIGHTTIMECHO,0) as HNIGHTTIMETTL , " _
+               & "       CEILING(cast(HNIGHTTIME + HNIGHTTIMECHO as numeric) / 5) * 5 as HNIGHTTIME5UP , " _
                & "       isnull(A.ORVERTIME,0) + isnull(A.WNIGHTTIME,0) as ORVERTIME_V2 , " _
                & "       isnull(A.ORVERTIMECHO,0) + isnull(A.WNIGHTTIMECHO,0) as ORVERTIMECHO_V2 , " _
                & "       isnull(A.ORVERTIME,0) + isnull(A.ORVERTIMECHO,0) + isnull(A.WNIGHTTIME,0) + isnull(A.WNIGHTTIMECHO,0) as ORVERTIMETTL_V2 , " _
+               & "       (CEILING(cast(ORVERTIME + ORVERTIMECHO as numeric) / 5) * 5) + (CEILING(cast(WNIGHTTIME + WNIGHTTIMECHO as numeric) / 5) * 5) as ORVERTIME5UP_V2 , " _
                & "       isnull(A.SWORKTIME,0) + isnull(A.SNIGHTTIME,0) as SWORKTIME_V2 , " _
                & "       isnull(A.SWORKTIMECHO,0) + isnull(A.SNIGHTTIMECHO,0) as SWORKTIMECHO_V2 , " _
                & "       isnull(A.SWORKTIME,0) + isnull(A.SWORKTIMECHO,0) + isnull(A.SNIGHTTIME,0) + isnull(A.SNIGHTTIMECHO,0) as SWORKTIMETTL_V2 , " _
+               & "       (CEILING(cast(SWORKTIME + SWORKTIMECHO as numeric) / 5) * 5) + (CEILING(cast(SNIGHTTIME + SNIGHTTIMECHO as numeric) / 5) * 5) as SWORKTIME5UP_V2 , " _
                & "       isnull(A.HWORKTIME,0) + isnull(A.HNIGHTTIME,0) as HWORKTIME_V2 , " _
                & "       isnull(A.HWORKTIMECHO,0) + isnull(A.HNIGHTTIMECHO,0) as HWORKTIMECHO_V2 , " _
                & "       isnull(A.HWORKTIME,0) + isnull(A.HWORKTIMECHO,0) + isnull(A.HNIGHTTIME,0) + isnull(A.HNIGHTTIMECHO,0) as HWORKTIMETTL_V2 , " _
+               & "       (CEILING(cast(HWORKTIME + HWORKTIMECHO as numeric) / 5) * 5) + (CEILING(cast(HNIGHTTIME + HNIGHTTIMECHO as numeric) / 5) * 5) as HWORKTIME5UP_V2 , " _
                & "       isnull(A.WNIGHTTIME,0) + isnull(A.NIGHTTIME,0) + isnull(A.HNIGHTTIME,0) + isnull(A.SNIGHTTIME,0) + isnull(A.SDAINIGHTTIME,0) + isnull(A.HDAINIGHTTIME,0) as WNIGHTTIME_V2 , " _
                & "       isnull(A.WNIGHTTIMECHO,0) + isnull(A.NIGHTTIMECHO,0) + isnull(A.HNIGHTTIMECHO,0) + isnull(A.SNIGHTTIMECHO,0) + isnull(A.SDAINIGHTTIMECHO,0) + isnull(A.HDAINIGHTTIMECHO,0) as WNIGHTTIMECHO_V2 , " _
                & "       isnull(A.WNIGHTTIME,0) + isnull(A.WNIGHTTIMECHO,0) + isnull(A.NIGHTTIME,0) + isnull(A.NIGHTTIMECHO,0) + isnull(A.HNIGHTTIME,0)  + isnull(A.HNIGHTTIMECHO,0) + isnull(A.SNIGHTTIME,0)  + isnull(A.SNIGHTTIMECHO,0) + isnull(A.SDAINIGHTTIME,0)  + isnull(A.SDAINIGHTTIMECHO,0) + isnull(A.HDAINIGHTTIME,0) + isnull(A.HDAINIGHTTIMECHO,0) as WNIGHTTIMETTL_V2 , " _
+               & "       (CEILING(cast(WNIGHTTIME + WNIGHTTIMECHO as numeric) / 5) * 5) + (CEILING(cast(NIGHTTIME + NIGHTTIMECHO as numeric) / 5) * 5) + (CEILING(cast(HNIGHTTIME + HNIGHTTIMECHO as numeric) / 5) * 5) + (CEILING(cast(SNIGHTTIME + SNIGHTTIMECHO as numeric) / 5) * 5)  as WNIGHTTIME5UP_V2 , " _
                & "       isnull(A.WORKNISSU,0) as WORKNISSU , " _
                & "       isnull(A.WORKNISSUCHO,0) as WORKNISSUCHO , " _
                & "       isnull(A.WORKNISSU, 0) + isnull(A.WORKNISSUCHO, 0) as WORKNISSUTTL , " _
@@ -983,6 +994,7 @@ Public Class GRTA0002KINTAILIST_V2
                & "       isnull(A.TOKUSA1TIME,0) as TOKUSA1TIME , " _
                & "       isnull(A.TOKUSA1TIMECHO,0) as TOKUSA1TIMECHO , " _
                & "       isnull(A.TOKUSA1TIME, 0) + isnull(A.TOKUSA1TIMECHO, 0) as TOKUSA1TIMETTL , " _
+               & "       CEILING(cast(TOKUSA1TIME + TOKUSA1TIMECHO as numeric) / 5) * 5 as TOKUSA1TIME5UP , " _
                & "       isnull(A.HAYADETIME,0) as HAYADETIME , " _
                & "       isnull(A.HAYADETIMECHO,0) as HAYADETIMECHO , " _
                & "       isnull(A.HAYADETIME, 0) + isnull(A.HAYADETIMECHO, 0) as HAYADETIMETTL , " _
@@ -1026,6 +1038,7 @@ Public Class GRTA0002KINTAILIST_V2
                & "       '' as SURYO , " _
                & "       'K' as DATAKBN , " _
                & "       isnull(A.HAISOTIME, 0) as HAISOTIME , " _
+               & "       CEILING(cast(HAISOTIME as numeric) / 5) * 5 as HAISOTIME5UP , " _
                & "       isnull(A.NENMATUNISSU, 0) as NENMATUNISSU , " _
                & "       isnull(A.NENMATUNISSUCHO, 0) as NENMATUNISSUCHO , " _
                & "       isnull(A.NENMATUNISSU, 0) + isnull(A.NENMATUNISSUCHO, 0) as NENMATUNISSUTTL , " _
@@ -1418,24 +1431,31 @@ Public Class GRTA0002KINTAILIST_V2
                         TA0002ALLrow("NIGHTTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("NIGHTTIME")))
                         TA0002ALLrow("NIGHTTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("NIGHTTIMECHO")))
                         TA0002ALLrow("NIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("NIGHTTIMETTL")))
+                        TA0002ALLrow("NIGHTTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("NIGHTTIME5UP")))
                         TA0002ALLrow("ORVERTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIME")))
                         TA0002ALLrow("ORVERTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIMECHO")))
                         TA0002ALLrow("ORVERTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIMETTL")))
+                        TA0002ALLrow("ORVERTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIME5UP")))
                         TA0002ALLrow("WNIGHTTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIME")))
                         TA0002ALLrow("WNIGHTTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIMECHO")))
                         TA0002ALLrow("WNIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIMETTL")))
+                        TA0002ALLrow("WNIGHTTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIME5UP")))
                         TA0002ALLrow("SWORKTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIME")))
                         TA0002ALLrow("SWORKTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIMECHO")))
                         TA0002ALLrow("SWORKTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIMETTL")))
+                        TA0002ALLrow("SWORKTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIME5UP")))
                         TA0002ALLrow("SNIGHTTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SNIGHTTIME")))
                         TA0002ALLrow("SNIGHTTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SNIGHTTIMECHO")))
                         TA0002ALLrow("SNIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SNIGHTTIMETTL")))
+                        TA0002ALLrow("SNIGHTTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SNIGHTTIME5UP")))
                         TA0002ALLrow("HWORKTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIME")))
                         TA0002ALLrow("HWORKTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIMECHO")))
                         TA0002ALLrow("HWORKTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIMETTL")))
+                        TA0002ALLrow("HWORKTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIME5UP")))
                         TA0002ALLrow("HNIGHTTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HNIGHTTIME")))
                         TA0002ALLrow("HNIGHTTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HNIGHTTIMECHO")))
                         TA0002ALLrow("HNIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HNIGHTTIMETTL")))
+                        TA0002ALLrow("HNIGHTTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HNIGHTTIME5UP")))
                         TA0002ALLrow("HOANTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HOANTIME")))
                         TA0002ALLrow("HOANTIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HOANTIMECHO")))
                         TA0002ALLrow("HOANTIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HOANTIMETTL")))
@@ -1445,10 +1465,12 @@ Public Class GRTA0002KINTAILIST_V2
                         TA0002ALLrow("TOKUSA1TIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("TOKUSA1TIME")))
                         TA0002ALLrow("TOKUSA1TIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("TOKUSA1TIMECHO")))
                         TA0002ALLrow("TOKUSA1TIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("TOKUSA1TIMETTL")))
+                        TA0002ALLrow("TOKUSA1TIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("TOKUSA1TIME5UP")))
                         TA0002ALLrow("HAYADETIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HAYADETIME")))
                         TA0002ALLrow("HAYADETIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HAYADETIMECHO")))
                         TA0002ALLrow("HAYADETIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HAYADETIMETTL")))
                         TA0002ALLrow("HAISOTIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HAISOTIME")))
+                        TA0002ALLrow("HAISOTIME5UP") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HAISOTIME5UP")))
                         TA0002ALLrow("JIKYUSHATIME") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("JIKYUSHATIME")))
                         TA0002ALLrow("JIKYUSHATIMECHO") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("JIKYUSHATIMECHO")))
                         TA0002ALLrow("JIKYUSHATIMETTL") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("JIKYUSHATIMETTL")))
@@ -1493,15 +1515,19 @@ Public Class GRTA0002KINTAILIST_V2
                         TA0002ALLrow("ORVERTIME_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIME_V2")))
                         TA0002ALLrow("ORVERTIMECHO_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIMECHO_V2")))
                         TA0002ALLrow("ORVERTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIMETTL_V2")))
+                        TA0002ALLrow("ORVERTIME5UP_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("ORVERTIME5UP_V2")))
                         TA0002ALLrow("SWORKTIME_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIME_V2")))
                         TA0002ALLrow("SWORKTIMECHO_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIMECHO_V2")))
                         TA0002ALLrow("SWORKTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIMETTL_V2")))
+                        TA0002ALLrow("SWORKTIME5UP_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("SWORKTIME5UP_V2")))
                         TA0002ALLrow("HWORKTIME_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIME_V2")))
                         TA0002ALLrow("HWORKTIMECHO_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIMECHO_V2")))
                         TA0002ALLrow("HWORKTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIMETTL_V2")))
+                        TA0002ALLrow("HWORKTIME5UP_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HWORKTIME5UP_V2")))
                         TA0002ALLrow("WNIGHTTIME_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIME_V2")))
                         TA0002ALLrow("WNIGHTTIMECHO_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIMECHO_V2")))
                         TA0002ALLrow("WNIGHTTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIMETTL_V2")))
+                        TA0002ALLrow("WNIGHTTIME5UP_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("WNIGHTTIME5UP_V2")))
 
                         TA0002ALLrow("HDAIWORKTIME_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HDAIWORKTIME_V2")))
                         TA0002ALLrow("HDAIWORKTIMECHO_V2") = ZeroToSpace(MinituesToHHMM(TA0002ALLrow("HDAIWORKTIMECHO_V2")))
@@ -1646,9 +1672,9 @@ Public Class GRTA0002KINTAILIST_V2
                 End Using
             End Using
         Catch ex As Exception
-            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0007_KINTAI SELECT")
+            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "V0007_KINTAI SELECT")
             CS0011LOGWRITE.INFSUBCLASS = "MAIN"                         'SUBクラス名
-            CS0011LOGWRITE.INFPOSI = "DB:T0007_KINTAI Select"           '
+            CS0011LOGWRITE.INFPOSI = "DB:V0007_KINTAI Select"           '
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
             CS0011LOGWRITE.TEXT = ex.ToString()
             CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
@@ -2534,24 +2560,31 @@ Public Class GRTA0002KINTAILIST_V2
             WW_TA0002row("NIGHTTIME") = ZeroToSpace(WW_TA0002row("NIGHTTIME"))
             WW_TA0002row("NIGHTTIMECHO") = ZeroToSpace(WW_TA0002row("NIGHTTIMECHO"))
             WW_TA0002row("NIGHTTIMETTL") = ZeroToSpace(WW_TA0002row("NIGHTTIMETTL"))
+            WW_TA0002row("NIGHTTIME5UP") = ZeroToSpace(WW_TA0002row("NIGHTTIME5UP"))
             WW_TA0002row("ORVERTIME") = ZeroToSpace(WW_TA0002row("ORVERTIME"))
             WW_TA0002row("ORVERTIMECHO") = ZeroToSpace(WW_TA0002row("ORVERTIMECHO"))
             WW_TA0002row("ORVERTIMETTL") = ZeroToSpace(WW_TA0002row("ORVERTIMETTL"))
+            WW_TA0002row("ORVERTIME5UP") = ZeroToSpace(WW_TA0002row("ORVERTIME5UP"))
             WW_TA0002row("WNIGHTTIME") = ZeroToSpace(WW_TA0002row("WNIGHTTIME"))
             WW_TA0002row("WNIGHTTIMECHO") = ZeroToSpace(WW_TA0002row("WNIGHTTIMECHO"))
             WW_TA0002row("WNIGHTTIMETTL") = ZeroToSpace(WW_TA0002row("WNIGHTTIMETTL"))
+            WW_TA0002row("WNIGHTTIME5UP") = ZeroToSpace(WW_TA0002row("WNIGHTTIME5UP"))
             WW_TA0002row("SWORKTIME") = ZeroToSpace(WW_TA0002row("SWORKTIME"))
             WW_TA0002row("SWORKTIMECHO") = ZeroToSpace(WW_TA0002row("SWORKTIMECHO"))
             WW_TA0002row("SWORKTIMETTL") = ZeroToSpace(WW_TA0002row("SWORKTIMETTL"))
+            WW_TA0002row("SWORKTIME5UP") = ZeroToSpace(WW_TA0002row("SWORKTIME5UP"))
             WW_TA0002row("SNIGHTTIME") = ZeroToSpace(WW_TA0002row("SNIGHTTIME"))
             WW_TA0002row("SNIGHTTIMECHO") = ZeroToSpace(WW_TA0002row("SNIGHTTIMECHO"))
             WW_TA0002row("SNIGHTTIMETTL") = ZeroToSpace(WW_TA0002row("SNIGHTTIMETTL"))
+            WW_TA0002row("SNIGHTTIME5UP") = ZeroToSpace(WW_TA0002row("SNIGHTTIME5UP"))
             WW_TA0002row("HWORKTIME") = ZeroToSpace(WW_TA0002row("HWORKTIME"))
             WW_TA0002row("HWORKTIMECHO") = ZeroToSpace(WW_TA0002row("HWORKTIMECHO"))
             WW_TA0002row("HWORKTIMETTL") = ZeroToSpace(WW_TA0002row("HWORKTIMETTL"))
+            WW_TA0002row("HWORKTIME5UP") = ZeroToSpace(WW_TA0002row("HWORKTIME5UP"))
             WW_TA0002row("HNIGHTTIME") = ZeroToSpace(WW_TA0002row("HNIGHTTIME"))
             WW_TA0002row("HNIGHTTIMECHO") = ZeroToSpace(WW_TA0002row("HNIGHTTIMECHO"))
             WW_TA0002row("HNIGHTTIMETTL") = ZeroToSpace(WW_TA0002row("HNIGHTTIMETTL"))
+            WW_TA0002row("HNIGHTTIME5UP") = ZeroToSpace(WW_TA0002row("HNIGHTTIME5UP"))
             WW_TA0002row("HOANTIME") = ZeroToSpace(WW_TA0002row("HOANTIME"))
             WW_TA0002row("HOANTIMECHO") = ZeroToSpace(WW_TA0002row("HOANTIMECHO"))
             WW_TA0002row("HOANTIMETTL") = ZeroToSpace(WW_TA0002row("HOANTIMETTL"))
@@ -2561,6 +2594,7 @@ Public Class GRTA0002KINTAILIST_V2
             WW_TA0002row("TOKUSA1TIME") = ZeroToSpace(WW_TA0002row("TOKUSA1TIME"))
             WW_TA0002row("TOKUSA1TIMECHO") = ZeroToSpace(WW_TA0002row("TOKUSA1TIMECHO"))
             WW_TA0002row("TOKUSA1TIMETTL") = ZeroToSpace(WW_TA0002row("TOKUSA1TIMETTL"))
+            WW_TA0002row("TOKUSA1TIME5UP") = ZeroToSpace(WW_TA0002row("TOKUSA1TIME5UP"))
             WW_TA0002row("TOKSAAKAISU") = ZeroToSpace(WW_TA0002row("TOKSAAKAISU"))
             WW_TA0002row("TOKSAAKAISUCHO") = ZeroToSpace(WW_TA0002row("TOKSAAKAISUCHO"))
             WW_TA0002row("TOKSAAKAISUTTL") = ZeroToSpace(WW_TA0002row("TOKSAAKAISUTTL"))
@@ -2582,20 +2616,25 @@ Public Class GRTA0002KINTAILIST_V2
             WW_TA0002row("SURYO") = ZeroToSpace(WW_TA0002row("SURYO"))
 
             WW_TA0002row("HAISOTIME") = ZeroToSpace(WW_TA0002row("HAISOTIME"))
+            WW_TA0002row("HAISOTIME5UP") = ZeroToSpace(WW_TA0002row("HAISOTIME5UP"))
             WW_TA0002row("SHACHUHAKKBN") = ZeroToSpace(WW_TA0002row("SHACHUHAKKBN"))
             '2020/04/13 ADD
             WW_TA0002row("ORVERTIME_V2") = ZeroToSpace(WW_TA0002row("ORVERTIME_V2"))
             WW_TA0002row("ORVERTIMECHO_V2") = ZeroToSpace(WW_TA0002row("ORVERTIMECHO_V2"))
             WW_TA0002row("ORVERTIMETTL_V2") = ZeroToSpace(WW_TA0002row("ORVERTIMETTL_V2"))
+            WW_TA0002row("ORVERTIME5UP_V2") = ZeroToSpace(WW_TA0002row("ORVERTIME5UP_V2"))
             WW_TA0002row("SWORKTIME_V2") = ZeroToSpace(WW_TA0002row("SWORKTIME_V2"))
             WW_TA0002row("SWORKTIMECHO_V2") = ZeroToSpace(WW_TA0002row("SWORKTIMECHO_V2"))
             WW_TA0002row("SWORKTIMETTL_V2") = ZeroToSpace(WW_TA0002row("SWORKTIMETTL_V2"))
+            WW_TA0002row("SWORKTIME5UP_V2") = ZeroToSpace(WW_TA0002row("SWORKTIME5UP_V2"))
             WW_TA0002row("HWORKTIME_V2") = ZeroToSpace(WW_TA0002row("HWORKTIME_V2"))
             WW_TA0002row("HWORKTIMECHO_V2") = ZeroToSpace(WW_TA0002row("HWORKTIMECHO_V2"))
             WW_TA0002row("HWORKTIMETTL_V2") = ZeroToSpace(WW_TA0002row("HWORKTIMETTL_V2"))
+            WW_TA0002row("HWORKTIME5UP_V2") = ZeroToSpace(WW_TA0002row("HWORKTIME5UP_V2"))
             WW_TA0002row("WNIGHTTIME_V2") = ZeroToSpace(WW_TA0002row("WNIGHTTIME_V2"))
             WW_TA0002row("WNIGHTTIMECHO_V2") = ZeroToSpace(WW_TA0002row("WNIGHTTIMECHO_V2"))
             WW_TA0002row("WNIGHTTIMETTL_V2") = ZeroToSpace(WW_TA0002row("WNIGHTTIMETTL_V2"))
+            WW_TA0002row("WNIGHTTIME5UP_V2") = ZeroToSpace(WW_TA0002row("WNIGHTTIME5UP_V2"))
             '2020/04/13 ADD END
 
             WW_TA0002tbl.Rows.Add(WW_TA0002row)
@@ -2613,17 +2652,29 @@ Public Class GRTA0002KINTAILIST_V2
         Dim WW_ACTTIME As Integer = 0
         Dim WW_BREAKTIME2 As Integer = 0
         Dim WW_ORVERTIME As Integer = 0
+        Dim WW_ORVERTIME5UP As Integer = 0
         Dim WW_ORVERTIME_V2 As Integer = 0
+        Dim WW_ORVERTIME5UP_V2 As Integer = 0
         Dim WW_WNIGHTTIME As Integer = 0
+        Dim WW_WNIGHTTIME5UP As Integer = 0
         Dim WW_WNIGHTTIME_V2 As Integer = 0
+        Dim WW_WNIGHTTIME5UP_V2 As Integer = 0
         Dim WW_HWORKTIME As Integer = 0
+        Dim WW_HWORKTIME5UP As Integer = 0
         Dim WW_HWORKTIME_V2 As Integer = 0
+        Dim WW_HWORKTIME5UP_V2 As Integer = 0
         Dim WW_HNIGHTTIME As Integer = 0
+        Dim WW_HNIGHTTIME5UP As Integer = 0
         Dim WW_SWORKTIME As Integer = 0
+        Dim WW_SWORKTIME5UP As Integer = 0
         Dim WW_SWORKTIME_V2 As Integer = 0
+        Dim WW_SWORKTIME5UP_V2 As Integer = 0
         Dim WW_SNIGHTTIME As Integer = 0
+        Dim WW_SNIGHTTIME5UP As Integer = 0
         Dim WW_NIGHTTIME As Integer = 0
+        Dim WW_NIGHTTIME5UP As Integer = 0
         Dim WW_TOKUSA1TIME As Integer = 0
+        Dim WW_TOKUSA1TIME5UP As Integer = 0
         Dim WW_HOANTIME As Integer = 0
         Dim WW_KOATUTIME As Integer = 0
         Dim WW_TOKSAAKAISU As Integer = 0
@@ -2631,6 +2682,7 @@ Public Class GRTA0002KINTAILIST_V2
         Dim WW_TOKSACKAISU As Integer = 0
         Dim WW_TENKOKAISU As Double = 0
         Dim WW_HAISOTIME As Integer = 0
+        Dim WW_HAISOTIME5UP As Integer = 0
         Dim WW_SHACHUHAKKBN As Integer = 0
 
         For Each TA0002Row As DataRow In WW_TA0002tbl.Rows
@@ -2638,17 +2690,29 @@ Public Class GRTA0002KINTAILIST_V2
             WW_ACTTIME += HHMMtoMinutes(TA0002Row("ACTTIME"))
             WW_BREAKTIME2 += HHMMtoMinutes(TA0002Row("BREAKTIMETTL"))
             WW_ORVERTIME += HHMMtoMinutes(TA0002Row("ORVERTIMETTL"))
+            WW_ORVERTIME5UP += HHMMtoMinutes(TA0002Row("ORVERTIME5UP"))
             WW_ORVERTIME_V2 += HHMMtoMinutes(TA0002Row("ORVERTIMETTL_V2"))
+            WW_ORVERTIME5UP_V2 += HHMMtoMinutes(TA0002Row("ORVERTIME5UP_V2"))
             WW_WNIGHTTIME += HHMMtoMinutes(TA0002Row("WNIGHTTIMETTL"))
+            WW_WNIGHTTIME5UP += HHMMtoMinutes(TA0002Row("WNIGHTTIME5UP"))
             WW_WNIGHTTIME_V2 += HHMMtoMinutes(TA0002Row("WNIGHTTIMETTL_V2"))
+            WW_WNIGHTTIME5UP_V2 += HHMMtoMinutes(TA0002Row("WNIGHTTIME5UP_V2"))
             WW_HWORKTIME += HHMMtoMinutes(TA0002Row("HWORKTIMETTL"))
+            WW_HWORKTIME5UP += HHMMtoMinutes(TA0002Row("HWORKTIME5UP"))
             WW_HWORKTIME_V2 += HHMMtoMinutes(TA0002Row("HWORKTIMETTL_V2"))
+            WW_HWORKTIME5UP_V2 += HHMMtoMinutes(TA0002Row("HWORKTIME5UP_V2"))
             WW_HNIGHTTIME += HHMMtoMinutes(TA0002Row("HNIGHTTIMETTL"))
+            WW_HNIGHTTIME5UP += HHMMtoMinutes(TA0002Row("HNIGHTTIME5UP"))
             WW_SWORKTIME += HHMMtoMinutes(TA0002Row("SWORKTIMETTL"))
+            WW_SWORKTIME5UP += HHMMtoMinutes(TA0002Row("SWORKTIME5UP"))
             WW_SWORKTIME_V2 += HHMMtoMinutes(TA0002Row("SWORKTIMETTL_V2"))
+            WW_SWORKTIME5UP_V2 += HHMMtoMinutes(TA0002Row("SWORKTIME5UP_V2"))
             WW_SNIGHTTIME += HHMMtoMinutes(TA0002Row("SNIGHTTIMETTL"))
+            WW_SNIGHTTIME5UP += HHMMtoMinutes(TA0002Row("SNIGHTTIME5UP"))
             WW_NIGHTTIME += HHMMtoMinutes(TA0002Row("NIGHTTIMETTL"))
+            WW_NIGHTTIME5UP += HHMMtoMinutes(TA0002Row("NIGHTTIME5UP"))
             WW_TOKUSA1TIME += HHMMtoMinutes(TA0002Row("TOKUSA1TIMETTL"))
+            WW_TOKUSA1TIME5UP += HHMMtoMinutes(TA0002Row("TOKUSA1TIME5UP"))
             WW_HOANTIME += HHMMtoMinutes(TA0002Row("HOANTIMETTL"))
             WW_KOATUTIME += HHMMtoMinutes(TA0002Row("KOATUTIMETTL"))
             WW_TOKSAAKAISU += Val(TA0002Row("TOKSAAKAISUTTL"))
@@ -2656,6 +2720,7 @@ Public Class GRTA0002KINTAILIST_V2
             WW_TOKSACKAISU += Val(TA0002Row("TOKSACKAISUTTL"))
             WW_TENKOKAISU += Val(TA0002Row("TENKOKAISUTTL"))
             WW_HAISOTIME += HHMMtoMinutes(TA0002Row("HAISOTIME"))
+            WW_HAISOTIME5UP += HHMMtoMinutes(TA0002Row("HAISOTIME5UP"))
             WW_SHACHUHAKKBN += Val(TA0002Row("SHACHUHAKKBN"))
         Next
 
@@ -2691,6 +2756,25 @@ Public Class GRTA0002KINTAILIST_V2
 
         WW_TA0002tbl.Rows.Add(WW_TA0002row)
 
+        '合計（5分毎切上）の場合
+        WW_TA0002row = WW_TA0002tbl.NewRow
+        SetRowSpece(WW_TA0002row)
+
+        WW_TA0002row("ORVERTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_ORVERTIME5UP))
+        WW_TA0002row("ORVERTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(WW_ORVERTIME5UP_V2))
+        WW_TA0002row("WNIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_WNIGHTTIME5UP))
+        WW_TA0002row("WNIGHTTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(WW_WNIGHTTIME5UP_V2))
+        WW_TA0002row("HWORKTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_HWORKTIME5UP))
+        WW_TA0002row("HWORKTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(WW_HWORKTIME5UP_V2))
+        WW_TA0002row("HNIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_HNIGHTTIME5UP))
+        WW_TA0002row("SWORKTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_SWORKTIME5UP))
+        WW_TA0002row("SWORKTIMETTL_V2") = ZeroToSpace(MinituesToHHMM(WW_SWORKTIME5UP_V2))
+        WW_TA0002row("SNIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_SNIGHTTIME5UP))
+        WW_TA0002row("NIGHTTIMETTL") = ZeroToSpace(MinituesToHHMM(WW_NIGHTTIME5UP))
+        WW_TA0002row("TOKUSA1TIMETTL") = ZeroToSpace(MinituesToHHMM(WW_TOKUSA1TIME5UP))
+        WW_TA0002row("HAISOTIME") = ZeroToSpace(MinituesToHHMM(WW_HAISOTIME5UP))
+
+        WW_TA0002tbl.Rows.Add(WW_TA0002row)
 
         '----------------------------------
         '合計行（日報側）の編集
@@ -5173,9 +5257,9 @@ Public Class GRTA0002KINTAILIST_V2
                 End Using
             End Using
         Catch ex As Exception
-            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0007_KINTAI SELECT")
+            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "T0005_NIPPO SELECT")
             CS0011LOGWRITE.INFSUBCLASS = "MAIN"                         'SUBクラス名
-            CS0011LOGWRITE.INFPOSI = "DB:T0007_KINTAI Select"           '
+            CS0011LOGWRITE.INFPOSI = "DB:T0005_NIPPO Select"           '
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT                                  '
             CS0011LOGWRITE.TEXT = ex.ToString()
             CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
@@ -5979,37 +6063,48 @@ Public Class GRTA0002KINTAILIST_V2
         IO_TBL.Columns.Add("NIGHTTIME", GetType(String))
         IO_TBL.Columns.Add("NIGHTTIMECHO", GetType(String))
         IO_TBL.Columns.Add("NIGHTTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("NIGHTTIME5UP", GetType(String))
         IO_TBL.Columns.Add("ORVERTIME", GetType(String))
         IO_TBL.Columns.Add("ORVERTIMECHO", GetType(String))
         IO_TBL.Columns.Add("ORVERTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("ORVERTIME5UP", GetType(String))
         IO_TBL.Columns.Add("WNIGHTTIME", GetType(String))
         IO_TBL.Columns.Add("WNIGHTTIMECHO", GetType(String))
         IO_TBL.Columns.Add("WNIGHTTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("WNIGHTTIME5UP", GetType(String))
         IO_TBL.Columns.Add("SWORKTIME", GetType(String))
         IO_TBL.Columns.Add("SWORKTIMECHO", GetType(String))
         IO_TBL.Columns.Add("SWORKTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("SWORKTIME5UP", GetType(String))
         IO_TBL.Columns.Add("SNIGHTTIME", GetType(String))
         IO_TBL.Columns.Add("SNIGHTTIMECHO", GetType(String))
         IO_TBL.Columns.Add("SNIGHTTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("SNIGHTTIME5UP", GetType(String))
         IO_TBL.Columns.Add("HWORKTIME", GetType(String))
         IO_TBL.Columns.Add("HWORKTIMECHO", GetType(String))
         IO_TBL.Columns.Add("HWORKTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("HWORKTIME5UP", GetType(String))
         IO_TBL.Columns.Add("HNIGHTTIME", GetType(String))
         IO_TBL.Columns.Add("HNIGHTTIMECHO", GetType(String))
         IO_TBL.Columns.Add("HNIGHTTIMETTL", GetType(String))
+        IO_TBL.Columns.Add("HNIGHTTIME5UP", GetType(String))
         '2020/4113 ADD
         IO_TBL.Columns.Add("ORVERTIME_V2", GetType(String))
         IO_TBL.Columns.Add("ORVERTIMECHO_V2", GetType(String))
         IO_TBL.Columns.Add("ORVERTIMETTL_V2", GetType(String))
+        IO_TBL.Columns.Add("ORVERTIME5UP_V2", GetType(String))
         IO_TBL.Columns.Add("WNIGHTTIME_V2", GetType(String))
         IO_TBL.Columns.Add("WNIGHTTIMECHO_V2", GetType(String))
         IO_TBL.Columns.Add("WNIGHTTIMETTL_V2", GetType(String))
+        IO_TBL.Columns.Add("WNIGHTTIME5UP_V2", GetType(String))
         IO_TBL.Columns.Add("SWORKTIME_V2", GetType(String))
         IO_TBL.Columns.Add("SWORKTIMECHO_V2", GetType(String))
         IO_TBL.Columns.Add("SWORKTIMETTL_V2", GetType(String))
+        IO_TBL.Columns.Add("SWORKTIME5UP_V2", GetType(String))
         IO_TBL.Columns.Add("HWORKTIME_V2", GetType(String))
         IO_TBL.Columns.Add("HWORKTIMECHO_V2", GetType(String))
         IO_TBL.Columns.Add("HWORKTIMETTL_V2", GetType(String))
+        IO_TBL.Columns.Add("HWORKTIME5UP_V2", GetType(String))
         '2020/4113 ADD END
         IO_TBL.Columns.Add("WORKNISSU", GetType(String))
         IO_TBL.Columns.Add("WORKNISSUCHO", GetType(String))
@@ -6074,6 +6169,7 @@ Public Class GRTA0002KINTAILIST_V2
         IO_TBL.Columns.Add("TOKUSA1TIME", GetType(String))
         IO_TBL.Columns.Add("TOKUSA1TIMECHO", GetType(String))
         IO_TBL.Columns.Add("TOKUSA1TIMETTL", GetType(String))
+        IO_TBL.Columns.Add("TOKUSA1TIME5UP", GetType(String))
         IO_TBL.Columns.Add("HAYADETIME", GetType(String))
         IO_TBL.Columns.Add("HAYADETIMECHO", GetType(String))
         IO_TBL.Columns.Add("HAYADETIMETTL", GetType(String))
@@ -6146,6 +6242,7 @@ Public Class GRTA0002KINTAILIST_V2
         IO_TBL.Columns.Add("SHACHUHAKKBN", GetType(String))
         IO_TBL.Columns.Add("SHACHUHAKKBNNAMES", GetType(String))
         IO_TBL.Columns.Add("HAISOTIME", GetType(String))
+        IO_TBL.Columns.Add("HAISOTIME5UP", GetType(String))
         IO_TBL.Columns.Add("NENMATUNISSU", GetType(String))
         IO_TBL.Columns.Add("NENMATUNISSUCHO", GetType(String))
         IO_TBL.Columns.Add("NENMATUNISSUTTL", GetType(String))

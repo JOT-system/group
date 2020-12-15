@@ -64,6 +64,7 @@ Public Class GRT00005IMPORT
     Private MC006UPDATE As New GRMC006UPDATE                        '届先更新
     Private T0004UPDATE As New GRT0004UPDATE                        '配送受注、荷主受注ＤＢ更新
     Private T0005UPDATE As New GRT0005UPDATE                        '日報ＤＢ更新
+    Private T0013UPDATE As New GRT0013UPDATE                        '休憩・配送時間管理ＤＢ更新
     Private TA001UPDATE As New GRTA001UPDATE                        '車両稼働状況更新
     '共通処理結果
     Private WW_ERRCODE As String = String.Empty                     'リターンコード
@@ -674,8 +675,23 @@ Public Class GRT00005IMPORT
                 Exit Sub
             End If
 
-            '〇日報ＤＢ更新
+            '〇NJSの場合のみ　T0011更新処理（休憩・配送時間管理テーブル）
+            If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
+                'SQLtrn = SQLcon.BeginTransaction
+                T0013UPDATE.SQLcon = SQLcon
+                T0013UPDATE.SQLtrn = SQLtrn
+                T0013UPDATE.T0005tbl = T0005tbl
+                T0013UPDATE.UPDUSERID = Master.USERID
+                T0013UPDATE.UPDTERMID = Master.USERTERMID
+                T0013UPDATE.Update()
+                If Not isNormal(T0013UPDATE.ERR) Then
+                    Master.Output(T0013UPDATE.ERR, C_MESSAGE_TYPE.ABORT, "例外発生")
+                    'SQLtrn.Rollback()
+                    Exit Sub
+                End If
+            End If
 
+            '〇日報ＤＢ更新
             '統計DB出力用項目設定
             CS0026TBLSORT.TABLE = T0005tbl
             CS0026TBLSORT.SORTING = "SELECT, YMD, STAFFCODE, HDKBN DESC, STDATE, STTIME, ENDDATE, ENDTIME, WORKKBN, SEQ"
@@ -4877,6 +4893,19 @@ Public Class GRT00005IMPORT
                             OutputErrorMessageByKouei(KSYASAIrow, "終了時刻", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
                         End If
 
+                        '2020/10/29 ADD
+                        '情報１（配送距離）
+                        '①必須・項目属性チェック
+                        Dim WW_DISTANCE As Integer = 0
+                        Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SOUDISTANCE", KSYASAIrow("FIELD31"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                        If isNormal(O_MESSAGE_NO) Then
+                            WW_DISTANCE = O_VALUE
+                        Else
+                            WW_DISTANCE = 0
+                            OutputErrorMessageByKouei(KSYASAIrow, "情報１（配送距離）", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                        End If
+                        '2020/10/29 ADD END
+
                         If WW_ERRLIST.Count > 0 Then
                             If WW_ERRLIST.IndexOf(C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR) >= 0 Then
                                 WW_ERRLIST = New List(Of String)
@@ -4897,6 +4926,17 @@ Public Class GRT00005IMPORT
 
                         T0005INProw("WORKTIME") = T0005COM.MinutesToHHMM(DateDiff("n", WW_STDATE, WW_ENDDATE))
                         T0005INProw("ACTTIME") = T0005INProw("WORKTIME")
+                        '2020/10/29 ADD
+                        T0005INProw("SOUDISTANCE") = WW_DISTANCE.ToString("#,0.00")
+                        T0005INProw("JIDISTANCE") = WW_DISTANCE.ToString("#,0.00")
+                        T0005INProw("KUDISTANCE") = "0.00"
+                        T0005INProw("IPPDISTANCE") = "0.00"
+                        T0005INProw("KOSDISTANCE") = "0.00"
+                        T0005INProw("IPPJIDISTANCE") = "0.00"
+                        T0005INProw("IPPKUDISTANCE") = "0.00"
+                        T0005INProw("KOSJIDISTANCE") = "0.00"
+                        T0005INProw("KOSKUDISTANCE") = "0.00"
+                        '2020/10/29 ADD END
                         T0005INProw("DELFLG") = C_DELETE_FLG.ALIVE
                         T0005INPtbl.Rows.Add(T0005INProw)
 
@@ -7182,8 +7222,10 @@ Public Class GRT00005IMPORT
                     End If
 
                     '------------------------------------------------------
-                    'ENEX以外は、T4より救済
-                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX Then
+                    '2020/10/29 UPDATE
+                    'ENEX、NJS以外は、T4より救済
+                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX AndAlso
+                       work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_NJS Then
                         If T0005INProw("WORKKBN") = "B3" AndAlso T0005INProw("TORICODE") = "" Then
                             GetOilTypeForT0004Tbl(T0005INProw, T4_TORICODE, T4_SHUKABASHO, T4_SHUKADATE, T4_OILTYPE, WW_RTN)
                             If isNormal(WW_RTN) Then
@@ -7194,6 +7236,14 @@ Public Class GRT00005IMPORT
                             WW_T4GET = "ON"
                         End If
                     End If
+                    '2020/10/29 ADD
+                    'NJSの場合、決定できなければダミーコード設定しエラーにしない（下で届先マスタより取得する様に設定する）
+                    If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
+                        If T0005INProw("WORKKBN") = "B3" Then
+                            T0005INProw("TORICODE") = ""
+                        End If
+                    End If
+                    '2020/10/29 ADD END
                     '------------------------------------------------------
 
                     CodeToName("TORICODE", T0005INProw("TORICODE"), WW_TEXT, WW_RTN_SW)
@@ -7226,8 +7276,10 @@ Public Class GRT00005IMPORT
                     End If
 
                     '------------------------------------------------------
-                    'ENEX以外は、T4より救済
-                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX Then
+                    '2020/10/29 UPDATE
+                    'ENEX、NJS以外は、T4より救済
+                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX AndAlso
+                       work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_NJS Then
                         If T0005INProw("SHUKABASHO") = "" Then
                             If WW_T4GET = "OFF" Then
                                 GetOilTypeForT0004Tbl(T0005INProw, T4_TORICODE, T4_SHUKABASHO, T4_SHUKADATE, T4_OILTYPE, WW_RTN)
@@ -7292,8 +7344,10 @@ Public Class GRT00005IMPORT
                     End If
 
                     '------------------------------------------------------
-                    'ENEX以外は、T4より救済
-                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX Then
+                    '2020/10/29 UPDATE
+                    'ENEX、NJS以外は、T4より救済
+                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX AndAlso
+                       work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_NJS Then
                         If T0005INProw("TODOKECODE") = "" Then
                             If WW_T4GET2 = "OFF" Then
                                 GetTodokeForT0004Tbl(T0005INProw, T4_TODOKECODE, T4_PRODUCTCODE, T4_PRODUCT1, T4_PRODUCT1, T4_SURYO, WW_RTN)
@@ -7308,6 +7362,14 @@ Public Class GRT00005IMPORT
                             WW_T4GET2 = "ON"
                         End If
                     End If
+                    '2020/10/29 ADD
+                    'NJSの場合、ダミーコード設定
+                    If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
+                        If T0005INProw("TODOKECODE") = "" Then
+                            T0005INProw("TODOKECODE") = GRT00005WRKINC.C_TODOKECODE_NJS_DUMMY
+                        End If
+                    End If
+                    '2020/10/29 ADD END
                     '------------------------------------------------------
 
                     CodeToName(WW_KEYWORD, T0005INProw("TODOKECODE"), WW_TEXT, WW_RTN_SW)
@@ -7328,8 +7390,10 @@ Public Class GRT00005IMPORT
                     End If
 
                     '------------------------------------------------------
-                    'ENEX以外は、T4より救済
-                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX Then
+                    '2020/10/29 UPDATE
+                    'ENEX、NJS以外は、T4より救済
+                    If work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_ENEX AndAlso
+                       work.WF_SEL_CAMPCODE.Text <> GRT00005WRKINC.C_COMP_NJS Then
                         If WW_T4GET = "OFF" Then
                             GetOilTypeForT0004Tbl(T0005INProw, T4_TORICODE, T4_SHUKABASHO, T4_SHUKADATE, T4_OILTYPE, WW_RTN)
                         End If
@@ -7386,18 +7450,6 @@ Public Class GRT00005IMPORT
                                     T0005INProw(WW_PRODUCTCODE) = T4_TODOKECODE
                                     CodeToName(WW_KEYWORD, T0005INProw(WW_PRODUCTCODE), WW_TEXT, WW_RTN_SW)
                                     T0005INProw(WW_PRODUCTNAMES) = WW_TEXT
-
-                                    If T4_OILTYPE = "" Then
-                                        If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
-                                            'NJSの場合、代表化成品
-                                            T0005INProw(WW_OILTYPE) = "03"
-                                            T0005INProw(WW_PRODUCT1) = "31"
-                                            T0005INProw(WW_PRODUCT2) = "88888"
-                                            T0005INProw(WW_PRODUCTCODE) = work.WF_SEL_CAMPCODE.Text & T0005INProw(WW_OILTYPE) & T0005INProw(WW_PRODUCT1) & T0005INProw(WW_PRODUCT2)
-                                            CodeToName(WW_KEYWORD, T0005INProw(WW_PRODUCTCODE), WW_TEXT, WW_RTN_SW)
-                                            T0005INProw(WW_PRODUCTNAMES) = WW_TEXT
-                                        End If
-                                    End If
                                 End If
 
                                 '数量
@@ -7415,6 +7467,7 @@ Public Class GRT00005IMPORT
                             Dim WW_PRODUCT2 As String = "PRODUCT2" & WW_SEQ.ToString("0")
                             Dim WW_PRODUCTCODE As String = "PRODUCTCODE" & WW_SEQ.ToString("0")
                             Dim WW_PRODUCTNAMES As String = "PRODUCT" & WW_SEQ.ToString("0") & "NAMES"
+                            Dim WW_SURYO As String = "SURYO" & WW_SEQ.ToString("0")
                             Select Case T0005INProw("TERMKBN")
                                 Case GRT00005WRKINC.TERM_TYPE.YAZAKI
                                     WW_KEYWORD = "PRODUCT2Y"
@@ -7435,6 +7488,28 @@ Public Class GRT00005IMPORT
                                     T0005INProw(WW_PRODUCT2) = WW_CONVERT.Substring(6)
                                     T0005INProw(WW_PRODUCTCODE) = WW_CONVERT
                                     T0005INProw(WW_PRODUCTNAMES) = WW_TEXT
+                                Else
+                                    If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
+                                        'NJSの場合、代表化成品
+                                        T0005INProw(WW_OILTYPE) = "03"
+                                        T0005INProw(WW_PRODUCT1) = "31"
+                                        T0005INProw(WW_PRODUCT2) = GRT00005WRKINC.C_PRODUCT2_NJS_DUMMY
+                                        T0005INProw(WW_PRODUCTCODE) = work.WF_SEL_CAMPCODE.Text & T0005INProw(WW_OILTYPE) & T0005INProw(WW_PRODUCT1) & T0005INProw(WW_PRODUCT2)
+                                        CodeToName(WW_KEYWORD, T0005INProw(WW_PRODUCTCODE), WW_TEXT, WW_RTN_SW)
+                                        T0005INProw(WW_PRODUCTNAMES) = WW_TEXT
+                                        T0005INProw(WW_SURYO) = 1
+                                    End If
+                                End If
+                            Else
+                                If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS AndAlso WW_SEQ = 1 Then
+                                    'NJSの場合、代表化成品
+                                    T0005INProw(WW_OILTYPE) = "03"
+                                    T0005INProw(WW_PRODUCT1) = "31"
+                                    T0005INProw(WW_PRODUCT2) = GRT00005WRKINC.C_PRODUCT2_NJS_DUMMY
+                                    T0005INProw(WW_PRODUCTCODE) = work.WF_SEL_CAMPCODE.Text & T0005INProw(WW_OILTYPE) & T0005INProw(WW_PRODUCT1) & T0005INProw(WW_PRODUCT2)
+                                    CodeToName(WW_KEYWORD, T0005INProw(WW_PRODUCTCODE), WW_TEXT, WW_RTN_SW)
+                                    T0005INProw(WW_PRODUCTNAMES) = WW_TEXT
+                                    T0005INProw(WW_SURYO) = 1
                                 End If
                             End If
                         Next
@@ -7544,11 +7619,13 @@ Public Class GRT00005IMPORT
                         If Not isNormal(WW_RTN) Then
                             T0005INProw("SHUKABASHO") = ""
                         End If
-                        'NJSの場合、最終的に届先部署マスタを検索し救済
+                        'NJSの場合、最終的に届先部署マスタを検索し救済（それでもダメな場合ダミーコード）
                         If T0005INProw("SHUKABASHO") = "" And T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
                             GetShukaBashoNJS(T0005INProw, WW_RTN)
                             If Not isNormal(WW_RTN) Then
-                                T0005INProw("SHUKABASHO") = ""
+                                '2020/10/29 UPDATE
+                                T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                                '2020/10/29 UPDATE END
                             End If
                         End If
                     End If
@@ -7581,7 +7658,9 @@ Public Class GRT00005IMPORT
                 If T0005INProw("SHUKABASHO") = "" And T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
                     GetShukaBashoNJS(T0005INProw, WW_RTN)
                     If Not isNormal(WW_RTN) Then
-                        T0005INProw("SHUKABASHO") = ""
+                        '2020/10/29 UPDATE
+                        T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                        '2020/10/29 UPDATE END
                     End If
                 End If
 
