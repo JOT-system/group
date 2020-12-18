@@ -803,7 +803,7 @@
                         <asp:TextBox ID="WF_MODELDISTANCE1" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE1')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:9.1em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN1" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('1')"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN1" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('1','CHECK')"></asp:CheckBox>
                     </a>
                     <a style="position:fixed;top:10.0em;left:3em; width:100em;" >
                         <b>
@@ -830,7 +830,7 @@
                         <asp:TextBox ID="WF_MODELDISTANCE2" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE2')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:10.2em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN2" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('2')"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN2" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('2','CHECK')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:11.1em;left:3em; width:100em;" >
@@ -859,7 +859,7 @@
                     </a>
 
                     <a style="position:fixed;top:11.3em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN3" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('3')"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN3" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('3','CHECK')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:12.2em;left:3em; width:100em;" >
@@ -887,7 +887,7 @@
                         <asp:TextBox ID="WF_MODELDISTANCE4" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE4')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:12.4em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN4" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('4')"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN4" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('4','CHECK')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:13.3em;left:3em; width:100em;" >
@@ -915,7 +915,7 @@
                         <asp:TextBox ID="WF_MODELDISTANCE5" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE5')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:13.5em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN5" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('5')"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN5" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('5','CHECK')"></asp:CheckBox>
                     </a>
 
                     <a style="position:fixed;top:14.4em;left:3em; width:100em;" >
@@ -943,7 +943,7 @@
                         <asp:TextBox ID="WF_MODELDISTANCE6" runat="server" Height="1.2em" Width="6em" CssClass="WF_TEXTBOX_CSS" Enabled="false" style="text-align: right; " onchange="ItemChange('WF_MODELDISTANCE6')"></asp:TextBox>
                     </a>
                     <a style="position:fixed;top:14.6em;left:60.5em; width:10em;" >
-                        <asp:CheckBox ID="WF_MODIFYKBN6" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('6')"></asp:CheckBox>
+                        <asp:CheckBox ID="WF_MODIFYKBN6" runat="server" Height="1.2em" enabled="true" onclick="ModifyChange('6','CHECK')"></asp:CheckBox>
                     </a>
 
                 </asp:View>
@@ -968,6 +968,7 @@
 
         <input id="WF_FIELD" runat="server" value="" type="text" />                 <!-- Textbox DBクリックフィールド -->
         <input id="WF_SelectedIndex" runat="server" value="" type="text" />         <!-- Textbox DBクリックフィールド -->
+        <input id="WF_MODELrow" runat="server" value="" type="text" />              <!-- モデル距離の行番号 -->
 
         <input id="WF_NIPPObtn" runat="server" value=""  type="text" />             <!-- 日報ボタン制御 -->
         <input id="WF_DTABChange" runat="server" value="" type="text"/>             <!-- DetailBox Mview切替 -->

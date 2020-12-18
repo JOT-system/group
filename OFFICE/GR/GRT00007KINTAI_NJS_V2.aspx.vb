@@ -86,6 +86,8 @@ Public Class GRT00007KINTAI_NJS_V2
                             WF_ButtonUP_Click()
                         Case "WF_ButtonRESET"               'モデル再取得ボタン押下
                             WF_buttonRESET_click()
+                        Case "WF_MODELreset"                'モデルチェックボタンＯＦＦ
+                            WF_MODELreset_click()
                         Case "WF_ButtonUPDATE"              '更新ボタン処理
                             WF_ButtonUPDATE_Click()
                         Case "WF_ButtonUPDATEMDL"           '更新ボタン処理
@@ -1693,6 +1695,78 @@ Public Class GRT00007KINTAI_NJS_V2
                         WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
                         WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
                     Next
+                End If
+            Next
+        Next
+
+        '■■■ 前画面（T00007I）用にテーブルデータ保存 ■■■
+        If Not Master.SaveTable(T0007INPtbl, work.WF_T7KIN_XMLsaveF.Text) Then
+            Exit Sub
+        End If
+
+        'ソート処理
+        CS0026TblSort.TABLE = T0007INPtbl
+        CS0026TblSort.FILTER = ""
+        CS0026TblSort.SORTING = "STAFFCODE, WORKDATE, STDATE, STTIME, ENDDATE, ENDTIME, WORKKBN"
+        T0007INPtbl = CS0026TblSort.Sort()
+
+        '画面編集
+        DisplayEdit(T0007INPtbl)
+
+    End Sub
+
+    ' ***  モデルチェックボックスＯＦＦ処理
+    Protected Sub WF_MODELreset_click()
+
+        '■■■ 前画面（T00007I）テーブルデータ復元 ■■■
+        'T0007COM.T0007tbl_ColumnsAdd(T0007tbl)
+        If Not Master.RecoverTable(T0007tbl, work.WF_T7I_XMLsaveF.Text) Then
+            Exit Sub
+        End If
+
+        '----------------------------------------------
+        '日報取込チェック
+        '----------------------------------------------
+        Dim T0005tbl As DataTable = New DataTable
+        Dim WW_NIPPOLINKCODE As String = ""
+        T00005ALLget("NEW", WF_STAFFCODE.Text, WW_NIPPOLINKCODE, WF_WORKDATE.Text, WF_WORKDATE.Text, T0005tbl, WW_DUMMY)
+
+        Dim WW_MODELtbl As DataTable = New DataTable
+        T0007COM.ModelDistanceTbl(T0005tbl, work.WF_T7SEL_CAMPCODE.Text, work.WF_T7SEL_TAISHOYM.Text,
+                                  WW_MODELtbl, Master.USERID, Master.USERTERMID)
+
+        '画面のチェックボックスＯＦＦされた行を取得
+        Dim WW_rowNo As Integer = WF_MODELrow.Value
+
+        For i As Integer = 0 To WW_MODELtbl.Rows.Count - 1
+            Dim WW_MODELrow As DataRow = WW_MODELtbl.Rows(i)
+            For Each WW_HEADrow In T0007INPtbl.Rows
+                If WW_HEADrow("HDKBN") <> "H" Then
+                    Continue For
+                End If
+                If WW_HEADrow("WORKDATE") = WW_MODELrow("WORKDATE") And
+                   WW_HEADrow("STAFFCODE") = WW_MODELrow("STAFFCODE") Then
+                    WW_HEADrow("T10SAVECNT") = WW_MODELrow("SAVECNT")
+                    Dim WW_SHARYOKBN As String = "SHARYOKBN" & WW_rowNo.ToString
+                    Dim WW_OILPAYKBN As String = "OILPAYKBN" & WW_rowNo.ToString
+                    Dim WW_SHUKABASHO As String = "SHUKABASHO" & WW_rowNo.ToString
+                    Dim WW_TODOKECODE As String = "TODOKECODE" & WW_rowNo.ToString
+                    Dim WW_MODELDISTANCE As String = "MODELDISTANCE" & WW_rowNo.ToString
+                    Dim WW_MODIFYKBN As String = "MODIFYKBN" & WW_rowNo.ToString
+
+                    Dim WW_T10SHARYOKBN As String = "T10SHARYOKBN" & WW_rowNo.ToString
+                    Dim WW_T10OILPAYKBN As String = "T10OILPAYKBN" & WW_rowNo.ToString
+                    Dim WW_T10SHUKABASHO As String = "T10SHUKABASHO" & WW_rowNo.ToString
+                    Dim WW_T10TODOKECODE As String = "T10TODOKECODE" & WW_rowNo.ToString
+                    Dim WW_T10MODELDISTANCE As String = "T10MODELDISTANCE" & WW_rowNo.ToString
+                    Dim WW_T10MODIFYKBN As String = "T10MODIFYKBN" & WW_rowNo.ToString
+
+                    WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
+                    WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
+                    WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
+                    WW_HEADrow(WW_T10TODOKECODE) = WW_MODELrow(WW_TODOKECODE)
+                    WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
+                    WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
                 End If
             Next
         Next

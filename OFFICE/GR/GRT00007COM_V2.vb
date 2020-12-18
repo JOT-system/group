@@ -10652,6 +10652,7 @@ Public Class GRT0007COM_V2
                         Exit For
                     End If
                 Next
+                'モデル距離がヒットしなかった（ゼロ）場合、配送距離（実距離）を採用する。その際☑とする
                 If WW_B3CNT > 0 AndAlso WW_FIND = "OFF" Then
                     Dim G1view As DataView = New DataView(WW_G1TBL)
                     G1view.Sort = "YMD, STAFFCODE"
@@ -10659,6 +10660,7 @@ Public Class GRT0007COM_V2
                     For j As Integer = 0 To G1view.Count - 1
                         Dim WW_G1row As DataRow = G1view.Item(j).Row
                         WW_oTBLrow("MODELDISTANCE1") = WW_G1row("SOUDISTANCE")
+                        WW_oTBLrow("MODIFYKBN1") = "1"
                     Next
                 End If
 
@@ -10741,6 +10743,7 @@ Public Class GRT0007COM_V2
                 For j As Integer = 0 To G1view.Count - 1
                     Dim WW_G1row As DataRow = G1view.Item(j).Row
                     WW_oTBLrow("MODELDISTANCE1") = WW_G1row("SOUDISTANCE")
+                    WW_oTBLrow("MODIFYKBN1") = "1"
                 Next
             End If
 
@@ -10809,6 +10812,10 @@ Public Class GRT0007COM_V2
                                 WW_oTBLrow("SHUKABASHO2") = WW_oTBLrow("SHUKABASHO_W2")
                                 WW_oTBLrow("SHUKABASHO3") = WW_oTBLrow("SHUKABASHO_W3")
                                 WW_oTBLrow("SHUKABASHO4") = WW_oTBLrow("SHUKABASHO_W4")
+                                WW_oTBLrow("MODIFYKBN1") = "0"
+                                WW_oTBLrow("MODIFYKBN2") = "0"
+                                WW_oTBLrow("MODIFYKBN3") = "0"
+                                WW_oTBLrow("MODIFYKBN4") = "0"
                             End If
                         Next
                     ElseIf WW_oTBLrow("SHUKABASHO_W1") & "-" & WW_oTBLrow("TODOKECODE1") = WW_oTBLrow("SHUKABASHO_W2") & "-" & WW_oTBLrow("TODOKECODE2") AndAlso
@@ -10823,6 +10830,9 @@ Public Class GRT0007COM_V2
                                 WW_oTBLrow("SHUKABASHO1") = WW_oTBLrow("SHUKABASHO_W1")
                                 WW_oTBLrow("SHUKABASHO2") = WW_oTBLrow("SHUKABASHO_W2")
                                 WW_oTBLrow("SHUKABASHO3") = WW_oTBLrow("SHUKABASHO_W3")
+                                WW_oTBLrow("MODIFYKBN1") = "0"
+                                WW_oTBLrow("MODIFYKBN2") = "0"
+                                WW_oTBLrow("MODIFYKBN3") = "0"
                             End If
                         Next
                     ElseIf WW_oTBLrow("SHUKABASHO_W1") & "-" & WW_oTBLrow("TODOKECODE1") = WW_oTBLrow("SHUKABASHO_W2") & "-" & WW_oTBLrow("TODOKECODE2") Then
@@ -10833,6 +10843,8 @@ Public Class GRT0007COM_V2
                                 WW_oTBLrow("MODELDISTANCE2") = WW_ListBoxREPEATMODEL2.Items(j).Text
                                 WW_oTBLrow("SHUKABASHO1") = WW_oTBLrow("SHUKABASHO_W1")
                                 WW_oTBLrow("SHUKABASHO2") = WW_oTBLrow("SHUKABASHO_W2")
+                                WW_oTBLrow("MODIFYKBN1") = "0"
+                                WW_oTBLrow("MODIFYKBN2") = "0"
                             End If
                         Next
                     End If

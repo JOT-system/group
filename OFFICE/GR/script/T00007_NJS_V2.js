@@ -46,7 +46,7 @@ function InitDisplay() {
     bindListCommonEvents(pnlListAreaId, IsPostBack, false, true, true, false);
 
     for (let i = 1; i <= 6; i++) {
-        ModifyChange(i);
+        ModifyChange(i,'INIT');
     }
 };
 
@@ -84,8 +84,8 @@ function ItemChange(fieldNM) {
 };
 
 // ○モデル距離画面制御（１行目～６行目）
-function ModifyChange(rowNo) {
-    var SHARYOKBN = "WF_SHARYOKBN" + rowNo
+function ModifyChange(rowNo, mode) {
+    var SHARYOKBN = "WF_SHARYOKBN" + rowNo;
     var OILPAYKBN = "WF_OILPAYKBN" + rowNo;
     var SHUKABASHO = "WF_SHUKABASHO" + rowNo;
     var TODOKECODE = "WF_TODOKECODE" + rowNo;
@@ -122,5 +122,16 @@ function ModifyChange(rowNo) {
         document.getElementById(SHUKABASHO_DB).className = "disabled";
         document.getElementById(TODOKECODE_DB).className = "disabled";
 
+        if (mode != "INIT") {
+            if (document.getElementById("MF_SUBMIT").value == "FALSE") {
+                document.getElementById("MF_SUBMIT").value = "TRUE";
+                document.getElementById('WF_MODELrow').value = rowNo;
+                document.getElementById('WF_ButtonClick').value = "WF_MODELreset";
+                document.body.style.cursor = "wait";
+                document.forms[0].submit();                            //aspx起動
+            } else {
+                return false;
+            }
+        }
     }
 };
