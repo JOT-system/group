@@ -6626,7 +6626,8 @@ Public Class GRT0007COM_V2
                         If WW_HEADrow("HOLIDAYKBN") = "0" Then
                         End If
                         If IsDate(WW_HEADrow("STDATE")) Then
-                            If CDate(WW_HEADrow("STDATE")).Month = 1 And CDate(WW_HEADrow("STDATE")).Day < 4 Then
+                            If (CDate(WW_HEADrow("STDATE")).Month = 12 And CDate(WW_HEADrow("STDATE")).Day = 31) OrElse
+                               (CDate(WW_HEADrow("STDATE")).Month = 1 And CDate(WW_HEADrow("STDATE")).Day < 4) Then
                                 '2018/02/01 追加
                                 If WW_HEADrow("STTIME") = "00:00" And WW_HEADrow("ENDTIME") = "00:00" Then
                                 Else
