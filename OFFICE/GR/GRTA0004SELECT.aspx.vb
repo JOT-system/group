@@ -135,7 +135,7 @@ Public Class GRTA0004SELECT
                         Case "WF_STYMD"
                             .WF_Calendar.Text = WF_STYMD.Text
                         Case "WF_ENDYMD"
-                            .WF_Calendar.Text = WF_ENDYMD.Text
+                            .WF_Calendar.Text = WF_STYMD.Text
 
                     End Select
                     .activeCalendar()

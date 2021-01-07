@@ -40,7 +40,7 @@
         <a style="position:fixed; top:9.9em; left:18em;" ondblclick="Field_DBclick('WF_TAISHOYM', <%=LIST_BOX_CLASSIFICATION.LC_CALENDAR%>);">
             <asp:TextBox ID="WF_TAISHOYM" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
         </a>
-        <a style="position:fixed; top:9.9em; left:27em;">～
+        <a style="position:fixed; top:9.9em; left:27em;">以降
         </a>
 
         <!-- 配属部署 -->
