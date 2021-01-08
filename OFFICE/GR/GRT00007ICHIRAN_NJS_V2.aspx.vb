@@ -7244,6 +7244,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
                     WW_LONGITUDE_F1 = WW_DTLrow("LONGITUDE")
 
                     '配送開始01、配送終了01が00:00以外の場合、配送ボタンONとなる
+                    WW_HEADrow("HAISOMINUS10FLG") = "OFF"
                     If WW_HEADrow("T13G1STTIME01") <> "00:00" AndAlso WW_HEADrow("T13G1ENDTIME01") <> "00:00" Then
                         Dim WW_date As DateTime = CDate(WW_HEADrow("STDATE") & " " & WW_A1sttime)
                         Dim WW_dateG1 As DateTime = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("T13G1STTIME01"))
@@ -7255,6 +7256,7 @@ Public Class GRT00007ICHIRAN_NJS_V2
                                 WW_date = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("T13G1STTIME01"))
                                 WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
                                 WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                                WW_HEADrow("HAISOMINUS10FLG") = "ON"
                             Else
                                 '配送ボタンで車庫以外出発の場合、配送開始そのまま
                                 WW_HEADrow("STDATE") = WW_HEADrow("STDATE")

@@ -6106,6 +6106,10 @@ Public Class GRT0007COM_V2
                     '    Next
                     '    WW_HAISO += DateDiff("n", WW_STHAISOTIME, WW_ENDHAISOTIME) - DateDiff("n", WW_ENDHAISOTIME, WW_ENDHAISOTIME2)
                     'Next
+                    If WW_HEADrow("HAISOMINUS10FLG") = "ON" Then
+                        '車庫からの出発の場合、+10分する
+                        WW_HAISO += 10
+                    End If
                     WW_HEADrow("HAISOTIME") = formatHHMM(WW_HAISO)
                     '2020/11/17 UPD END
 
@@ -11461,6 +11465,7 @@ Public Class GRT0007COM_V2
         iTbl.Columns.Add("T13BBENDTIME10", GetType(String))
         iTbl.Columns.Add("T13BBTTLTIME", GetType(String))
 
+        iTbl.Columns.Add("HAISOMINUS10FLG", GetType(String))
         iTbl.Columns.Add("T13G1STTIME01", GetType(String))
         iTbl.Columns.Add("T13G1ENDTIME01", GetType(String))
         iTbl.Columns.Add("T13G1STTIME02", GetType(String))
