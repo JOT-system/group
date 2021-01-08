@@ -517,7 +517,7 @@ Public Class GRTA0004SELECT
             '関連
             If wDATES > wDATEE Then
                 Master.output(C_MESSAGE_NO.START_END_DATE_RELATION_ERROR, C_MESSAGE_TYPE.ERR)
-                O_RTN = WW_CS0024FCHECKERR
+                O_RTN = C_MESSAGE_NO.START_END_DATE_RELATION_ERROR
                 WF_ENDYMD.Focus()
                 Exit Sub
             End If
