@@ -5336,6 +5336,7 @@ Public Class GRMA0004SHARYOC
                     & "       and   C.DELFLG         <> '" & C_DELETE_FLG.DELETE & "'      " _
                     & " LEFT  JOIN MA006_SHABANORG     D                             ON    " _
                     & "             D.CAMPCODE        = A.CAMPCODE                         " _
+                    & "       and   D.MANGUORG        = A.MANGSORG                         " _
                     & "       and   (                                                      " _
                     & "                (                                                   " _
                     & "                      D.SHARYOTYPEF     = A.SHARYOTYPE              " _
