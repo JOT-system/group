@@ -860,10 +860,19 @@ Namespace GRT00004COM
             ''' <summary>
             ''' 光英オーダーCSV No.1:トリップ
             ''' </summary>
-            Public ReadOnly Property TRIP As String
+            Public Property TRIP As String
                 Get
-                    Return _csvData(FIELDNO.TRIP)
+                    '№8ルート番号が6桁超の場合、編入操作により前日or翌日から移動したオーダーで、
+                    'トリップが重複するためトリップ＋ルート番号の下2桁をトリップとする
+                    If ROUTENO.Length > 6 Then
+                        Return _csvData(FIELDNO.TRIP) & Right(_csvData(FIELDNO.ROUTENO), 2)
+                    Else
+                        Return _csvData(FIELDNO.TRIP)
+                    End If
                 End Get
+                Set(value As String)
+                    _csvData(FIELDNO.TRIP) = value
+                End Set
             End Property
             ''' <summary>
             ''' 光英オーダーCSV No.6:車番
@@ -1074,11 +1083,11 @@ Namespace GRT00004COM
             ''' <summary>
             ''' 光英オーダーCSV No.86:コースベースキー出荷日
             ''' </summary>
-            Public ReadOnly Property COURSEBASEKEY_DATE As String
-                Get
-                    Return COURSEBASEKEY.Split(C_KOUEI_CSV_COLUMS_DELIMITER)(0)
-                End Get
-            End Property
+            'Public ReadOnly Property COURSEBASEKEY_DATE As String
+            '    Get
+            '        Return COURSEBASEKEY.Split(C_KOUEI_CSV_COLUMS_DELIMITER)(0)
+            '    End Get
+            'End Property
 
             ''' <summary>
             ''' 光英オーダーCSV No.105:指定出勤分
@@ -1485,7 +1494,7 @@ Namespace GRT00004COM
                     sr.Write(sb)
 
                     '出力対象光栄オーダー取得
-                    Dim order = Me.GetOrder(koueiType).Where(Function(x) x.Value.KIJUNDATE = kijunDate)
+                    Dim order = Me.GetOrder(koueiType).Where(Function(x) x.Value.KIJUNDATE = kijunDate).OrderBy(Function(x) x.Value.ROWNO)
 
                     'レコード書込
                     For Each row In order
