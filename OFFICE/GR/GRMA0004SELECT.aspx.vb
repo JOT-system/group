@@ -131,6 +131,13 @@ Public Class GRMA0004SELECT
         work.WF_SEL_SHARYOTYPE4.Text = WF_SHARYOTYPE4.Text          '車両タイプ(4)
         work.WF_SEL_SHARYOTYPE5.Text = WF_SHARYOTYPE5.Text          '車両タイプ(5)
 
+        If WF_SW1.Checked Then
+            work.WF_SEL_DISPCHG.Text = "NEW"                        '最新
+        End If
+        If WF_SW2.Checked Then
+            work.WF_SEL_DISPCHG.Text = "HIST"                       '履歴
+        End If
+
         '○右ボックスからViewID取得
         Master.VIEWID = rightview.getViewId(work.WF_SEL_CAMPCODE.Text)
 
@@ -457,6 +464,9 @@ Public Class GRMA0004SELECT
             Master.getFirstValue(work.WF_SEL_CAMPCODE.Text, "SHARYOTYPE4", WF_SHARYOTYPE4.Text)         '車両タイプ(4)
             Master.getFirstValue(work.WF_SEL_CAMPCODE.Text, "SHARYOTYPE5", WF_SHARYOTYPE5.Text)         '車両タイプ(5)
 
+            WF_SW1.Checked = True
+            WF_SW2.Checked = False
+
             '○RightBox情報設定
             rightview.MAPID = GRMA0004WRKINC.MAPID
             rightview.MAPIDS = GRMA0004WRKINC.MAPIDS
@@ -485,20 +495,28 @@ Public Class GRMA0004SELECT
             WF_SHARYOTYPE4.Text = work.WF_SEL_SHARYOTYPE4.Text          '車両タイプ(4)
             WF_SHARYOTYPE5.Text = work.WF_SEL_SHARYOTYPE5.Text          '車両タイプ(5)
 
+            If work.WF_SEL_DISPCHG.Text = "NEW" Then
+                WF_SW1.Checked = True
+                WF_SW2.Checked = False
+            Else
+                WF_SW1.Checked = False
+                WF_SW2.Checked = True
+            End If
+
             '○RightBox情報設定
             rightview.MAPID = GRMA0004WRKINC.MAPID
-            rightview.MAPIDS = GRMA0004WRKINC.MAPIDS
-            rightview.COMPCODE = WF_CAMPCODE.Text
-            rightview.MAPVARI = Master.MAPvariant
-            rightview.PROFID = Master.PROF_VIEW
-            rightview.Initialize("画面レイアウト設定", WW_ERR_SW)
-            If Not isNormal(WW_ERR_SW) Then
-                Exit Sub
+                rightview.MAPIDS = GRMA0004WRKINC.MAPIDS
+                rightview.COMPCODE = WF_CAMPCODE.Text
+                rightview.MAPVARI = Master.MAPvariant
+                rightview.PROFID = Master.PROF_VIEW
+                rightview.Initialize("画面レイアウト設定", WW_ERR_SW)
+                If Not isNormal(WW_ERR_SW) Then
+                    Exit Sub
+                End If
             End If
-        End If
 
-        '○ 名称設定
-        CODENAME_get("CAMPCODE", WF_CAMPCODE.Text, WF_CAMPCODE_Text.Text, WW_DUMMY)                 '会社コード
+            '○ 名称設定
+            CODENAME_get("CAMPCODE", WF_CAMPCODE.Text, WF_CAMPCODE_Text.Text, WW_DUMMY)                 '会社コード
         CODENAME_get("MORG", WF_MORG.Text, WF_MORG_Text.Text, WW_DUMMY)                             '管理部署
         CODENAME_get("SORG", WF_SORG.Text, WF_SORG_Text.Text, WW_DUMMY)                             '設置部署
         CODENAME_get("OILTYPE", WF_OILTYPE1.Text, WF_OILTYPE1_Text.Text, WW_DUMMY)                  '油種(1)

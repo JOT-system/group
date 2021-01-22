@@ -139,6 +139,14 @@
                 <asp:Label ID="WF_SHARYOTYPE5_Text" runat="server" Text="" Width="17em" CssClass="WF_TEXT"></asp:Label>
             </a>
 
+            <!-- 区分選択 -->
+            <a style="position:fixed; top:27.3em; left:4em; font-weight:bold;">表示切替</a>
+
+            <a style="position:fixed; top:27.3em; left:18em;">
+                <asp:RadioButton ID="WF_SW1" runat="server" GroupName="WF_SW" Text=" 最新のみ" Width="6em" />
+                <asp:RadioButton ID="WF_SW2" runat="server" GroupName="WF_SW" Text=" 履歴" Width="5em" />
+            </a>
+
             <a hidden="hidden">
                 <input id="WF_FIELD"  runat="server" value=""  type="text" />               <!-- Textbox DBクリックフィールド -->
                 <input id="WF_SelectedIndex" runat="server" value="" type="text"/>          <!-- Textbox DBクリックフィールド -->

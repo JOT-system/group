@@ -16,4 +16,5 @@
     <asp:TextBox ID="WF_SEL_SHARYOTYPE3" runat="server"></asp:TextBox>          <!-- 車両タイプ(3) -->
     <asp:TextBox ID="WF_SEL_SHARYOTYPE4" runat="server"></asp:TextBox>          <!-- 車両タイプ(4) -->
     <asp:TextBox ID="WF_SEL_SHARYOTYPE5" runat="server"></asp:TextBox>          <!-- 車両タイプ(5) -->
+    <asp:TextBox ID="WF_SEL_DISPCHG" runat="server"></asp:TextBox>              <!-- 表示切替 -->
 </div>

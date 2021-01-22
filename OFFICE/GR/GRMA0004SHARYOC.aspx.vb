@@ -5306,8 +5306,10 @@ Public Class GRMA0004SHARYOC
                     & "         ''                                      as CHEMTMAKERNAME, " _
                     & "         ''                                      as CONTTMAKERNAME, " _
                     & "         ''                                      as INSKBNNAME  ,   " _
-                    & "         ''                                      as SHARYOSTATUSNAME" _
-                    & " FROM       MA002_SHARYOA       A                                   " _
+                    & "         ''                                      as SHARYOSTATUSNAME"
+                Dim SQLStr2 As String = ""
+                If work.WF_SEL_DISPCHG.Text = "NEW" Then
+                    SQLStr2 = " FROM   MA002_SHARYOA       A                                   " _
                     & " INNER JOIN MA003_SHARYOB       B                             ON    " _
                     & "             B.CAMPCODE        = A.CAMPCODE                         " _
                     & "       and   B.SHARYOTYPE      = A.SHARYOTYPE                       " _
@@ -5371,8 +5373,76 @@ Public Class GRMA0004SHARYOC
                     & "       and   A.ENDYMD         >= @P04                               " _
                     & "       and   A.DELFLG         <> '1'                                " _
                     & " ORDER BY B.SHARYOTYPE ASC, B.TSHABAN ASC, A.STYMD DESC, B.STYMD DESC, C.STYMD "
+                End If
 
-                Using SQLcmd As New SqlCommand(SQLStr, SQLcon)
+                If work.WF_SEL_DISPCHG.Text = "HIST" Then
+                    SQLStr2 = " FROM   MA004_SHARYOC       C                                   " _
+                        & " INNER JOIN MA003_SHARYOB       B                             ON    " _
+                        & "             B.CAMPCODE        = C.CAMPCODE                         " _
+                        & "       and   B.SHARYOTYPE      = C.SHARYOTYPE                       " _
+                        & "       and   B.TSHABAN         = C.TSHABAN                          " _
+                        & "       and   B.STYMD          <= @P05                               " _
+                        & "       and   B.ENDYMD         >= @P04                               " _
+                        & "       and   B.DELFLG         <> '" & C_DELETE_FLG.DELETE & "'      " _
+                        & " LEFT  JOIN MA002_SHARYOA       A                             ON    " _
+                        & "             A.CAMPCODE        = C.CAMPCODE                         " _
+                        & "       and   A.SHARYOTYPE      = C.SHARYOTYPE                       " _
+                        & "       and   A.TSHABAN         = C.TSHABAN                          " _
+                        & "       and   A.STYMD          <= C.ENDYMD                           " _
+                        & "       and   A.ENDYMD         >= C.STYMD                            " _
+                        & "       and   A.ENDYMD          = (                                  " _
+                        & "          select                                                    " _
+                        & "                 max(ENDYMD)                                        " _
+                        & "          from     MA002_SHARYOA      MXA                           " _
+                        & "          where                                                     " _
+                        & "                    MXA.CAMPCODE      = C.CAMPCODE                  " _
+                        & "                and MXA.SHARYOTYPE    = C.SHARYOTYPE                " _
+                        & "                and MXA.TSHABAN       = C.TSHABAN                   " _
+                        & "                and MXA.STYMD        <= C.ENDYMD                    " _
+                        & "                and MXA.ENDYMD       >= C.STYMD                     " _
+                        & "                and MXA.DELFLG       <> '1'                         " _
+                        & "       )                                                            " _
+                        & "       and   A.DELFLG         <> '" & C_DELETE_FLG.DELETE & "'      " _
+                        & " LEFT  JOIN MA006_SHABANORG     D                             ON    " _
+                        & "             D.CAMPCODE        = A.CAMPCODE                         " _
+                        & "       and   D.MANGUORG        = A.MANGSORG                         " _
+                        & "       and   (                                                      " _
+                        & "                (                                                   " _
+                        & "                      D.SHARYOTYPEF     = A.SHARYOTYPE              " _
+                        & "                  and D.TSHABANF        = A.TSHABAN                 " _
+                        & "                )                                                   " _
+                        & "             or                                                     " _
+                        & "                (                                                   " _
+                        & "                      D.SHARYOTYPEB     = A.SHARYOTYPE              " _
+                        & "                  and D.TSHABANB        = A.TSHABAN                 " _
+                        & "                )                                                   " _
+                        & "             or                                                     " _
+                        & "                (                                                   " _
+                        & "                      D.SHARYOTYPEB2    = A.SHARYOTYPE              " _
+                        & "                  and D.TSHABANB2       = A.TSHABAN                 " _
+                        & "                )                                                   " _
+                        & "             )                                                      " _
+                        & "       and   D.DELFLG         <> '" & C_DELETE_FLG.DELETE & "'      " _
+                        & " INNER JOIN S0006_ROLE          Y                               ON  " _
+                        & "             Y.CAMPCODE        = A.CAMPCODE                         " _
+                        & "       and   (                                                      " _
+                        & "                   Y.CODE        = A.MANGMORG                       " _
+                        & "               or  Y.CODE        = A.MANGSORG                       " _
+                        & "             )                                                      " _
+                        & "       and   Y.OBJECT          = 'ORG'                              " _
+                        & "       and   Y.ROLE            = @P01                               " _
+                        & "       and   Y.STYMD          <= @P03                               " _
+                        & "       and   Y.ENDYMD         >= @P03                               " _
+                        & "       and   Y.DELFLG         <> '1'                                " _
+                        & " WHERE                                                              " _
+                        & "             C.CAMPCODE        = @P02                               " _
+                        & "       and   C.STYMD          <= @P05                               " _
+                        & "       and   C.ENDYMD         >= @P04                               " _
+                        & "       and   C.DELFLG         <> '1'                                " _
+                        & " ORDER BY B.SHARYOTYPE ASC, B.TSHABAN ASC, C.STYMD DESC, B.STYMD DESC, A.STYMD "
+                End If
+
+                Using SQLcmd As New SqlCommand(SQLStr & SQLStr2, SQLcon)
                     Dim PARA1 As SqlParameter = SQLcmd.Parameters.Add("@P01", SqlDbType.NVarChar, 20)
                     Dim PARA2 As SqlParameter = SQLcmd.Parameters.Add("@P02", SqlDbType.NVarChar, 20)
                     Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P03", SqlDbType.Date)
