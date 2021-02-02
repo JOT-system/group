@@ -75,6 +75,19 @@ function List_Field_DBclick(obj, Line, fieldNM) {
     }
 }
 // ○項目変更時名称取得処理
+function f_onchnageNM(obj, Line, fieldNM) {
+    if (document.getElementById("MF_SUBMIT").value == "FALSE") {
+        document.getElementById("MF_SUBMIT").value = "TRUE";
+        document.getElementById("WF_SelectFIELD").value = obj.firstChild.id;
+        document.getElementById("WF_FIELD").value = fieldNM;
+        document.getElementById("WF_SelectLine").value = Line;
+        document.getElementById("WF_ButtonClick").value = "WF_ListChange";
+        document.getElementById("WF_DISP_SaveX").value = document.getElementById("pnlListArea_DR").scrollLeft;
+        document.getElementById("WF_DISP_SaveY").value = document.getElementById("pnlListArea_DR").scrollTop;
+        document.body.style.cursor = "wait";
+        document.forms[0].submit();
+    }
+}
 function f_onchnage(obj, Line, fieldNM) {
     // 送信用FormData オブジェクトを用意
     var fd = new FormData();

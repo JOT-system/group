@@ -44,6 +44,10 @@ Public Class GRMA0006SHABANORG
             If IsPostBack Then
                 '○ 各ボタン押下処理
                 If Not String.IsNullOrEmpty(WF_ButtonClick.Value) Then
+                    If WF_ButtonClick.Value = "WF_ButtonEND" Then
+                        WF_ButtonEND_Click()
+                    End If
+
                     '○ 画面表示データ復元
                     If Master.RecoverTable(MA0006tbl) Then
                         '○ 画面の情報反映
@@ -1886,7 +1890,11 @@ Public Class GRMA0006SHABANORG
 
             '登録車番(前)
             If WW_COLUMNS.IndexOf("TSHABANFNAMES") >= 0 Then
-                MA0006INProw("TSHABANFNAMES") = XLSTBLrow("TSHABANFNAMES")
+                If XLSTBLrow("TSHABANFNAMES") = "" Then
+                    CODENAME_get("TSHARYO", MA0006INProw("TSHARYOF"), MA0006INProw("TSHABANFNAMES"), WW_DUMMY)
+                Else
+                    MA0006INProw("TSHABANFNAMES") = XLSTBLrow("TSHABANFNAMES")
+                End If
             End If
 
             '統一車番(後)(上)
@@ -1921,7 +1929,11 @@ Public Class GRMA0006SHABANORG
 
             '登録車番(後)
             If WW_COLUMNS.IndexOf("TSHABANBNAMES") >= 0 Then
-                MA0006INProw("TSHABANBNAMES") = XLSTBLrow("TSHABANBNAMES")
+                If XLSTBLrow("TSHABANBNAMES") = "" Then
+                    CODENAME_get("TSHARYO", MA0006INProw("TSHARYOB"), MA0006INProw("TSHABANBNAMES"), WW_DUMMY)
+                Else
+                    MA0006INProw("TSHABANBNAMES") = XLSTBLrow("TSHABANBNAMES")
+                End If
             End If
 
             '統一車番(後)2
@@ -1946,7 +1958,11 @@ Public Class GRMA0006SHABANORG
 
             '登録車番(後)2
             If WW_COLUMNS.IndexOf("TSHABANBBNAMES") >= 0 Then
-                MA0006INProw("TSHABANBBNAMES") = XLSTBLrow("TSHABANBBNAMES")
+                If XLSTBLrow("TSHABANBBNAMES") = "" Then
+                    CODENAME_get("TSHARYO", MA0006INProw("TSHARYOBB"), MA0006INProw("TSHABANBBNAMES"), WW_DUMMY)
+                Else
+                    MA0006INProw("TSHABANBBNAMES") = XLSTBLrow("TSHABANBBNAMES")
+                End If
             End If
 
             '契約区分
@@ -2836,7 +2852,11 @@ Public Class GRMA0006SHABANORG
         '登録車番(前)
         If Not IsNothing(Request.Form("txt" & pnlListArea.ID & "TSHABANFNAMES" & WF_SelectedIndex.Value)) AndAlso
             MA0006tbl.Rows(WW_LINECNT)("TSHABANFNAMES") <> Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANFNAMES" & WF_SelectedIndex.Value)) Then
-            MA0006tbl.Rows(WW_LINECNT)("TSHABANFNAMES") = Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANFNAMES" & WF_SelectedIndex.Value))
+            If Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANFNAMES" & WF_SelectedIndex.Value)) = "" Then
+                CODENAME_get("TSHARYO", MA0006tbl(WW_LINECNT)("TSHARYOF"), MA0006tbl(WW_LINECNT)("TSHABANFNAMES"), WW_DUMMY)
+            Else
+                MA0006tbl.Rows(WW_LINECNT)("TSHABANFNAMES") = Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANFNAMES" & WF_SelectedIndex.Value))
+            End If
             MA0006tbl.Rows(WW_LINECNT)("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
         End If
 
@@ -2853,7 +2873,11 @@ Public Class GRMA0006SHABANORG
         '登録車番(後)
         If Not IsNothing(Request.Form("txt" & pnlListArea.ID & "TSHABANBNAMES" & WF_SelectedIndex.Value)) AndAlso
             MA0006tbl.Rows(WW_LINECNT)("TSHABANBNAMES") <> Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBNAMES" & WF_SelectedIndex.Value)) Then
-            MA0006tbl.Rows(WW_LINECNT)("TSHABANBNAMES") = Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBNAMES" & WF_SelectedIndex.Value))
+            If Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBNAMES" & WF_SelectedIndex.Value)) = "" Then
+                CODENAME_get("TSHARYO", MA0006tbl(WW_LINECNT)("TSHARYOF"), MA0006tbl(WW_LINECNT)("TSHABANBNAMES"), WW_DUMMY)
+            Else
+                MA0006tbl.Rows(WW_LINECNT)("TSHABANBNAMES") = Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBNAMES" & WF_SelectedIndex.Value))
+            End If
             MA0006tbl.Rows(WW_LINECNT)("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
         End If
 
@@ -2870,7 +2894,11 @@ Public Class GRMA0006SHABANORG
         '登録車番(後)2
         If Not IsNothing(Request.Form("txt" & pnlListArea.ID & "TSHABANBBNAMES" & WF_SelectedIndex.Value)) AndAlso
             MA0006tbl.Rows(WW_LINECNT)("TSHABANBBNAMES") <> Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBBNAMES" & WF_SelectedIndex.Value)) Then
-            MA0006tbl.Rows(WW_LINECNT)("TSHABANBBNAMES") = Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBBNAMES" & WF_SelectedIndex.Value))
+            If Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBBNAMES" & WF_SelectedIndex.Value)) = "" Then
+                CODENAME_get("TSHARYO", MA0006tbl(WW_LINECNT)("TSHARYOBB"), MA0006tbl(WW_LINECNT)("TSHABANBBNAMES"), WW_DUMMY)
+            Else
+                MA0006tbl.Rows(WW_LINECNT)("TSHABANBBNAMES") = Convert.ToString(Request.Form("txt" & pnlListArea.ID & "TSHABANBBNAMES" & WF_SelectedIndex.Value))
+            End If
             MA0006tbl.Rows(WW_LINECNT)("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
         End If
 

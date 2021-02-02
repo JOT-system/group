@@ -4029,6 +4029,13 @@ Public Class GRMA0002SHARYOA
                     & "         isnull(rtrim(B.OTHRTIRE1),'')          as OTHRTIRE1    ,   " _
                     & "         isnull(rtrim(B.OTHRTIRE2),'')          as OTHRTIRE2    ,   " _
                     & "         isnull(rtrim(B.OTHRTPMS),'')           as OTHRTPMS     ,   " _
+                    & "         isnull(rtrim(B.OTHRETCNO),'')          as OTHRETCNO    ,   " _
+                    & "         isnull(rtrim(B.OTHRASLID),'')          as OTHRASLID    ,   " _
+                    & "         isnull(rtrim(B.OTHRETCCARDNO),'')      as OTHRETCCARDNO,   " _
+                    & "         isnull(rtrim(B.OTHRKOUEINO),'')        as OTHRKOUEINO  ,   " _
+                    & "         CASE WHEN B.ACCTLEASEEND IS NULL THEN ''                   " _
+                    & "              ELSE FORMAT(B.ACCTLEASEEND,'yyyy/MM/dd')              " _
+                    & "         END                                    as ACCTLEASEEND ,   " _
                     & "         isnull(rtrim(B.ACCTASST01),'')         as ACCTASST01   ,   " _
                     & "         isnull(rtrim(B.ACCTASST02),'')         as ACCTASST02   ,   " _
                     & "         isnull(rtrim(B.ACCTASST03),'')         as ACCTASST03   ,   " _
@@ -4470,6 +4477,11 @@ Public Class GRMA0002SHARYOA
                             MA0002row("OTHRRADIOCON") = SQLdr("OTHRRADIOCON")
                             MA0002row("OTHRRTARGET") = SQLdr("OTHRRTARGET")
                             MA0002row("OTHRTERMINAL") = SQLdr("OTHRTERMINAL")
+                            MA0002row("OTHRETCNO") = SQLdr("OTHRETCNO")
+                            MA0002row("OTHRASLID") = SQLdr("OTHRASLID")
+                            MA0002row("OTHRETCCARDNO") = SQLdr("OTHRETCCARDNO")
+                            MA0002row("OTHRKOUEINO") = SQLdr("OTHRKOUEINO")
+                            MA0002row("ACCTLEASEEND") = If(SQLdr("ACCTLEASEEND"), "")
                             MA0002row("ACCTASST01") = SQLdr("ACCTASST01")
                             MA0002row("ACCTASST02") = SQLdr("ACCTASST02")
                             MA0002row("ACCTASST03") = SQLdr("ACCTASST03")
@@ -4490,7 +4502,7 @@ Public Class GRMA0002SHARYOA
                             MA0002row("ACCTLSUPL3") = SQLdr("ACCTLSUPL3")
                             MA0002row("ACCTLSUPL4") = SQLdr("ACCTLSUPL4")
                             MA0002row("ACCTLSUPL5") = SQLdr("ACCTLSUPL5")
-                            MA0002row("ACCTRCYCLE") = Format(SQLdr("ACCTRCYCLE"), "#,#")
+                            MA0002row("ACCTRCYCLE") = Format(Val(SQLdr("ACCTRCYCLE")), "#,#")
                             MA0002row("NOTES") = SQLdr("NOTES")
                             MA0002row("LICN5LDCAPA") = SQLdr("LICN5LDCAPA")
                             MA0002row("LICNCWEIGHT") = SQLdr("LICNCWEIGHT")

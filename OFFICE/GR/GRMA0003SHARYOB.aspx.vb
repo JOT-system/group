@@ -500,12 +500,17 @@ Public Class GRMA0003SHARYOB
                         & "              OTHRTIRE1 = @P84 , " _
                         & "              OTHRTIRE2 = @P85 , " _
                         & "              OTHRTPMS = @P86 , " _
+                        & "              OTHRETCNO = @P861 , " _
+                        & "              OTHRASLID = @P862 , " _
+                        & "              OTHRETCCARDNO = @P863 , " _
+                        & "              OTHRKOUEINO = @P864 , " _
                         & "              OFFCRESERVE1 = @P87 , " _
                         & "              OFFCRESERVE2 = @P88 , " _
                         & "              OFFCRESERVE3 = @P89 , " _
                         & "              OFFCRESERVE4 = @P90 , " _
                         & "              OFFCRESERVE5 = @P91 , " _
                         & "              ACCTRCYCLE = @P92 , " _
+                        & "              ACCTLEASEEND = @P921 , " _
                         & "              ACCTLEASE1 = @P93 , " _
                         & "              ACCTLEASE2 = @P94 , " _
                         & "              ACCTLEASE3 = @P95 , " _
@@ -628,12 +633,17 @@ Public Class GRMA0003SHARYOB
                         & "              OTHRTIRE1 , " _
                         & "              OTHRTIRE2 , " _
                         & "              OTHRTPMS , " _
+                        & "              OTHRETCNO , " _
+                        & "              OTHRASLID , " _
+                        & "              OTHRETCCARDNO , " _
+                        & "              OTHRKOUEINO , " _
                         & "              OFFCRESERVE1 , " _
                         & "              OFFCRESERVE2 , " _
                         & "              OFFCRESERVE3 , " _
                         & "              OFFCRESERVE4 , " _
                         & "              OFFCRESERVE5 , " _
                         & "              ACCTRCYCLE , " _
+                        & "              ACCTLEASEEND , " _
                         & "              ACCTLEASE1 , " _
                         & "              ACCTLEASE2 , " _
                         & "              ACCTLEASE3 , " _
@@ -673,8 +683,8 @@ Public Class GRMA0003SHARYOB
                         & "              @P51,@P52,@P53,@P54,@P55,@P56,@P57,@P58,@P59,@P60," _
                         & "              @P61,@P62,@P63,@P64,@P65,@P66,@P67,@P68,@P69,@P70," _
                         & "              @P71,@P72,@P73,@P74,@P75,@P76,@P77,@P78,@P79,@P80," _
-                        & "              @P81,@P82,@P83,@P84,@P85,@P86,@P87,@P88,@P89,@P90," _
-                        & "              @P91,@P92,@P93,@P94,@P95,@P96,@P97,@P98,@P99,@P100," _
+                        & "              @P81,@P82,@P83,@P84,@P85,@P86,@P861,@P862,@P863,@P864,@P87,@P88,@P89,@P90," _
+                        & "              @P91,@P92,@P921,@P93,@P94,@P95,@P96,@P97,@P98,@P99,@P100," _
                         & "              @P101,@P102,@P103,@P104,@P105,@P106,@P107,@P108,@P109,@P110," _
                         & "              @P111,@P112,@P113,@P114,@P115,@P116,@P117,@P118,@P119,@P120," _
                         & "              @P121,@P122,@P123);" _
@@ -803,12 +813,21 @@ Public Class GRMA0003SHARYOB
                         Dim PARA384 As SqlParameter = SQLcmd3.Parameters.Add("@P84", SqlDbType.NVarChar, 20)
                         Dim PARA385 As SqlParameter = SQLcmd3.Parameters.Add("@P85", SqlDbType.NVarChar, 20)
                         Dim PARA386 As SqlParameter = SQLcmd3.Parameters.Add("@P86", SqlDbType.NVarChar, 20)
+
+                        Dim PARA3861 As SqlParameter = SQLcmd3.Parameters.Add("@P861", SqlDbType.NVarChar, 25)
+                        Dim PARA3862 As SqlParameter = SQLcmd3.Parameters.Add("@P862", SqlDbType.NVarChar, 20)
+                        Dim PARA3863 As SqlParameter = SQLcmd3.Parameters.Add("@P863", SqlDbType.NVarChar, 20)
+                        Dim PARA3864 As SqlParameter = SQLcmd3.Parameters.Add("@P864", SqlDbType.NVarChar, 20)
+
                         Dim PARA387 As SqlParameter = SQLcmd3.Parameters.Add("@P87", SqlDbType.NVarChar, 20)
                         Dim PARA388 As SqlParameter = SQLcmd3.Parameters.Add("@P88", SqlDbType.NVarChar, 20)
                         Dim PARA389 As SqlParameter = SQLcmd3.Parameters.Add("@P89", SqlDbType.NVarChar, 20)
                         Dim PARA390 As SqlParameter = SQLcmd3.Parameters.Add("@P90", SqlDbType.NVarChar, 20)
                         Dim PARA391 As SqlParameter = SQLcmd3.Parameters.Add("@P91", SqlDbType.NVarChar, 20)
                         Dim PARA392 As SqlParameter = SQLcmd3.Parameters.Add("@P92", SqlDbType.Money)
+
+                        Dim PARA3921 As SqlParameter = SQLcmd3.Parameters.Add("@P921", SqlDbType.DateTime)
+
                         Dim PARA393 As SqlParameter = SQLcmd3.Parameters.Add("@P93", SqlDbType.NVarChar, 20)
                         Dim PARA394 As SqlParameter = SQLcmd3.Parameters.Add("@P94", SqlDbType.NVarChar, 20)
                         Dim PARA395 As SqlParameter = SQLcmd3.Parameters.Add("@P95", SqlDbType.NVarChar, 20)
@@ -1017,6 +1036,12 @@ Public Class GRMA0003SHARYOB
                                 PARA384.Value = MA0003row("OTHRTIRE1")
                                 PARA385.Value = MA0003row("OTHRTIRE2")
                                 PARA386.Value = MA0003row("OTHRTPMS")
+
+                                PARA3861.Value = MA0003row("OTHRETCNO")
+                                PARA3862.Value = MA0003row("OTHRASLID")
+                                PARA3863.Value = MA0003row("OTHRETCCARDNO")
+                                PARA3864.Value = MA0003row("OTHRKOUEINO")
+
                                 PARA387.Value = MA0003row("OFFCRESERVE1")
                                 PARA388.Value = MA0003row("OFFCRESERVE2")
                                 PARA389.Value = MA0003row("OFFCRESERVE3")
@@ -1027,6 +1052,13 @@ Public Class GRMA0003SHARYOB
                                 Else
                                     PARA392.Value = MA0003row("ACCTRCYCLE")
                                 End If
+
+                                If RTrim(MA0003row("ACCTLEASEEND")) = "" Then
+                                    PARA3921.Value = C_DEFAULT_YMD
+                                Else
+                                    PARA3921.Value = RTrim(MA0003row("ACCTLEASEEND"))
+                                End If
+
                                 PARA393.Value = MA0003row("ACCTLEASE1")
                                 PARA394.Value = MA0003row("ACCTLEASE2")
                                 PARA395.Value = MA0003row("ACCTLEASE3")
@@ -3627,6 +3659,13 @@ Public Class GRMA0003SHARYOB
                 MA0003INProw("ACCTRCYCLE") = XLSTBLrow("ACCTRCYCLE")
             End If
 
+            If WW_COLUMNS.IndexOf("ACCTLEASEEND") >= 0 Then
+                If IsDate(XLSTBLrow("ACCTLEASEEND")) Then
+                    WW_DATE = XLSTBLrow("ACCTLEASEEND")
+                    MA0003INProw("ACCTLEASEEND") = WW_DATE.ToString("yyyy/MM/dd")
+                End If
+            End If
+
             If WW_COLUMNS.IndexOf("ACCTASST06") >= 0 Then
                 MA0003INProw("ACCTASST06") = XLSTBLrow("ACCTASST06")
             End If
@@ -4165,6 +4204,22 @@ Public Class GRMA0003SHARYOB
 
             If WW_COLUMNS.IndexOf("OTHRTPMS") >= 0 Then
                 MA0003INProw("OTHRTPMS") = XLSTBLrow("OTHRTPMS")
+            End If
+
+            If WW_COLUMNS.IndexOf("OTHRETCNO") >= 0 Then
+                MA0003INProw("OTHRETCNO") = XLSTBLrow("OTHRETCNO")
+            End If
+
+            If WW_COLUMNS.IndexOf("OTHRASLID") >= 0 Then
+                MA0003INProw("OTHRASLID") = XLSTBLrow("OTHRASLID")
+            End If
+
+            If WW_COLUMNS.IndexOf("OTHRETCCARDNO") >= 0 Then
+                MA0003INProw("OTHRETCCARDNO") = XLSTBLrow("OTHRETCCARDNO")
+            End If
+
+            If WW_COLUMNS.IndexOf("OTHRKOUEINO") >= 0 Then
+                MA0003INProw("OTHRKOUEINO") = XLSTBLrow("OTHRKOUEINO")
             End If
 
             If WW_COLUMNS.IndexOf("OTNKTMAKER") >= 0 Then
@@ -4747,6 +4802,13 @@ Public Class GRMA0003SHARYOB
                     & "         isnull(rtrim(B.OTHRTIRE1),'')          as OTHRTIRE1    ,   " _
                     & "         isnull(rtrim(B.OTHRTIRE2),'')          as OTHRTIRE2    ,   " _
                     & "         isnull(rtrim(B.OTHRTPMS),'')           as OTHRTPMS     ,   " _
+                    & "         isnull(rtrim(B.OTHRETCNO),'')          as OTHRETCNO    ,   " _
+                    & "         isnull(rtrim(B.OTHRASLID),'')          as OTHRASLID    ,   " _
+                    & "         isnull(rtrim(B.OTHRETCCARDNO),'')      as OTHRETCCARDNO,   " _
+                    & "         isnull(rtrim(B.OTHRKOUEINO),'')        as OTHRKOUEINO  ,   " _
+                    & "         CASE WHEN B.ACCTLEASEEND IS NULL THEN ''                   " _
+                    & "              ELSE FORMAT(B.ACCTLEASEEND,'yyyy/MM/dd')              " _
+                    & "         END                                    as ACCTLEASEEND ,   " _
                     & "         isnull(rtrim(B.ACCTASST01),'')         as ACCTASST01   ,   " _
                     & "         isnull(rtrim(B.ACCTASST02),'')         as ACCTASST02   ,   " _
                     & "         isnull(rtrim(B.ACCTASST03),'')         as ACCTASST03   ,   " _
@@ -5187,6 +5249,11 @@ Public Class GRMA0003SHARYOB
                             MA0003row("OTHRRADIOCON") = SQLdr("OTHRRADIOCON")
                             MA0003row("OTHRRTARGET") = SQLdr("OTHRRTARGET")
                             MA0003row("OTHRTERMINAL") = SQLdr("OTHRTERMINAL")
+                            MA0003row("OTHRETCNO") = SQLdr("OTHRETCNO")
+                            MA0003row("OTHRASLID") = SQLdr("OTHRASLID")
+                            MA0003row("OTHRETCCARDNO") = SQLdr("OTHRETCCARDNO")
+                            MA0003row("OTHRKOUEINO") = SQLdr("OTHRKOUEINO")
+                            MA0003row("ACCTLEASEEND") = If(SQLdr("ACCTLEASEEND"), "")
                             MA0003row("ACCTASST01") = SQLdr("ACCTASST01")
                             MA0003row("ACCTASST02") = SQLdr("ACCTASST02")
                             MA0003row("ACCTASST03") = SQLdr("ACCTASST03")
@@ -5929,6 +5996,7 @@ Public Class GRMA0003SHARYOB
             '○タブ別処理(08 車両その他)
             '入力値チェック
             WW_ItemCheck("OTHRTERMINAL", "車載端末", MA0003INProw("OTHRTERMINAL"), MA0003INProw, WW_LINEERR_SW, O_RTN)
+            WW_ItemCheck("OTHRKOUEINO", "光英シリアル番号", MA0003INProw("OTHRKOUEINO"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OTHRBMONITOR", "バックモニター", MA0003INProw("OTHRBMONITOR"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OTHRRADIOCON", "無線（有・無）", MA0003INProw("OTHRRADIOCON"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OTHRDOCO", "ＤoCoですCar番号", MA0003INProw("OTHRDOCO"), MA0003INProw, WW_LINEERR_SW, O_RTN)
@@ -5939,6 +6007,15 @@ Public Class GRMA0003SHARYOB
             WW_ItemCheck("OTHRTIRE1", "タイヤ情報１", MA0003INProw("OTHRTIRE1"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OTHRTIRE2", "タイヤ情報２", MA0003INProw("OTHRTIRE2"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OTHRTPMS", "TPMS", MA0003INProw("OTHRTPMS"), MA0003INProw, WW_LINEERR_SW, O_RTN)
+
+            WW_TEXT = MA0003INProw("OTHRETCNO")
+            MA0003INProw("OTHRETCNO") = If(WW_TEXT = "", "", Replace(WW_TEXT, "-", ""))
+            WW_ItemCheck("OTHRETCNO", "ETC車載器番号", MA0003INProw("OTHRETCNO"), MA0003INProw, WW_LINEERR_SW, O_RTN)
+            MA0003INProw("OTHRETCNO") = WW_TEXT
+
+            WW_ItemCheck("OTHRASLID", "ASL-ID", MA0003INProw("OTHRASLID"), MA0003INProw, WW_LINEERR_SW, O_RTN)
+            WW_ItemCheck("OTHRETCCARDNO", "ETCカード番号", MA0003INProw("OTHRETCCARDNO"), MA0003INProw, WW_LINEERR_SW, O_RTN)
+
             WW_ItemCheck("OFFCRESERVE1", "支店予備項目1", MA0003INProw("OFFCRESERVE1"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OFFCRESERVE2", "支店予備項目2", MA0003INProw("OFFCRESERVE2"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("OFFCRESERVE3", "支店予備項目3", MA0003INProw("OFFCRESERVE3"), MA0003INProw, WW_LINEERR_SW, O_RTN)
@@ -5954,6 +6031,7 @@ Public Class GRMA0003SHARYOB
                 WW_LINEERR_SW = "ERR"
                 O_RTN = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
             End If
+            WW_ItemCheck("ACCTLEASEEND", "リース満了日", MA0003INProw("ACCTLEASEEND"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("ACCTLEASE1", "リース契約NO1", MA0003INProw("ACCTLEASE1"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("ACCTLEASE2", "リース契約NO2", MA0003INProw("ACCTLEASE2"), MA0003INProw, WW_LINEERR_SW, O_RTN)
             WW_ItemCheck("ACCTLEASE3", "リース契約NO3", MA0003INProw("ACCTLEASE3"), MA0003INProw, WW_LINEERR_SW, O_RTN)
@@ -6416,6 +6494,7 @@ Public Class GRMA0003SHARYOB
                 MA0003row("FCTRTMAKER") = MA0003INProw("FCTRTMAKER") AndAlso MA0003row("FCTRRESERVE1") = MA0003INProw("FCTRRESERVE1") AndAlso
                 MA0003row("FCTRRESERVE2") = MA0003INProw("FCTRRESERVE2") AndAlso MA0003row("FCTRRESERVE3") = MA0003INProw("FCTRRESERVE3") AndAlso
                 MA0003row("FCTRRESERVE4") = MA0003INProw("FCTRRESERVE4") AndAlso MA0003row("FCTRRESERVE5") = MA0003INProw("FCTRRESERVE5") AndAlso
+                MA0003row("ACCTLEASEEND") = MA0003INProw("ACCTLEASEEND") AndAlso
                 MA0003row("ACCTLEASE1") = MA0003INProw("ACCTLEASE1") AndAlso MA0003row("ACCTLEASE2") = MA0003INProw("ACCTLEASE2") AndAlso
                 MA0003row("ACCTLEASE3") = MA0003INProw("ACCTLEASE3") AndAlso MA0003row("ACCTLEASE4") = MA0003INProw("ACCTLEASE4") AndAlso
                 MA0003row("ACCTLEASE5") = MA0003INProw("ACCTLEASE5") AndAlso MA0003row("ACCTLSUPL1") = MA0003INProw("ACCTLSUPL1") AndAlso
@@ -6432,6 +6511,8 @@ Public Class GRMA0003SHARYOB
                 MA0003row("OTHRBSONAR") = MA0003INProw("OTHRBSONAR") AndAlso MA0003row("OTHRRTARGET") = MA0003INProw("OTHRRTARGET") AndAlso
                 MA0003row("OTHRTIRE1") = MA0003INProw("OTHRTIRE1") AndAlso MA0003row("OTHRTIRE2") = MA0003INProw("OTHRTIRE2") AndAlso
                 MA0003row("OTHRTPMS") = MA0003INProw("OTHRTPMS") AndAlso
+                MA0003row("OTHRETCNO") = MA0003INProw("OTHRETCNO") AndAlso MA0003row("OTHRASLID") = MA0003INProw("OTHRASLID") AndAlso
+                MA0003row("OTHRETCCARDNO") = MA0003INProw("OTHRETCCARDNO") AndAlso MA0003row("OTHRKOUEINO") = MA0003INProw("OTHRKOUEINO") AndAlso
                 MA0003row("OFFCRESERVE1") = MA0003INProw("OFFCRESERVE1") AndAlso MA0003row("OFFCRESERVE2") = MA0003INProw("OFFCRESERVE2") AndAlso
                 MA0003row("OFFCRESERVE3") = MA0003INProw("OFFCRESERVE3") AndAlso MA0003row("OFFCRESERVE4") = MA0003INProw("OFFCRESERVE4") AndAlso
                 MA0003row("OFFCRESERVE5") = MA0003INProw("OFFCRESERVE5") AndAlso MA0003row("DELFLG") = MA0003INProw("DELFLG") Then

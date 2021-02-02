@@ -5122,6 +5122,13 @@ Public Class GRMA0004SHARYOC
                     & "         isnull(rtrim(B.OTHRTIRE1),'')          as OTHRTIRE1    ,   " _
                     & "         isnull(rtrim(B.OTHRTIRE2),'')          as OTHRTIRE2    ,   " _
                     & "         isnull(rtrim(B.OTHRTPMS),'')           as OTHRTPMS     ,   " _
+                    & "         isnull(rtrim(B.OTHRETCNO),'')          as OTHRETCNO    ,   " _
+                    & "         isnull(rtrim(B.OTHRASLID),'')          as OTHRASLID    ,   " _
+                    & "         isnull(rtrim(B.OTHRETCCARDNO),'')      as OTHRETCCARDNO,   " _
+                    & "         isnull(rtrim(B.OTHRKOUEINO),'')        as OTHRKOUEINO  ,   " _
+                    & "         CASE WHEN B.ACCTLEASEEND IS NULL THEN ''                   " _
+                    & "              ELSE FORMAT(B.ACCTLEASEEND,'yyyy/MM/dd')              " _
+                    & "         END                                    as ACCTLEASEEND ,   " _
                     & "         isnull(rtrim(B.ACCTASST01),'')         as ACCTASST01   ,   " _
                     & "         isnull(rtrim(B.ACCTASST02),'')         as ACCTASST02   ,   " _
                     & "         isnull(rtrim(B.ACCTASST03),'')         as ACCTASST03   ,   " _
@@ -5634,6 +5641,11 @@ Public Class GRMA0004SHARYOC
                             MA0004row("OTHRRADIOCON") = SQLdr("OTHRRADIOCON")
                             MA0004row("OTHRRTARGET") = SQLdr("OTHRRTARGET")
                             MA0004row("OTHRTERMINAL") = SQLdr("OTHRTERMINAL")
+                            MA0004row("OTHRETCNO") = SQLdr("OTHRETCNO")
+                            MA0004row("OTHRASLID") = SQLdr("OTHRASLID")
+                            MA0004row("OTHRETCCARDNO") = SQLdr("OTHRETCCARDNO")
+                            MA0004row("OTHRKOUEINO") = SQLdr("OTHRKOUEINO")
+                            MA0004row("ACCTLEASEEND") = If(SQLdr("ACCTLEASEEND"), "")
                             MA0004row("ACCTASST01") = SQLdr("ACCTASST01")
                             MA0004row("ACCTASST02") = SQLdr("ACCTASST02")
                             MA0004row("ACCTASST03") = SQLdr("ACCTASST03")
@@ -7158,6 +7170,7 @@ Public Class GRMA0004SHARYOC
         '項目設定
         MA0004row.ItemArray = MA0004INProw.ItemArray
         MA0004row("LINECNT") = MA0004tbl.Rows.Count + 1
+        MA0004INProw("OPERATION") = C_LIST_OPERATION_CODE.UPDATING 'この処理は正しい（この行が無いとPDFディレクトリが作成されない）
         MA0004row("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
         MA0004row("NOTES") = ""
         MA0004row("TIMSTP") = "0"
