@@ -2452,11 +2452,6 @@ Public Class GRTA0002KINTAILIST_V2
 
                 For Each T0010row As DataRow In T0010tbl.Rows
                     For j As Integer = 1 To T0010row("SAVECNT")
-                        If j <> 1 Then
-                            WW_TA0002row = WW_TA0002tbl.NewRow
-                            SetRowSpece(WW_TA0002row)
-                        End If
-
                         Dim WW_SHARYOKBN As String = "SHARYOKBN" & j.ToString
                         Dim WW_SHARYOKBNNAME As String = "SHARYOKBN" & j.ToString & "NAME"
                         Dim WW_OILPAYKBN As String = "OILPAYKBN" & j.ToString
@@ -2467,6 +2462,19 @@ Public Class GRTA0002KINTAILIST_V2
                         Dim WW_TODOKECODENAME As String = "TODOKECODE" & j.ToString & "NAME"
                         Dim WW_MODELDISTANCE As String = "MODELDISTANCE" & j.ToString
                         Dim WW_MODIFYKBN As String = "MODIFYKBN" & j.ToString
+
+                        'LNGで出荷場所（届先なし）のみでモデル距離がゼロの場合スキップ
+                        If T0010row(WW_OILPAYKBN) = "04" AndAlso
+                           T0010row(WW_SHUKABASHO) <> "" AndAlso
+                           T0010row(WW_TODOKECODE) = "" AndAlso
+                           T0010row(WW_MODELDISTANCE) = 0 Then
+                            Continue For
+                        End If
+
+                        If j <> 1 Then
+                            WW_TA0002row = WW_TA0002tbl.NewRow
+                            SetRowSpece(WW_TA0002row)
+                        End If
 
                         WW_TA0002row("TRIPNO") = j.ToString
                         WW_TA0002row("SHARYOKBN") = T0010row(WW_SHARYOKBN)
@@ -2812,7 +2820,7 @@ Public Class GRTA0002KINTAILIST_V2
         Dim viw As New DataView(WW_NIPPOtbl)
         Dim isDistinct As Boolean = True
         Dim cols() As String = {"KEY", "SHARYOKBN", "SHARYOKBNNAMES", "PRODUCT1", "PRODUCT1NAMES"}
-        viw.Sort = "KEY, PRODUCT1"
+        viw.Sort = "KEY, SHARYOKBN, PRODUCT1 DESC"
         Dim dtFilter As DataTable = viw.ToTable(isDistinct, cols)
         dtFilter.Columns.Add("MODELDISTANCE", GetType(Double))
         For Each row As DataRow In dtFilter.Rows

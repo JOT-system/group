@@ -2417,6 +2417,9 @@ Public Class GRT00005IMPORT
         Dim WW_SUBSTAFF As String = ""
         Dim WW_MIN As Integer = 0
         Dim WW_ACT As Integer = 0
+        Dim WW_G1_CNT As Integer = 0
+        Dim WW_G1_ENDDATE As String = ""
+        Dim WW_G1_ENDTIME As String = ""
         Dim WW_CONVERT As String = ""
         Dim WW_TEXT As String = ""
         Dim WW_RTN As String = ""
@@ -2596,10 +2599,20 @@ Public Class GRT00005IMPORT
 
                 If WW_NIPPONO <> T0005INProw("NIPPONO") Then
                     T0005INProw("MOVETIME") = "00:00"
+                    '2021/02/10 ADD
+                    WW_G1_CNT = 0
+                    WW_G1_ENDDATE = T0005INProw("ENDDATE")
+                    WW_G1_ENDTIME = "00:00"
+                    '2021/02/10 ADD END
                 Else
                     If WW_WORKKBN = "G1" Then  '配送
                         WW_MIN = 0
                         T0005INProw("MOVETIME") = T0005COM.MinutesToHHMM(WW_MIN)
+                        '2021/02/10 ADD
+                        WW_G1_CNT += 1
+                        WW_G1_ENDDATE = T0005INProw("ENDDATE")
+                        WW_G1_ENDTIME = T0005INProw("ENDTIME")
+                        '2021/02/10 ADD END
                     Else
                         'WW_MIN = DateDiff("n", YHAISOtbl.Rows(i - 1)("FIELD15"), YHAISOrow("FIELD9"))
                         '配送レコード以外の直前の発時間（終了時間）－着時間（開始時間）
@@ -2611,6 +2624,28 @@ Public Class GRT00005IMPORT
                     End If
                     WW_ACT += WW_MIN
                 End If
+
+                '2021/02/10 ADD
+                'G1の範囲外は、「荷積」「荷卸」を「その他作業」に
+                If WW_G1_CNT > 0 Then
+                    If WW_WORKKBN = "B2" OrElse WW_WORKKBN = "B3" Then
+                        Dim WW_STDATE As Date = CDate(T0005INProw("STDATE") + " " + T0005INProw("STTIME"))
+                        Dim WW_ENDDATE As Date = CDate(WW_G1_ENDDATE + " " + WW_G1_ENDTIME)
+                        If WW_STDATE >= WW_ENDDATE Then
+                            'その他作業に変換
+                            WW_WORKKBN = "BX"
+                            T0005INProw("WORKKBN") = "BX"
+                        End If
+                    End If
+                Else
+                    'G1の前の「荷積」「荷卸」を「その他作業」に
+                    If WW_WORKKBN = "B2" OrElse WW_WORKKBN = "B3" Then
+                        'その他作業に変換
+                        WW_WORKKBN = "BX"
+                        T0005INProw("WORKKBN") = "BX"
+                    End If
+                End If
+                '2021/02/10 ADD END
 
                 '稼働時間
                 T0005INProw("ACTTIME") = T0005COM.MinutestoHHMM(WW_ACT)
@@ -2746,6 +2781,10 @@ Public Class GRT00005IMPORT
                         T0005INProw("PRODUCTCODE1") = YHAISOrow("FIELD35")
                         OutputErrorMessageForYazaki(YHAISOrow, "品名コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
                     End If
+
+                    If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                        T0005INProw("PRODUCTCODE1") = ""
+                    End If
                 End If
 
                 '数量１
@@ -2756,6 +2795,9 @@ Public Class GRT00005IMPORT
                 Else
                     T0005INProw("SURYO1") = YHAISOrow("FIELD37")
                     OutputErrorMessageForYazaki(YHAISOrow, "数量", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
+                End If
+                If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                    T0005INProw("SURYO1") = Val(0).ToString("#,0.000")
                 End If
 
                 '品名２
@@ -2768,6 +2810,10 @@ Public Class GRT00005IMPORT
                         T0005INProw("PRODUCTCODE2") = YHAISOrow("FIELD43")
                         OutputErrorMessageForYazaki(YHAISOrow, "品名コード2", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
                     End If
+
+                    If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                        T0005INProw("PRODUCTCODE2") = ""
+                    End If
                 End If
 
                 '数量２
@@ -2778,6 +2824,9 @@ Public Class GRT00005IMPORT
                 Else
                     T0005INProw("SURYO2") = YHAISOrow("FIELD45")
                     OutputErrorMessageForYazaki(YHAISOrow, "数量2", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
+                End If
+                If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                    T0005INProw("SURYO2") = Val(0).ToString("#,0.000")
                 End If
 
                 '品名３
@@ -2790,6 +2839,10 @@ Public Class GRT00005IMPORT
                         T0005INProw("PRODUCTCODE3") = YHAISOrow("FIELD47")
                         OutputErrorMessageForYazaki(YHAISOrow, "品名コード3", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
                     End If
+
+                    If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                        T0005INProw("PRODUCTCODE3") = ""
+                    End If
                 End If
 
                 '数量３
@@ -2800,6 +2853,9 @@ Public Class GRT00005IMPORT
                 Else
                     T0005INProw("SURYO3") = YHAISOrow("FIELD49")
                     OutputErrorMessageForYazaki(YHAISOrow, "数量3", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
+                End If
+                If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                    T0005INProw("SURYO3") = Val(0).ToString("#,0.000")
                 End If
 
                 '品名４
@@ -2812,6 +2868,10 @@ Public Class GRT00005IMPORT
                         T0005INProw("PRODUCTCODE4") = YHAISOrow("FIELD58")
                         OutputErrorMessageForYazaki(YHAISOrow, "品名コード4", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
                     End If
+
+                    If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                        T0005INProw("PRODUCTCODE4") = ""
+                    End If
                 End If
 
                 '数量４
@@ -2822,6 +2882,9 @@ Public Class GRT00005IMPORT
                 Else
                     T0005INProw("SURYO4") = YHAISOrow("FIELD60")
                     OutputErrorMessageForYazaki(YHAISOrow, "数量4", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
+                End If
+                If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                    T0005INProw("SURYO4") = Val(0).ToString("#,0.000")
                 End If
 
                 '品名５
@@ -2834,6 +2897,10 @@ Public Class GRT00005IMPORT
                         T0005INProw("PRODUCTCODE5") = YHAISOrow("FIELD62")
                         OutputErrorMessageForYazaki(YHAISOrow, "品名コード5", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
                     End If
+
+                    If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                        T0005INProw("PRODUCTCODE5") = ""
+                    End If
                 End If
 
                 '数量５
@@ -2845,6 +2912,9 @@ Public Class GRT00005IMPORT
                     T0005INProw("SURYO5") = YHAISOrow("FIELD64")
                     OutputErrorMessageForYazaki(YHAISOrow, "数量5", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
                 End If
+                If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                    T0005INProw("SURYO5") = Val(0).ToString("#,0.000")
+                End If
 
                 '全数量
                 '①必須・項目属性チェック
@@ -2854,6 +2924,9 @@ Public Class GRT00005IMPORT
                 Else
                     T0005INProw("TOTALSURYO") = YHAISOrow("FIELD51")
                     OutputErrorMessageForYazaki(YHAISOrow, "全数量", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST)
+                End If
+                If WW_WORKKBN = "BX" Then  'その他作業（B2,B3から変換されたものへの対応）
+                    T0005INProw("TOTALSURYO") = Val(0).ToString("#,0.000")
                 End If
 
                 '積置区分
@@ -4075,6 +4148,11 @@ Public Class GRT00005IMPORT
         Dim WW_GSHABAN As String = ""
         Dim WW_TIME As String = ""
         Dim WW_FIRST As String = "OFF"
+        '2021/02/10 ADD
+        Dim WW_G1CNT As Integer = 0
+        Dim WW_G1ENDDATE As String = "1950/01/01"
+        Dim WW_G1ENDTIME As String = "00:00"
+        '2021/02/10 ADD END
 
         S0013tbl = New DataTable
 
@@ -4110,6 +4188,9 @@ Public Class GRT00005IMPORT
                     If Not String.IsNullOrEmpty(O_VALUE) Then
                         T0005INProw("YMD") = O_VALUE
                         WW_YMD = O_VALUE
+                        '2021/02/10 ADD
+                        WW_G1ENDDATE = O_VALUE
+                        '2021/02/10 ADD END
                         '稼働日が条件の開始日と終了日の範囲外の場合エラー
                         If CDate(WW_YMD) < CDate(work.WF_SEL_STYMD.Text) OrElse
                            CDate(WW_YMD) > CDate(work.WF_SEL_ENDYMD.Text) Then
@@ -4853,7 +4934,6 @@ Public Class GRT00005IMPORT
 
                     Case "G1"
                         '作業区分（G1）：配送ボタン　-> G1
-
                         T0005INProw("WORKKBN") = "G1" '配送ボタン
                         T0005INProw("STDATE") = WW_STYMD
                         T0005INProw("ENDDATE") = WW_STYMD
@@ -4962,6 +5042,11 @@ Public Class GRT00005IMPORT
                         WW_IPPKUDISTANCE = 0
                         WW_KOSJIDISTANCE = 0
                         WW_KOSKUDISTANCE = 0
+                        '2021/02/10 ADD
+                        WW_G1CNT += 1
+                        WW_G1ENDDATE = T0005INProw("ENDDATE")
+                        WW_G1ENDTIME = T0005INProw("ENDTIME")
+                        '2021/02/10 ADD END
 
                     Case "B1", "B4", "B8", "B9", "BA", "BX", "B5", "BB", "BC"
                         '作業区分（B1）：積込準備
@@ -5153,61 +5238,81 @@ Public Class GRT00005IMPORT
                                 OutputErrorMessageByKouei(KSYASAIrow, "作業時間", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
                             End If
                         End If
-                        'E2レコードを検索　
-                        '  （稼働日  4,日報№ 10,トリップ 16）し、作業区分 13 が"E2"（荷卸数量）が存在した場合、取引先、出荷場所 35を取得、設定する
-                        Using WW_SEL As DataTable = KSYASAItbl.Clone
-                            For j As Integer = i + 1 To KSYASAItbl.Rows.Count - 1
-                                Dim WW_KSYASAIrow As DataRow = KSYASAItbl.Rows(j)
-                                If WW_KSYASAIrow("FIELD4") = KSYASAIrow("FIELD4") AndAlso
-                                   WW_KSYASAIrow("FIELD10") = KSYASAIrow("FIELD10") Then
 
-                                    If WW_KSYASAIrow("FIELD16") = KSYASAIrow("FIELD16") AndAlso
-                                       WW_KSYASAIrow("FIELD13") = "E2" Then
-                                        Dim WW_row As DataRow = WW_SEL.NewRow
-                                        WW_row.ItemArray = WW_KSYASAIrow.ItemArray
-                                        WW_SEL.Rows.Add(WW_row)
-                                    End If
-                                Else
-                                    Exit For
-                                End If
-                            Next
-                            If WW_SEL.Rows.Count > 0 Then
-                                '取引先コードにブランク設定
-                                T0005INProw("TORICODE") = String.Empty
-                                '〇出荷地が設定されている場合
-                                If Not String.IsNullOrEmpty(WW_SEL.Rows(0)("FIELD35")) Then
-                                    '出荷地コード
-                                    '①必須・項目属性チェック
-                                    Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", WW_SEL.Rows(0)("FIELD35"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                                    If isNormal(O_MESSAGE_NO) Then
-                                        T0005INProw("SHUKABASHO") = O_VALUE.PadLeft(4, "0")
-                                    Else
-                                        T0005INProw("SHUKABASHO") = WW_SEL.Rows(0)("FIELD35")
-                                        OutputErrorMessageByKouei(WW_SEL.Rows(0), "出荷地コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
-                                    End If
+                        '2021/02/10 ADD
+                        If T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
+                            If WW_G1CNT > 0 Then
+                                Dim WW_STDATE As Date = CDate(T0005INProw("STDATE") + " " + T0005INProw("STTIME"))
+                                Dim WW_ENDDATE As Date = CDate(WW_G1ENDDATE + " " + WW_G1ENDTIME)
+                                If WW_STDATE >= WW_ENDDATE Then
+                                    'その他作業に変換
+                                    T0005INProw("WORKKBN") = "BX"
                                 End If
                             Else
-                                If KSYASAIrow("FIELD35") <> "" Then
-                                    '出荷地コード
-                                    '①必須・項目属性チェック
-                                    Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", KSYASAIrow("FIELD35"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                                    If isNormal(O_MESSAGE_NO) Then
-                                        T0005INProw("SHUKABASHO") = O_VALUE.PadLeft(4, "0")
+                                'その他作業に変換
+                                T0005INProw("WORKKBN") = "BX"
+                            End If
+                        End If
+                        '2021/02/10 ADD END
+
+                        '2021/02/10 if分の追加
+                        If T0005INProw("WORKKBN") <> "BX" Then
+                            'E2レコードを検索　
+                            '  （稼働日  4,日報№ 10,トリップ 16）し、作業区分 13 が"E2"（荷卸数量）が存在した場合、取引先、出荷場所 35を取得、設定する
+                            Using WW_SEL As DataTable = KSYASAItbl.Clone
+                                For j As Integer = i + 1 To KSYASAItbl.Rows.Count - 1
+                                    Dim WW_KSYASAIrow As DataRow = KSYASAItbl.Rows(j)
+                                    If WW_KSYASAIrow("FIELD4") = KSYASAIrow("FIELD4") AndAlso
+                                       WW_KSYASAIrow("FIELD10") = KSYASAIrow("FIELD10") Then
+
+                                        If WW_KSYASAIrow("FIELD16") = KSYASAIrow("FIELD16") AndAlso
+                                           WW_KSYASAIrow("FIELD13") = "E2" Then
+                                            Dim WW_row As DataRow = WW_SEL.NewRow
+                                            WW_row.ItemArray = WW_KSYASAIrow.ItemArray
+                                            WW_SEL.Rows.Add(WW_row)
+                                        End If
                                     Else
-                                        T0005INProw("SHUKABASHO") = KSYASAIrow("FIELD35")
-                                        OutputErrorMessageByKouei(WW_SEL.Rows(0), "出荷地コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                        Exit For
+                                    End If
+                                Next
+                                If WW_SEL.Rows.Count > 0 Then
+                                    '取引先コードにブランク設定
+                                    T0005INProw("TORICODE") = String.Empty
+                                    '〇出荷地が設定されている場合
+                                    If Not String.IsNullOrEmpty(WW_SEL.Rows(0)("FIELD35")) Then
+                                        '出荷地コード
+                                        '①必須・項目属性チェック
+                                        Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", WW_SEL.Rows(0)("FIELD35"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                        If isNormal(O_MESSAGE_NO) Then
+                                            T0005INProw("SHUKABASHO") = O_VALUE.PadLeft(4, "0")
+                                        Else
+                                            T0005INProw("SHUKABASHO") = WW_SEL.Rows(0)("FIELD35")
+                                            OutputErrorMessageByKouei(WW_SEL.Rows(0), "出荷地コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                        End If
+                                    End If
+                                Else
+                                    If KSYASAIrow("FIELD35") <> "" Then
+                                        '出荷地コード
+                                        '①必須・項目属性チェック
+                                        Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", KSYASAIrow("FIELD35"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                        If isNormal(O_MESSAGE_NO) Then
+                                            T0005INProw("SHUKABASHO") = O_VALUE.PadLeft(4, "0")
+                                        Else
+                                            T0005INProw("SHUKABASHO") = KSYASAIrow("FIELD35")
+                                            OutputErrorMessageByKouei(WW_SEL.Rows(0), "出荷地コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                        End If
                                     End If
                                 End If
+                            End Using
+                            'トリップ
+                            '①必須・項目属性チェック
+                            Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TRIPNO", KSYASAIrow("FIELD16"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                            If isNormal(O_MESSAGE_NO) Then
+                                T0005INProw("TRIPNO") = O_VALUE
+                            Else
+                                OutputErrorMessageByKouei(KSYASAIrow, "トリップ", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                T0005INProw("TRIPNO") = "000"
                             End If
-                        End Using
-                        'トリップ
-                        '①必須・項目属性チェック
-                        Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TRIPNO", KSYASAIrow("FIELD16"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                        If isNormal(O_MESSAGE_NO) Then
-                            T0005INProw("TRIPNO") = O_VALUE
-                        Else
-                            OutputErrorMessageByKouei(KSYASAIrow, "トリップ", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
-                            T0005INProw("TRIPNO") = "000"
                         End If
 
 
@@ -5312,170 +5417,192 @@ Public Class GRT00005IMPORT
                             End If
                         End If
 
-                        'トリップ
-                        '①必須・項目属性チェック
-                        Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TRIPNO", KSYASAIrow("FIELD16"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                        If isNormal(O_MESSAGE_NO) Then
-                            T0005INProw("TRIPNO") = O_VALUE
-                        Else
-                            OutputErrorMessageByKouei(KSYASAIrow, "トリップ", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
-                            T0005INProw("TRIPNO") = "000"
-                        End If
-
-                        '荷卸作業に該当するE2（配送数量）レコード（複数あり）を検索する。稼働日、日報№、終了時刻が同一のもの
-                        Dim WW_SEL As DataTable = KSYASAItbl.Clone
-                        For j As Integer = i + 1 To KSYASAItbl.Rows.Count - 1
-                            Dim WW_KSYASAIrow As DataRow = KSYASAItbl.Rows(j)
-                            If WW_KSYASAIrow("FIELD4") = KSYASAIrow("FIELD4") AndAlso
-                                WW_KSYASAIrow("FIELD10") = KSYASAIrow("FIELD10") AndAlso
-                                Mid(WW_KSYASAIrow("FIELD13"), 1, 1) = "E" Then
-                                If WW_KSYASAIrow("FIELD13") = "E2" Then
-                                    Dim WW_row As DataRow = WW_SEL.NewRow
-                                    WW_row.ItemArray = WW_KSYASAIrow.ItemArray
-                                    WW_SEL.Rows.Add(WW_row)
+                        '2021/02/10 ADD
+                        If T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
+                            If WW_G1CNT > 0 Then
+                                Dim WW_STDATE As Date = CDate(T0005INProw("STDATE") + " " + T0005INProw("STTIME"))
+                                Dim WW_ENDDATE As Date = CDate(WW_G1ENDDATE + " " + WW_G1ENDTIME)
+                                If WW_STDATE >= WW_ENDDATE Then
+                                    'その他作業に変換
+                                    T0005INProw("WORKKBN") = "BX"
                                 End If
                             Else
-                                '日跨り
-                                If WW_KSYASAIrow("FIELD13") = "X1" Then
-                                    WW_CHGYMD_FLG = True
-                                    Continue For
-                                End If
-                                '荷卸作業中に日跨りが発生した場合、B3が分割される（B3（～0;00）→X1→B3（0:00～））
-                                If WW_KSYASAIrow("FIELD13") = "B3" AndAlso WW_CHGYMD_FLG = True Then
-                                    T0005INProw("ENDDATE") = WW_ENDYMD
-                                    WW_TIME = WW_KSYASAIrow("FIELD28").PadLeft(4, "0")
-                                    I_VALUE = Mid(WW_TIME, 1, 2) & ":" & Mid(WW_TIME, 3, 2)
-                                    Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "ENDTIME", I_VALUE, O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                                    If isNormal(O_MESSAGE_NO) Then
-                                        If Not String.IsNullOrEmpty(O_VALUE) Then
-                                            T0005INProw("ENDTIME") = CDate(O_VALUE).ToString("HH:mm")
+                                'その他作業に変換
+                                T0005INProw("WORKKBN") = "BX"
+                            End If
+                        End If
+                        '2021/02/10 ADD END
+
+                        '2021/02/10 if分の追加
+                        If T0005INProw("WORKKBN") <> "BX" Then
+                            'トリップ
+                            '①必須・項目属性チェック
+                            Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TRIPNO", KSYASAIrow("FIELD16"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                            If isNormal(O_MESSAGE_NO) Then
+                                T0005INProw("TRIPNO") = O_VALUE
+                            Else
+                                OutputErrorMessageByKouei(KSYASAIrow, "トリップ", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                T0005INProw("TRIPNO") = "000"
+                            End If
+
+                            '荷卸作業に該当するE2（配送数量）レコード（複数あり）を検索する。稼働日、日報№、終了時刻が同一のもの
+                            Dim WW_SEL As DataTable = KSYASAItbl.Clone
+                            For j As Integer = i + 1 To KSYASAItbl.Rows.Count - 1
+                                Dim WW_KSYASAIrow As DataRow = KSYASAItbl.Rows(j)
+                                If WW_KSYASAIrow("FIELD4") = KSYASAIrow("FIELD4") AndAlso
+                                    WW_KSYASAIrow("FIELD10") = KSYASAIrow("FIELD10") AndAlso
+                                    Mid(WW_KSYASAIrow("FIELD13"), 1, 1) = "E" Then
+                                    If WW_KSYASAIrow("FIELD13") = "E2" Then
+                                        Dim WW_row As DataRow = WW_SEL.NewRow
+                                        WW_row.ItemArray = WW_KSYASAIrow.ItemArray
+                                        WW_SEL.Rows.Add(WW_row)
+                                    End If
+                                Else
+                                    '日跨り
+                                    If WW_KSYASAIrow("FIELD13") = "X1" Then
+                                        WW_CHGYMD_FLG = True
+                                        Continue For
+                                    End If
+                                    '荷卸作業中に日跨りが発生した場合、B3が分割される（B3（～0;00）→X1→B3（0:00～））
+                                    If WW_KSYASAIrow("FIELD13") = "B3" AndAlso WW_CHGYMD_FLG = True Then
+                                        T0005INProw("ENDDATE") = WW_ENDYMD
+                                        WW_TIME = WW_KSYASAIrow("FIELD28").PadLeft(4, "0")
+                                        I_VALUE = Mid(WW_TIME, 1, 2) & ":" & Mid(WW_TIME, 3, 2)
+                                        Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "ENDTIME", I_VALUE, O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                        If isNormal(O_MESSAGE_NO) Then
+                                            If Not String.IsNullOrEmpty(O_VALUE) Then
+                                                T0005INProw("ENDTIME") = CDate(O_VALUE).ToString("HH:mm")
+                                            Else
+                                                T0005INProw("ENDTIME") = WW_KSYASAIrow("FIELD28")
+                                                OutputErrorMessageByKouei(KSYASAIrow, "終了時刻", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                            End If
                                         Else
                                             T0005INProw("ENDTIME") = WW_KSYASAIrow("FIELD28")
                                             OutputErrorMessageByKouei(KSYASAIrow, "終了時刻", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
                                         End If
-                                    Else
-                                        T0005INProw("ENDTIME") = WW_KSYASAIrow("FIELD28")
-                                        OutputErrorMessageByKouei(KSYASAIrow, "終了時刻", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                        i = j
+                                        Continue For
                                     End If
-                                    i = j
-                                    Continue For
-                                End If
 
-                                Exit For
-                            End If
-                        Next
-
-                        If WW_SEL.Rows.Count > 0 Then
-                            'E2からトリップ取得
-                            Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TRIPNO", WW_SEL.Rows(0)("FIELD16"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                            If isNormal(O_MESSAGE_NO) Then T0005INProw("TRIPNO") = O_VALUE
-
-                            If WW_SEL.Rows(0)("FIELD34") <> "" Then
-                                '荷主コード 34
-                                '①必須・項目属性チェック
-                                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TORICODE", WW_SEL.Rows(0)("FIELD34"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                                If isNormal(O_MESSAGE_NO) Then
-                                    T0005INProw("TORICODE") = O_VALUE
-                                Else
-                                    T0005INProw("TORICODE") = WW_SEL.Rows(0)("FIELD34")
-                                    OutputErrorMessageByKouei(WW_SEL.Rows(0), "荷主コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                    Exit For
                                 End If
-                            End If
-                            If WW_SEL.Rows(0)("FIELD35") <> "" Then
-                                '出荷地コード 35
-                                '①必須・項目属性チェック
-                                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", WW_SEL.Rows(0)("FIELD35"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                                If isNormal(O_MESSAGE_NO) Then
-                                    T0005INProw("SHUKABASHO") = O_VALUE.PadLeft(4, "0")
-                                Else
-                                    T0005INProw("SHUKABASHO") = WW_SEL.Rows(0)("FIELD35")
-                                    OutputErrorMessageByKouei(WW_SEL.Rows(0), "出荷地コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                            Next
+
+                            If WW_SEL.Rows.Count > 0 Then
+                                'E2からトリップ取得
+                                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TRIPNO", WW_SEL.Rows(0)("FIELD16"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                If isNormal(O_MESSAGE_NO) Then T0005INProw("TRIPNO") = O_VALUE
+
+                                If WW_SEL.Rows(0)("FIELD34") <> "" Then
+                                    '荷主コード 34
+                                    '①必須・項目属性チェック
+                                    Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TORICODE", WW_SEL.Rows(0)("FIELD34"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                    If isNormal(O_MESSAGE_NO) Then
+                                        T0005INProw("TORICODE") = O_VALUE
+                                    Else
+                                        T0005INProw("TORICODE") = WW_SEL.Rows(0)("FIELD34")
+                                        OutputErrorMessageByKouei(WW_SEL.Rows(0), "荷主コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                    End If
                                 End If
-                            End If
-                            If WW_SEL.Rows(0)("FIELD36") <> "" Then
-                                '届先コード 36,届先枝番 37
-                                '①必須・項目属性チェック
-                                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TODOKECODE", WW_SEL.Rows(0)("FIELD36"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                                If isNormal(O_MESSAGE_NO) Then
-                                    Select Case I_MODE
-                                        Case GRT00005WRKINC.TERM_TYPE.JX, GRT00005WRKINC.TERM_TYPE.TG
-                                            If I_LEGACY_MODE Then
-                                                T0005INProw("TODOKECODE") = O_VALUE.PadLeft(6, "0") & WW_SEL.Rows(0)("FIELD37").ToString().PadLeft(3, "0")
-                                            Else
-                                                'T0005INProw("TODOKECODE") = O_VALUE.PadLeft(9, "0")
+                                If WW_SEL.Rows(0)("FIELD35") <> "" Then
+                                    '出荷地コード 35
+                                    '①必須・項目属性チェック
+                                    Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SHUKABASHO", WW_SEL.Rows(0)("FIELD35"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                    If isNormal(O_MESSAGE_NO) Then
+                                        T0005INProw("SHUKABASHO") = O_VALUE.PadLeft(4, "0")
+                                    Else
+                                        T0005INProw("SHUKABASHO") = WW_SEL.Rows(0)("FIELD35")
+                                        OutputErrorMessageByKouei(WW_SEL.Rows(0), "出荷地コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                    End If
+                                End If
+                                If WW_SEL.Rows(0)("FIELD36") <> "" Then
+                                    '届先コード 36,届先枝番 37
+                                    '①必須・項目属性チェック
+                                    Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "TODOKECODE", WW_SEL.Rows(0)("FIELD36"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                    If isNormal(O_MESSAGE_NO) Then
+                                        Select Case I_MODE
+                                            Case GRT00005WRKINC.TERM_TYPE.JX, GRT00005WRKINC.TERM_TYPE.TG
+                                                If I_LEGACY_MODE Then
+                                                    T0005INProw("TODOKECODE") = O_VALUE.PadLeft(6, "0") & WW_SEL.Rows(0)("FIELD37").ToString().PadLeft(3, "0")
+                                                Else
+                                                    'T0005INProw("TODOKECODE") = O_VALUE.PadLeft(9, "0")
+                                                    T0005INProw("TODOKECODE") = O_VALUE
+                                                End If
+                                            Case GRT00005WRKINC.TERM_TYPE.JOT
                                                 T0005INProw("TODOKECODE") = O_VALUE
-                                            End If
-                                        Case GRT00005WRKINC.TERM_TYPE.JOT
-                                            T0005INProw("TODOKECODE") = O_VALUE
-                                        Case GRT00005WRKINC.TERM_TYPE.COSMO
-                                            T0005INProw("TODOKECODE") = O_VALUE.PadLeft(11, "0")
-                                    End Select
+                                            Case GRT00005WRKINC.TERM_TYPE.COSMO
+                                                T0005INProw("TODOKECODE") = O_VALUE.PadLeft(11, "0")
+                                        End Select
 
-                                Else
-                                    T0005INProw("TODOKECODE") = WW_SEL.Rows(0)("FIELD36")
-                                    OutputErrorMessageByKouei(WW_SEL.Rows(0), "届先コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                    Else
+                                        T0005INProw("TODOKECODE") = WW_SEL.Rows(0)("FIELD36")
+                                        OutputErrorMessageByKouei(WW_SEL.Rows(0), "届先コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                    End If
                                 End If
                             End If
+                            '品名毎のE2レコードを１レコードに集約し、B3レコードを作成する
+                            For j As Integer = 0 To WW_SEL.Rows.Count - 1
+                                Dim WW_SELrow As DataRow = WW_SEL.Rows(j)
+
+                                '品名コード 38
+                                '①必須・項目属性チェック
+                                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "PRODUCTCODE", WW_SELrow("FIELD38"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                If isNormal(O_MESSAGE_NO) Then
+                                    WW_SELrow("FIELD38") = O_VALUE
+                                Else
+                                    OutputErrorMessageByKouei(WW_SELrow, "品名コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                End If
+
+                                '数量
+                                '①必須・項目属性チェック
+                                Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SURYO", WW_SELrow("FIELD30"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
+                                If isNormal(O_MESSAGE_NO) Then
+                                    WW_SELrow("FIELD30") = Val(O_VALUE).ToString("#,0.000")
+                                Else
+                                    OutputErrorMessageByKouei(WW_SELrow, "数量", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
+                                End If
+                                Select Case j
+                                    Case 0
+                                        T0005INProw("PRODUCTCODE1") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO1") = WW_SELrow("FIELD30")
+                                    Case 1
+                                        T0005INProw("PRODUCTCODE2") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO2") = WW_SELrow("FIELD30")
+                                    Case 2
+                                        T0005INProw("PRODUCTCODE3") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO3") = WW_SELrow("FIELD30")
+                                    Case 3
+                                        T0005INProw("PRODUCTCODE4") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO4") = WW_SELrow("FIELD30")
+                                    Case 4
+                                        T0005INProw("PRODUCTCODE5") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO5") = WW_SELrow("FIELD30")
+                                    Case 5
+                                        T0005INProw("PRODUCTCODE6") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO6") = WW_SELrow("FIELD30")
+                                    Case 6
+                                        T0005INProw("PRODUCTCODE7") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO7") = WW_SELrow("FIELD30")
+                                    Case 7
+                                        T0005INProw("PRODUCTCODE8") = WW_SELrow("FIELD38")
+                                        T0005INProw("SURYO8") = WW_SELrow("FIELD30")
+                                End Select
+                            Next
+
+                            Dim WW_SURYO As Decimal = 0
+                            WW_SURYO = Val(T0005INProw("SURYO1")) +
+                                       Val(T0005INProw("SURYO2")) +
+                                       Val(T0005INProw("SURYO3")) +
+                                       Val(T0005INProw("SURYO4")) +
+                                       Val(T0005INProw("SURYO5")) +
+                                       Val(T0005INProw("SURYO6")) +
+                                       Val(T0005INProw("SURYO7")) +
+                                       Val(T0005INProw("SURYO8"))
+                            T0005INProw("TOTALSURYO") = WW_SURYO.ToString("#,0.000")
+                            WW_SEL.Dispose()
+                            WW_SEL = Nothing
                         End If
-                        '品名毎のE2レコードを１レコードに集約し、B3レコードを作成する
-                        For j As Integer = 0 To WW_SEL.Rows.Count - 1
-                            Dim WW_SELrow As DataRow = WW_SEL.Rows(j)
 
-                            '品名コード 38
-                            '①必須・項目属性チェック
-                            Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "PRODUCTCODE", WW_SELrow("FIELD38"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                            If isNormal(O_MESSAGE_NO) Then
-                                WW_SELrow("FIELD38") = O_VALUE
-                            Else
-                                OutputErrorMessageByKouei(WW_SELrow, "品名コード", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
-                            End If
-
-                            '数量
-                            '①必須・項目属性チェック
-                            Master.CheckFieldForTable(work.WF_SEL_CAMPCODE.Text, "SURYO", WW_SELrow("FIELD30"), O_MESSAGE_NO, O_CHECKREPORT, O_VALUE, S0013tbl)
-                            If isNormal(O_MESSAGE_NO) Then
-                                WW_SELrow("FIELD30") = Val(O_VALUE).ToString("#,0.000")
-                            Else
-                                OutputErrorMessageByKouei(WW_SELrow, "数量", O_CHECKREPORT, C_MESSAGE_NO.BOX_ERROR_EXIST, I_MODE)
-                            End If
-                            Select Case j
-                                Case 0
-                                    T0005INProw("PRODUCTCODE1") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO1") = WW_SELrow("FIELD30")
-                                Case 1
-                                    T0005INProw("PRODUCTCODE2") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO2") = WW_SELrow("FIELD30")
-                                Case 2
-                                    T0005INProw("PRODUCTCODE3") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO3") = WW_SELrow("FIELD30")
-                                Case 3
-                                    T0005INProw("PRODUCTCODE4") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO4") = WW_SELrow("FIELD30")
-                                Case 4
-                                    T0005INProw("PRODUCTCODE5") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO5") = WW_SELrow("FIELD30")
-                                Case 5
-                                    T0005INProw("PRODUCTCODE6") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO6") = WW_SELrow("FIELD30")
-                                Case 6
-                                    T0005INProw("PRODUCTCODE7") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO7") = WW_SELrow("FIELD30")
-                                Case 7
-                                    T0005INProw("PRODUCTCODE8") = WW_SELrow("FIELD38")
-                                    T0005INProw("SURYO8") = WW_SELrow("FIELD30")
-                            End Select
-                        Next
-
-                        Dim WW_SURYO As Decimal = 0
-                        WW_SURYO = Val(T0005INProw("SURYO1")) +
-                                   Val(T0005INProw("SURYO2")) +
-                                   Val(T0005INProw("SURYO3")) +
-                                   Val(T0005INProw("SURYO4")) +
-                                   Val(T0005INProw("SURYO5")) +
-                                   Val(T0005INProw("SURYO6")) +
-                                   Val(T0005INProw("SURYO7")) +
-                                   Val(T0005INProw("SURYO8"))
-                        T0005INProw("TOTALSURYO") = WW_SURYO.ToString("#,0.000")
                         '"C1", "C2", "C3", "C4", "C5"で集計、集約した結果を設定
                         T0005INProw("MOVETIME") = T0005COM.MinutesToHHMM(WW_MOVETIME)
                         WW_ACT += WW_MOVETIME
@@ -5512,8 +5639,6 @@ Public Class GRT00005IMPORT
                         WW_KOSJIDISTANCE = 0
                         WW_KOSKUDISTANCE = 0
 
-                        WW_SEL.Dispose()
-                        WW_SEL = Nothing
                     Case "C1", "C2", "C3", "C4", "C5"
                         '作業区分（C1）: 実車・運転
                         '作業区分（C2）: 実車・積地移動
@@ -7622,7 +7747,13 @@ Public Class GRT00005IMPORT
                         'NJSの場合、最終的に届先部署マスタを検索し救済（それでもダメな場合ダミーコード）
                         If T0005INProw("SHUKABASHO") = "" And T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
                             GetShukaBashoNJS(T0005INProw, WW_RTN)
-                            If Not isNormal(WW_RTN) Then
+                            If isNormal(WW_RTN) Then
+                                '2020/10/29 UPDATE
+                                If T0005INProw("SHUKABASHO") = "" Then
+                                    T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                                End If
+                                '2020/10/29 UPDATE END
+                            Else
                                 '2020/10/29 UPDATE
                                 T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
                                 '2020/10/29 UPDATE END
@@ -7657,7 +7788,13 @@ Public Class GRT00005IMPORT
                 Dim WW_RTN As String = C_MESSAGE_NO.NORMAL
                 If T0005INProw("SHUKABASHO") = "" And T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
                     GetShukaBashoNJS(T0005INProw, WW_RTN)
-                    If Not isNormal(WW_RTN) Then
+                    If isNormal(WW_RTN) Then
+                        '2020/10/29 UPDATE
+                        If T0005INProw("SHUKABASHO") = "" Then
+                            T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                        End If
+                        '2020/10/29 UPDATE END
+                    Else
                         '2020/10/29 UPDATE
                         T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
                         '2020/10/29 UPDATE END

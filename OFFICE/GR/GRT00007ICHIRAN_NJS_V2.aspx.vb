@@ -7426,16 +7426,17 @@ Public Class GRT00007ICHIRAN_NJS_V2
                         Dim WW_T10TODOKECODE As String = "T10TODOKECODE" & j.ToString
                         Dim WW_T10MODELDISTANCE As String = "T10MODELDISTANCE" & j.ToString
                         Dim WW_T10MODIFYKBN As String = "T10MODIFYKBN" & j.ToString
-                        '車中泊の場合、モデル距離不要（但し、手入力した場合のモデル距離は生かす）
-                        If WW_HEADrow("SHACHUHAKKBN") = "0" OrElse
-                           WW_MODELrow(WW_MODIFYKBN) = "1" Then
-                            WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
-                            WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
-                            WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
-                            WW_HEADrow(WW_T10TODOKECODE) = WW_MODELrow(WW_TODOKECODE)
-                            WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
-                            WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
-                        Else
+                        '車中泊で積のみの場合、モデル距離不要（但し、手入力した場合のモデル距離は生かす）
+                        WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
+                        WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
+                        WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
+                        WW_HEADrow(WW_T10TODOKECODE) = WW_MODELrow(WW_TODOKECODE)
+                        WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
+                        WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
+
+                        If WW_HEADrow("SHACHUHAKKBN") = "1" AndAlso
+                           WW_MODELrow(WW_SHUKABASHO) <> "" AndAlso
+                           WW_MODELrow(WW_TODOKECODE) = "" Then
                             WW_HEADrow(WW_T10SHARYOKBN) = ""
                             WW_HEADrow(WW_T10OILPAYKBN) = ""
                             WW_HEADrow(WW_T10SHUKABASHO) = ""

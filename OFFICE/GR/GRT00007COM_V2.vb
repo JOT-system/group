@@ -10557,7 +10557,7 @@ Public Class GRT0007COM_V2
 
                 If WW_iTBLrow("WORKKBN") = "G1" Then
                     '配送（G1）の持つ走行距離をサマリ
-                    WW_G1SOUDISTANCE += WW_iTBLrow("SOUDISTANCE")
+                    WW_G1SOUDISTANCE = WW_G1SOUDISTANCE + Math.Ceiling(CDec(WW_iTBLrow("JIDISTANCE")) + CDec(WW_iTBLrow("KUDISTANCE")))
                 End If
 
                 If WW_iTBLrow("WORKKBN") = "B3" Then
