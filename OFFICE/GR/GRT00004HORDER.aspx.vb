@@ -9603,8 +9603,8 @@ Public Class GRT00004HORDER
                     .NAMES = rowShip.First.DESTNAME
                 }
 
-                'ErrMsgEditForKOUEI(rowStart, "出荷場所", "光英マスタ未存在(" & rowShip.First.DESTCODE & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
-                'tripStatus = 1
+                ErrMsgEditForKOUEI(rowStart, "出荷場所", "光英マスタ未存在(" & rowShip.First.DESTCODE & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
+                tripStatus = 1
             End If
 
             '光英車番取得
@@ -9684,8 +9684,8 @@ Public Class GRT00004HORDER
                         .TODOKECODE = tmpTodoke.GetDBEntryCode,
                         .NAMES = row.DESTNAME
                     }
-                    'ErrMsgEditForKOUEI(rowStart, "届先", "光英マスタ未存在(" & row.DESTCODE & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
-                    'dropStatus = 1
+                    ErrMsgEditForKOUEI(rowStart, "届先", "光英マスタ未存在(" & row.DESTCODE & ")", C_MESSAGE_NO.BOX_ERROR_EXIST)
+                    dropStatus = 1
                 End If
 
                 '１ドロップにおける複数品目がある場合は枝番としてレコード作成
