@@ -6998,10 +6998,10 @@ Public Class GRT0007COM_V2
 
                     '時給者の判定
                     If IsNothing(jikyusha.Items.FindByValue(WW_HEADrow("STAFFKBN"))) Then
-                        '・時給者以外は、拘束開始3時未満は3時とする
+                        '・時給者以外は、拘束開始が当日3時未満は3時とする
                         If IsDate(WW_HEADrow("BINDSTDATE")) Then
                             If WW_HEADrow("STDATE") < WW_HEADrow("WORKDATE") Then
-                                WW_HEADrow("BINDSTDATE") = "03:00"
+                                WW_HEADrow("BINDSTDATE") = WW_HEADrow("STTIME")
                             End If
                             If CDate(WW_HEADrow("BINDSTDATE")).ToString("HHmm") < "0300" Then
                                 WW_HEADrow("BINDSTDATE") = "03:00"
@@ -7016,7 +7016,11 @@ Public Class GRT0007COM_V2
                 Dim WW_BINDSTTIME As DateTime
                 Dim WW_BINDENDTIME As DateTime
                 If DateDiff("d", WW_STDATETIME, WW_ENDDATETIME) <= 1 And WW_STDATETIME < WW_ENDDATETIME Then
-                    WW_BINDSTTIME = CDate(WW_HEADrow("WORKDATE") & " " & WW_HEADrow("BINDSTDATE"))
+                    If WW_HEADrow("STDATE") = WW_HEADrow("WORKDATE") Then
+                        WW_BINDSTTIME = CDate(WW_HEADrow("WORKDATE") & " " & WW_HEADrow("BINDSTDATE"))
+                    Else
+                        WW_BINDSTTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("BINDSTDATE"))
+                    End If
                     WW_BINDENDTIME = CDate(WW_BINDSTTIME.ToString("yyyy/MM/dd") & " " & CDate(WW_HEADrow("BINDSTDATE")).ToString("HH:mm"))
                 End If
 
@@ -7061,6 +7065,14 @@ Public Class GRT0007COM_V2
                         WW_BREAKTIMEZAN = WW_BREAKTIMETTL
                     End If
                 End If
+                '2021/2/26 ADD
+                '翌日が休み（法定、法定外）の場合で、休みに跨る勤務の場合、拘束終了を当日の24:00とする
+                If WW_YOKUHOLIDAYKBN <> "0" Then
+                    If WW_YOKUDATE = WW_BINDENDTIME.ToString("yyyy/MM/dd") Then
+                        WW_BINDENDTIME = CDate(WW_YOKUDATE & " " & "00:00")
+                    End If
+                End If
+                '2021/2/26 ADD END
 
                 '●時間算出（所定内通常分_作業、所定内深夜分_作業、所定内深夜分2_作業、所定外通常分_作業、所定外深夜分_作業、休日通常分_作業、休日深夜分_作業、休日深夜分2_作業）
                 Dim WK_WORKTIME_SAGYO As Integer = 0         '平日＆所定内＆深夜以外（当日分）
@@ -7204,6 +7216,13 @@ Public Class GRT0007COM_V2
 
                             '所定内深夜
                             WW_NIGHTTIME = WK_NIGHTTIME_SAGYO + WK_YOKU0to5NIGHT_SAGYO     ' 所定内深夜時
+
+                            '2021/03/01 ADD
+                            '翌日が休日でも終了日が当日（日跨りではない）場合、平日とする
+                            If WW_YOKUHOLIDAYKBN <> "0" AndAlso WW_YOKUDATE > WW_HEADrow("ENDDATE") Then
+                                WW_YOKUHOLIDAYKBN = "0"
+                            End If
+                            '2021/03/01 ADD END
 
                             '翌日平日の場合
                             If WW_YOKUHOLIDAYKBN = "0" Then
