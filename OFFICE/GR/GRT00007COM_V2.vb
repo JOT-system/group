@@ -7319,6 +7319,28 @@ Public Class GRT0007COM_V2
                                 WW_BREAKTIMEZAN = WW_BREAKTIMEZAN - (WK_OUTNIGHTTIME_SAGYO + WK_NIGHTTIME_SAGYO) ' 休憩残算出
                             End If
 
+                            '2021/03/01 ADD
+                            '終了日が当日の場合
+                            If WW_YOKUDATE > WW_HEADrow("ENDDATE") Then
+                                If WK_OUTWORKTIME_SAGYO2 >= WW_BREAKTIMEZAN Then
+                                    WW_SWORKTIME += WK_OUTWORKTIME_SAGYO2 - WW_BREAKTIMEZAN        ' 日曜出勤時
+                                    WW_BREAKTIMEZAN = 0
+                                Else
+                                    WW_SWORKTIME = 0                                              ' 日曜出勤時
+                                    WW_BREAKTIMEZAN += WW_BREAKTIMEZAN - WK_OUTWORKTIME_SAGYO2     ' 休憩残算出
+                                End If
+
+                                If WK_YOKU0to5NIGHT_SAGYO2 >= WW_BREAKTIMEZAN Then
+                                    WW_SNIGHTTIME += WK_YOKU0to5NIGHT_SAGYO2 - WW_BREAKTIMEZAN     ' 日曜深夜時
+                                    WW_BREAKTIMEZAN = 0
+                                Else
+                                    WW_SNIGHTTIME = 0
+                                    WW_BREAKTIMEZAN += WW_BREAKTIMEZAN - WK_YOKU0to5NIGHT_SAGYO2   ' 休憩残算出
+                                End If
+                                WW_YOKUHOLIDAYKBN = "1"
+                            End If
+                            '2021/03/01 ADD END
+
                             '翌日平日の場合
                             If WW_YOKUHOLIDAYKBN = "0" Then
                                 If WK_OUTWORKTIME_SAGYO2 >= WW_BREAKTIMEZAN Then
@@ -7378,6 +7400,13 @@ Public Class GRT0007COM_V2
                                 WW_HNIGHTTIME = 0                                                                ' 休日深夜時
                                 WW_BREAKTIMEZAN = WW_BREAKTIMEZAN - (WK_OUTNIGHTTIME_SAGYO + WK_NIGHTTIME_SAGYO) ' 休憩残算出
                             End If
+
+                            '2021/03/01 ADD
+                            '終了日が当日の場合、休日とする
+                            If WW_YOKUDATE > WW_HEADrow("ENDDATE") Then
+                                WW_YOKUHOLIDAYKBN = "2"
+                            End If
+                            '2021/03/01 ADD END
 
                             '翌日平日の場合
                             If WW_YOKUHOLIDAYKBN = "0" Then
