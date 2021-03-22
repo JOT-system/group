@@ -2868,6 +2868,14 @@ Public Class GRT00011ACTUALQTY
                         ERRMSG_write(WW_CheckMES1, WW_CheckMES2, WW_LINEerr, IO_TBLrow, C_MESSAGE_NO.BOX_ERROR_EXIST)
                         IO_TBLrow("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
                     End If
+                    IO_TBLrow("TOTALSURYO") = Val(IO_TBLrow("SURYO1")) +
+                                              Val(IO_TBLrow("SURYO2")) +
+                                              Val(IO_TBLrow("SURYO3")) +
+                                              Val(IO_TBLrow("SURYO4")) +
+                                              Val(IO_TBLrow("SURYO5")) +
+                                              Val(IO_TBLrow("SURYO6")) +
+                                              Val(IO_TBLrow("SURYO7")) +
+                                              Val(IO_TBLrow("SURYO8"))
                 End If
             Next
         End Using
