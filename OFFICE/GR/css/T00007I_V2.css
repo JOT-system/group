@@ -25,7 +25,8 @@ div[data-generated='1'] td {
 }
 
 div[data-sum='1'] div[id$="_DR"] tr:nth-last-child(1) td,
-div[data-sum='1'] div[id$="_DL"] tr:nth-last-child(1) th {
+div[data-sum='1'] div[id$="_DL"] tr:nth-last-child(1) th,
+div[data-sum='1'] div[id$="_DL"] tr:nth-last-child(1) td {
     background-color: #add8e6;
 }
 
