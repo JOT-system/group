@@ -810,18 +810,19 @@ Public Class GRT00007KINTAI_NJS_V2
                                 If WW_dateG1 <= WW_dateAdd60 Then
                                     If T0005COM.ShakoCheck(work.WF_T7SEL_CAMPCODE.Text, WW_LATITUDE_F1, WW_LONGITUDE_F1) = "OK" Then
                                         '配送ボタンで車庫出発の場合、配送開始-１０分
-                                        WW_date = CDate(WW_HEADrow("STDATE") & " " & WW_G1STTIME01)
-                                        WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
-                                        WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
-                                        WW_HEADrow("ENDDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
-                                        WW_HEADrow("ENDTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                                        'WW_date = CDate(WW_HEADrow("STDATE") & " " & WW_G1STTIME01)
+                                        'WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
+                                        'WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                                        'WW_HEADrow("ENDDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
+                                        'WW_HEADrow("ENDTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                                        WW_HEADrow("STTIME") = WW_dateG1.ToString("HH:mm")
                                         WW_HEADrow("HAISOMINUS10FLG") = "ON"
                                     Else
                                         '配送ボタンで車庫以外出発の場合、配送開始そのまま
                                         WW_HEADrow("STDATE") = WW_HEADrow("STDATE")
                                         WW_HEADrow("STTIME") = WW_G1STTIME01
-                                        WW_HEADrow("ENDDATE") = WW_HEADrow("STDATE")
-                                        WW_HEADrow("ENDTIME") = WW_G1STTIME01
+                                        'WW_HEADrow("ENDDATE") = WW_HEADrow("STDATE")
+                                        'WW_HEADrow("ENDTIME") = WW_G1STTIME01
                                     End If
 
                                     '------------------------------------------------------------
@@ -3935,6 +3936,144 @@ Public Class GRT00007KINTAI_NJS_V2
 
     End Sub
 
+    ' ***  休憩・配送時間管理テーブル取得
+    Protected Sub T0013get(ByRef oT7Tbl As DataTable,
+                           ByVal iWORKKBN As String,
+                           ByRef oRtn As String)
+        oRtn = C_MESSAGE_NO.NORMAL
+
+        Try
+            Dim T00013tbl As DataTable = New DataTable
+
+            Dim SQLStr As String = ""
+            'DataBase接続文字
+            Dim SQLcon As SqlConnection = CS0050SESSION.getConnection
+            SQLcon.Open() 'DataBase接続(Open)
+
+            '検索SQL文
+            SQLStr =
+                 " select " _
+               & "   isnull(STTIME01,'00:00')  as STTIME01 " _
+               & "  ,isnull(ENDTIME01,'00:00') as ENDTIME01 " _
+               & "  ,isnull(STTIME02,'00:00')  as STTIME02 " _
+               & "  ,isnull(ENDTIME02,'00:00') as ENDTIME02 " _
+               & "  ,isnull(STTIME03,'00:00')  as STTIME03 " _
+               & "  ,isnull(ENDTIME03,'00:00') as ENDTIME03 " _
+               & "  ,isnull(STTIME04,'00:00')  as STTIME04 " _
+               & "  ,isnull(ENDTIME04,'00:00') as ENDTIME04 " _
+               & "  ,isnull(STTIME05,'00:00')  as STTIME05 " _
+               & "  ,isnull(ENDTIME05,'00:00') as ENDTIME05 " _
+               & "  ,isnull(STTIME06,'00:00')  as STTIME06 " _
+               & "  ,isnull(ENDTIME06,'00:00') as ENDTIME06 " _
+               & "  ,isnull(STTIME07,'00:00')  as STTIME07 " _
+               & "  ,isnull(ENDTIME07,'00:00') as ENDTIME07 " _
+               & "  ,isnull(STTIME08,'00:00')  as STTIME08 " _
+               & "  ,isnull(ENDTIME08,'00:00') as ENDTIME08 " _
+               & "  ,isnull(STTIME09,'00:00')  as STTIME09 " _
+               & "  ,isnull(ENDTIME09,'00:00') as ENDTIME09 " _
+               & "  ,isnull(STTIME10,'00:00')  as STTIME10 " _
+               & "  ,isnull(ENDTIME10,'00:00') as ENDTIME10 " _
+               & "  ,isnull(TTLTIME,'00:00')   as TTLTIME " _
+               & "  from  T0013_TIMEMANAGE A " _
+               & " where  CAMPCODE      =    @CAMPCODE " _
+               & "   and  TAISHOYM      =    @TAISHOYM " _
+               & "   and  STAFFCODE     =    @STAFFCODE " _
+               & "   and  WORKDATE      =    @WORKDATE " _
+               & "   and  WORKKBN       =    @WORKKBN " _
+               & "   and  DELFLG        <>   '1'  "
+
+            Dim SQLcmd As New SqlCommand(SQLStr, SQLcon)
+
+            Dim PARA01 As SqlParameter = SQLcmd.Parameters.Add("@CAMPCODE", System.Data.SqlDbType.NVarChar)
+            Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@TAISHOYM", System.Data.SqlDbType.NVarChar)
+            Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@STAFFCODE", System.Data.SqlDbType.NVarChar)
+            Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@WORKDATE", System.Data.SqlDbType.NVarChar)
+            Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@WORKKBN", System.Data.SqlDbType.NVarChar)
+
+            PARA01.Value = work.WF_T7SEL_CAMPCODE.Text
+            PARA02.Value = work.WF_T7SEL_TAISHOYM.Text
+            PARA03.Value = WF_STAFFCODE.Text
+            PARA04.Value = WF_WORKDATE.Text
+            PARA05.Value = iWORKKBN
+
+            '■SQL実行
+            Using SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
+                '○ フィールド名とフィールドの型を取得
+                For index As Integer = 0 To SQLdr.FieldCount - 1
+                    T00013tbl.Columns.Add(SQLdr.GetName(index), SQLdr.GetFieldType(index))
+                Next
+
+                '○ テーブル検索結果をテーブル格納
+                T00013tbl.Load(SQLdr)
+            End Using
+
+            If iWORKKBN = "BB" Then
+                For Each WW_HEADrow As DataRow In oT7Tbl.Rows
+                    If WW_HEADrow("HDKBN") = "H" AndAlso WW_HEADrow("RECODEKBN") = "0" Then
+                    Else
+                        Continue For
+                    End If
+
+                    If T00013tbl.Rows.Count > 0 Then
+                        For i As Integer = 1 To 10
+                            Dim WW_BBSTTIME As String = "T13BBSTTIME" & i.ToString("00")
+                            Dim WW_BBENDTIME As String = "T13BBENDTIME" & i.ToString("00")
+                            Dim T13_BBSTTIME As String = "STTIME" & i.ToString("00")
+                            Dim T13_BBENDTIME As String = "ENDTIME" & i.ToString("00")
+
+                            WW_HEADrow(WW_BBSTTIME) = CDate(T00013tbl.Rows(0)(T13_BBSTTIME).hours & ":" & T00013tbl.Rows(0)(T13_BBSTTIME).minutes).ToString("HH:mm")
+                            WW_HEADrow(WW_BBENDTIME) = CDate(T00013tbl.Rows(0)(T13_BBENDTIME).hours & ":" & T00013tbl.Rows(0)(T13_BBENDTIME).minutes).ToString("HH:mm")
+                        Next
+                        WW_HEADrow("T13BBTTLTIME") = T00013tbl.Rows(0)("TTLTIME")
+                    End If
+                Next
+            End If
+            If iWORKKBN = "G1" Then
+                For Each WW_HEADrow As DataRow In oT7Tbl.Rows
+                    If WW_HEADrow("HDKBN") = "H" AndAlso WW_HEADrow("RECODEKBN") = "0" Then
+                    Else
+                        Continue For
+                    End If
+
+                    If T00013tbl.Rows.Count > 0 Then
+                        For i As Integer = 1 To 10
+                            Dim WW_G1STTIME As String = "T13G1STTIME" & i.ToString("00")
+                            Dim WW_G1ENDTIME As String = "T13G1ENDTIME" & i.ToString("00")
+                            Dim T13_G1STTIME As String = "STTIME" & i.ToString("00")
+                            Dim T13_G1ENDTIME As String = "ENDTIME" & i.ToString("00")
+
+                            WW_HEADrow(WW_G1STTIME) = CDate(T00013tbl.Rows(0)(T13_G1STTIME).hours & ":" & T00013tbl.Rows(0)(T13_G1STTIME).minutes).ToString("HH:mm")
+                            WW_HEADrow(WW_G1ENDTIME) = CDate(T00013tbl.Rows(0)(T13_G1ENDTIME).hours & ":" & T00013tbl.Rows(0)(T13_G1ENDTIME).minutes).ToString("HH:mm")
+                        Next
+                        WW_HEADrow("T13G1TTLTIME") = T00013tbl.Rows(0)("TTLTIME")
+                    End If
+                Next
+            End If
+
+
+            SQLcmd.Dispose()
+            SQLcmd = Nothing
+
+            SQLcon.Close() 'DataBase接続(Close)
+            SQLcon.Dispose()
+            SQLcon = Nothing
+
+        Catch ex As Exception
+            CS0011LOGWRITE.INFSUBCLASS = "T0013_TIMEMANAGE"                'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "T0013_TIMEMANAGE SELECT"
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+
+            oRtn = C_MESSAGE_NO.DB_ERROR
+            Exit Sub
+
+        End Try
+
+
+    End Sub
+
     ' ******************************************************************************
     ' ***  日報を取得し作業区分（その他）レコード作成
     ' ***  ※１．始業、終業レコードを追加する
@@ -4577,6 +4716,8 @@ Public Class GRT00007KINTAI_NJS_V2
                                 WW_date = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("T13G1STTIME01"))
                                 WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
                                 WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                                WW_HEADrow("T13G1STTIME01") = WW_HEADrow("STTIME")
+                                WW_HEADrow("T13G1TTLTIME") += 10
                                 WW_HEADrow("HAISOMINUS10FLG") = "ON"
                             Else
                                 '配送ボタンで車庫以外出発の場合、配送開始そのまま
@@ -4696,7 +4837,6 @@ Public Class GRT00007KINTAI_NJS_V2
                         Dim WW_T10TODOKECODE As String = "T10TODOKECODE" & j.ToString
                         Dim WW_T10MODELDISTANCE As String = "T10MODELDISTANCE" & j.ToString
                         Dim WW_T10MODIFYKBN As String = "T10MODIFYKBN" & j.ToString
-                        '車中泊で積のみの場合、モデル距離不要（但し、手入力した場合のモデル距離は生かす）
                         WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
                         WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
                         WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
@@ -4704,16 +4844,16 @@ Public Class GRT00007KINTAI_NJS_V2
                         WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
                         WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
 
-                        If WW_HEADrow("SHACHUHAKKBN") = "1" AndAlso
-                           WW_MODELrow(WW_SHUKABASHO) <> "" AndAlso
-                           WW_MODELrow(WW_TODOKECODE) = "" Then
-                            WW_HEADrow(WW_T10SHARYOKBN) = ""
-                            WW_HEADrow(WW_T10OILPAYKBN) = ""
-                            WW_HEADrow(WW_T10SHUKABASHO) = ""
-                            WW_HEADrow(WW_T10TODOKECODE) = ""
-                            WW_HEADrow(WW_T10MODELDISTANCE) = 0
-                            WW_HEADrow(WW_T10MODIFYKBN) = "0"
-                        End If
+                        'If WW_HEADrow("SHACHUHAKKBN") = "1" AndAlso
+                        '   WW_MODELrow(WW_SHUKABASHO) <> "" AndAlso
+                        '   WW_MODELrow(WW_TODOKECODE) = "" Then
+                        '    WW_HEADrow(WW_T10SHARYOKBN) = ""
+                        '    WW_HEADrow(WW_T10OILPAYKBN) = ""
+                        '    WW_HEADrow(WW_T10SHUKABASHO) = ""
+                        '    WW_HEADrow(WW_T10TODOKECODE) = ""
+                        '    WW_HEADrow(WW_T10MODELDISTANCE) = 0
+                        '    WW_HEADrow(WW_T10MODIFYKBN) = "0"
+                        'End If
                     Next
                 End If
             Next
@@ -4924,36 +5064,39 @@ Public Class GRT00007KINTAI_NJS_V2
     ' ***  休憩・配送の戻し編集
     Public Sub TimeManageGet(ByRef iTbl As DataTable, ByRef oT7Tbl As DataTable)
 
-        Dim WW_Tbl As DataTable = New DataTable
-        CS0026TblSort.TABLE = iTbl
-        CS0026TblSort.FILTER = "SELECT = '1' and HDKBN = 'H' and RECODEKBN = '0' and STAFFCODE = '" & WF_STAFFCODE.Text & "' and WORKDATE = #" & WF_WORKDATE.Text & "#"
-        CS0026TblSort.SORTING = "STAFFCODE, WORKDATE, STDATE, STTIME, ENDDATE, ENDTIME"
-        WW_Tbl = CS0026TblSort.Sort()
+        T0013get(oT7Tbl, "BB", WW_DUMMY)
+        T0013get(oT7Tbl, "G1", WW_DUMMY)
 
-        For Each WW_HEADrow As DataRow In oT7Tbl.Rows
-            If WW_HEADrow("HDKBN") = "H" AndAlso WW_HEADrow("RECODEKBN") = "0" Then
-            Else
-                Continue For
-            End If
-            If WW_Tbl.Rows.Count > 0 Then
-                For i As Integer = 1 To 10
-                    Dim WW_BBSTTIME As String = "T13BBSTTIME" & i.ToString("00")
-                    Dim WW_BBENDTIME As String = "T13BBENDTIME" & i.ToString("00")
-                    Dim WW_G1STTIME As String = "T13G1STTIME" & i.ToString("00")
-                    Dim WW_G1ENDTIME As String = "T13G1ENDTIME" & i.ToString("00")
+        'Dim WW_Tbl As DataTable = New DataTable
+        'CS0026TblSort.TABLE = iTbl
+        'CS0026TblSort.FILTER = "SELECT = '1' and HDKBN = 'H' and RECODEKBN = '0' and STAFFCODE = '" & WF_STAFFCODE.Text & "' and WORKDATE = #" & WF_WORKDATE.Text & "#"
+        'CS0026TblSort.SORTING = "STAFFCODE, WORKDATE, STDATE, STTIME, ENDDATE, ENDTIME"
+        'WW_Tbl = CS0026TblSort.Sort()
 
-                    WW_HEADrow(WW_BBSTTIME) = WW_Tbl.Rows(0)(WW_BBSTTIME)
-                    WW_HEADrow(WW_BBENDTIME) = WW_Tbl.Rows(0)(WW_BBENDTIME)
-                    WW_HEADrow(WW_G1STTIME) = WW_Tbl.Rows(0)(WW_G1STTIME)
-                    WW_HEADrow(WW_G1ENDTIME) = WW_Tbl.Rows(0)(WW_G1ENDTIME)
-                Next
-                WW_HEADrow("T13BBTTLTIME") = WW_Tbl.Rows(0)("T13BBTTLTIME")
-                WW_HEADrow("T13G1TTLTIME") = WW_Tbl.Rows(0)("T13G1TTLTIME")
-            End If
-        Next
+        'For Each WW_HEADrow As DataRow In oT7Tbl.Rows
+        '    If WW_HEADrow("HDKBN") = "H" AndAlso WW_HEADrow("RECODEKBN") = "0" Then
+        '    Else
+        '        Continue For
+        '    End If
+        '    If WW_Tbl.Rows.Count > 0 Then
+        '        For i As Integer = 1 To 10
+        '            Dim WW_BBSTTIME As String = "T13BBSTTIME" & i.ToString("00")
+        '            Dim WW_BBENDTIME As String = "T13BBENDTIME" & i.ToString("00")
+        '            Dim WW_G1STTIME As String = "T13G1STTIME" & i.ToString("00")
+        '            Dim WW_G1ENDTIME As String = "T13G1ENDTIME" & i.ToString("00")
 
-        WW_Tbl.Dispose()
-        WW_Tbl = Nothing
+        '            WW_HEADrow(WW_BBSTTIME) = WW_Tbl.Rows(0)(WW_BBSTTIME)
+        '            WW_HEADrow(WW_BBENDTIME) = WW_Tbl.Rows(0)(WW_BBENDTIME)
+        '            WW_HEADrow(WW_G1STTIME) = WW_Tbl.Rows(0)(WW_G1STTIME)
+        '            WW_HEADrow(WW_G1ENDTIME) = WW_Tbl.Rows(0)(WW_G1ENDTIME)
+        '        Next
+        '        WW_HEADrow("T13BBTTLTIME") = WW_Tbl.Rows(0)("T13BBTTLTIME")
+        '        WW_HEADrow("T13G1TTLTIME") = WW_Tbl.Rows(0)("T13G1TTLTIME")
+        '    End If
+        'Next
+
+        'WW_Tbl.Dispose()
+        'WW_Tbl = Nothing
     End Sub
 
     '★★★★★★★★★★★★★★★★★★★★★

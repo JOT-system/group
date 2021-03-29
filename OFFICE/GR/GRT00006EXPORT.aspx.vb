@@ -203,6 +203,17 @@ Public Class GRT00006EXPORT
             WF_ButtonPutShipper.Value = "光英送信(JX白)"
         End If
 
+        '当日以前の場合、ボタンを非活性（過去分は送信しない）
+        If work.WF_SEL_SHUKODATEF.Text < Date.Now.ToString("yyyy/MM/dd") Then
+            WF_IsHideKoueiButton.Value = "1"
+            WF_ButtonPutPlan.Disabled = True
+            WF_ButtonPutShipper.Disabled = True
+            WF_ButtonCSV.Disabled = True
+            WF_ButtonLOCAL.Disabled = True
+        End If
+
+
+
         '○画面表示データ取得
         GRID_INITset()
 

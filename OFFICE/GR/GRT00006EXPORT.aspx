@@ -37,10 +37,10 @@
                 <input type="button" id="WF_ButtonPutShipper" value="光英送信(元売)"  style="Width:8em" runat="server" onclick="ButtonClick('WF_ButtonPutShipper');" />
             </a>
             <a style="position:fixed;top:2.8em;left:58em;">
-                <input type="button" id="WF_ButtonCSV" value="光英CSV"  style="Width:5em" onclick="ButtonClick('WF_ButtonCSV');" />
+                <input type="button" id="WF_ButtonCSV" value="光英CSV"  style="Width:5em" runat="server" onclick="ButtonClick('WF_ButtonCSV');" />
             </a>
             <a style="position:fixed;top:2.8em;left:62.5em;">
-                <input type="button" id="WF_ButtonLOCAL" value="矢崎ZIP"  style="Width:5em" onclick="ButtonClick('WF_ButtonLOCAL');" />
+                <input type="button" id="WF_ButtonLOCAL" value="矢崎ZIP"  style="Width:5em" runat="server" onclick="ButtonClick('WF_ButtonLOCAL');" />
             </a>
             <a style="position:fixed;top:2.8em;left:67em;">
                 <input type="button" id="WF_ButtonEND" value="終了"  style="Width:5em" onclick="ButtonClick('WF_ButtonEND');" />

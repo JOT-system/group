@@ -1080,9 +1080,9 @@ Namespace GRT00004COM
                     Return _csvData(FIELDNO.COURSEBASEKEY)
                 End Get
             End Property
-            ''' <summary>
-            ''' 光英オーダーCSV No.86:コースベースキー出荷日
-            ''' </summary>
+            '''' <summary>
+            '''' 光英オーダーCSV No.86:コースベースキー出荷日
+            '''' </summary>
             'Public ReadOnly Property COURSEBASEKEY_DATE As String
             '    Get
             '        Return COURSEBASEKEY.Split(C_KOUEI_CSV_COLUMS_DELIMITER)(0)

@@ -7,12 +7,12 @@
 <%@ Register Src="~/inc/GRIS0005LeftBox.ascx" TagName="leftview" TagPrefix="MSINC" %>
 <%@ Register Src="~/GR/inc/GRT00013WRKINC.ascx" TagName="wrklist" TagPrefix="MSINC" %>
 
-<asp:Content ID="T00009SH" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="T00013SH" ContentPlaceHolderID="head" runat="server">
     <link href='<%=ResolveUrl("~/GR/css/T00013S.css")%>' rel="stylesheet" type="text/css" />
     <script type="text/javascript" src='<%=ResolveUrl("~/GR/script/T00013S.js")%>'></script>
 </asp:Content>
 
-<asp:Content ID="T00009S" ContentPlaceHolderID="contents1" runat="server">
+<asp:Content ID="T00013S" ContentPlaceHolderID="contents1" runat="server">
     <!-- 全体レイアウト　searchbox -->
     <div class="searchbox" id="searchbox">
         <!-- ○ 固定項目 ○ -->

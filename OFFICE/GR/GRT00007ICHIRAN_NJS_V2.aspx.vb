@@ -7256,6 +7256,8 @@ Public Class GRT00007ICHIRAN_NJS_V2
                                 WW_date = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow("T13G1STTIME01"))
                                 WW_HEADrow("STDATE") = WW_date.AddMinutes(-10).ToString("yyyy/MM/dd")
                                 WW_HEADrow("STTIME") = WW_date.AddMinutes(-10).ToString("HH:mm")
+                                WW_HEADrow("T13G1STTIME01") = WW_HEADrow("STTIME")
+                                WW_HEADrow("T13G1TTLTIME") += 10
                                 WW_HEADrow("HAISOMINUS10FLG") = "ON"
                             Else
                                 '配送ボタンで車庫以外出発の場合、配送開始そのまま
@@ -7426,7 +7428,6 @@ Public Class GRT00007ICHIRAN_NJS_V2
                         Dim WW_T10TODOKECODE As String = "T10TODOKECODE" & j.ToString
                         Dim WW_T10MODELDISTANCE As String = "T10MODELDISTANCE" & j.ToString
                         Dim WW_T10MODIFYKBN As String = "T10MODIFYKBN" & j.ToString
-                        '車中泊で積のみの場合、モデル距離不要（但し、手入力した場合のモデル距離は生かす）
                         WW_HEADrow(WW_T10SHARYOKBN) = WW_MODELrow(WW_SHARYOKBN)
                         WW_HEADrow(WW_T10OILPAYKBN) = WW_MODELrow(WW_OILPAYKBN)
                         WW_HEADrow(WW_T10SHUKABASHO) = WW_MODELrow(WW_SHUKABASHO)
@@ -7434,16 +7435,16 @@ Public Class GRT00007ICHIRAN_NJS_V2
                         WW_HEADrow(WW_T10MODELDISTANCE) = WW_MODELrow(WW_MODELDISTANCE)
                         WW_HEADrow(WW_T10MODIFYKBN) = WW_MODELrow(WW_MODIFYKBN)
 
-                        If WW_HEADrow("SHACHUHAKKBN") = "1" AndAlso
-                           WW_MODELrow(WW_SHUKABASHO) <> "" AndAlso
-                           WW_MODELrow(WW_TODOKECODE) = "" Then
-                            WW_HEADrow(WW_T10SHARYOKBN) = ""
-                            WW_HEADrow(WW_T10OILPAYKBN) = ""
-                            WW_HEADrow(WW_T10SHUKABASHO) = ""
-                            WW_HEADrow(WW_T10TODOKECODE) = ""
-                            WW_HEADrow(WW_T10MODELDISTANCE) = 0
-                            WW_HEADrow(WW_T10MODIFYKBN) = "0"
-                        End If
+                        'If WW_HEADrow("SHACHUHAKKBN") = "1" AndAlso
+                        '   WW_MODELrow(WW_SHUKABASHO) <> "" AndAlso
+                        '   WW_MODELrow(WW_TODOKECODE) = "" Then
+                        '    WW_HEADrow(WW_T10SHARYOKBN) = ""
+                        '    WW_HEADrow(WW_T10OILPAYKBN) = ""
+                        '    WW_HEADrow(WW_T10SHUKABASHO) = ""
+                        '    WW_HEADrow(WW_T10TODOKECODE) = ""
+                        '    WW_HEADrow(WW_T10MODELDISTANCE) = 0
+                        '    WW_HEADrow(WW_T10MODIFYKBN) = "0"
+                        'End If
                     Next
                 End If
             Next

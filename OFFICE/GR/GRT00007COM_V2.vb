@@ -5925,28 +5925,28 @@ Public Class GRT0007COM_V2
                     For i As Integer = 1 To 10
                         Dim WW_STTIME As String = "T13BBSTTIME" & i.ToString("00")
                         Dim WW_ENDTIME As String = "T13BBENDTIME" & i.ToString("00")
-                        If WW_HEADrow(WW_STTIME) = "00:00" AndAlso
-                           WW_HEADrow(WW_ENDTIME) = "00:00" Then
-                            Exit For
+                        'If WW_HEADrow(WW_STTIME) = "00:00" AndAlso
+                        '   WW_HEADrow(WW_ENDTIME) = "00:00" Then
+                        '    Exit For
+                        'Else
+                        Dim WW_STBREAKTIME As Date = Nothing
+                        Dim WW_ENDBREAKTIME As Date = Nothing
+                        '翌日（例、00:00～01:00)、日跨り（例、23:30～00:30)の判定
+                        If WW_HEADrow("STTIME") > WW_HEADrow(WW_STTIME) Then
+                            '翌日と判定
+                            WW_STBREAKTIME = CDate(WW_HEADrow("ENDDATE") & " " & WW_HEADrow(WW_STTIME))
+                            WW_ENDBREAKTIME = CDate(WW_HEADrow("ENDDATE") & " " & WW_HEADrow(WW_ENDTIME))
+                        ElseIf WW_HEADrow(WW_STTIME) > WW_HEADrow(WW_ENDTIME) Then
+                            '日跨りと判定
+                            WW_STBREAKTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow(WW_STTIME))
+                            WW_ENDBREAKTIME = CDate(WW_HEADrow("ENDDATE") & " " & WW_HEADrow(WW_ENDTIME))
                         Else
-                            Dim WW_STBREAKTIME As Date = Nothing
-                            Dim WW_ENDBREAKTIME As Date = Nothing
-                            '翌日（例、00:00～01:00)、日跨り（例、23:30～00:30)の判定
-                            If WW_HEADrow("STTIME") > WW_HEADrow(WW_STTIME) Then
-                                '翌日と判定
-                                WW_STBREAKTIME = CDate(WW_HEADrow("ENDDATE") & " " & WW_HEADrow(WW_STTIME))
-                                WW_ENDBREAKTIME = CDate(WW_HEADrow("ENDDATE") & " " & WW_HEADrow(WW_ENDTIME))
-                            ElseIf WW_HEADrow(WW_STTIME) > WW_HEADrow(WW_ENDTIME) Then
-                                '日跨りと判定
-                                WW_STBREAKTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow(WW_STTIME))
-                                WW_ENDBREAKTIME = CDate(WW_HEADrow("ENDDATE") & " " & WW_HEADrow(WW_ENDTIME))
-                            Else
-                                '当日内と判定
-                                WW_STBREAKTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow(WW_STTIME))
-                                WW_ENDBREAKTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow(WW_ENDTIME))
-                            End If
-                            WW_BINDENDTIME = BindEndTimeGet(WW_BINDSTTIME, WW_BINDENDTIME, WW_STBREAKTIME, WW_ENDBREAKTIME)
+                            '当日内と判定
+                            WW_STBREAKTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow(WW_STTIME))
+                            WW_ENDBREAKTIME = CDate(WW_HEADrow("STDATE") & " " & WW_HEADrow(WW_ENDTIME))
                         End If
+                        WW_BINDENDTIME = BindEndTimeGet(WW_BINDSTTIME, WW_BINDENDTIME, WW_STBREAKTIME, WW_ENDBREAKTIME)
+                        'End If
                     Next
 
                     'Dim WW_BBSELTBL As DataTable = New DataTable
@@ -6108,7 +6108,7 @@ Public Class GRT0007COM_V2
                     'Next
                     If WW_HEADrow("HAISOMINUS10FLG") = "ON" Then
                         '車庫からの出発の場合、+10分する
-                        WW_HAISO += 10
+                        'WW_HAISO += 10
                     End If
                     WW_HEADrow("HAISOTIME") = formatHHMM(WW_HAISO)
                     '2020/11/17 UPD END
@@ -6275,29 +6275,29 @@ Public Class GRT0007COM_V2
                     For i As Integer = 1 To 10
                         Dim WW_STTIME As String = "T13BBSTTIME" & i.ToString("00")
                         Dim WW_ENDTIME As String = "T13BBENDTIME" & i.ToString("00")
-                        If WW_HEADrow(WW_STTIME) = "00:00" And
-                                   WW_HEADrow(WW_ENDTIME) = "00:00" Then
-                            Exit For
-                        Else
-                            ' In  : WW_STDATETIME             出社日時
-                            '       WW_BINDSTTIME             拘束開始日時
-                            '       WW_BINDENDTIME            拘束終了日時
-                            '       0                         休日区分 = 0(固定)
-                            '       WW_STDATETIME             出社日時
-                            '       WW_ENDDATETIME            退社日時
-                            ' Out : WK_NIGHTTIME_KYUKEI       5:00～22:00（所定内通常）
-                            '       WK_WORKTIME_KYUKEI2       翌5:00～22:00（所定内通常）    
-                            '       WK_NIGHTTIME_KYUKEI       22:00～24:00（深夜）
-                            '       WK_YOKU0to5NIGHT_KYUKEI   翌0:00～5:00（所定内深夜）
-                            '       WK_YOKU0to5NIGHT_SAGYO2   翌0:00～5:00（深夜）
-                            '       WK_OUTWORKTIME_KYUKEI     5:00～22:00（残業）　　← 法定、法定外休日のみ
-                            '       WK_OUTWORKTIME_KYUKEI2    翌5:00～22:00（残業）
-                            '       WK_OUTNIGHTTIME_KYUKEI    0:00～5:00（5時前深夜）
-                            '       WK_HWORKTIME_KYUKEI,
-                            '       WK_HNIGHTTIME_KYUKEI,
-                            '       WK_HNIGHTTIME_KYUKEI2,
-                            '       WW_累積分
-                            Dim WW_STBREAKTIME As Date = Nothing
+                        'If WW_HEADrow(WW_STTIME) = "00:00" And
+                        '           WW_HEADrow(WW_ENDTIME) = "00:00" Then
+                        '    Exit For
+                        'Else
+                        ' In  : WW_STDATETIME             出社日時
+                        '       WW_BINDSTTIME             拘束開始日時
+                        '       WW_BINDENDTIME            拘束終了日時
+                        '       0                         休日区分 = 0(固定)
+                        '       WW_STDATETIME             出社日時
+                        '       WW_ENDDATETIME            退社日時
+                        ' Out : WK_NIGHTTIME_KYUKEI       5:00～22:00（所定内通常）
+                        '       WK_WORKTIME_KYUKEI2       翌5:00～22:00（所定内通常）    
+                        '       WK_NIGHTTIME_KYUKEI       22:00～24:00（深夜）
+                        '       WK_YOKU0to5NIGHT_KYUKEI   翌0:00～5:00（所定内深夜）
+                        '       WK_YOKU0to5NIGHT_SAGYO2   翌0:00～5:00（深夜）
+                        '       WK_OUTWORKTIME_KYUKEI     5:00～22:00（残業）　　← 法定、法定外休日のみ
+                        '       WK_OUTWORKTIME_KYUKEI2    翌5:00～22:00（残業）
+                        '       WK_OUTNIGHTTIME_KYUKEI    0:00～5:00（5時前深夜）
+                        '       WK_HWORKTIME_KYUKEI,
+                        '       WK_HNIGHTTIME_KYUKEI,
+                        '       WK_HNIGHTTIME_KYUKEI2,
+                        '       WW_累積分
+                        Dim WW_STBREAKTIME As Date = Nothing
                             Dim WW_ENDBREAKTIME As Date = Nothing
                             '翌日（例、00:00～01:00)、日跨り（例、23:30～00:30)の判定
                             If WW_HEADrow("STTIME") > WW_HEADrow(WW_STTIME) Then
@@ -6331,7 +6331,7 @@ Public Class GRT0007COM_V2
                                                                 WK_HNIGHTTIME_KYUKEI,
                                                                 WK_HNIGHTTIME_KYUKEI2,
                                                                 WW_累積分)
-                        End If
+                        'End If
                     Next
                     '2020/11/17 UPD END
                 End If
@@ -10654,6 +10654,7 @@ Public Class GRT0007COM_V2
         Dim WW_OILPAYKBN As String = ""
         Dim WW_MODELDISTANCE As String = ""
         Dim WW_MODIFYKBN As String = ""
+        Dim WW_B2CNT As Integer = 0
         WW_B3CNT = 0
         For i As Integer = 0 To WW_iTBL.Rows.Count - 1
             Dim WW_iTBLrow As DataRow = WW_iTBL.Rows(i)
@@ -10693,6 +10694,7 @@ Public Class GRT0007COM_V2
                 If WW_iTBLrow("WORKKBN") = "B2" Then
                     WW_oTBLrow(WW_TODOKECODE) = ""
                     WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE3")
+                    WW_B2CNT += 1
                 End If
                 WW_oTBLrow(WW_MODIFYKBN) = "0"
             Else
@@ -10706,7 +10708,7 @@ Public Class GRT0007COM_V2
                     End If
                 Next
                 'モデル距離がヒットしなかった（ゼロ）場合、配送距離（実距離）を採用する。その際☑とする
-                If WW_B3CNT > 0 AndAlso WW_FIND = "OFF" Then
+                If WW_B3CNT > 0 AndAlso WW_B3CNT <> WW_B2CNT AndAlso WW_FIND = "OFF" Then
                     Dim G1view As DataView = New DataView(WW_G1TBL)
                     G1view.Sort = "YMD, STAFFCODE"
                     G1view.RowFilter = "YMD = #" & WW_WORKDATE & "# and STAFFCODE ='" & WW_STAFFCODE & "'"
@@ -10745,6 +10747,7 @@ Public Class GRT0007COM_V2
                 WW_oTBLrow("RECEIVEYMD") = C_DEFAULT_YMD
                 oTBL.Rows.Add(WW_oTBLrow)
                 WW_oTBLrow = oTBL.NewRow
+                WW_B2CNT = 0
                 WW_B3CNT = 0
 
                 WW_oTBLrow("WORKDATE") = WW_iTBLrow("YMD")
@@ -10773,6 +10776,7 @@ Public Class GRT0007COM_V2
                 If WW_iTBLrow("WORKKBN") = "B2" Then
                     WW_oTBLrow(WW_TODOKECODE) = ""
                     WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE3")
+                    WW_B2CNT += 1
                 End If
                 WW_oTBLrow(WW_MODIFYKBN) = "0"
             End If
@@ -10789,7 +10793,7 @@ Public Class GRT0007COM_V2
                     Exit For
                 End If
             Next
-            If WW_B3CNT > 0 AndAlso WW_FIND = "OFF" Then
+            If WW_B3CNT > 0 AndAlso WW_B3CNT <> WW_B2CNT AndAlso WW_FIND = "OFF" Then
                 Dim G1view As DataView = New DataView(WW_G1TBL)
                 G1view.Sort = "YMD, STAFFCODE"
                 G1view.RowFilter = "YMD = #" & WW_WORKDATE & "# and STAFFCODE ='" & WW_STAFFCODE & "'"
@@ -10848,7 +10852,7 @@ Public Class GRT0007COM_V2
 
             For i As Integer = 0 To oTBL.Rows.Count - 1
                 WW_oTBLrow = oTBL.Rows(i)
-                If WW_oTBLrow("SAVECNT") >= 2 Then
+                If WW_oTBLrow("SAVECNT") >= 1 Then
                     If WW_oTBLrow("SHUKABASHO_W1") & "-" & WW_oTBLrow("TODOKECODE1") = WW_oTBLrow("SHUKABASHO_W2") & "-" & WW_oTBLrow("TODOKECODE2") AndAlso
                        WW_oTBLrow("SHUKABASHO_W1") & "-" & WW_oTBLrow("TODOKECODE1") = WW_oTBLrow("SHUKABASHO_W3") & "-" & WW_oTBLrow("TODOKECODE3") AndAlso
                        WW_oTBLrow("SHUKABASHO_W1") & "-" & WW_oTBLrow("TODOKECODE1") = WW_oTBLrow("SHUKABASHO_W4") & "-" & WW_oTBLrow("TODOKECODE4") Then
@@ -10898,6 +10902,14 @@ Public Class GRT0007COM_V2
                                 WW_oTBLrow("SHUKABASHO2") = WW_oTBLrow("SHUKABASHO_W2")
                                 WW_oTBLrow("MODIFYKBN1") = "0"
                                 WW_oTBLrow("MODIFYKBN2") = "0"
+                            End If
+                        Next
+                    Else
+                        For j As Integer = 0 To WW_ListBoxREPEATMODEL1.Items.Count - 1
+                            If WW_oTBLrow("SHUKABASHO_W1") & "-" & WW_oTBLrow("TODOKECODE1") = WW_ListBoxREPEATMODEL1.Items(j).Value Then
+                                WW_oTBLrow("MODELDISTANCE1") = WW_ListBoxREPEATMODEL1.Items(j).Text
+                                WW_oTBLrow("SHUKABASHO1") = WW_oTBLrow("SHUKABASHO_W1")
+                                WW_oTBLrow("MODIFYKBN1") = "0"
                             End If
                         Next
                     End If
