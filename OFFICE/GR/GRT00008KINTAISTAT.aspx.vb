@@ -1725,7 +1725,8 @@ Public Class GRT00008KINTAISTAT
                & "       isnull(A.YOKSAIKENSADAISU, 0) + isnull(A.YOKSAIKENSADAISUCHO, 0) as YOKSAIKENSADAISUTTL , " _
                & "       isnull(A.KIMITUKENSADAISU,0) as KIMITUKENSADAISU , " _
                & "       isnull(A.KIMITUKENSADAISUCHO,0) as KIMITUKENSADAISUCHO , " _
-               & "       isnull(A.KIMITUKENSADAISU, 0) + isnull(A.KIMITUKENSADAISUCHO, 0) as KIMITUKENSADAISUTTL  " _
+               & "       isnull(A.KIMITUKENSADAISU, 0) + isnull(A.KIMITUKENSADAISUCHO, 0) as KIMITUKENSADAISUTTL , " _
+               & "       isnull(B.REWARD1,0) as REWARD1 " _
                & " FROM #MBtemp MB " _
                & " INNER JOIN T0007_KINTAI A " _
                & "   ON    A.CAMPCODE     = @CAMPCODE " _
@@ -1733,6 +1734,11 @@ Public Class GRT00008KINTAISTAT
                & "   and   A.STAFFCODE    = MB.STAFFCODE " _
                & "   and   A.RECODEKBN    = '2' " _
                & "   and   A.DELFLG      <> '1' " _
+               & " LEFT JOIN T0014_REWARD B " _
+               & "   ON    B.CAMPCODE     = @CAMPCODE " _
+               & "   and   B.TAISHOYM     = @TAISHOYM " _
+               & "   and   B.STAFFCODE    = MB.STAFFCODE " _
+               & "   and   B.DELFLG      <> '1' " _
                & " LEFT JOIN MB001_STAFF MB2 " _
                & "   ON    MB2.CAMPCODE     = @CAMPCODE " _
                & "   and   MB2.STAFFCODE    = MB.STAFFCODE " _
@@ -3630,6 +3636,9 @@ Public Class GRT00008KINTAISTAT
         iTbl.Columns.Add("KIMITUKENSADAISUCHO", GetType(String))
         iTbl.Columns.Add("KIMITUKENSADAISUTTL", GetType(String))
         '2020/4113 ADD END
+        '2021/3126 ADD
+        iTbl.Columns.Add("REWARD1", GetType(String))
+        '2021/3126 ADD END
 
         T00008ds.EnforceConstraints = False                           'DS制約チェックをはずす(性能対策)
 
@@ -3724,6 +3733,7 @@ Public Class GRT00008KINTAISTAT
         iTbl.Columns.Add("近距離手当100ｷﾛ以下日数", GetType(String))
         iTbl.Columns.Add("トレーラ乗務日数", GetType(String))
         iTbl.Columns.Add("バルク車両乗務日数", GetType(String))
+        iTbl.Columns.Add("期末表彰用_KI", GetType(String))
         iTbl.Columns.Add("賞罰月数", GetType(String))
         iTbl.Columns.Add("荷卸回単車_燃料油_EN", GetType(String))
         iTbl.Columns.Add("荷卸回単車_潤滑油_EN", GetType(String))
@@ -7493,6 +7503,9 @@ Public Class GRT00008KINTAISTAT
                 '2624.バルク日数（バルク日数＋ポンプ日数）
                 JNLrow("バルク車両乗務日数") = Val(T00007row("BULKNISSUTTL")) + Val(T00007row("PONPNISSUTTL"))
 
+                '2649.期末表彰用
+                JNLrow("期末表彰用_KI") = "0"
+
                 '2650.賞罰月数
                 JNLrow("賞罰月数") = "0"
 
@@ -8083,6 +8096,9 @@ Public Class GRT00008KINTAISTAT
                 '2624.バルク日数
                 JNLrow("バルク車両乗務日数") = "0"
 
+                '2649.期末表彰用
+                JNLrow("期末表彰用_KI") = T00007row("REWARD1")
+
                 '2650.賞罰月数
                 JNLrow("賞罰月数") = "0"
 
@@ -8603,6 +8619,9 @@ Public Class GRT00008KINTAISTAT
                 '2624.バルク日数
                 JNLrow("バルク車両乗務日数") = "0"
 
+                '2649.期末表彰用
+                JNLrow("期末表彰用_KI") = "0"
+
                 '2650.賞罰月数
                 JNLrow("賞罰月数") = "0"
 
@@ -9079,6 +9098,9 @@ Public Class GRT00008KINTAISTAT
 
                 '2624.バルク日数
                 JNLrow("バルク車両乗務日数") = "0"
+
+                '2649.期末表彰用
+                JNLrow("期末表彰用_KI") = "0"
 
                 '2650.賞罰月数
                 JNLrow("賞罰月数") = "0"

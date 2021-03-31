@@ -449,6 +449,14 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const T00013 As String = "ASP.GR_GRT00013TIMEMANAGE_ASPX"
         ''' <summary>
+        ''' 褒賞金入力（条件）
+        ''' </summary>
+        Public Const T00014S As String = "ASP.GR_GRT00014SELECT_ASPX"
+        ''' <summary>
+        ''' 褒賞金入力（実行）
+        ''' </summary>
+        Public Const T00014 As String = "ASP.GR_GRT00014REWARD_ASPX"
+        ''' <summary>
         ''' 配送照会（条件）
         ''' </summary>
         Public Const TA0001S As String = "ASP.GR_GRTA0001SELECT_ASPX"

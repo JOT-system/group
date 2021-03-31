@@ -1236,6 +1236,7 @@ Public Class GRTA0003KYUYOLIST_V2
                    & "       isnull(A.KIMITUKENSADAISU,0) as KIMITUKENSADAISU , " _
                    & "       isnull(A.KIMITUKENSADAISUCHO,0) as KIMITUKENSADAISUCHO , " _
                    & "       isnull(A.KIMITUKENSADAISU, 0) + isnull(A.KIMITUKENSADAISUCHO, 0) as KIMITUKENSADAISUTTL , " _
+                   & "       isnull(B.REWARD1,0) as REWARD1 , " _
                    & "       isnull(MB3.SEQ, 0) as ORGSEQ " _
                    & " FROM       #MBtemp           MB " _
                    & " INNER JOIN T0007_KINTAI      A " _
@@ -1244,6 +1245,11 @@ Public Class GRTA0003KYUYOLIST_V2
                    & "   and   A.STAFFCODE    = MB.STAFFCODE " _
                    & "   and   A.RECODEKBN    = '2' " _
                    & "   and   A.DELFLG      <> '1' " _
+                   & " LEFT JOIN T0014_REWARD      B " _
+                   & "   ON    B.CAMPCODE     = @CAMPCODE " _
+                   & "   and   B.TAISHOYM     = @TAISHOYM " _
+                   & "   and   B.STAFFCODE    = MB.STAFFCODE " _
+                   & "   and   B.DELFLG      <> '1' " _
                    & " LEFT JOIN MB001_STAFF        MB2 " _
                    & "   ON    MB2.CAMPCODE     = @CAMPCODE " _
                    & "   and   MB2.STAFFCODE    = MB.STAFFCODE " _
@@ -2432,6 +2438,9 @@ Public Class GRTA0003KYUYOLIST_V2
             WW_TA0003row("KIMITUKENSADAISUCHO") = T0009TIME.ZeroToSpace(WW_TA0003row("KIMITUKENSADAISUCHO"))
             WW_TA0003row("KIMITUKENSADAISUTTL") = T0009TIME.ZeroToSpace(WW_TA0003row("KIMITUKENSADAISUTTL"))
             '2020/04/13 ADD END
+            '2021/03/26 ADD
+            WW_TA0003row("REWARD1") = T0009TIME.ZeroToSpace(WW_TA0003row("REWARD1"))
+            '2020/03/26 ADD END
 
             WW_TA0003tbl.Rows.Add(WW_TA0003row)
         Next
@@ -3452,7 +3461,7 @@ Public Class GRTA0003KYUYOLIST_V2
         IO_TBL.Columns.Add("SHORTDISTANCE2", GetType(String))
         IO_TBL.Columns.Add("SHORTDISTANCE2CHO", GetType(String))
         IO_TBL.Columns.Add("SHORTDISTANCE2TTL", GetType(String))
-        '2020/4113 ADD
+        '2020/4/13 ADD
         IO_TBL.Columns.Add("OUENKAISU", GetType(String))
         IO_TBL.Columns.Add("OUENKAISUCHO", GetType(String))
         IO_TBL.Columns.Add("OUENKAISUTTL", GetType(String))
@@ -3465,7 +3474,14 @@ Public Class GRTA0003KYUYOLIST_V2
         IO_TBL.Columns.Add("KIMITUKENSADAISU", GetType(String))
         IO_TBL.Columns.Add("KIMITUKENSADAISUCHO", GetType(String))
         IO_TBL.Columns.Add("KIMITUKENSADAISUTTL", GetType(String))
-        '2020/4113 ADD END
+        '2020/4/13 ADD END
+        '2021/3/26 ADD
+        IO_TBL.Columns.Add("REWARD1", GetType(String))
+        IO_TBL.Columns.Add("REWARD2", GetType(String))
+        IO_TBL.Columns.Add("REWARD3", GetType(String))
+        IO_TBL.Columns.Add("REWARD4", GetType(String))
+        IO_TBL.Columns.Add("REWARD5", GetType(String))
+        '2020/3/26 ADD END
     End Sub
     ''' <summary>
     ''' 名称取得
