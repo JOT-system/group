@@ -204,12 +204,15 @@ Public Class GRT00006EXPORT
         End If
 
         '当日以前の場合、ボタンを非活性（過去分は送信しない）
-        If work.WF_SEL_SHUKODATEF.Text < Date.Now.ToString("yyyy/MM/dd") Then
-            WF_IsHideKoueiButton.Value = "1"
-            WF_ButtonPutPlan.Disabled = True
-            WF_ButtonPutShipper.Disabled = True
-            WF_ButtonCSV.Disabled = True
-            WF_ButtonLOCAL.Disabled = True
+        'JKTのみ条件を外す（2021/04/13）
+        If work.WF_SEL_CAMPCODE.Text <> GRT00004WRKINC.C_CAMPCODE.JKT Then
+            If work.WF_SEL_SHUKODATEF.Text < Date.Now.ToString("yyyy/MM/dd") Then
+                WF_IsHideKoueiButton.Value = "1"
+                WF_ButtonPutPlan.Disabled = True
+                WF_ButtonPutShipper.Disabled = True
+                WF_ButtonCSV.Disabled = True
+                WF_ButtonLOCAL.Disabled = True
+            End If
         End If
 
 
