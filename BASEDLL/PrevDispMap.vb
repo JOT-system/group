@@ -552,6 +552,14 @@ Public Module PrevDispMap
         ''' 実績レポート(事務・時間外労働管理表)
         ''' </summary>
         Public Const TA0010 As String = "ASP.GR_GRTA0010JIMOVERTIMEWORK_ASPX"
+        ''' <summary>
+        ''' 統計DBレポート(配車)
+        ''' </summary>
+        Public Const TA0011S As String = "ASP.GR_GRTA0011SELECT_ASPX"
+        ''' <summary>
+        ''' 統計DBレポート(配車)
+        ''' </summary>
+        Public Const TA0011 As String = "ASP.GR_GRTA0011LMHAISHA_ASPX"
     End Class
 
 End Module 'End BaseDllConst

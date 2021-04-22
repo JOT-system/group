@@ -180,6 +180,8 @@
     <Content Include="GR\css\TA0003_V2.css" />
     <Content Include="GR\css\TA0003.css" />
     <Content Include="GR\css\TA0003S.css" />
+    <Content Include="GR\css\TA0011.css" />
+    <Content Include="GR\css\TA0011S.css" />
     <Content Include="GR\css\TA0006_V2.css" />
     <Content Include="GR\css\TA0006.css" />
     <Content Include="GR\css\TA0007_V2.css" />
@@ -325,6 +327,8 @@
     <Content Include="GR\GRTA0003KYUYOLIST_V2.aspx" />
     <Content Include="GR\GRTA0003KYUYOLIST.aspx" />
     <Content Include="GR\GRTA0003SELECT.aspx" />
+    <Content Include="GR\GRTA0011LMHAISHA.aspx" />
+    <Content Include="GR\GRTA0011SELECT.aspx" />
     <Content Include="GR\GRTA0006JIMKINTAILIST_V2.aspx" />
     <Content Include="GR\GRTA0006JIMKINTAILIST.aspx" />
     <Content Include="GR\GRTA0007JIMKYUYOLIST_V2.aspx" />
@@ -376,6 +380,7 @@
     <Content Include="GR\inc\GRTA0002WRKINC_V2.ascx" />
     <Content Include="GR\inc\GRTA0003WRKINC_V2.ascx" />
     <Content Include="GR\inc\GRTA0003WRKINC.ascx" />
+    <Content Include="GR\inc\GRTA0011WRKINC.ascx" />
     <Content Include="GR\inc\GRTA0006WRKINC_V2.ascx" />
     <Content Include="GR\inc\GRTA0006WRKINC.ascx" />
     <Content Include="GR\inc\GRTA0007WRKINC_V2.ascx" />
@@ -490,6 +495,8 @@
     <Content Include="GR\script\TA0003_V2.js" />
     <Content Include="GR\script\TA0003.js" />
     <Content Include="GR\script\TA0003S.js" />
+    <Content Include="GR\script\TA0011.js" />
+    <Content Include="GR\script\TA0011S.js" />
     <Content Include="GR\script\TA0006_V2.js" />
     <Content Include="GR\script\TA0006.js" />
     <Content Include="GR\script\TA0007_V2.js" />
@@ -1308,6 +1315,20 @@
       <DependentUpon>GRTA0003SELECT.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="GR\GRTA0011LMHAISHA.aspx.designer.vb">
+      <DependentUpon>GRTA0011LMHAISHA.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRTA0011LMHAISHA.aspx.vb">
+      <DependentUpon>GRTA0011LMHAISHA.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="GR\GRTA0011SELECT.aspx.designer.vb">
+      <DependentUpon>GRTA0011SELECT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRTA0011SELECT.aspx.vb">
+      <DependentUpon>GRTA0011SELECT.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="GR\GRTA0006JIMKINTAILIST_V2.aspx.designer.vb">
       <DependentUpon>GRTA0006JIMKINTAILIST_V2.aspx</DependentUpon>
     </Compile>
@@ -1663,6 +1684,13 @@
     </Compile>
     <Compile Include="GR\inc\GRTA0003WRKINC.ascx.vb">
       <DependentUpon>GRTA0003WRKINC.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\inc\GRTA0011WRKINC.ascx.designer.vb">
+      <DependentUpon>GRTA0011WRKINC.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\inc\GRTA0011WRKINC.ascx.vb">
+      <DependentUpon>GRTA0011WRKINC.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GR\inc\GRTA0006WRKINC_V2.ascx.designer.vb">
