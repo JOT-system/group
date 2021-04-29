@@ -10692,8 +10692,24 @@ Public Class GRT0007COM_V2
                     End If
                 End If
                 If WW_iTBLrow("WORKKBN") = "B2" Then
-                    WW_oTBLrow(WW_TODOKECODE) = ""
-                    WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE3")
+                    '積置きの場合、積置きの出荷場所と直前の荷卸（届先）でモデル距離マスタを検索してみる
+                    'モデル距離が取得できた場合、そのモデル距離を採用し、直前の荷卸(届先）のモデル距離をゼロとする
+                    '取得できない場合（モデル距離 = ゼロ）、出荷場所で取得したモデル距離を採用する
+                    Dim WW_MODEL As String = "0"
+                    Dim WW_RTN As String = "00000"
+                    Dim WW_TODOK = "TODOKECODE" & WW_B3CNT - 1.ToString("0")
+                    If WW_B3CNT > 1 Then
+                        MODELget(iCAMP, WW_iTBLrow("SHIPORG"), WW_oTBLrow(WW_SHUKABASHO_W), WW_oTBLrow(WW_TODOK), WW_MODEL, WW_RTN)
+                    End If
+                    If Val(WW_MODEL) > 0 Then
+                        WW_oTBLrow(WW_TODOKECODE) = ""
+                        WW_oTBLrow(WW_MODELDISTANCE) = WW_MODEL
+                        WW_MODELDISTANCE = "MODELDISTANCE" & WW_B3CNT - 1.ToString("0")
+                        WW_oTBLrow(WW_MODELDISTANCE) = "0"
+                    Else
+                        WW_oTBLrow(WW_TODOKECODE) = ""
+                        WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE3")
+                    End If
                     WW_B2CNT += 1
                 End If
                 WW_oTBLrow(WW_MODIFYKBN) = "0"
@@ -10774,9 +10790,26 @@ Public Class GRT0007COM_V2
                     End If
                 End If
                 If WW_iTBLrow("WORKKBN") = "B2" Then
-                    WW_oTBLrow(WW_TODOKECODE) = ""
-                    WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE3")
-                    WW_B2CNT += 1
+                    '積置きの場合、積置きの出荷場所と直前の荷卸（届先）でモデル距離マスタを検索してみる
+                    'モデル距離が取得できた場合、そのモデル距離を採用し、直前の荷卸(届先）のモデル距離をゼロとする
+                    '取得できない場合（モデル距離 = ゼロ）、出荷場所で取得したモデル距離を採用する
+                    Dim WW_MODEL As String = "0"
+                    Dim WW_RTN As String = "00000"
+                    Dim WW_TODOK = "TODOKECODE" & WW_B3CNT - 1.ToString("0")
+                    If WW_B3CNT > 1 Then
+                        WW_TODOKECODE = "TODOKECODE" & WW_B3CNT - 1.ToString("0")
+                        MODELget(iCAMP, WW_iTBLrow("SHIPORG"), WW_oTBLrow(WW_SHUKABASHO_W), WW_oTBLrow(WW_TODOK), WW_MODEL, WW_RTN)
+                    End If
+                    If Val(WW_MODEL) > 0 Then
+                        WW_oTBLrow(WW_TODOKECODE) = ""
+                        WW_oTBLrow(WW_MODELDISTANCE) = WW_MODEL
+                        WW_MODELDISTANCE = "MODELDISTANCE" & WW_B3CNT - 1.ToString("0")
+                        WW_oTBLrow(WW_MODELDISTANCE) = "0"
+                    Else
+                        WW_oTBLrow(WW_TODOKECODE) = ""
+                        WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE3")
+                        WW_B2CNT += 1
+                    End If
                 End If
                 WW_oTBLrow(WW_MODIFYKBN) = "0"
             End If
@@ -10831,23 +10864,26 @@ Public Class GRT0007COM_V2
             WW_oTBLrow("RECEIVEYMD") = C_DEFAULT_YMD
             oTBL.Rows.Add(WW_oTBLrow)
 
-            '特殊処理（モデル距離
-            ' 下記の出荷場所→届先の繰り返し配送の場合、回転数によりモデル距離を設定する
+            '特殊処理（モデル距離）
+            ' 対象は、固定値マスタ（MC001_FIXVALUE）のCLASS='REPEATMODEL'を参照
+            '
+            ' 例）下記の出荷場所→届先の繰り返し配送の場合、回転数によりモデル距離を設定する
             '　　ケミカルロジテック -ＪＳＲ四日市工場
             '　　辰巳商会 -ＪＳＲ四日市工場
-            '    １回転：通常モデル距離（モデル距離マスタより）
+            '    １回転：１回目を89km
             '    ２回転：１回目を89km、２回目を89km
             '    ３回転：１回目を89km、２回目を89km、３回目を59km
             '    ４回転：１回目を89km、２回目を89km、３回目を59km、４回目を69km
+
             '    ケミカルロジテック引取（AN）№000013　→　JSR四日市工場№000011
             '　　　　　　　　〃　　　　　　　　　　　　→　イーテック№00012
-            '    １回転：通常モデル距離（モデル距離マスタより）
+            '    １回転：１回目を82km
             '    ２回転：１回目を82km、２回目を164km
             '    ３回転：１回目を82km、２回目を164km、３回目を223km
             '    ４回転：１回目を82km、２回目を164km、３回目を223km、４回目を289km
 
             '    KHネオケム霞工場№000240　→　セントラルタンクターミナル№000244
-            '    １回転：通常モデル距離（モデル距離マスタより）
+            '    １回転：１回目を82km
             '    ２回転：１回目を82km、２回目を140km
 
             For i As Integer = 0 To oTBL.Rows.Count - 1
@@ -10916,6 +10952,107 @@ Public Class GRT0007COM_V2
                 End If
             Next
         End If
+
+    End Sub
+
+    ' ***  モデル距離マスタ取得
+    Protected Sub MODELget(ByVal iCAMP As String,
+                           ByVal iHORG As String,
+                           ByVal iSHUKABASHO As String,
+                           ByVal iTODOKECODE As String,
+                           ByRef oMODEL As String,
+                           ByRef oRtn As String)
+        oRtn = C_MESSAGE_NO.NORMAL
+        If String.IsNullOrEmpty(iSHUKABASHO) AndAlso String.IsNullOrEmpty(iTODOKECODE) Then
+            oMODEL = "0"
+            Exit Sub
+        End If
+
+        Try
+            Dim WW_MC012tbl As DataTable = New DataTable
+
+            WW_MC012tbl.Columns.Add("MODEL", GetType(String))
+
+            Dim SQLStr As String = ""
+            'DataBase接続文字
+            Dim SQLcon As SqlConnection = CS0050Session.getConnection
+            SQLcon.Open() 'DataBase接続(Open)
+
+            '検索SQL文
+            SQLStr =
+                 " select isnull(MODEL,'0') as MODEL " _
+               & "  from  MC012_MODEL A " _
+               & " where  CAMPCODE      =    @CAMPCODE " _
+               & "   and  UORG          =    @UORG " _
+               & "   and  MODELPATTERN  =    @MODELPATTERN " _
+               & "   and  SHUKABASHO    like @SHUKABASHO " _
+               & "   and  TODOKECODE    like @TODOKECODE " _
+               & "   and  DELFLG        <>   '1'  "
+
+            Dim SQLcmd As New SqlCommand(SQLStr, SQLcon)
+
+            Dim PARA01 As SqlParameter = SQLcmd.Parameters.Add("@CAMPCODE", System.Data.SqlDbType.NVarChar)
+            Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@UORG", System.Data.SqlDbType.NVarChar)
+            Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@MODELPATTERN", System.Data.SqlDbType.NVarChar)
+            Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@SHUKABASHO", System.Data.SqlDbType.NVarChar)
+            Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@TODOKECODE", System.Data.SqlDbType.NVarChar)
+
+            PARA01.Value = iCAMP
+            PARA02.Value = iHORG
+            '出荷場所でモデル距離取得
+            If Not String.IsNullOrEmpty(iSHUKABASHO) AndAlso String.IsNullOrEmpty(iTODOKECODE) Then
+                PARA03.Value = "3"
+                PARA04.Value = iSHUKABASHO
+                PARA05.Value = "%"
+            End If
+            '届先でモデル距離取得
+            If String.IsNullOrEmpty(iSHUKABASHO) AndAlso Not String.IsNullOrEmpty(iTODOKECODE) Then
+                PARA03.Value = "1"
+                PARA04.Value = "%"
+                PARA05.Value = iTODOKECODE
+            End If
+            '出荷場所、届先でモデル距離取得
+            If Not String.IsNullOrEmpty(iSHUKABASHO) AndAlso Not String.IsNullOrEmpty(iTODOKECODE) Then
+                PARA03.Value = "2"
+                PARA04.Value = iSHUKABASHO
+                PARA05.Value = iTODOKECODE
+            End If
+
+            '■SQL実行
+            Dim SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
+
+            WW_MC012tbl.Load(SQLdr)
+
+            oMODEL = "0"
+            For Each MC12row As DataRow In WW_MC012tbl.Rows
+                oMODEL = MC12row("MODEL")
+            Next
+
+            SQLdr.Close()
+            SQLdr = Nothing
+
+            SQLcmd.Dispose()
+            SQLcmd = Nothing
+
+            SQLcon.Close() 'DataBase接続(Close)
+            SQLcon.Dispose()
+            SQLcon = Nothing
+
+            WW_MC012tbl.Dispose()
+            WW_MC012tbl = Nothing
+        Catch ex As Exception
+            CS0011LOGWRITE.INFSUBCLASS = "MC012_MODEL"                'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "MC012_MODEL SELECT"
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+
+            oRtn = C_MESSAGE_NO.DB_ERROR
+            Exit Sub
+
+        End Try
+
 
     End Sub
 
