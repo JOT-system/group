@@ -10690,8 +10690,24 @@ Public Class GRT0007COM_V2
                         WW_oTBLrow(WW_SHUKABASHO) = ""
                         WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE1")
                     End If
+
+                    If TUMIOKIget(iCAMP, WW_oTBLrow(WW_SHUKABASHO_W), WW_oTBLrow(WW_TODOKECODE)) = True Then
+                        '特定（FIXVALUE）の出荷場所、届先に限定し、1日目積～2日目卸（～3日目卸）の場合のモデル距離設定
+                        '前日の日報から前日積なのか前日以前の積を判定する
+                        Dim WW_DATE As String = CDate(WW_iTBLrow("YMD")).AddDays(-1).ToString("yyyy/MM/dd")
+                        Dim WW_TUMI As String = "0"
+                        Dim WW_RTN As String = "00000"
+                        NIPPOget(iCAMP, WW_iTBLrow("SHIPORG"), WW_DATE, WW_iTBLrow("STAFFCODE"), WW_oTBLrow(WW_SHUKABASHO_W), WW_TUMI, WW_RTN)
+                        If WW_TUMI = "0" Then
+                            WW_oTBLrow(WW_SHUKABASHO) = ""
+                            WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE1")
+                        Else
+                            WW_oTBLrow(WW_SHUKABASHO) = ""
+                            WW_oTBLrow(WW_MODELDISTANCE) = 0
+                        End If
+                    End If
                 End If
-                If WW_iTBLrow("WORKKBN") = "B2" Then
+                    If WW_iTBLrow("WORKKBN") = "B2" Then
                     '積置きの場合、積置きの出荷場所と直前の荷卸（届先）でモデル距離マスタを検索してみる
                     'モデル距離が取得できた場合、そのモデル距離を採用し、直前の荷卸(届先）のモデル距離をゼロとする
                     '取得できない場合（モデル距離 = ゼロ）、出荷場所で取得したモデル距離を採用する
@@ -10718,9 +10734,17 @@ Public Class GRT0007COM_V2
                 Dim WW_FIND As String = "OFF"
                 For j As Integer = 1 To WW_B3CNT
                     WW_MODELDISTANCE = "MODELDISTANCE" & j.ToString("0")
+                    WW_SHUKABASHO_W = "SHUKABASHO_W" & j.ToString("0")
+                    WW_TODOKECODE = "TODOKECODE" & j.ToString("0")
+                    WW_MODELDISTANCE = "MODELDISTANCE" & j.ToString("0")
                     If WW_oTBLrow(WW_MODELDISTANCE) <> 0 Then
                         WW_FIND = "ON"
                         Exit For
+                    Else
+                        If TUMIOKIget(iCAMP, WW_oTBLrow(WW_SHUKABASHO_W), WW_oTBLrow(WW_TODOKECODE)) = True Then
+                            WW_FIND = "ON"
+                            Exit For
+                        End If
                     End If
                 Next
                 'モデル距離がヒットしなかった（ゼロ）場合、配送距離（実距離）を採用する。その際☑とする
@@ -10788,6 +10812,21 @@ Public Class GRT0007COM_V2
                         WW_oTBLrow(WW_SHUKABASHO) = ""
                         WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE1")
                     End If
+                    If TUMIOKIget(iCAMP, WW_oTBLrow(WW_SHUKABASHO_W), WW_oTBLrow(WW_TODOKECODE)) = True Then
+                        '特定（FIXVALUE）の出荷場所、届先に限定し、1日目積～2日目卸（～3日目卸）の場合のモデル距離設定
+                        '前日の日報から前日積なのか前日以前の積を判定する
+                        Dim WW_DATE As String = CDate(WW_iTBLrow("YMD")).AddDays(-1).ToString("yyyy/MM/dd")
+                        Dim WW_TUMI As String = "0"
+                        Dim WW_RTN As String = "00000"
+                        NIPPOget(iCAMP, WW_iTBLrow("SHIPORG"), WW_DATE, WW_iTBLrow("STAFFCODE"), WW_oTBLrow(WW_SHUKABASHO_W), WW_TUMI, WW_RTN)
+                        If WW_TUMI = "0" Then
+                            WW_oTBLrow(WW_SHUKABASHO) = ""
+                            WW_oTBLrow(WW_MODELDISTANCE) = WW_iTBLrow("MODELDISTANCE1")
+                        Else
+                            WW_oTBLrow(WW_SHUKABASHO) = ""
+                            WW_oTBLrow(WW_MODELDISTANCE) = 0
+                        End If
+                    End If
                 End If
                 If WW_iTBLrow("WORKKBN") = "B2" Then
                     '積置きの場合、積置きの出荷場所と直前の荷卸（届先）でモデル距離マスタを検索してみる
@@ -10821,9 +10860,16 @@ Public Class GRT0007COM_V2
             Dim WW_FIND As String = "OFF"
             For j As Integer = 1 To WW_B3CNT
                 WW_MODELDISTANCE = "MODELDISTANCE" & j.ToString("0")
+                WW_SHUKABASHO_W = "SHUKABASHO_W" & j.ToString("0")
+                WW_TODOKECODE = "TODOKECODE" & j.ToString("0")
                 If WW_oTBLrow(WW_MODELDISTANCE) <> 0 Then
                     WW_FIND = "ON"
                     Exit For
+                Else
+                    If TUMIOKIget(iCAMP, WW_oTBLrow(WW_SHUKABASHO_W), WW_oTBLrow(WW_TODOKECODE)) = True Then
+                        WW_FIND = "ON"
+                        Exit For
+                    End If
                 End If
             Next
             If WW_B3CNT > 0 AndAlso WW_B3CNT <> WW_B2CNT AndAlso WW_FIND = "OFF" Then
@@ -10955,6 +11001,36 @@ Public Class GRT0007COM_V2
 
     End Sub
 
+    ' ***  積置き判定
+    Protected Function TUMIOKIget(ByVal iCAMP As String,
+                             ByVal iSHUKABASHO As String,
+                             ByVal iTODOKECODE As String) As Boolean
+
+        Dim GS0007FIXVALUElst As New GS0007FIXVALUElst                        'Leftボックス用固定値リスト取得
+        Dim RTN As Boolean = False
+        Dim WW_ListBoxTUMIOKIMODEL1 As ListBox = New ListBox
+        Dim WW_ListBoxTUMIOKIMODEL2 As ListBox = New ListBox
+
+        '固定値マスタ取得（積置き特殊モデル距離）
+        GS0007FIXVALUElst.CAMPCODE = iCAMP
+        GS0007FIXVALUElst.CLAS = "TUMIOKIMODEL"
+        GS0007FIXVALUElst.LISTBOX1 = WW_ListBoxTUMIOKIMODEL1
+        GS0007FIXVALUElst.LISTBOX2 = WW_ListBoxTUMIOKIMODEL2
+        GS0007FIXVALUElst.GS0007FIXVALUElst()
+        WW_ListBoxTUMIOKIMODEL1 = GS0007FIXVALUElst.LISTBOX1
+        WW_ListBoxTUMIOKIMODEL2 = GS0007FIXVALUElst.LISTBOX2
+
+        For i As Integer = 0 To WW_ListBoxTUMIOKIMODEL1.Items.Count - 1
+            If iSHUKABASHO = WW_ListBoxTUMIOKIMODEL1.Items(i).Text AndAlso
+               iTODOKECODE = WW_ListBoxTUMIOKIMODEL2.Items(i).Text Then
+                RTN = True
+            End If
+        Next
+
+        TUMIOKIget = RTN
+
+    End Function
+
     ' ***  モデル距離マスタ取得
     Protected Sub MODELget(ByVal iCAMP As String,
                            ByVal iHORG As String,
@@ -11053,6 +11129,108 @@ Public Class GRT0007COM_V2
 
         End Try
 
+
+    End Sub
+
+    ' ***  日報取得
+    Protected Sub NIPPOget(ByVal iCAMP As String,
+                           ByVal iSHIPORG As String,
+                           ByVal iYMD As String,
+                           ByVal iSTAFFCODE As String,
+                           ByVal iSHUKABASHO As String,
+                           ByRef oTUMI As String,
+                           ByRef oRtn As String)
+
+        oRtn = C_MESSAGE_NO.NORMAL
+
+        '0:積置き以外、1:積置き
+        oTUMI = "0"
+
+        Try
+            Dim WW_T0005tbl As DataTable = New DataTable
+
+            WW_T0005tbl.Columns.Add("WORKKBN", GetType(String))
+            WW_T0005tbl.Columns.Add("SHUKABASHO", GetType(String))
+
+            Dim SQLStr As String = ""
+            'DataBase接続文字
+            Dim SQLcon As SqlConnection = CS0050Session.getConnection
+            SQLcon.Open() 'DataBase接続(Open)
+
+            '検索SQL文
+            SQLStr =
+                 " select isnull(WORKKBN,'')    as WORKKBN " _
+               & "       ,isnull(SHUKABASHO,'') as SHUKABASHO " _
+               & "  from  T0005_NIPPO A " _
+               & " where  CAMPCODE      =    @CAMPCODE " _
+               & "   and  SHIPORG       =    @SHIPORG " _
+               & "   and  YMD           =    @YMD " _
+               & "   and  STAFFCODE     =    @STAFFCODE " _
+               & "   and  DELFLG        <>   '1'  " _
+               & " order by STDATE DESC, STTIME DESC, ENDDATE DESC, ENDTIME DESC, WORKKBN "
+
+            Dim SQLcmd As New SqlCommand(SQLStr, SQLcon)
+
+            Dim PARA01 As SqlParameter = SQLcmd.Parameters.Add("@CAMPCODE", System.Data.SqlDbType.NVarChar)
+            Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@SHIPORG", System.Data.SqlDbType.NVarChar)
+            Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@YMD", System.Data.SqlDbType.NVarChar)
+            Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@STAFFCODE", System.Data.SqlDbType.NVarChar)
+
+            PARA01.Value = iCAMP
+            PARA02.Value = iSHIPORG
+            PARA03.Value = iYMD
+            PARA04.Value = iSTAFFCODE
+
+            '■SQL実行
+            Dim SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
+
+            WW_T0005tbl.Load(SQLdr)
+
+            Dim WW_B2CNT As Integer = 0
+            Dim WW_B3CNT As Integer = 0
+            For Each T5row As DataRow In WW_T0005tbl.Rows
+                If T5row("WORKKBN") = "B3" Then
+                    WW_B3CNT += 1
+                    If WW_B2CNT = 0 Then
+                        oTUMI = "0"
+                        Exit For
+                    End If
+                End If
+                If T5row("WORKKBN") = "B2" Then
+                    WW_B2CNT += 1
+                    '積置きの判定
+                    If WW_B3CNT = 0 Then
+                        If T5row("SHUKABASHO") = iSHUKABASHO Then
+                            oTUMI = "1"
+                            Exit For
+                        End If
+                    End If
+                End If
+            Next
+
+            SQLdr.Close()
+            SQLdr = Nothing
+
+            SQLcmd.Dispose()
+            SQLcmd = Nothing
+
+            SQLcon.Close() 'DataBase接続(Close)
+            SQLcon.Dispose()
+            SQLcon = Nothing
+
+            WW_T0005tbl.Dispose()
+            WW_T0005tbl = Nothing
+        Catch ex As Exception
+            CS0011LOGWRITE.INFSUBCLASS = "T0005_NIPPO"                'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "T0005_NIPPO SELECT"
+            CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+            CS0011LOGWRITE.TEXT = ex.ToString()
+            CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+            CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+
+            oRtn = C_MESSAGE_NO.DB_ERROR
+            Exit Sub
+        End Try
 
     End Sub
 
