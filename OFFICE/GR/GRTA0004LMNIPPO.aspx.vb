@@ -4339,12 +4339,12 @@ Public Class GRTA0004LMNIPPO
 
                 '検索SQL文
                 Dim SQLStr As New StringBuilder(1000)
-                SQLStr.AppendLine(" SELECT CODE                              ")
+                SQLStr.AppendLine(" SELECT GRCODE01                          ")
                 SQLStr.AppendLine(" FROM   M0006_STRUCT    M06               ")
                 SQLStr.AppendLine(" WHERE  M06.CAMPCODE     = @P01           ")
                 SQLStr.AppendLine("   AND  M06.OBJECT       = 'ORG'          ")
                 SQLStr.AppendLine("   AND  M06.STRUCT       = '勤怠管理組織' ")
-                SQLStr.AppendLine("   AND  M06.GRCODE01     = @P02           ")
+                SQLStr.AppendLine("   AND  M06.CODE         = @P02           ")
                 SQLStr.AppendLine("   AND  M06.STYMD       <= @P04           ")
                 SQLStr.AppendLine("   AND  M06.ENDYMD      >= @P03           ")
                 SQLStr.AppendLine("   AND  M06.DELFLG      <> '1'            ")
@@ -4361,7 +4361,7 @@ Public Class GRTA0004LMNIPPO
                     Using SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
 
                         While SQLdr.Read
-                            O_ORG = SQLdr("CODE")
+                            O_ORG = SQLdr("GRCODE01")
                         End While
 
                     End Using
