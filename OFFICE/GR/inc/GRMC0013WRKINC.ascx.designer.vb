@@ -12,7 +12,7 @@ Option Explicit On
 
 
 Partial Public Class GRMC0013WRKINC
-    
+
     '''<summary>
     '''WF_SEL_CAMPCODE コントロール。
     '''</summary>
@@ -20,8 +20,8 @@ Partial Public Class GRMC0013WRKINC
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_SEL_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_SEL_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
     '''WF_SEL_STYMD コントロール。
     '''</summary>
@@ -29,8 +29,8 @@ Partial Public Class GRMC0013WRKINC
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_SEL_STYMD As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_SEL_STYMD As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
     '''WF_SEL_ENDYMD コントロール。
     '''</summary>
@@ -38,5 +38,5 @@ Partial Public Class GRMC0013WRKINC
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_SEL_ENDYMD As Global.System.Web.UI.WebControls.TextBox
+    Public WithEvents WF_SEL_ENDYMD As Global.System.Web.UI.WebControls.TextBox
 End Class
