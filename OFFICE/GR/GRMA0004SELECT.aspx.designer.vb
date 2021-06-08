@@ -266,6 +266,42 @@ Partial Public Class GRMA0004SELECT
     Protected WithEvents WF_SW2 As Global.System.Web.UI.WebControls.RadioButton
     
     '''<summary>
+    '''WF_NENDO_CREATE コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_NENDO_CREATE As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_SORG_CREATE コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_SORG_CREATE As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_SORG_CREATE_Text コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_SORG_CREATE_Text As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''WF_MESSAGE_CREATE_Text コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_MESSAGE_CREATE_Text As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''WF_FIELD コントロール。
     '''</summary>
     '''<remarks>

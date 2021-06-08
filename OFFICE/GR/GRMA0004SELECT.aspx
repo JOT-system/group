@@ -147,6 +147,30 @@
                 <asp:RadioButton ID="WF_SW2" runat="server" GroupName="WF_SW" Text=" 履歴" Width="5em" />
             </a>
 
+            <div  style="position:fixed;top:26.4em;left:37.4em;right:57em; height:9.5em; border:1px solid;width:25em; background-color:whitesmoke;">
+                <!-- 　翌年度分作成　 -->
+                <a style="position:fixed;top:29.4em;left:38em;">年度</a>
+                <a style="position:fixed;top:31.6em;left:38em;">設置部署</a>
+                <a style="position:fixed;top:33.8em;left:38em;">メッセージ：</a>
+
+                <a style="position:fixed;top:27.3em;left:44em;">
+                    <input type="button" id="WF_ButtonCREATE" value="翌年度分作成"  style="Width:7.5em" onclick="ButtonClick('WF_ButtonCREATE');" />
+                </a>
+                <a style="position:fixed;top:29.4em;left:44em;">
+                    <asp:TextBox ID="WF_NENDO_CREATE" runat="server" Height="1.4em" Width="10em" onblur="MsgClear()"></asp:TextBox>
+                </a>
+                <a style="position:fixed;top:31.6em;left:44em;" ondblclick="Field_DBclick('WF_SORG_CREATE', <%= LIST_BOX_CLASSIFICATION.LC_ORG%>)" onchange="TextBox_change('WF_SORG_CREATE')">
+                    <asp:TextBox ID="WF_SORG_CREATE" runat="server" Height="1.4em" Width="10em" onblur="MsgClear()"></asp:TextBox>
+                </a>
+                <a style="position:fixed;top:31.6em;left:53em;">
+                    <asp:Label ID="WF_SORG_CREATE_Text" runat="server" Text="" Width="17em" CssClass="WF_TEXT"></asp:Label>
+                </a>
+                <a style="position:fixed;top:33.8em;left:44em;">
+                    <asp:Label ID="WF_MESSAGE_CREATE_Text" runat="server" Text="" Width="27em" ForeColor="Red"></asp:Label>
+                </a>
+            </div>
+
+
             <a hidden="hidden">
                 <input id="WF_FIELD"  runat="server" value=""  type="text" />               <!-- Textbox DBクリックフィールド -->
                 <input id="WF_SelectedIndex" runat="server" value="" type="text"/>          <!-- Textbox DBクリックフィールド -->
