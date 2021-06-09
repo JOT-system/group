@@ -142,6 +142,8 @@
     <Content Include="GR\css\MC0013.css" />
     <Content Include="GR\css\MD0002.css" />
     <Content Include="GR\css\MD0002S.css" />
+    <Content Include="GR\css\T00015S.css" />
+    <Content Include="GR\css\T00015.css" />
     <Content Include="GR\css\T00004.css" />
     <Content Include="GR\css\T00004S.css" />
     <Content Include="GR\css\T00006.css" />
@@ -286,7 +288,9 @@
     <Content Include="GR\GRMD0002PRODORG.aspx" />
     <Content Include="GR\GRMD0002SELECT.aspx" />
     <Content Include="GR\GRMC0013SELECT.aspx" />
+    <Content Include="GR\GRT00015SUPPLJISSKI.aspx" />
     <Content Include="GR\GRT00004HORDER.aspx" />
+    <Content Include="GR\GRT00015SELECT.aspx" />
     <Content Include="GR\GRT00004SELECT.aspx" />
     <Content Include="GR\GRT00005IMPORT.aspx" />
     <Content Include="GR\GRT00005NIPPO.aspx" />
@@ -369,6 +373,7 @@
     <Content Include="GR\inc\GRMC0007WRKINC.ascx" />
     <Content Include="GR\inc\GRMC0012WRKINC.ascx" />
     <Content Include="GR\inc\GRMC0013WRKINC.ascx" />
+    <Content Include="GR\inc\GRT00015WRKINC.ascx" />
     <Content Include="GR\inc\GRT00004WRKINC.ascx" />
     <Content Include="GR\inc\GRT00006WRKINC.ascx" />
     <Content Include="GR\inc\GRT00014WRKINC.ascx" />
@@ -463,6 +468,8 @@
     <Content Include="GR\script\MC0007S.js" />
     <Content Include="GR\script\MC0012.js" />
     <Content Include="GR\script\MC0012S.js" />
+    <Content Include="GR\script\T00015.js" />
+    <Content Include="GR\script\T00015S.js" />
     <Content Include="GR\script\T00006.js" />
     <Content Include="GR\script\T00006S.js" />
     <Content Include="GR\script\T00007.js" />
@@ -1014,12 +1021,27 @@
       <DependentUpon>GRMC0013SELECT.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="GR\GRT00015COM.vb" />
     <Compile Include="GR\GRT00004COM.vb" />
+    <Compile Include="GR\GRT00015SUPPLJISSKI.aspx.designer.vb">
+      <DependentUpon>GRT00015SUPPLJISSKI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRT00015SUPPLJISSKI.aspx.vb">
+      <DependentUpon>GRT00015SUPPLJISSKI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="GR\GRT00004HORDER.aspx.designer.vb">
       <DependentUpon>GRT00004HORDER.aspx</DependentUpon>
     </Compile>
     <Compile Include="GR\GRT00004HORDER.aspx.vb">
       <DependentUpon>GRT00004HORDER.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\GRT00015SELECT.aspx.designer.vb">
+      <DependentUpon>GRT00015SELECT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRT00015SELECT.aspx.vb">
+      <DependentUpon>GRT00015SELECT.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GR\GRT00004SELECT.aspx.designer.vb">
@@ -1600,6 +1622,13 @@
     </Compile>
     <Compile Include="GR\inc\GRMC0013WRKINC.ascx.vb">
       <DependentUpon>GRMC0013WRKINC.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\inc\GRT00015WRKINC.ascx.designer.vb">
+      <DependentUpon>GRT00015WRKINC.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\inc\GRT00015WRKINC.ascx.vb">
+      <DependentUpon>GRT00015WRKINC.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GR\inc\GRT00004WRKINC.ascx.designer.vb">
