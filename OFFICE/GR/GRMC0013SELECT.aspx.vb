@@ -51,6 +51,8 @@ Public Class GRMC0013SELECT
             Initialize()
         End If
     End Sub
+
+
     ''' <summary>
     ''' 初期化処理
     ''' </summary>
@@ -69,6 +71,7 @@ Public Class GRMC0013SELECT
 
     End Sub
 
+
     ''' <summary>
     ''' 終了ボタン処理
     ''' </summary>
@@ -78,6 +81,7 @@ Public Class GRMC0013SELECT
         Master.TransitionPrevPage()
 
     End Sub
+
 
     ''' <summary>
     ''' 実行ボタン処理
@@ -89,6 +93,9 @@ Public Class GRMC0013SELECT
 
         '○入力文字置き換え(使用禁止文字排除)
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
+        Master.EraseCharToIgnore(WF_TORICODE.Text)          '取引先コード
+        Master.EraseCharToIgnore(WF_OILTYPEGRP.Text)        '運賃計算油種グループ
+        Master.EraseCharToIgnore(WF_URIHIYOKBN.Text)        '売上費用区分コード
         Master.EraseCharToIgnore(WF_STYMD.Text)             '有効年月日(From)
         Master.EraseCharToIgnore(WF_ENDYMD.Text)            '有効年月日(To)
 
@@ -100,7 +107,11 @@ Public Class GRMC0013SELECT
 
         '○条件選択画面の入力値退避
         work.WF_SEL_CAMPCODE.Text = WF_CAMPCODE.Text        '会社コード
+        work.WF_SEL_TORICODE.Text = WF_TORICODE.Text        '取引先コード
+        work.WF_SEL_OILTYPEGRP.Text = WF_OILTYPEGRP.Text    '運賃計算油種グループ
+        work.WF_SEL_URIHIYOKBN.Text = WF_URIHIYOKBN.Text    '売上費用区分
         work.WF_SEL_STYMD.Text = WF_STYMD.Text              '有効年月日
+
         If WF_ENDYMD.Text = "" Then
             work.WF_SEL_ENDYMD.Text = WF_STYMD.Text
         Else
@@ -141,6 +152,21 @@ Public Class GRMC0013SELECT
                 WF_CAMPCODE.Text = WW_SelectValue
                 WF_CAMPCODE.Focus()
 
+            Case "WF_TORICODE"          '取引先コード
+                WF_TORICODE_TEXT.Text = WW_SelectTEXT
+                WF_TORICODE.Text = WW_SelectValue
+                WF_TORICODE.Focus()
+
+            Case "WF_OILTYPEGRP"          '運賃計算油種グループ
+                WF_OILTYPEGRP_TEXT.Text = WW_SelectTEXT
+                WF_OILTYPEGRP.Text = WW_SelectValue
+                WF_OILTYPEGRP.Focus()
+
+            Case "WF_URIHIYOKBN"          '売上費用区分
+                WF_URIHIYOKBN_TEXT.Text = WW_SelectTEXT
+                WF_URIHIYOKBN.Text = WW_SelectValue
+                WF_URIHIYOKBN.Focus()
+
             Case "WF_STYMD"             '有効年月日(From)
                 Dim WW_DATE As Date
                 Try
@@ -175,6 +201,8 @@ Public Class GRMC0013SELECT
         WF_LeftMViewChange.Value = ""
 
     End Sub
+
+
     ''' <summary>
     ''' 左リストボックスダブルクリック処理
     ''' </summary>
@@ -184,6 +212,8 @@ Public Class GRMC0013SELECT
         WF_ButtonSel_Click()
         WW_LeftBoxReSet()
     End Sub
+
+
     ''' <summary>
     ''' ○TextBox変更時処理
     ''' </summary>
@@ -191,6 +221,8 @@ Public Class GRMC0013SELECT
     Protected Sub WF_LEFTBOX_SELECT_CLICK()
         WW_LeftBoxReSet()
     End Sub
+
+
     ''' <summary>
     ''' 右リストボックスダブルクリック処理
     ''' </summary>
@@ -198,6 +230,8 @@ Public Class GRMC0013SELECT
     Protected Sub WF_RIGHTBOX_DBClick()
         rightview.InitViewID(work.WF_SEL_CAMPCODE.Text, WW_DUMMY)
     End Sub
+
+
     ''' <summary>
     ''' 右リストボックスMEMO欄更新
     ''' </summary>
@@ -206,6 +240,8 @@ Public Class GRMC0013SELECT
         '○右Boxメモ変更時処理
         rightview.Save(Master.USERID, Master.USERTERMID, WW_DUMMY)
     End Sub
+
+
     ''' <summary>
     ''' 左ボックスフィールドダブルクリック時
     ''' </summary>
@@ -220,7 +256,18 @@ Public Class GRMC0013SELECT
             End Try
             With leftview
                 If WF_LeftMViewChange.Value <> LIST_BOX_CLASSIFICATION.LC_CALENDAR Then
-                    Dim prmData As Hashtable = work.CreateFIXParam(WF_CAMPCODE.Text)
+                    Dim prmData As New Hashtable
+                    prmData.Item(C_PARAMETERS.LP_COMPANY) = WF_CAMPCODE.Text
+
+                    'フィールドによってパラメーターを変える
+                    Select Case WF_FIELD.Value
+                        Case "WF_TORICODE"          '取引先
+                            prmData = work.CreateTORIParam(WF_CAMPCODE.Text)
+                        Case "WF_OILTYPEGRP"       '運賃計算油種グループ
+                            prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "OILTYPEGRP")
+                        Case "WF_URIHIYOKBN"       '売上費用区分
+                            prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "URIHIYOKBN")
+                    End Select
 
                     .SetListBox(WF_LeftMViewChange.Value, WW_DUMMY, prmData)
                     .ActiveListBox()
@@ -238,6 +285,7 @@ Public Class GRMC0013SELECT
         End If
     End Sub
 
+
     ''' <summary>
     ''' 左ボックスキャンセルボタン押下時処理
     ''' </summary>
@@ -248,6 +296,12 @@ Public Class GRMC0013SELECT
         Select Case WF_FIELD.Value
             Case "WF_CAMPCODE"          '会社コード
                 WF_CAMPCODE.Focus()
+            Case "WF_TORICODE"          '取引先コード
+                WF_TORICODE.Focus()
+            Case "WF_OILTYPEGRP"        '運賃計算油種グループ
+                WF_OILTYPEGRP.Focus()
+            Case "WF_URIHIYOKBN"        '売上費用区分
+                WF_URIHIYOKBN.Focus()
             Case "WF_STYMD"             '有効年月日(From)
                 WF_STYMD.Focus()
             Case "WF_ENDYMD"            '有効年月日(To)
@@ -260,6 +314,8 @@ Public Class GRMC0013SELECT
         WF_LeftMViewChange.Value = ""
 
     End Sub
+
+
     ''' <summary>
     ''' TextBox変更時LeftBox設定処理
     ''' </summary>
@@ -270,6 +326,9 @@ Public Class GRMC0013SELECT
 
         '○入力文字置き換え(使用禁止文字排除)
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
+        Master.EraseCharToIgnore(WF_TORICODE.Text)          '取引先コード
+        Master.EraseCharToIgnore(WF_OILTYPEGRP.Text)        '運賃計算油種グループ
+        Master.EraseCharToIgnore(WF_URIHIYOKBN.Text)        '売上費用区分
         Master.EraseCharToIgnore(WF_STYMD.Text)             '有効年月日(From)
         Master.EraseCharToIgnore(WF_ENDYMD.Text)            '有効年月日(To)
 
@@ -278,8 +337,13 @@ Public Class GRMC0013SELECT
 
         '○名称設定
         leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)          '会社コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_DUMMY, work.CreateTORIParam(WF_CAMPCODE.Text))                                   '取引先(From)
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_OILTYPEGRP.Text, WF_OILTYPEGRP_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "OILTYPEGRP"))                                   '取引先(From)
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_URIHIYOKBN.Text, WF_URIHIYOKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "URIHIYOKBN"))                                   '取引先(From)
 
     End Sub
+
+
     ' ******************************************************************************
     ' ***  共通処理                                                              ***
     ' ******************************************************************************
@@ -290,12 +354,15 @@ Public Class GRMC0013SELECT
     ''' <remarks></remarks>
     Protected Sub WW_MAPValueSet()
 
-        If Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.MENU Then               'メニューからの画面遷移
+        If Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.MENU Then                       'メニューからの画面遷移
             '○ワーク初期化
             work.Initialize()
 
             '○初期変数設定処理
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "CAMPCODE", WF_CAMPCODE.Text)       '会社コード
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "TORICODE", WF_TORICODE.Text)       '会社コード
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "OILTYPEGRP", WF_OILTYPEGRP.Text)   '会社コード
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "URIHIYOKBN", WF_URIHIYOKBN.Text)   '会社コード
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "STYMD", WF_STYMD.Text)             '有効年月日(From)
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "ENDYMD", WF_ENDYMD.Text)           '有効年月日(To)
 
@@ -312,6 +379,9 @@ Public Class GRMC0013SELECT
         ElseIf Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.MD0001 Then         '実行画面からの画面遷移
             '○画面項目設定処理                                       
             WF_CAMPCODE.Text = work.WF_SEL_CAMPCODE.Text        '会社コード                            
+            WF_TORICODE.Text = work.WF_SEL_TORICODE.Text        '会社コード                            
+            WF_OILTYPEGRP.Text = work.WF_SEL_OILTYPEGRP.Text    '会社コード                            
+            WF_URIHIYOKBN.Text = work.WF_SEL_URIHIYOKBN.Text    '会社コード                            
             WF_STYMD.Text = work.WF_SEL_STYMD.Text              '有効年月日(From)
             WF_ENDYMD.Text = work.WF_SEL_ENDYMD.Text            '有効年月日(To)
 
@@ -329,8 +399,12 @@ Public Class GRMC0013SELECT
 
         '○名称設定処理
         leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)          '会社コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_DUMMY, work.CreateTORIParam(WF_CAMPCODE.Text))                                   '取引先(From)
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_OILTYPEGRP.Text, WF_OILTYPEGRP_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "OILTYPEGRP"))                                   '取引先(From)
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_URIHIYOKBN.Text, WF_URIHIYOKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "URIHIYOKBN"))                                   '取引先(From)
 
     End Sub
+
 
     ''' <summary>
     ''' 単項目チェック処理
@@ -370,6 +444,78 @@ Public Class GRMC0013SELECT
             O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
             Exit Sub
         End If
+
+        '取引先コード WF_TORICODE.Text
+        WW_TEXT = WF_TORICODE.Text
+        Master.CheckField(WF_TORICODE.Text, "TORICODE", WF_TORICODE.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+        If isNormal(WW_CS0024FCHECKERR) Then
+            '存在チェック
+            If WW_TEXT = "" Then
+                WF_TORICODE.Text = ""
+            Else
+                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_RTN_SW, work.CreateTORIParam(WF_CAMPCODE.Text))
+                If Not isNormal(WW_RTN_SW) Then
+                    Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
+                    WF_TORICODE.Focus()
+                    O_RTN = WW_RTN_SW
+                    Exit Sub
+                End If
+            End If
+        Else
+            Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
+            WF_TORICODE.Focus()
+            O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
+            Exit Sub
+        End If
+
+
+        '運賃計算油種グループ WF_OILTYPEGRP.Text
+        WW_TEXT = WF_OILTYPEGRP.Text
+        Master.CheckField(WF_OILTYPEGRP.Text, "OILTYPEGRP", WF_OILTYPEGRP.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+        If isNormal(WW_CS0024FCHECKERR) Then
+            '存在チェック
+            If WW_TEXT = "" Then
+                WF_OILTYPEGRP.Text = ""
+            Else
+                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_OILTYPEGRP.Text, WF_OILTYPEGRP_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text, "OILTYPEGRP"))
+                If Not isNormal(WW_RTN_SW) Then
+                    Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
+                    WF_OILTYPEGRP.Focus()
+                    O_RTN = WW_RTN_SW
+                    Exit Sub
+                End If
+            End If
+        Else
+            Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
+            WF_OILTYPEGRP.Focus()
+            O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
+            Exit Sub
+        End If
+
+
+        '売上費用区分 WF_URIHIYOKBN.Text
+        WW_TEXT = WF_URIHIYOKBN.Text
+        Master.CheckField(WF_URIHIYOKBN.Text, "URIHIYOKBN", WF_URIHIYOKBN.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+        If isNormal(WW_CS0024FCHECKERR) Then
+            '存在チェック
+            If WW_TEXT = "" Then
+                WF_URIHIYOKBN.Text = ""
+            Else
+                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_URIHIYOKBN.Text, WF_URIHIYOKBN_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text, "URIHIYOKBN"))
+                If Not isNormal(WW_RTN_SW) Then
+                    Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
+                    WF_URIHIYOKBN.Focus()
+                    O_RTN = WW_RTN_SW
+                    Exit Sub
+                End If
+            End If
+        Else
+            Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
+            WF_URIHIYOKBN.Focus()
+            O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
+            Exit Sub
+        End If
+
 
         '有効年月日(From) WF_STYMD.Text
         Master.CheckField(work.WF_SEL_CAMPCODE.Text, "STYMD", WF_STYMD.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)

@@ -29,18 +29,16 @@ Public Class GRMC0013WRKINC
     End Function
 
     ''' <summary>
-    ''' 品名１一覧の取得
+    ''' 取引先一覧の取得
     ''' </summary>
-    ''' <param name="CAMPCODE"></param>
-    ''' <param name="OILTYPE"></param>
+    ''' <param name="COMPCODE"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
-    Function CreateGoods1Param(ByVal CAMPCODE As String, ByVal OILTYPE As String) As Hashtable
+    ''' <remarks>全て</remarks>
+    Function CreateTORIParam(ByVal COMPCODE As String) As Hashtable
         Dim prmData As New Hashtable
-        prmData.Item(C_PARAMETERS.LP_TYPEMODE) = GL0006GoodsList.LC_GOODS_TYPE.GOODS1_MST
-        prmData.Item(C_PARAMETERS.LP_COMPANY) = CAMPCODE
-        prmData.Item(C_PARAMETERS.LP_OILTYPE) = OILTYPE
-        CreateGoods1Param = prmData
+        prmData.Item(C_PARAMETERS.LP_COMPANY) = COMPCODE
+        prmData.Item(C_PARAMETERS.LP_TYPEMODE) = GL0003CustomerList.LC_CUSTOMER_TYPE.ALL
+        CreateTORIParam = prmData
     End Function
 
 End Class
