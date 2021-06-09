@@ -275,6 +275,16 @@ Public Module PrevDispMap
         ''' 出荷地・届先別モデル距離（実行）
         ''' </summary>
         Public Const MC0012 As String = "ASP.GR_GRMC0012MODEL_ASPX"
+
+        ''' <summary>
+        ''' 荷主運賃決定マスタ（条件）
+        ''' </summary>
+        Public Const MC0013S As String = "ASP.GR_GRMC0013SELECT_ASPX"
+        ''' <summary>
+        ''' 荷主運賃決定マスタ（実行）
+        ''' </summary>
+        Public Const MC0013 As String = "ASP.GR_GRMC0013UNTINKETEI_ASPX"
+
         ''' <summary>
         ''' 品名マスタ（条件）
         ''' </summary>
