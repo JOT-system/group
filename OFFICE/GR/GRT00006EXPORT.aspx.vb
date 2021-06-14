@@ -197,23 +197,26 @@ Public Class GRT00006EXPORT
             WF_ButtonPutPlan.Visible = False
             WF_ButtonPutShipper.Visible = False
         End If
-        T5Com = Nothing
 
         If work.WF_SEL_CAMPCODE.Text = GRT00004WRKINC.C_CAMPCODE.ENEX Then
             WF_ButtonPutShipper.Value = "光英送信(JX白)"
         End If
 
         '当日以前の場合、ボタンを非活性（過去分は送信しない）
-        'JKTのみ条件を外す（2021/04/13）
+        'JKTは条件を外す（2021/04/13）
+        'ENEX袖ケ浦は条件を外す（2021/06/14）
         If work.WF_SEL_CAMPCODE.Text <> GRT00004WRKINC.C_CAMPCODE.JKT Then
-            If work.WF_SEL_SHUKODATEF.Text < Date.Now.ToString("yyyy/MM/dd") Then
-                WF_IsHideKoueiButton.Value = "1"
-                WF_ButtonPutPlan.Disabled = True
-                WF_ButtonPutShipper.Disabled = True
-                WF_ButtonCSV.Disabled = True
-                WF_ButtonLOCAL.Disabled = True
+            If Not T5Com.IsKoueiAvailableOrg(work.WF_SEL_CAMPCODE.Text, work.WF_SEL_SHIPORG.Text, GRT00006WRKINC.C_SENDPERMIT, WW_ERRCODE) Then
+                If work.WF_SEL_SHUKODATEF.Text < Date.Now.ToString("yyyy/MM/dd") Then
+                    WF_IsHideKoueiButton.Value = "1"
+                    WF_ButtonPutPlan.Disabled = True
+                    WF_ButtonPutShipper.Disabled = True
+                    WF_ButtonCSV.Disabled = True
+                    WF_ButtonLOCAL.Disabled = True
+                End If
             End If
         End If
+        T5Com = Nothing
 
 
 

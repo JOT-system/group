@@ -11,6 +11,7 @@ Public Class GRT00006WRKINC
     Public Const C_COMP_NJS As String = "04"                               '会社コード（NJS)
     Public Const C_COMP_JKT As String = "05"                               '会社コード（JKT)
     Public Const C_KOUEI_CLASS_CODE As String = "T00006_KOUEIORG"   '光英連携可否判定用FIXVAL KEY
+    Public Const C_SENDPERMIT As String = "T00006_SENDORG"          '過去データ送信許可判定用FIXVAL KEY
     ''' <summary>
     ''' ワークデータ初期化処理
     ''' </summary>
