@@ -11,8 +11,8 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class GRMA0004WRKINC
-
+Partial Public Class GRT00015WRKINC
+    
     '''<summary>
     '''WF_SEL_CAMPCODE コントロール。
     '''</summary>
@@ -21,148 +21,103 @@ Partial Public Class GRMA0004WRKINC
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Public WithEvents WF_SEL_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
-    '''WF_SEL_YYF コントロール。
+    '''WF_SEL_SHUKODATEF コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_YYF As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_SHUKODATEF As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_YYT コントロール。
+    '''WF_SEL_SHUKODATET コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_YYT As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_SHUKODATET As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_MORG コントロール。
+    '''WF_SEL_SHUKADATEF コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_MORG As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_SHUKADATEF As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_SORG コントロール。
+    '''WF_SEL_SHUKADATET コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_SORG As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_SHUKADATET As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_OILTYPE1 コントロール。
+    '''WF_SEL_TODOKEDATEF コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_OILTYPE1 As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_TODOKEDATEF As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_OILTYPE2 コントロール。
+    '''WF_SEL_TODOKEDATET コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_OILTYPE2 As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_TODOKEDATET As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_OWNCODE1 コントロール。
+    '''WF_SEL_SHIPORG コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_OWNCODE1 As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_SHIPORG As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_OWNCODE2 コントロール。
+    '''WF_SEL_OILTYPE コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_OWNCODE2 As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_OILTYPE As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_SHARYOTYPE1 コントロール。
+    '''WF_SEL_RESTART コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_SHARYOTYPE1 As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_RESTART As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_SHARYOTYPE2 コントロール。
+    '''WF_SEL_XMLsavePARM コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_SHARYOTYPE2 As Global.System.Web.UI.WebControls.TextBox
-
+    Public WithEvents WF_SEL_XMLsavePARM As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
-    '''WF_SEL_SHARYOTYPE3 コントロール。
+    '''WF_SEL_XMLsaveTmp コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_SHARYOTYPE3 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''WF_SEL_SHARYOTYPE4 コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Public WithEvents WF_SEL_SHARYOTYPE4 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''WF_SEL_SHARYOTYPE5 コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Public WithEvents WF_SEL_SHARYOTYPE5 As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''WF_SEL_DISPCHG コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Public WithEvents WF_SEL_DISPCHG As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''WF_SEL_NENDO_CREATE コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Public WithEvents WF_SEL_NENDO_CREATE As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''WF_SEL_SORG_CREATE コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Public WithEvents WF_SEL_SORG_CREATE As Global.System.Web.UI.WebControls.TextBox
+    Public WithEvents WF_SEL_XMLsaveTmp As Global.System.Web.UI.WebControls.TextBox
 End Class
