@@ -2468,7 +2468,9 @@ Public Class GRTA0002KINTAILIST_V2
                            T0010row(WW_SHUKABASHO) <> "" AndAlso
                            T0010row(WW_TODOKECODE) = "" AndAlso
                            T0010row(WW_MODELDISTANCE) = 0 Then
-                            Continue For
+                            If j <> 1 Then
+                                Continue For
+                            End If
                         End If
 
                         If j <> 1 Then
@@ -2476,20 +2478,37 @@ Public Class GRTA0002KINTAILIST_V2
                             SetRowSpece(WW_TA0002row)
                         End If
 
-                        WW_TA0002row("TRIPNO") = j.ToString
-                        WW_TA0002row("SHARYOKBN") = T0010row(WW_SHARYOKBN)
-                        WW_TA0002row("SHARYOKBNNAMES") = T0010row(WW_SHARYOKBNNAME)
-                        WW_TA0002row("PRODUCT1") = T0010row(WW_OILPAYKBN)
-                        WW_TA0002row("PRODUCT1NAMES") = T0010row(WW_OILPAYKBNNAME)
-                        WW_TA0002row("SHUKABASHO") = T0010row(WW_SHUKABASHO)
-                        WW_TA0002row("SHUKABASHONAMES") = T0010row(WW_SHUKABASHONAME)
-                        WW_TA0002row("TODOKECODE") = T0010row(WW_TODOKECODE)
-                        WW_TA0002row("TODOKECODENAMES") = T0010row(WW_TODOKECODENAME)
-                        WW_TA0002row("MODELDISTANCE") = ZeroToSpace(T0010row(WW_MODELDISTANCE))
-                        If T0010row(WW_MODIFYKBN) = "1" Then
-                            WW_TA0002row("MODIFYKBN") = "✔"
+                        'LNGで出荷場所（届先なし）のみでモデル距離がゼロの場合スキップ
+                        If T0010row(WW_OILPAYKBN) = "04" AndAlso
+                           T0010row(WW_SHUKABASHO) <> "" AndAlso
+                           T0010row(WW_TODOKECODE) = "" AndAlso
+                           T0010row(WW_MODELDISTANCE) = 0 Then
+                            WW_TA0002row("TRIPNO") = ""
+                            WW_TA0002row("SHARYOKBN") = ""
+                            WW_TA0002row("SHARYOKBNNAMES") = ""
+                            WW_TA0002row("PRODUCT1") = ""
+                            WW_TA0002row("PRODUCT1NAMES") = ""
+                            WW_TA0002row("SHUKABASHO") = ""
+                            WW_TA0002row("SHUKABASHONAMES") = ""
+                            WW_TA0002row("TODOKECODE") = ""
+                            WW_TA0002row("TODOKECODENAMES") = ""
+                            WW_TA0002row("MODELDISTANCE") = ""
                         Else
-                            WW_TA0002row("MODIFYKBN") = ZeroToSpace(T0010row(WW_MODIFYKBN))
+                            WW_TA0002row("TRIPNO") = j.ToString
+                            WW_TA0002row("SHARYOKBN") = T0010row(WW_SHARYOKBN)
+                            WW_TA0002row("SHARYOKBNNAMES") = T0010row(WW_SHARYOKBNNAME)
+                            WW_TA0002row("PRODUCT1") = T0010row(WW_OILPAYKBN)
+                            WW_TA0002row("PRODUCT1NAMES") = T0010row(WW_OILPAYKBNNAME)
+                            WW_TA0002row("SHUKABASHO") = T0010row(WW_SHUKABASHO)
+                            WW_TA0002row("SHUKABASHONAMES") = T0010row(WW_SHUKABASHONAME)
+                            WW_TA0002row("TODOKECODE") = T0010row(WW_TODOKECODE)
+                            WW_TA0002row("TODOKECODENAMES") = T0010row(WW_TODOKECODENAME)
+                            WW_TA0002row("MODELDISTANCE") = ZeroToSpace(T0010row(WW_MODELDISTANCE))
+                            If T0010row(WW_MODIFYKBN) = "1" Then
+                                WW_TA0002row("MODIFYKBN") = "✔"
+                            Else
+                                WW_TA0002row("MODIFYKBN") = ZeroToSpace(T0010row(WW_MODIFYKBN))
+                            End If
                         End If
                         WW_TA0002tbl.Rows.Add(WW_TA0002row)
                     Next

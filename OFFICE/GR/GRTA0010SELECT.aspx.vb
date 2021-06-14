@@ -159,7 +159,8 @@ Public Class GRTA0010SELECT
     Protected Sub WF_ButtonDO_Click()
 
         ' 権限確認
-        If Not Master.MAPvariant.Equals("Default") AndAlso Not Master.MAPvariant.EndsWith("管理") Then
+        If Not Master.MAPvariant.Equals("Default") AndAlso
+           Not (Master.MAPvariant.EndsWith("管理") OrElse Master.MAPvariant.EndsWith("勤怠担当")) Then
             Master.Output(C_MESSAGE_NO.AUTHORIZATION_ERROR, C_MESSAGE_TYPE.ERR, "管理ユーザでなければいけません。")
             Master.ShowMessage()
             Exit Sub
@@ -250,6 +251,7 @@ Public Class GRTA0010SELECT
 
         Dim selectValue As String = ""
         Dim selectText As String = ""
+        Dim WW_SelectValues As String() = Nothing
 
         ' 選択内容を取得
         If leftview.WF_LeftListBox.SelectedIndex >= 0 Then
@@ -265,12 +267,22 @@ Public Class GRTA0010SELECT
                 WF_CAMPCODE_Text.Text = selectText
                 WF_CAMPCODE.Focus()
             Case WF_TAISHOYM.ID         ' 年月
-                Dim wDate As Date
-                If Date.TryParse(selectValue, wDate) AndAlso wDate >= C_DEFAULT_YMD Then
-                    WF_TAISHOYM.Text = wDate.ToString("yyyy/MM")
-                Else
-                    WF_TAISHOYM.Text = ""
+                If Not IsNothing(leftview.GetActiveValue) Then
+                    WW_SelectValues = leftview.GetActiveValue
                 End If
+                Dim wDate As Date
+                'If Date.TryParse(selectValue, wDate) AndAlso wDate >= C_DEFAULT_YMD Then
+                '    WF_TAISHOYM.Text = wDate.ToString("yyyy/MM")
+                'Else
+                '    WF_TAISHOYM.Text = ""
+                'End If
+
+                Try
+                    Date.TryParse(WW_SelectValues(0), wDate)
+                    WF_TAISHOYM.Text = wDate.ToString("yyyy/MM")
+                Catch ex As Exception
+                End Try
+
                 WF_TAISHOYM.Focus()
             Case WF_ORG.ID              ' 部署
                 WF_ORG.Text = selectValue

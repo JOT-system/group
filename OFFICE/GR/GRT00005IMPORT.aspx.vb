@@ -7492,6 +7492,12 @@ Public Class GRT00005IMPORT
                     If work.WF_SEL_CAMPCODE.Text = GRT00005WRKINC.C_COMP_NJS Then
                         If T0005INProw("TODOKECODE") = "" Then
                             T0005INProw("TODOKECODE") = GRT00005WRKINC.C_TODOKECODE_NJS_DUMMY
+                        Else
+                            'マスターに存在しない場合、ダミーコードに置き換え 2021/04/23
+                            CodeToName("TODOKECODE", T0005INProw("TODOKECODE"), WW_TEXT, WW_DUMMY)
+                            If WW_TEXT = "" Then
+                                T0005INProw("TODOKECODE") = GRT00005WRKINC.C_TODOKECODE_NJS_DUMMY
+                            End If
                         End If
                     End If
                     '2020/10/29 ADD END
@@ -7745,20 +7751,29 @@ Public Class GRT00005IMPORT
                             T0005INProw("SHUKABASHO") = ""
                         End If
                         'NJSの場合、最終的に届先部署マスタを検索し救済（それでもダメな場合ダミーコード）
-                        If T0005INProw("SHUKABASHO") = "" And T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
-                            GetShukaBashoNJS(T0005INProw, WW_RTN)
-                            If isNormal(WW_RTN) Then
-                                '2020/10/29 UPDATE
-                                If T0005INProw("SHUKABASHO") = "" Then
+                        If T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
+                            If T0005INProw("SHUKABASHO") = "" Then
+                                GetShukaBashoNJS(T0005INProw, WW_RTN)
+                                If isNormal(WW_RTN) Then
+                                    '2020/10/29 UPDATE
+                                    If T0005INProw("SHUKABASHO") = "" Then
+                                        T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                                    End If
+                                    '2020/10/29 UPDATE END
+                                Else
+                                    '2020/10/29 UPDATE
                                     T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                                    '2020/10/29 UPDATE END
                                 End If
-                                '2020/10/29 UPDATE END
-                            Else
-                                '2020/10/29 UPDATE
-                                T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
-                                '2020/10/29 UPDATE END
                             End If
                         End If
+                    End If
+                End If
+                'NJSの場合、最終的にマスタに存在しない出荷場所はダミーを設定
+                If T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
+                    CodeToName("SHUKABASHO", T0005INProw("SHUKABASHO"), WW_TEXT, WW_DUMMY)
+                    If WW_TEXT = "" Then
+                        T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
                     End If
                 End If
 
@@ -7786,18 +7801,25 @@ Public Class GRT00005IMPORT
                 End If
                 'NJSの場合、最終的に届先部署マスタを検索し救済
                 Dim WW_RTN As String = C_MESSAGE_NO.NORMAL
-                If T0005INProw("SHUKABASHO") = "" And T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
-                    GetShukaBashoNJS(T0005INProw, WW_RTN)
-                    If isNormal(WW_RTN) Then
-                        '2020/10/29 UPDATE
-                        If T0005INProw("SHUKABASHO") = "" Then
+                If T0005INProw("CAMPCODE") = GRT00005WRKINC.C_COMP_NJS Then
+                    If T0005INProw("SHUKABASHO") = "" Then
+                        GetShukaBashoNJS(T0005INProw, WW_RTN)
+                        If isNormal(WW_RTN) Then
+                            '2020/10/29 UPDATE
+                            If T0005INProw("SHUKABASHO") = "" Then
+                                T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                            End If
+                            '2020/10/29 UPDATE END
+                        Else
+                            '2020/10/29 UPDATE
+                            T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
+                            '2020/10/29 UPDATE END
+                        End If
+                    Else
+                        CodeToName("SHUKABASHO", T0005INProw("SHUKABASHO"), WW_TEXT, WW_DUMMY)
+                        If WW_TEXT = "" Then
                             T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
                         End If
-                        '2020/10/29 UPDATE END
-                    Else
-                        '2020/10/29 UPDATE
-                        T0005INProw("SHUKABASHO") = GRT00005WRKINC.C_SHUKABASHO_NJS_DUMMY
-                        '2020/10/29 UPDATE END
                     End If
                 End If
 
