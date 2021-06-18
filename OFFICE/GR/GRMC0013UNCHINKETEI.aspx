@@ -18,7 +18,7 @@
 
 <asp:Content ID="GRMC0013" ContentPlaceHolderID="contents1" runat="server">
         <!-- 全体レイアウト　headerbox -->
-        <div  class="headerbox" id="headerbox">
+        <div  class="headerbox" id="headerbox" >
             <div class="Operation">
 
                 <!-- ■　管理部署　■ -->
@@ -26,7 +26,7 @@
                     <asp:Label ID="WF_LabelSELMANGORG" runat="server" Text="管理部署" Height="1.5em" Font-Bold="true" Font-Underline="true"></asp:Label>
                 </a>
                 <a ondblclick="Field_DBclick('WF_SELMANGORG', <%=LIST_BOX_CLASSIFICATION.LC_ORG%>)">
-                    <asp:TextBox ID="WF_SELMANGORG" runat="server" Height="1.1em" Width="7em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
+                    <asp:TextBox ID="WF_SELMANGORG" runat="server" MaxLength="20" Height="1.1em" Width="7.1em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
                 </a>
                 <a>
                     <asp:Label ID="WF_SELMANGORG_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
@@ -37,7 +37,7 @@
                     <asp:Label ID="WF_LabelSELSHIPORG" runat="server" Text="出荷部署" Height="1.5em" Font-Bold="true" Font-Underline="true"></asp:Label>
                 </a>
                 <a ondblclick="Field_DBclick('WF_SELSHIPORG', <%=LIST_BOX_CLASSIFICATION.LC_ORG%>)">
-                    <asp:TextBox ID="WF_SELSHIPORG" runat="server" Height="1.1em" Width="7em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
+                    <asp:TextBox ID="WF_SELSHIPORG" runat="server" MaxLength="20" Height="1.1em" Width="7.1em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
                 </a>
                 <a>
                     <asp:Label ID="WF_SELSHIPORG_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
@@ -73,7 +73,7 @@
             </div>
         </div>
         <!-- 全体レイアウト　detailbox -->
-        <div  class="detailbox" id="detailbox">
+        <div  class="detailbox" id="detailbox" >
             <div id="detailbuttonbox" class="detailbuttonbox">
                 <a>
                     <input type="button" id="WF_UPDATE" value="表更新"  style="Width:5em" onclick="ButtonClick('WF_UPDATE');" />
@@ -84,7 +84,7 @@
             </div>
             <div id="detailkeybox">
                 <!-- ■　キー情報疑似フレーム１　■ -->
-                <p id="KEY_LINE_1">
+                <p id="KEY_LINE_1" >
                     <!-- ■　選択No　■ -->
                     <a>
                         <asp:Label ID="WF_LINECNT_LBL" runat="server" Text="選択No" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true"></asp:Label>
@@ -107,21 +107,21 @@
                     <!-- ■　取引先コード　■ -->
                     <a  ondblclick="Field_DBclick('WF_TORICODE', <%=LIST_BOX_CLASSIFICATION.LC_CUSTOMER%>)">
                         <asp:Label ID="WF_TORICODE_LBL" runat="server" Text="取引先コード" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_TORICODE" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:TextBox ID="WF_TORICODE" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         <asp:Label ID="WF_TORICODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
 
                     <!-- ■　運賃計算油種グループ　■ -->
-                    <a ondblclick="Field_DBclick('WF_TODOKECODE', <%=LIST_BOX_CLASSIFICATION.LC_OILTYPE%>)">
-                        <asp:Label ID="WF_OILTYPEGRP_LBL" runat="server" Text="運賃計算油種グループ" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_OILTYPEGRP" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
+                    <a ondblclick="Field_DBclick('WF_OILTYPEGRP', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
+                        <asp:Label ID="WF_OILTYPEGRP_LBL" runat="server" Text="運賃計算油種グループ" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:TextBox ID="WF_OILTYPEGRP" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_OILTYPEGRP_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
 
                     <!-- ■　売上費用区分　■ -->
                     <a ondblclick="Field_DBclick('WF_URIHIYOKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
                         <asp:Label ID="WF_URIHIYOKBN_LBL" runat="server" Text="売上費用区分" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_URIHIYOKBN" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
+                        <asp:TextBox ID="WF_URIHIYOKBN" runat="server" MaxLength="1" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_URIHIYOKBN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                 </p>
@@ -130,27 +130,27 @@
                 <p id="KEY_LINE_4">
 
                     <!-- ■　運賃コード　■ -->
-                    <a ondblclick="Field_DBclick('WF_UNCHINCODE', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                        <asp:Label ID="WF_UNCHINCODE_LBL" runat="server" Text="運賃コード" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_UNCHINCODE" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
+                    <a >
+                        <asp:Label ID="WF_UNCHINCODE_LBL" runat="server" Text="運賃コード" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
+                        <asp:TextBox ID="WF_UNCHINCODE" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                     </a>
 
-                    <!-- ■　有効年月日（開始）　■ -->
+                    <!-- ■　有効年月日  ■ -->
                     <a>
                         <asp:Label ID="WF_YMD_L" runat="server" Text="有効年月日" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
                         <b ondblclick="Field_DBclick('WF_STYMD', <%=LIST_BOX_CLASSIFICATION.LC_CALENDAR%>)">
-                            <asp:TextBox ID="WF_STYMD" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                            <asp:TextBox ID="WF_STYMD" runat="server" MaxLength="10" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         </b>
                         <asp:Label ID="WFENDYMD_LABEL" runat="server" Width="1em" Text=" ～ " CssClass="WF_TEXT_LEFT"></asp:Label>
                         <b ondblclick="Field_DBclick('WF_ENDYMD',  <%=LIST_BOX_CLASSIFICATION.LC_CALENDAR%>)">
-                            <asp:TextBox ID="WF_ENDYMD" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                            <asp:TextBox ID="WF_ENDYMD" runat="server" MaxLength="10" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         </b>
                     </a>
 
                     <!-- ■　削除フラグ　■ -->
                     <a  ondblclick="Field_DBclick('WF_DELFLG', <%=LIST_BOX_CLASSIFICATION.LC_DELFLG%>)">
                         <asp:Label ID="WF_DELFLG_L" runat="server" Text="削除" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_DELFLG" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
+                        <asp:TextBox ID="WF_DELFLG" runat="server"  MaxLength="1"  Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_DELFLG_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                 </p>

@@ -2,7 +2,7 @@
 Imports BASEDLL
 
 ''' <summary>
-''' 品名マスタ（条件）
+''' 荷主運賃決定マスタ（条件）
 ''' </summary>
 ''' <remarks></remarks>
 Public Class GRMC0013SELECT
@@ -376,12 +376,12 @@ Public Class GRMC0013SELECT
             If Not isNormal(WW_ERR_SW) Then
                 Exit Sub
             End If
-        ElseIf Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.MD0001 Then         '実行画面からの画面遷移
+        ElseIf Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.MC0013 Then         '実行画面からの画面遷移
             '○画面項目設定処理                                       
             WF_CAMPCODE.Text = work.WF_SEL_CAMPCODE.Text        '会社コード                            
-            WF_TORICODE.Text = work.WF_SEL_TORICODE.Text        '会社コード                            
-            WF_OILTYPEGRP.Text = work.WF_SEL_OILTYPEGRP.Text    '会社コード                            
-            WF_URIHIYOKBN.Text = work.WF_SEL_URIHIYOKBN.Text    '会社コード                            
+            WF_TORICODE.Text = work.WF_SEL_TORICODE.Text        '取引先コード                            
+            WF_OILTYPEGRP.Text = work.WF_SEL_OILTYPEGRP.Text    '運賃計算油種グループ                            
+            WF_URIHIYOKBN.Text = work.WF_SEL_URIHIYOKBN.Text    '売上費用区分                           
             WF_STYMD.Text = work.WF_SEL_STYMD.Text              '有効年月日(From)
             WF_ENDYMD.Text = work.WF_SEL_ENDYMD.Text            '有効年月日(To)
 

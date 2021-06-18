@@ -28,27 +28,27 @@
         <a style="position:fixed; top:7.7em; left:4em; font-weight:bold; text-decoration:underline;">会社コード</a>
 
         <a style="position:fixed; top:7.7em; left:18em;" ondblclick="Field_DBclick('WF_CAMPCODE', <%=LIST_BOX_CLASSIFICATION.LC_COMPANY%>);" onchange="TextBox_change('WF_CAMPCODE');">
-            <asp:TextBox ID="WF_CAMPCODE" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
+            <asp:TextBox ID="WF_CAMPCODE" runat="server" MaxLength="20"　Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
-        <a style="position:fixed; top:7.7em; left:27em;">
+        <a style="position:fixed; top:7.7em; left:28em;">
             <asp:Label ID="WF_CAMPCODE_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
 
         <!-- 取引先コード -->
         <a style="position:fixed; top:9.9em; left:4em; font-weight:bold; text-decoration:underline;">取引先コード</a>
         <a style="position:fixed; top:9.9em; left:18em;" ondblclick="Field_DBclick('WF_TORICODE', <%=LIST_BOX_CLASSIFICATION.LC_CUSTOMER%>);" onchange="TextBox_change('WF_TORICODE');">
-            <asp:TextBox ID="WF_TORICODE" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
+            <asp:TextBox ID="WF_TORICODE" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
-        <a style="position:fixed; top:9.9em; left:27em;">
+        <a style="position:fixed; top:9.9em; left:28em;">
             <asp:Label ID="WF_TORICODE_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
 
         <!-- 運賃計算油種グループ -->
         <a style="position:fixed; top:12.1em; left:4em; font-weight:bold; text-decoration:underline;">運賃計算油種グループ</a>
         <a style="position:fixed; top:12.1em; left:18em;" ondblclick="Field_DBclick('WF_OILTYPEGRP', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_OILTYPEGRP');">
-            <asp:TextBox ID="WF_OILTYPEGRP" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
+            <asp:TextBox ID="WF_OILTYPEGRP" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
-        <a style="position:fixed; top:12.1em; left:27em;">
+        <a style="position:fixed; top:12.1em; left:28em;">
             <asp:Label ID="WF_OILTYPEGRP_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
 
@@ -56,9 +56,9 @@
         <!-- 売上費用区分 -->
         <a style="position:fixed; top:14.3em; left:4em; font-weight:bold; text-decoration:underline;">売上費用区分</a>
         <a style="position:fixed; top:14.3em; left:18em;" ondblclick="Field_DBclick('WF_URIHIYOKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_URIHIYOKBN');">
-            <asp:TextBox ID="WF_URIHIYOKBN" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
+            <asp:TextBox ID="WF_URIHIYOKBN" runat="server" MaxLength="1" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
-        <a style="position:fixed; top:14.3em; left:27em;">
+        <a style="position:fixed; top:14.3em; left:28em;">
             <asp:Label ID="WF_URIHIYOKBN_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
 
@@ -67,11 +67,11 @@
         <a style="position:fixed; top:16.5em; left:4em; font-weight:bold; text-decoration:underline;">有効年月日</a>
         <a style="position:fixed; top:16.5em; left:11.5em;">範囲指定</a>
         <a style="position:fixed; top:16.5em; left:18em;" ondblclick="Field_DBclick('WF_STYMD', <%=LIST_BOX_CLASSIFICATION.LC_CALENDAR%>);">
-            <asp:TextBox ID="WF_STYMD" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
+            <asp:TextBox ID="WF_STYMD" runat="server" MaxLength="10" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
         <a style="position:fixed; top:16.5em; left:42.5em;">～</a>
         <a style="position:fixed; top:16.5em; left:44em;" ondblclick="Field_DBclick('WF_ENDYMD', <%=LIST_BOX_CLASSIFICATION.LC_CALENDAR%>);">
-            <asp:TextBox ID="WF_ENDYMD" runat="server" Height="1.4em" Width="10em" onblur="MsgClear();"></asp:TextBox>
+            <asp:TextBox ID="WF_ENDYMD" runat="server" MaxLength="10" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
     </div>
 
