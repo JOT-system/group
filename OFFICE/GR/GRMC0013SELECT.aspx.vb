@@ -25,23 +25,23 @@ Public Class GRMC0013SELECT
             '○各ボタン押下処理
             If Not String.IsNullOrEmpty(WF_ButtonClick.Value) Then
                 Select Case WF_ButtonClick.Value
-                    Case "WF_ButtonDO"
+                    Case "WF_ButtonDO"              '実行ボタン押下
                         WF_ButtonDO_Click()
-                    Case "WF_ButtonEND"
+                    Case "WF_ButtonEND"             '終了ボタン押下
                         WF_ButtonEND_Click()
-                    Case "WF_ButtonSel"
+                    Case "WF_ButtonSel"             'ガイド画面選択ボタン押下
                         WF_ButtonSel_Click()
-                    Case "WF_ButtonCan"
+                    Case "WF_ButtonCan"             'ガイド画面キャンセルボタン押下
                         WF_ButtonCan_Click()
-                    Case "WF_Field_DBClick"
+                    Case "WF_Field_DBClick"         '入力エリアダブルクリック
                         WF_Field_DBClick()
-                    Case "WF_ListboxDBclick"
+                    Case "WF_ListboxDBclick"        'ガイド画面リストダブルクリック
                         WF_LEFTBOX_DBClick()
-                    Case "WF_LeftBoxSelectClick"
+                    Case "WF_LeftBoxSelectClick"    'ガイド画面選択ボタン押下
                         WF_LEFTBOX_SELECT_CLICK()
-                    Case "WF_RIGHT_VIEW_DBClick"
+                    Case "WF_RIGHT_VIEW_DBClick"    'ヘッダ右ダブルクリック
                         WF_RIGHTBOX_DBClick()
-                    Case "WF_MEMOChange"
+                    Case "WF_MEMOChange"            'メモ内容変更
                         WF_RIGHTBOX_Change()
                     Case Else
                 End Select

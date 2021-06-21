@@ -130,4 +130,22 @@ Public Class GRMC0013WRKINC
         CreateTORIParam = prmData
     End Function
 
+
+    ''' <summary>
+    ''' 仕分けパターン一覧取得用パラメータ設定
+    ''' </summary>
+    ''' <param name="COMPCODE">会社コード</param>
+    ''' <param name="SHIWAKEPATERNKBN">仕訳パターン分類</param>
+    ''' <param name="ACDCKBN">貸借区分</param>
+    ''' <returns>検索条件一覧</returns>
+    ''' <remarks></remarks>
+    Function createSHIWAKEPATTERNParam(ByVal COMPCODE As String, ByVal SHIWAKEPATERNKBN As String, ByVal ACDCKBN As GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE) As Hashtable
+        Dim prmData As New Hashtable
+        prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_COMPANY) = COMPCODE
+        prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_SHIWAKEPATTERNKBN) = SHIWAKEPATERNKBN
+        prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_TYPEMODE) = ACDCKBN
+
+        createSHIWAKEPATTERNParam = prmData
+    End Function
+
 End Class
