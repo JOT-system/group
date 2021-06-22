@@ -37,7 +37,7 @@ Public Class GRMC0013SELECT
                         WF_Field_DBClick()
                     Case "WF_ListboxDBclick"        'ガイド画面リストダブルクリック
                         WF_LEFTBOX_DBClick()
-                    Case "WF_LeftBoxSelectClick"    'ガイド画面選択ボタン押下
+                    Case "WF_LeftBoxSelectClick"
                         WF_LEFTBOX_SELECT_CLICK()
                     Case "WF_RIGHT_VIEW_DBClick"    'ヘッダ右ダブルクリック
                         WF_RIGHTBOX_DBClick()

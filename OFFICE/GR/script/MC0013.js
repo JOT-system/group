@@ -9,7 +9,18 @@ function InitDisplay() {
         document.getElementById("LF_LEFTBOX").style.width = "26em";
     };
 
-
+    // ○画面切替用処理（表示/非表示切替「ヘッダー、ディティール」）
+    if (document.getElementById('WF_BOXChange').value == "detailbox") {
+        document.getElementById("headerbox").style.visibility = "hidden";
+        document.getElementById("detailbox").style.visibility = "visible";
+        document.getElementById("RepeatArea").style.visibility = "visible";
+        document.getElementById('WF_BOXChange').value = "detailbox";
+    } else {
+        document.getElementById("headerbox").style.visibility = "visible";
+        document.getElementById("detailbox").style.visibility = "hidden";
+        document.getElementById("RepeatArea").style.visibility = "hidden";
+        document.getElementById('WF_BOXChange').value = "headerbox";
+    };
 
     addLeftBoxExtention(leftListExtentionTarget);
 

@@ -7,7 +7,9 @@
 <%@ register src="~/inc/GRIS0005LeftBox.ascx" tagname="leftview" tagprefix="MSINC" %>
 <%@ register src="inc/GRMC0013WRKINC.ascx" tagname="work" tagprefix="LSINC" %>
 
-<asp:Content ID="GRMC0013H" ContentPlaceHolderID="head" runat="server">
+<asp:Content ID="GRMC0013H" ContentPlaceHolderID="head" runat="server">	
+    <meta http-equiv="Content-Language" content="ja" />
+    <meta name="google" content="notranslate" />
     <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/GR/css/MC0013.css")%>"/>
     <script type="text/javascript">
         var pnlListAreaId = '<%= Me.pnlListArea.ClientId %>';
@@ -18,7 +20,7 @@
 
 <asp:Content ID="GRMC0013" ContentPlaceHolderID="contents1" runat="server">
         <!-- 全体レイアウト　headerbox -->
-        <div  class="headerbox" id="headerbox" >
+        <div  class="headerboxOnly" id="headerbox" style="visibility: visible">
             <div class="Operation">
 
                 <!-- ■　管理部署　■ -->
@@ -72,8 +74,10 @@
                 <asp:panel id="pnlListArea" runat="server" ></asp:panel>
             </div>
         </div>
+        
+    
         <!-- 全体レイアウト　detailbox -->
-        <div  class="detailbox" id="detailbox" >
+        <div class="detailboxOnly" id="detailbox" style="visibility: hidden">
             <div id="detailbuttonbox" class="detailbuttonbox">
                 <a>
                     <input type="button" id="WF_UPDATE" value="表更新"  style="Width:5em" onclick="ButtonClick('WF_UPDATE');" />
@@ -155,6 +159,7 @@
                     </a>
                 </p>
             </div>
+
             <!-- DETAIL画面 -->
             <asp:MultiView ID="WF_DetailMView" runat="server">
             <asp:View ID="WF_DView1" runat="server"  >
@@ -162,7 +167,7 @@
                 <span class="WF_DViewRep1_Area" id="WF_DViewRep1_Area">
                     <asp:Repeater ID="WF_DViewRep1" runat="server">
                         <HeaderTemplate>
-                            <table>
+                            <table id="RepeatArea" style="visibility: hidden">
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
@@ -204,9 +209,9 @@
                 </span>
             </asp:View>
         </asp:MultiView>
-
-
+    
         </div>
+
         <%-- rightview --%>
         <MSINC:rightview id="rightview" runat="server" />
         <%-- leftview --%>
@@ -232,6 +237,9 @@
             <input id="WF_SEQ"  runat="server" value=""  type="text" />            <!-- 表示順番 -->
             <input id="WF_PrintURL" runat="server" value=""  type="text" />        <!-- Textbox Print URL -->
 
+            <input id="WF_BOXChange" runat="server" value="headerbox" type="text" />
+            <!-- 一覧・詳細画面切替用フラグ -->
+
             <input id="WF_MAPpermitcode" runat="server" value=""  type="text" />      <!-- 権限 -->
             <input id="WF_ButtonClick" runat="server" value=""  type="text" />        <!-- ボタン押下 -->
         </div>
@@ -239,4 +247,5 @@
         <!-- Work レイアウト -->
         <LSINC:work id="work" runat="server" />
 
+        </div>
 </asp:Content>

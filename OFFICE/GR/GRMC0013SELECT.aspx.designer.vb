@@ -32,6 +32,24 @@ Partial Public Class GRMC0013SELECT
     Protected WithEvents WF_CAMPCODE_TEXT As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''WF_STYMD コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_STYMD As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_ENDYMD コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_ENDYMD As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
     '''WF_TORICODE コントロール。
     '''</summary>
     '''<remarks>
@@ -84,24 +102,6 @@ Partial Public Class GRMC0013SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_URIHIYOKBN_TEXT As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''WF_STYMD コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Protected WithEvents WF_STYMD As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''WF_ENDYMD コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Protected WithEvents WF_ENDYMD As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''WF_FIELD コントロール。
