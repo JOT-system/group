@@ -10,6 +10,17 @@ function InitDisplay() {
     };
 
 
+    // ○画面切替用処理（表示/非表示切替「ヘッダー、ディティール」）
+    if (document.getElementById('WF_BOXChange').value == "detailbox") {
+        document.getElementById("headerbox").style.visibility = "hidden";
+        document.getElementById("detailbox").style.display = "";
+        document.getElementById('WF_BOXChange').value = "detailbox";
+    } else {
+        document.getElementById("headerbox").style.visibility = "visible";
+        document.getElementById("detailbox").style.display = "none";
+        document.getElementById('WF_BOXChange').value = "headerbox";
+    };
+
 
     addLeftBoxExtention(leftListExtentionTarget);
 

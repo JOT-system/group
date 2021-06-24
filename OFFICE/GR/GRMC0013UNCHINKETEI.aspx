@@ -18,7 +18,7 @@
 
 <asp:Content ID="GRMC0013" ContentPlaceHolderID="contents1" runat="server">
         <!-- 全体レイアウト　headerbox -->
-        <div  class="headerbox" id="headerbox" >
+        <div  class="headerboxOnly" id="headerbox" >
             <div class="Operation">
 
                 <!-- ■　管理部署　■ -->
@@ -73,7 +73,7 @@
             </div>
         </div>
         <!-- 全体レイアウト　detailbox -->
-        <div  class="detailbox" id="detailbox" >
+        <div  class="detailboxOnly" id="detailbox" >
             <div id="detailbuttonbox" class="detailbuttonbox">
                 <a>
                     <input type="button" id="WF_UPDATE" value="表更新"  style="Width:5em" onclick="ButtonClick('WF_UPDATE');" />
@@ -231,6 +231,9 @@
             <input id="WF_FIELD_REP"  runat="server" value=""  type="text" />      <!-- Textbox(Repeater) DBクリックフィールド -->
             <input id="WF_SEQ"  runat="server" value=""  type="text" />            <!-- 表示順番 -->
             <input id="WF_PrintURL" runat="server" value=""  type="text" />        <!-- Textbox Print URL -->
+
+            <input id="WF_BOXChange" runat="server" value="headerbox" type="text" />
+            <!-- 一覧・詳細画面切替用フラグ -->
 
             <input id="WF_MAPpermitcode" runat="server" value=""  type="text" />      <!-- 権限 -->
             <input id="WF_ButtonClick" runat="server" value=""  type="text" />        <!-- ボタン押下 -->
