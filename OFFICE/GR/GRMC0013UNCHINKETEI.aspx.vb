@@ -2132,8 +2132,8 @@ Public Class GRMC0013UNTINKETEI
 
 
             '仕訳パターン名
-            If WW_COLUMNS.IndexOf("SHIWAKEPATTERNNAME") >= 0 Then
-                MC0013INProw("SHIWAKEPATTERNNAME") = XLSTBLrow("SHIWAKEPATTERNNAME")
+            If WW_COLUMNS.IndexOf("SHIWAKEPATERNNAME") >= 0 Then
+                MC0013INProw("SHIWAKEPATERNNAME") = XLSTBLrow("SHIWAKEPATERNNAME")
             End If
 
             '請求書サマリ区分
