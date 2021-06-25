@@ -956,7 +956,7 @@ Public Class GRT00006EXPORT
                 .KIJUNDATEF = work.WF_SEL_SHUKODATEF.Text,
                 .KIJUNDATET = work.WF_SEL_SHUKODATET.Text
             }
-            If koueiMng.ReadOrder <> True Then
+            If koueiMng.ReadOrder(T00006tbl) <> True Then
                 Exit Sub
             End If
             Dim KOUEItbl = koueiMng.GetOrder()
