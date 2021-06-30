@@ -284,6 +284,14 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const MC0013 As String = "ASP.GR_GRMC0013UNCHINKETEI_ASPX"
         ''' <summary>
+        ''' 仕訳パターンマスタ（条件）
+        ''' </summary>
+        Public Const ML0003S As String = "ASP.GR_GRML0003SELECT_ASPX"
+        ''' <summary>
+        '''  仕訳パターンマスタ（実行）
+        ''' </summary>
+        Public Const ML0003 As String = "ASP.GR_GRML0003SHIWAKEPATTERN_ASPX"
+        ''' <summary>
         ''' 品名マスタ（条件）
         ''' </summary>
         Public Const MD0001S As String = "ASP.GR_GRMD0001SELECT_ASPX"

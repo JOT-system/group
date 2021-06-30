@@ -165,6 +165,7 @@
     <Compile Include="GL\GL0006.vb" />
     <Compile Include="GL\GL0007.vb" />
     <Compile Include="GL\GL0008.vb" />
+    <Compile Include="GL\GL0015.vb" />
     <Compile Include="GL\GL0014.vb" />
     <Compile Include="GL\GL0013.vb" />
     <Compile Include="GL\GL0012.vb" />
