@@ -273,35 +273,16 @@ Public Class GRML0003SHIWAKEPATTERN
                 WF_SELSHIWAKEPATERNKBN_TEXT.Text = ""
             End If
 
-            If WF_SELACDCKBN.Text = "" Then
-                WF_SELACDCKBN_TEXT.Text = ""
-            End If
-
             row("HIDDEN") = 1
 
             '仕訳パターン、貸借区分
-            If WF_SELSHIWAKEPATERNKBN.Text = "" AndAlso WF_SELACDCKBN.Text = "" Then
+            If WF_SELSHIWAKEPATERNKBN.Text = "" Then
                 row("HIDDEN") = 0
             End If
 
-            If WF_SELSHIWAKEPATERNKBN.Text <> "" AndAlso WF_SELACDCKBN.Text = "" Then
+            If WF_SELSHIWAKEPATERNKBN.Text <> "" Then
                 Dim WW_STRING As String = row("SHIWAKEPATERNKBN")     '検索用文字列（前方一致）
                 If WW_STRING.StartsWith(WF_SELSHIWAKEPATERNKBN.Text) Then
-                    row("HIDDEN") = 0
-                End If
-            End If
-
-            If WF_SELSHIWAKEPATERNKBN.Text = "" AndAlso WF_SELACDCKBN.Text <> "" Then
-                Dim WW_STRING As String = row("ACDCKBN")              '検索用文字列（前方一致）
-                If WW_STRING.StartsWith(WF_ACDCKBN.Text) Then
-                    row("HIDDEN") = 0
-                End If
-            End If
-
-            If WF_SELSHIWAKEPATERNKBN.Text <> "" AndAlso WF_SELACDCKBN.Text <> "" Then
-                Dim WW_STRING1 As String = row("SHIWAKEPATERNKBN")    '検索用文字列（前方一致）
-                Dim WW_STRING2 As String = row("ACDCKBN")           　'検索用文字列（前方一致）
-                If WW_STRING1.StartsWith(WF_SELSHIWAKEPATERNKBN.Text) AndAlso WW_STRING2.StartsWith(WF_SELACDCKBN.Text) Then
                     row("HIDDEN") = 0
                 End If
             End If
@@ -365,18 +346,19 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "         SHIWAKEPATERNNAME = @P06                                                 " _
                     & "       , ENDYMD = @P07                                                            " _
                     & "       , ACCODE = @P08                                                            " _
-                    & "       , INQKBN = @P09                                                            " _
+                    & "       , INPUTKBN = @P09                                                          " _
                     & "       , TORICODE = @P10                                                          " _
                     & " 　　  , BANKCODE = @P11                                                          " _
                     & " 　　  , SEGMENT1 = @P12                                                          " _
                     & " 　　  , SEGMENT2 = @P13                                                          " _
                     & " 　　  , SEGMENT3 = @P14                                                          " _
                     & " 　　  , TAXKBN = @P15                                                            " _
+                    & " 　　  , TEKIYO = @P16                                                            " _
                     & "       , DELFLG = @P17                                                            " _
-                    & "       , UPDYMD = @P18                                                            " _
-                    & "       , UPDUSER = @P19                                                           " _
-                    & "       , UPDTERMID    = @P20                                                      " _
-                    & "       , RECEIVEYMD   = @P21                                                      " _
+                    & "       , UPDYMD = @P19                                                            " _
+                    & "       , UPDUSER = @P20                                                           " _
+                    & "       , UPDTERMID    = @P21                                                      " _
+                    & "       , RECEIVEYMD   = @P22                                                      " _
                     & "     WHERE CAMPCODE =@P01 and SHIWAKEPATERNKBN = @P02 and SHIWAKEPATTERN = @P03   " _
                     & "       and ACDCKBN = @P04                                                         " _
                     & "       and STYMD = @P05 ;                                                         " _
@@ -390,31 +372,32 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "       , SHIWAKEPATERNNAME                                                        " _
                     & "       , ENDYMD                                                                   " _
                     & "       , ACCODE                                                                   " _
-                    & "       , INQKBN                                                                   " _
+                    & "       , INPUTKBN                                                                 " _
                     & " 　　  , TORICODE                                                                 " _
                     & " 　　  , BANKCODE                                                                 " _
                     & " 　　  , SEGMENT1                                                                 " _
                     & " 　　  , SEGMENT2                                                                 " _
                     & " 　　  , SEGMENT3                                                                 " _
                     & " 　　  , TAXKBN                                                                   " _
+                    & " 　　  , TEKIYO                                                                   " _
                     & "       , DELFLG                                                                   " _
                     & "       , INITYMD                                                                  " _
                     & "       , UPDYMD                                                                   " _
                     & "       , UPDUSER                                                                  " _
                     & "       , UPDTERMID                                                                " _
                     & "       , RECEIVEYMD )                                                             " _
-                    & "      VALUES (@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,@P14,@P15,@P16   " _
-                    & "             ,@P17,@P18,@P19,@P20,@P21) ;                                         " _
+                    & "      VALUES (@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,   " _
+                    & "              @P14,@P15,@P16,@P17,@P18,@P19,@P20,@P21,@P22) ;                      " _
                     & " CLOSE hensuu ;                                                                   " _
                     & " DEALLOCATE hensuu ;                                                              "
 
                 Dim SQLStr1 As String =
                       " Select  CAMPCODE   , SHIWAKEPATERNKBN , SHIWAKEPATTERN , SHIWAKEPATERNNAME,      " _
                     & "         ACCODE     , STYMD            , ENDYMD         , ACCODE           ,      " _
-                    & "         INQKBN     , TORICODE         , BANKCODE       , SEGMENT1         ,      " _
-                    & "         SEGMENT2   , SEGMENT3         , TAXKBN         , DELFLG           ,      " _
-                    & "         INITYMD    , UPDYMD           , UPDUSER        , UPDTERMID        ,      " _
-                    & "         RECEIVEYMD , CAST(UPDTIMSTP As bigint) As TIMSTP                         " _
+                    & "         INPUTKBN   , TORICODE         , BANKCODE       , SEGMENT1         ,      " _
+                    & "         SEGMENT2   , SEGMENT3         , TAXKBN         , TEKIYO           ,      " _
+                    & "         DELFLG     , INITYMD          , UPDYMD         , UPDUSER          ,      " _
+                    & "         UPDTERMID  , RECEIVEYMD       , CAST(UPDTIMSTP As bigint) As TIMSTP      " _
                     & " FROM  ML003_SHIWAKEPATTERN " _
                     & "     WHERE CAMPCODE =@P01 and SHIWAKEPATERNKBN = @P02 and SHIWAKEPATTERN = @P03   " _
                     & "       and ACDCKBN = @P04                                                         " _
@@ -436,12 +419,13 @@ Public Class GRML0003SHIWAKEPATTERN
                     Dim PARA13 As SqlParameter = SQLcmd.Parameters.Add("@P13", SqlDbType.NVarChar)          'SEGMENT2
                     Dim PARA14 As SqlParameter = SQLcmd.Parameters.Add("@P14", SqlDbType.NVarChar)          'SEGMENT3
                     Dim PARA15 As SqlParameter = SQLcmd.Parameters.Add("@P15", SqlDbType.NVarChar)          'TAXKBN
-                    Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", SqlDbType.NVarChar)          'DELFLG
-                    Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", SqlDbType.SmallDateTime)     'INITYMD
-                    Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", SqlDbType.DateTime)          'UPDYMD
-                    Dim PARA19 As SqlParameter = SQLcmd.Parameters.Add("@P19", SqlDbType.NVarChar)          'UPDUSER
-                    Dim PARA20 As SqlParameter = SQLcmd.Parameters.Add("@P20", SqlDbType.NVarChar)          'UPDTERMID
-                    Dim PARA21 As SqlParameter = SQLcmd.Parameters.Add("@P21", SqlDbType.DateTime)          'RECEIVEYMD
+                    Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", SqlDbType.NVarChar)          'TEKIYO
+                    Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", SqlDbType.NVarChar)          'DELFLG
+                    Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", SqlDbType.SmallDateTime)     'INITYMD
+                    Dim PARA19 As SqlParameter = SQLcmd.Parameters.Add("@P19", SqlDbType.DateTime)          'UPDYMD
+                    Dim PARA20 As SqlParameter = SQLcmd.Parameters.Add("@P20", SqlDbType.NVarChar)          'UPDUSER
+                    Dim PARA21 As SqlParameter = SQLcmd.Parameters.Add("@P21", SqlDbType.NVarChar)          'UPDTERMID
+                    Dim PARA22 As SqlParameter = SQLcmd.Parameters.Add("@P22", SqlDbType.DateTime)          'RECEIVEYMD
 
                     Dim PARAS01 As SqlParameter = SQLcmd1.Parameters.Add("@P01", SqlDbType.NVarChar)         'CAMPCODE
                     Dim PARAS02 As SqlParameter = SQLcmd1.Parameters.Add("@P02", SqlDbType.NVarChar)         'SHIWAKEPATERNKBN
@@ -455,27 +439,29 @@ Public Class GRML0003SHIWAKEPATTERN
                            Trim(ML0003row("OPERATION")) = C_LIST_OPERATION_CODE.SELECTED & C_LIST_OPERATION_CODE.UPDATING Then
                             '※追加レコードは、ML0003tbl.Rows(i)("TIMSTP") = "0"となっているが状態のみで判定
 
+                            '借方を更新
                             PARA01.Value = ML0003row("CAMPCODE")
                             PARA02.Value = ML0003row("SHIWAKEPATERNKBN")
                             PARA03.Value = ML0003row("SHIWAKEPATTERN")
-                            PARA04.Value = ML0003row("ACDCKBN")
+                            PARA04.Value = ML0003row("ACDCKBN_D")
                             PARA05.Value = ML0003row("STYMD")
                             PARA06.Value = ML0003row("SHIWAKEPATERNNAME")
                             PARA07.Value = ML0003row("ENDYMD")
-                            PARA08.Value = ML0003row("ACCODE")
-                            PARA09.Value = ML0003row("INQKBN")
-                            PARA10.Value = ML0003row("TORICODE")
-                            PARA11.Value = ML0003row("BANKCODE")
-                            PARA12.Value = ML0003row("SEGMENT1")
-                            PARA13.Value = ML0003row("SEGMENT2")
-                            PARA14.Value = ML0003row("SEGMENT3")
-                            PARA15.Value = ML0003row("TAXKBN")
-                            PARA16.Value = ML0003row("DELFLG")
-                            PARA17.Value = Date.Now
+                            PARA08.Value = ML0003row("ACCODE_D")
+                            PARA09.Value = ML0003row("INPUTKBN_D")
+                            PARA10.Value = ML0003row("TORICODE_D")
+                            PARA11.Value = ML0003row("BANKCODE_D")
+                            PARA12.Value = ML0003row("SEGMENT1_D")
+                            PARA13.Value = ML0003row("SEGMENT2_D")
+                            PARA14.Value = ML0003row("SEGMENT3_D")
+                            PARA15.Value = ML0003row("TAXKBN_D")
+                            PARA16.Value = ML0003row("TEKIYO_D")
+                            PARA17.Value = ML0003row("DELFLG")
                             PARA18.Value = Date.Now
-                            PARA19.Value = Master.USERID
-                            PARA20.Value = Master.USERTERMID
-                            PARA21.Value = C_DEFAULT_YMD
+                            PARA19.Value = Date.Now
+                            PARA20.Value = Master.USERID
+                            PARA21.Value = Master.USERTERMID
+                            PARA22.Value = C_DEFAULT_YMD
 
                             SQLcmd.ExecuteNonQuery()
 
@@ -486,7 +472,7 @@ Public Class GRML0003SHIWAKEPATTERN
                                 PARAS01.Value = ML0003row("CAMPCODE")
                                 PARAS02.Value = ML0003row("SHIWAKEPATERNKBN")
                                 PARAS03.Value = ML0003row("SHIWAKEPATTERN")
-                                PARAS04.Value = ML0003row("ACDCKBN")
+                                PARAS04.Value = ML0003row("ACDCKBN_D")
                                 PARAS05.Value = ML0003row("STYMD")
 
                                 Dim JOURds As New DataSet()
@@ -529,6 +515,84 @@ Public Class GRML0003SHIWAKEPATTERN
 
                                 Exit Sub
                             End Try
+
+                            '貸方を更新
+                            PARA01.Value = ML0003row("CAMPCODE")
+                            PARA02.Value = ML0003row("SHIWAKEPATERNKBN")
+                            PARA03.Value = ML0003row("SHIWAKEPATTERN")
+                            PARA04.Value = ML0003row("ACDCKBN_C")
+                            PARA05.Value = ML0003row("STYMD")
+                            PARA06.Value = ML0003row("SHIWAKEPATERNNAME")
+                            PARA07.Value = ML0003row("ENDYMD")
+                            PARA08.Value = ML0003row("ACCODE_C")
+                            PARA09.Value = ML0003row("INPUTKBN_C")
+                            PARA10.Value = ML0003row("TORICODE_C")
+                            PARA11.Value = ML0003row("BANKCODE_C")
+                            PARA12.Value = ML0003row("SEGMENT1_C")
+                            PARA13.Value = ML0003row("SEGMENT2_C")
+                            PARA14.Value = ML0003row("SEGMENT3_C")
+                            PARA15.Value = ML0003row("TAXKBN_C")
+                            PARA16.Value = ML0003row("TEKIYO_C")
+                            PARA17.Value = ML0003row("DELFLG")
+                            PARA18.Value = Date.Now
+                            PARA19.Value = Date.Now
+                            PARA20.Value = Master.USERID
+                            PARA21.Value = Master.USERTERMID
+                            PARA22.Value = C_DEFAULT_YMD
+
+                            SQLcmd.ExecuteNonQuery()
+
+                            ML0003row("OPERATION") = C_LIST_OPERATION_CODE.NODATA
+
+                            '○更新ジャーナル追加
+                            Try
+                                PARAS01.Value = ML0003row("CAMPCODE")
+                                PARAS02.Value = ML0003row("SHIWAKEPATERNKBN")
+                                PARAS03.Value = ML0003row("SHIWAKEPATTERN")
+                                PARAS04.Value = ML0003row("ACDCKBN_C")
+                                PARAS05.Value = ML0003row("STYMD")
+
+                                Dim JOURds As New DataSet()
+                                Dim SQLadp As SqlDataAdapter
+
+                                SQLadp = New SqlDataAdapter(SQLcmd1)
+                                SQLadp.Fill(JOURds, "JOURtbl")
+
+                                CS0020JOURNAL.TABLENM = "ML003_SHIWAKEPATTERN"
+                                CS0020JOURNAL.ACTION = "UPDATE_INSERT"
+                                CS0020JOURNAL.ROW = JOURds.Tables("JOURtbl").Rows(0)
+                                CS0020JOURNAL.CS0020JOURNAL()
+                                If Not isNormal(CS0020JOURNAL.ERR) Then
+                                    Master.Output(CS0020JOURNAL.ERR, C_MESSAGE_TYPE.ABORT, "CS0020JOURNAL JOURNAL")
+                                    CS0011LOGWRITE.INFSUBCLASS = "MAIN"                         'SUBクラス名
+                                    CS0011LOGWRITE.INFPOSI = "CS0020JOURNAL JOURNAL"
+                                    CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+                                    CS0011LOGWRITE.TEXT = "CS0020JOURNAL Call err!"
+                                    CS0011LOGWRITE.MESSAGENO = CS0020JOURNAL.ERR
+                                    CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+                                    Exit Sub
+                                End If
+
+                                ML0003row("TIMSTP") = JOURds.Tables("JOURtbl").Rows(0)("TIMSTP")
+
+                                SQLadp.Dispose()
+                                SQLadp = Nothing
+                            Catch ex As Exception
+                                If ex.Message = "Error raised In TIMSTP" Then
+                                    ML0003row("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
+                                End If
+                                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "ML003_SHIWAKEPATTERN JOURNAL")
+
+                                CS0011LOGWRITE.INFSUBCLASS = "MAIN"                         'SUBクラス名
+                                CS0011LOGWRITE.INFPOSI = "DB:MC013_UNCHINKETEI JOURNAL"
+                                CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
+                                CS0011LOGWRITE.TEXT = ex.ToString()
+                                CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
+                                CS0011LOGWRITE.CS0011LOGWrite()                             'ログ出力
+
+                                Exit Sub
+                            End Try
+
                         End If
                     Next
                 End Using
@@ -704,8 +768,10 @@ Public Class GRML0003SHIWAKEPATTERN
         WF_SHIWAKEPATERNKBN.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATERNKBN")
         WF_SHIWAKEPATERNKBN_TEXT.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATERNKBNNAMES")
         WF_SHIWAKEPATTERN.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATTERN")
-        WF_ACDCKBN.Text = ML0003tbl.Rows(WW_Position)("ACDCKBN")
-        WF_ACDCKBN_TEXT.Text = ML0003tbl.Rows(WW_Position)("ACDCKBNNAMES")
+        WF_SHIWAKEPATTERNNAME.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATERNNAME")
+
+        WF_ACDCKBN_C.Text = ML0003tbl.Rows(WW_Position)("ACDCKBN_C")
+        WF_ACDCKBN_D.Text = ML0003tbl.Rows(WW_Position)("ACDCKBN_D")
 
         '有効年月日
         WF_STYMD.Text = ML0003tbl.Rows(WW_Position)("STYMD")
@@ -917,7 +983,6 @@ Public Class GRML0003SHIWAKEPATTERN
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
         Master.EraseCharToIgnore(WF_SHIWAKEPATERNKBN.Text)  '仕訳パターン分類
         Master.EraseCharToIgnore(WF_SHIWAKEPATTERN.Text)    '仕訳パターン
-        Master.EraseCharToIgnore(WF_ACDCKBN.Text)           '貸借区分
         Master.EraseCharToIgnore(WF_STYMD.Text)             '開始年月日
         Master.EraseCharToIgnore(WF_ENDYMD.Text)            '終了年月日
         Master.EraseCharToIgnore(WF_DELFLG.Text)            '削除フラグ
@@ -926,7 +991,6 @@ Public Class GRML0003SHIWAKEPATTERN
         If String.IsNullOrEmpty(WF_Sel_LINECNT.Text) AndAlso
             String.IsNullOrEmpty(WF_SHIWAKEPATERNKBN.Text) AndAlso
             String.IsNullOrEmpty(WF_SHIWAKEPATTERN.Text) AndAlso
-            String.IsNullOrEmpty(WF_ACDCKBN.Text) AndAlso
             String.IsNullOrEmpty(WF_STYMD.Text) AndAlso
             String.IsNullOrEmpty(WF_ENDYMD.Text) AndAlso
             String.IsNullOrEmpty(WF_DELFLG.Text) Then
@@ -965,7 +1029,9 @@ Public Class GRML0003SHIWAKEPATTERN
         ML0003INProw("CAMPCODE") = WF_CAMPCODE.Text
         ML0003INProw("SHIWAKEPATERNKBN") = WF_SHIWAKEPATERNKBN.Text
         ML0003INProw("SHIWAKEPATTERN") = WF_SHIWAKEPATTERN.Text
-        ML0003INProw("ACDCKBN") = WF_ACDCKBN.Text
+        ML0003INProw("SHIWAKEPATERNNAME") = WF_SHIWAKEPATTERNNAME.Text
+        ML0003INProw("ACDCKBN_C") = WF_ACDCKBN_C.Text
+        ML0003INProw("ACDCKBN_D") = WF_ACDCKBN_D.Text
         ML0003INProw("STYMD") = WF_STYMD.Text
         ML0003INProw("ENDYMD") = WF_ENDYMD.Text
         ML0003INProw("DELFLG") = WF_DELFLG.Text
@@ -1006,50 +1072,95 @@ Public Class GRML0003SHIWAKEPATTERN
         CODENAME_get("SHIWAKEPATERNKBN", ML0003INProw("SHIWAKEPATERNKBN"), WW_TEXT, WW_DUMMY)
         ML0003INProw("SHIWAKEPATERNKBNNAMES") = WW_TEXT
 
-        ' 貸借区分(固定値マスタ)
+        ' 貸借区分(借方)(固定値マスタ)
         WW_TEXT = ""
-        CODENAME_get("ACDCKBN", ML0003INProw("ACDCKBN"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("ACDCKBNNAMES") = WW_TEXT
+        CODENAME_get("ACDCKBN_D", ML0003INProw("ACDCKBN_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("ACDCKBNNAMES_D") = WW_TEXT
 
-        ' 勘定科目
+        ' 貸借区分(貸方)(固定値マスタ)
         WW_TEXT = ""
-        CODENAME_get("ACCODE", ML0003INProw("ACCODE"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("ACCODENAMES") = WW_TEXT
+        CODENAME_get("ACDCKBN_C", ML0003INProw("ACDCKBN_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("ACDCKBNNAMES_C") = WW_TEXT
 
-        ' 照会区分（画面）(固定値マスタ)
+        ' 勘定科目(借方)
         WW_TEXT = ""
-        CODENAME_get("INQKBN", ML0003INProw("INQKBN"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("INQKBNNAMES") = WW_TEXT
+        CODENAME_get("ACCODE_D", ML0003INProw("ACCODE_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("ACCODENAMES_D") = WW_TEXT
+
+        ' 勘定科目(貸方)
+        WW_TEXT = ""
+        CODENAME_get("ACCODE_C", ML0003INProw("ACCODE_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("ACCODENAMES_C") = WW_TEXT
+
+        ' 画面入力区分(固定値マスタ)
+        WW_TEXT = ""
+        CODENAME_get("INPUTKBN_C", ML0003INProw("INPUTKBN_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("INPUTKBNNAMES_D") = WW_TEXT
+
+        ' 画面入力区分(固定値マスタ)
+        WW_TEXT = ""
+        CODENAME_get("INPUTKBN_C", ML0003INProw("INPUTKBN_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("INPUTKBNNAMES_C") = WW_TEXT
+
+        ' 取引先(借方)
+        WW_TEXT = ""
+        CODENAME_get("TORICODE_D", ML0003INProw("TORICODE_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("TORICODENAMES_D") = WW_TEXT
 
         ' 取引先
         WW_TEXT = ""
-        CODENAME_get("TORICODE", ML0003INProw("TORICODE"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("TORICODENAMES") = WW_TEXT
+        CODENAME_get("TORICODE_C", ML0003INProw("TORICODE_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("TORICODENAMES_C") = WW_TEXT
 
         ' 銀行コード
         WW_TEXT = ""
-        CODENAME_get("BANKCODE", ML0003INProw("BANKCODE"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("BANKCODENAMES") = WW_TEXT
+        CODENAME_get("BANKCODE_D", ML0003INProw("BANKCODE_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("BANKCODENAMES_D") = WW_TEXT
+
+        ' 銀行コード
+        WW_TEXT = ""
+        CODENAME_get("BANKCODE_C", ML0003INProw("BANKCODE_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("BANKCODENAMES_C") = WW_TEXT
+
+        ' セグメント1(借方)(固定値マスタ)
+        WW_TEXT = ""
+        CODENAME_get("SEGMENT1_D", ML0003INProw("SEGMENT1_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("SEGMENT1NAMES_D") = WW_TEXT
 
         ' セグメント1(固定値マスタ)
         WW_TEXT = ""
-        CODENAME_get("SEGMENT1", ML0003INProw("SEGMENT1"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("SEGMENT1NAMES") = WW_TEXT
+        CODENAME_get("SEGMENT1_C", ML0003INProw("SEGMENT1_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("SEGMENT1NAMES_C") = WW_TEXT
 
         ' セグメント2(固定値マスタ)
         WW_TEXT = ""
-        CODENAME_get("SEGMENT2", ML0003INProw("SEGMENT2"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("SEGMENT2NAMES") = WW_TEXT
+        CODENAME_get("SEGMENT2_D", ML0003INProw("SEGMENT2_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("SEGMENT2NAMES_D") = WW_TEXT
+
+        ' セグメント2(固定値マスタ)
+        WW_TEXT = ""
+        CODENAME_get("SEGMENT2", ML0003INProw("SEGMENT2_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("SEGMENT2NAMES_C") = WW_TEXT
 
         ' セグメント3(固定値マスタ)
         WW_TEXT = ""
-        CODENAME_get("SEGMENT3", ML0003INProw("SEGMENT3"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("SEGMENT3NAMES") = WW_TEXT
+        CODENAME_get("SEGMENT3_D", ML0003INProw("SEGMENT3_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("SEGMENT3NAMES_D") = WW_TEXT
+
+        ' セグメント3(固定値マスタ)
+        WW_TEXT = ""
+        CODENAME_get("SEGMENT3_C", ML0003INProw("SEGMENT3_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("SEGMENT3NAMES_C") = WW_TEXT
 
         ' 税区分(固定値マスタ)
         WW_TEXT = ""
-        CODENAME_get("TAXKBN", ML0003INProw("TAXKBN"), WW_TEXT, WW_DUMMY)
-        ML0003INProw("TAXKBNNAMES") = WW_TEXT
+        CODENAME_get("TAXKBN_D", ML0003INProw("TAXKBN_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("TAXKBNNAMES_D") = WW_TEXT
+
+        ' 税区分(貸方)(固定値マスタ)
+        WW_TEXT = ""
+        CODENAME_get("TAXKBN_C", ML0003INProw("TAXKBN_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("TAXKBNNAMES_C") = WW_TEXT
 
         ' チェック用テーブルに登録する
         ML0003INPtbl.Rows.Add(ML0003INProw)
@@ -1111,8 +1222,9 @@ Public Class GRML0003SHIWAKEPATTERN
         WF_SHIWAKEPATERNKBN.Text = ""
         WF_SHIWAKEPATERNKBN_TEXT.Text = ""
         WF_SHIWAKEPATTERN.Text = ""
-        WF_ACDCKBN.Text = ""
-        WF_ACDCKBN_TEXT.Text = ""
+        WF_SHIWAKEPATTERNNAME.Text = ""
+        WF_ACDCKBN_C.Text = ""
+        WF_ACDCKBN_D.Text = ""
         WF_STYMD.Text = ""
         WF_ENDYMD.Text = ""
         WF_DELFLG_TEXT.Text = ""
@@ -1208,33 +1320,54 @@ Public Class GRML0003SHIWAKEPATTERN
                 ' 貸借区分(固定値マスタ)
                 O_ATTR = "REF_Field_DBclick('ACDCKBN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
-            Case "ACCODE"
+            Case "ACCODE_C"
                 ' 勘定科目
-                O_ATTR = "REF_Field_DBclick('ACCODE', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_ACCODE & "');"
+                O_ATTR = "REF_Field_DBclick('ACCODE_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_ACCODE & "');"
 
-            Case "INQKBN"
-                ' 照会区分（画面）(固定値マスタ)
-                O_ATTR = "REF_Field_DBclick('INQKBN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+            Case "ACCODE_D"
+                ' 勘定科目
+                O_ATTR = "REF_Field_DBclick('ACCODE_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_ACCODE & "');"
 
-            'Case "TORICODE"
-            '    ' 取引先
-            '    O_ATTR = "REF_Field_DBclick('TORICODE', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_CUSTOMER & "');"
+            Case "INPUTKBN_C"
+                ' 画面入力区分(固定値マスタ)
+                O_ATTR = "REF_Field_DBclick('INPUTKBN_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
-            Case "SEGMENT1"
+            Case "INPUTKBN_D"
+                ' 画面入力区分(固定値マスタ)
+                O_ATTR = "REF_Field_DBclick('INPUTKBN_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+
+
+            Case "SEGMENT1_C"
                 ' セグメント1(固定値マスタ)
-                O_ATTR = "REF_Field_DBclick('SEGMENT1', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+                O_ATTR = "REF_Field_DBclick('SEGMENT1_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
-            Case "SEGMENT2"
+            Case "SEGMENT1_D"
+                ' セグメント1(固定値マスタ)
+                O_ATTR = "REF_Field_DBclick('SEGMENT1_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+
+            Case "SEGMENT2_C"
                 ' セグメント2(固定値マスタ)
-                O_ATTR = "REF_Field_DBclick('SEGMENT2', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+                O_ATTR = "REF_Field_DBclick('SEGMENT2_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
-            Case "SEGMENT3"
+            Case "SEGMENT2_D"
+                ' セグメント2(固定値マスタ)
+                O_ATTR = "REF_Field_DBclick('SEGMENT2_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+
+            Case "SEGMENT3_C"
                 ' セグメント3(固定値マスタ)
-                O_ATTR = "REF_Field_DBclick('SEGMENT3', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+                O_ATTR = "REF_Field_DBclick('SEGMENT3_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
-            Case "TAXKBN"
+            Case "SEGMENT3_D"
+                ' セグメント3(固定値マスタ)
+                O_ATTR = "REF_Field_DBclick('SEGMENT3_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+
+            Case "TAXKBN_C"
                 ' 税区分(固定値マスタ)
-                O_ATTR = "REF_Field_DBclick('TAXKBN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+                O_ATTR = "REF_Field_DBclick('TAXKBN_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+
+            Case "TAXKBN_D"
+                ' 税区分(固定値マスタ)
+                O_ATTR = "REF_Field_DBclick('TAXKBN_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
         End Select
 
@@ -1290,23 +1423,21 @@ Public Class GRML0003SHIWAKEPATTERN
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN")
                             Case "WF_SELACDCKBN"            　   '貸借区分(絞り込み)
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN")
-                            Case "WF_SHIWAKEPATERNKBN"              '仕訳パターン分類
+                            Case "WF_SHIWAKEPATERNKBN"           '仕訳パターン分類
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN")
-                            Case "WF_ACDCKBN"                       '貸借区分
+                            Case "WF_ACDCKBN"                    '貸借区分
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN")
-                            Case "ACCODE"       　　             '勘定科目
+                            Case "ACCODE_C", "ACCODE_D"       　　'勘定科目
                                 prmData = work.CreateACCParam(WF_CAMPCODE.Text, "")
-                            Case "INQKBN"       　　             '照会区分（画面）
-                                prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "INQKBN")
-                            Case "TORICOE"                       '取引先
-                                prmData = work.CreateTORIParam(WF_CAMPCODE.Text)
-                            Case "SEGMENT1"       　　           'セグメント1
+                            Case "INPUTKBN_C", "INPUTKBN_D"       '画面入力区分
+                                prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "INPUTKBN")
+                            Case "SEGMENT1_C", "SEGMENT1_D"       'セグメント1
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SEGMENT1")
-                            Case "SEGMENT2"                 　　 'セグメント2
+                            Case "SEGMENT2_C", "SEGMENT2_D"       'セグメント2
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SEGMENT2")
-                            Case "SEGMENT3"                      'セグメント3
+                            Case "SEGMENT3_C", "SEGMENT3_D"       'セグメント3
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SEGMENT3")
-                            Case "TAXKBN"                        '税区分
+                            Case "TAXKBN_C", "TAXKBN_D"           '税区分
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "TAXKBN")
                         End Select
 
@@ -1339,8 +1470,8 @@ Public Class GRML0003SHIWAKEPATTERN
     ''' <remarks></remarks>
     Protected Sub WF_ButtonSel_Click()
 
-        Dim WW_SelectTEXT As String = "0"
-        Dim WW_SelectTEXT_LONG As String = "0"
+        Dim WW_SelectTEXT As String = ""
+        Dim WW_SelectTEXT_LONG As String = ""
         Dim WW_SelectValue As String = ""
 
         '選択内容を取得
@@ -1366,16 +1497,6 @@ Public Class GRML0003SHIWAKEPATTERN
                     WF_SHIWAKEPATERNKBN_TEXT.Text = WW_SelectTEXT
                     WF_SHIWAKEPATERNKBN.Text = WW_SelectValue
                     WF_SHIWAKEPATERNKBN.Focus()
-
-                Case "WF_SELACDCKBN"               '貸借区分
-                    WF_SELACDCKBN_TEXT.Text = WW_SelectTEXT
-                    WF_SELACDCKBN.Text = WW_SelectValue
-                    WF_SELACDCKBN.Focus()
-
-                Case "WF_ACDCKBN"               '貸借区分
-                    WF_ACDCKBN_TEXT.Text = WW_SelectTEXT
-                    WF_ACDCKBN.Text = WW_SelectValue
-                    WF_ACDCKBN.Focus()
 
                 Case "WF_STYMD"
                     Dim WW_DATE As Date
@@ -1460,14 +1581,8 @@ Public Class GRML0003SHIWAKEPATTERN
                 Case "WF_SELSHIWAKEPATERNKBN"       '仕訳パターン分類（絞り込み）
                     WF_SELSHIWAKEPATERNKBN.Focus()
 
-                Case "WF_SELACDCKBN"                '貸借区分（絞り込み）
-                    WF_SELACDCKBN.Focus()
-
                 Case "WF_SHIWAKEPATERNKBN"          '仕訳パターン分類(キー部)
                     WF_SHIWAKEPATERNKBN.Focus()
-
-                Case "WF_ACDCKBN"                   '貸借区分（キー部）
-                    WF_ACDCKBN.Focus()
 
                 Case "WF_STYMD"                     '有効年月日(キー部)
                     WF_STYMD.Focus()
@@ -1619,7 +1734,8 @@ Public Class GRML0003SHIWAKEPATTERN
         If WW_COLUMNS.IndexOf("CAMPCODE") < 0 OrElse
            WW_COLUMNS.IndexOf("SHIWAKEPATERNKBN") < 0 OrElse
            WW_COLUMNS.IndexOf("SHIWAKEPATTERN") < 0 OrElse
-           WW_COLUMNS.IndexOf("ACDCKBN") < 0 OrElse
+           WW_COLUMNS.IndexOf("ACDCKBN_C") < 0 OrElse
+           WW_COLUMNS.IndexOf("ACDCKBN_D") < 0 OrElse
            WW_COLUMNS.IndexOf("STYMD") < 0 Then
             ' インポート出来ません(項目： ?01 が存在しません)。
             Master.Output(C_MESSAGE_NO.IMPORT_ERROR, C_MESSAGE_TYPE.ERR, "Inport TITLE not find")
@@ -1664,14 +1780,16 @@ Public Class GRML0003SHIWAKEPATTERN
             If WW_COLUMNS.IndexOf("CAMPCODE") >= 0 AndAlso
                WW_COLUMNS.IndexOf("SHIWAKEPATERNKBN") >= 0 AndAlso
                WW_COLUMNS.IndexOf("SHIWAKEPATTERN") >= 0 AndAlso
-               WW_COLUMNS.IndexOf("ACDCKBN") >= 0 AndAlso
+               WW_COLUMNS.IndexOf("ACDCKBN_C") >= 0 AndAlso
+               WW_COLUMNS.IndexOf("ACDCKBN_D") >= 0 AndAlso
                WW_COLUMNS.IndexOf("STYMD") >= 0 Then
 
                 For Each ML0003row As DataRow In ML0003tbl.Rows
                     If XLSTBLrow("CAMPCODE") = ML0003row("CAMPCODE") AndAlso
                        XLSTBLrow("SHIWAKEPATERNKBN") = ML0003row("SHIWAKEPATERNKBN") AndAlso
                        XLSTBLrow("SHIWAKEPATTERN") = ML0003row("SHIWAKEPATTERN") AndAlso
-                       XLSTBLrow("ACDCKBN") = ML0003row("ACDCKBN") AndAlso
+                       XLSTBLrow("ACDCKBN_C") = ML0003row("ACDCKBN_C") AndAlso
+                       XLSTBLrow("ACDCKBN_D") = ML0003row("ACDCKBN_D") AndAlso
                        XLSTBLrow("STYMD") = ML0003row("STYMD") Then
                         ML0003INProw.ItemArray = ML0003row.ItemArray
                         Exit For
@@ -1713,110 +1831,215 @@ Public Class GRML0003SHIWAKEPATTERN
             End If
 
             '貸借区分
-            If WW_COLUMNS.IndexOf("ACDCKBN") >= 0 Then
-                ML0003INProw("ACDCKBN") = XLSTBLrow("ACDCKBN")
+            If WW_COLUMNS.IndexOf("ACDCKBN_D") >= 0 Then
+                ML0003INProw("ACDCKBN_D") = XLSTBLrow("ACDCKBN_D")
             End If
 
             '貸借区分名
-            If WW_COLUMNS.IndexOf("ACDCKBNNAMES") >= 0 Then
-                ML0003INProw("ACDCKBNNAMES") = XLSTBLrow("ACDCKBNNAMES")
+            If WW_COLUMNS.IndexOf("ACDCKBNNAMES_D") >= 0 Then
+                ML0003INProw("ACDCKBNNAMES_D") = XLSTBLrow("ACDCKBNNAMES_D")
             End If
 
             '勘定科目
-            If WW_COLUMNS.IndexOf("ACCODE") >= 0 Then
-                ML0003INProw("ACCODE") = XLSTBLrow("ACCODE")
+            If WW_COLUMNS.IndexOf("ACCODE_D") >= 0 Then
+                ML0003INProw("ACCODE_D") = XLSTBLrow("ACCODE_D")
             End If
 
 
             '勘定科目名
-            If WW_COLUMNS.IndexOf("ACCODENAMES") >= 0 Then
-                ML0003INProw("ACCODENAMES") = XLSTBLrow("ACCODENAMES")
+            If WW_COLUMNS.IndexOf("ACCODENAMES_D") >= 0 Then
+                ML0003INProw("ACCODENAMES_D") = XLSTBLrow("ACCODENAMES_D")
             End If
 
 
-            '照会区分（画面）
-            If WW_COLUMNS.IndexOf("INQKBN") >= 0 Then
-                ML0003INProw("INQKBN") = XLSTBLrow("INQKBN")
+            '画面照会
+            If WW_COLUMNS.IndexOf("INPUTKBN_D") >= 0 Then
+                ML0003INProw("INPUTKBN_D") = XLSTBLrow("INPUTKBN_D")
             End If
 
 
-            '照会区分（画面）名
-            If WW_COLUMNS.IndexOf("INQKBNNAMES") >= 0 Then
-                ML0003INProw("INQKBNNAMES") = XLSTBLrow("INQKBNNAMES")
+            '画面照会名
+            If WW_COLUMNS.IndexOf("INPUTKBNNAMES_D") >= 0 Then
+                ML0003INProw("INPUTKBNNAMES_D") = XLSTBLrow("INPUTKBNNAMES_D")
             End If
 
 
             '取引先
-            If WW_COLUMNS.IndexOf("TORICODE") >= 0 Then
-                ML0003INProw("TORICODE") = XLSTBLrow("TORICODE")
+            If WW_COLUMNS.IndexOf("TORICODE_D") >= 0 Then
+                ML0003INProw("TORICODE_D") = XLSTBLrow("TORICODE_D")
             End If
 
 
             '取引先名
-            If WW_COLUMNS.IndexOf("TORICODENAMES") >= 0 Then
-                ML0003INProw("TORICODENAMES") = XLSTBLrow("TORICODENAMES")
+            If WW_COLUMNS.IndexOf("TORICODENAMES_D") >= 0 Then
+                ML0003INProw("TORICODENAMES_D") = XLSTBLrow("TORICODENAMES_D")
             End If
 
 
             '銀行コード
-            If WW_COLUMNS.IndexOf("BANKCODE") >= 0 Then
-                ML0003INProw("BANKCODE") = XLSTBLrow("BANKCODE")
-            End If
-
-
-            '銀行コード名
-            If WW_COLUMNS.IndexOf("BANKCODENAMES") >= 0 Then
-                ML0003INProw("BANKCODENAMES") = XLSTBLrow("BANKCODENAMES")
+            If WW_COLUMNS.IndexOf("BANKCODE_D") >= 0 Then
+                ML0003INProw("BANKCODE_D") = XLSTBLrow("BANKCODE_D")
             End If
 
 
             'セグメント１
-            If WW_COLUMNS.IndexOf("SEGMENT1") >= 0 Then
-                ML0003INProw("SEGMENT1") = XLSTBLrow("SEGMENT1")
+            If WW_COLUMNS.IndexOf("SEGMENT1_D") >= 0 Then
+                ML0003INProw("SEGMENT1_D") = XLSTBLrow("SEGMENT1_D")
             End If
 
 
             'セグメント１名
-            If WW_COLUMNS.IndexOf("SEGMENT1NAMES") >= 0 Then
-                ML0003INProw("SEGMENT1NAMES") = XLSTBLrow("SEGMENT1NAMES")
+            If WW_COLUMNS.IndexOf("SEGMENT1NAMES_D") >= 0 Then
+                ML0003INProw("SEGMENT1NAMES_D") = XLSTBLrow("SEGMENT1NAMES_D")
             End If
 
 
             'セグメント２
-            If WW_COLUMNS.IndexOf("SEGMENT2") >= 0 Then
-                ML0003INProw("SEGMENT2") = XLSTBLrow("SEGMENT2")
+            If WW_COLUMNS.IndexOf("SEGMENT2_D") >= 0 Then
+                ML0003INProw("SEGMENT2_D") = XLSTBLrow("SEGMENT2_D")
             End If
 
 
             'セグメント２名
-            If WW_COLUMNS.IndexOf("SEGMENT2NAMES") >= 0 Then
-                ML0003INProw("SEGMENT2NAMES") = XLSTBLrow("SEGMENT2NAMES")
+            If WW_COLUMNS.IndexOf("SEGMENT2NAMES_D") >= 0 Then
+                ML0003INProw("SEGMENT2NAMES_D") = XLSTBLrow("SEGMENT2NAMES_D")
             End If
 
 
             'セグメント３
-            If WW_COLUMNS.IndexOf("SEGMENT3") >= 0 Then
-                ML0003INProw("SEGMENT3") = XLSTBLrow("SEGMENT3")
+            If WW_COLUMNS.IndexOf("SEGMENT3_D") >= 0 Then
+                ML0003INProw("SEGMENT3_D") = XLSTBLrow("SEGMENT3_D")
             End If
 
 
             'セグメント３名
-            If WW_COLUMNS.IndexOf("SEGMENT3NAMES") >= 0 Then
-                ML0003INProw("SEGMENT3NAMES") = XLSTBLrow("SEGMENT3NAMES")
+            If WW_COLUMNS.IndexOf("SEGMENT3NAMES_D") >= 0 Then
+                ML0003INProw("SEGMENT3NAMES_D") = XLSTBLrow("SEGMENT3NAMES_D")
             End If
 
 
             '税区分
-            If WW_COLUMNS.IndexOf("TAXKBN") >= 0 Then
-                ML0003INProw("TAXKBN") = XLSTBLrow("TAXKBN")
+            If WW_COLUMNS.IndexOf("TAXKBN_D") >= 0 Then
+                ML0003INProw("TAXKBN_D") = XLSTBLrow("TAXKBN_D")
             End If
 
 
             '税区分名
-            If WW_COLUMNS.IndexOf("TAXKBNNAMES") >= 0 Then
-                ML0003INProw("TAXKBNNAMES") = XLSTBLrow("TAXKBNNAMES")
+            If WW_COLUMNS.IndexOf("TAXKBNNAMES_D") >= 0 Then
+                ML0003INProw("TAXKBNNAMES_D") = XLSTBLrow("TAXKBNNAMES_D")
             End If
 
+
+            '摘要
+            If WW_COLUMNS.IndexOf("TEKIYO_D") >= 0 Then
+                ML0003INProw("TEKIYO_D") = XLSTBLrow("TEKIYO_D")
+            End If
+
+
+            '貸借区分
+            If WW_COLUMNS.IndexOf("ACDCKBN_C") >= 0 Then
+                ML0003INProw("ACDCKBN_C") = XLSTBLrow("ACDCKBN_C")
+            End If
+
+            '貸借区分名
+            If WW_COLUMNS.IndexOf("ACDCKBNNAMES_C") >= 0 Then
+                ML0003INProw("ACDCKBNNAMES_C") = XLSTBLrow("ACDCKBNNAMES_C")
+            End If
+
+            '勘定科目
+            If WW_COLUMNS.IndexOf("ACCODE_C") >= 0 Then
+                ML0003INProw("ACCODE_C") = XLSTBLrow("ACCODE_C")
+            End If
+
+
+            '勘定科目名
+            If WW_COLUMNS.IndexOf("ACCODENAMES_C") >= 0 Then
+                ML0003INProw("ACCODENAMES_C") = XLSTBLrow("ACCODENAMES_C")
+            End If
+
+
+            '画面照会
+            If WW_COLUMNS.IndexOf("INPUTKBN_C") >= 0 Then
+                ML0003INProw("INPUTKBN_C") = XLSTBLrow("INPUTKBN_C")
+            End If
+
+
+            '画面照会名
+            If WW_COLUMNS.IndexOf("INPUTKBNNAMES_C") >= 0 Then
+                ML0003INProw("INPUTKBNNAMES_C") = XLSTBLrow("INPUTKBNNAMES_C")
+            End If
+
+
+            '取引先
+            If WW_COLUMNS.IndexOf("TORICODE_C") >= 0 Then
+                ML0003INProw("TORICODE_C") = XLSTBLrow("TORICODE_C")
+            End If
+
+
+            '取引先名
+            If WW_COLUMNS.IndexOf("TORICODENAMES_C") >= 0 Then
+                ML0003INProw("TORICODENAMES_C") = XLSTBLrow("TORICODENAMES_C")
+            End If
+
+
+            '銀行コード
+            If WW_COLUMNS.IndexOf("BANKCODE_C") >= 0 Then
+                ML0003INProw("BANKCODE_C") = XLSTBLrow("BANKCODE_C")
+            End If
+
+
+            'セグメント１
+            If WW_COLUMNS.IndexOf("SEGMENT1_C") >= 0 Then
+                ML0003INProw("SEGMENT1_C") = XLSTBLrow("SEGMENT1_C")
+            End If
+
+
+            'セグメント１名
+            If WW_COLUMNS.IndexOf("SEGMENT1NAMES_C") >= 0 Then
+                ML0003INProw("SEGMENT1NAMES_C") = XLSTBLrow("SEGMENT1NAMES_C")
+            End If
+
+
+            'セグメント２
+            If WW_COLUMNS.IndexOf("SEGMENT2_C") >= 0 Then
+                ML0003INProw("SEGMENT2_C") = XLSTBLrow("SEGMENT2_C")
+            End If
+
+
+            'セグメント２名
+            If WW_COLUMNS.IndexOf("SEGMENT2NAMES_C") >= 0 Then
+                ML0003INProw("SEGMENT2NAMES_C") = XLSTBLrow("SEGMENT2NAMES_C")
+            End If
+
+
+            'セグメント３
+            If WW_COLUMNS.IndexOf("SEGMENT3_C") >= 0 Then
+                ML0003INProw("SEGMENT3_C") = XLSTBLrow("SEGMENT3_C")
+            End If
+
+
+            'セグメント３名
+            If WW_COLUMNS.IndexOf("SEGMENT3NAMES_C") >= 0 Then
+                ML0003INProw("SEGMENT3NAMES_C") = XLSTBLrow("SEGMENT3NAMES_C")
+            End If
+
+
+            '税区分
+            If WW_COLUMNS.IndexOf("TAXKBN_C") >= 0 Then
+                ML0003INProw("TAXKBN_C") = XLSTBLrow("TAXKBN_C")
+            End If
+
+
+            '税区分名
+            If WW_COLUMNS.IndexOf("TAXKBNNAMES_C") >= 0 Then
+                ML0003INProw("TAXKBNNAMES_C") = XLSTBLrow("TAXKBNNAMES_C")
+            End If
+
+
+            '摘要
+            If WW_COLUMNS.IndexOf("TEKIYO_C") >= 0 Then
+                ML0003INProw("TEKIYO_C") = XLSTBLrow("TEKIYO_C")
+            End If
 
             '有効開始日
             If WW_COLUMNS.IndexOf("STYMD") >= 0 Then
@@ -1899,7 +2122,7 @@ Public Class GRML0003SHIWAKEPATTERN
     ''' <summary>
     ''' 画面データ取得
     ''' </summary>
-    ''' <remarks>データベース（MC013_UNCHINKETEI）を検索し画面表示する一覧を作成する</remarks>
+    ''' <remarks>データベース（ML003_SHIWAKEPATTERN）を検索し画面表示する一覧を作成する</remarks>
     Private Sub MAPDATAget()
 
         '○画面表示用データ取得
@@ -1931,79 +2154,119 @@ Public Class GRML0003SHIWAKEPATTERN
                 '　　権限判断はすべてDateNow。グループコード、名称取得は全てDateNow。表追加時の①はDateNow。
                 '　　但し、表追加時の②および③は、TBL入力有効期限。
 
-                Dim SQLStr As String =
-                      " SELECT  0                                      as LINECNT               , " _
-                    & "         ''                                     as OPERATION             , " _
-                    & "         TIMSTP = cast(isnull(ML03.UPDTIMSTP,0) as bigint)               , " _
-                    & "         1                                      as 'SELECT'              , " _
-                    & "         0                                      as HIDDEN                , " _
-                    & "         rtrim(ML03.CAMPCODE)                   as CAMPCODE              , " _
-                    & "         ''                                     as CAMPNAMES             , " _
-                    & "         rtrim(ML03.SHIWAKEPATERNKBN)           as SHIWAKEPATERNKBN      , " _
-                    & "         ''                                     as SHIWAKEPATERNKBNNAMES , " _
-                    & "         rtrim(ML03.SHIWAKEPATTERN)             as SHIWAKEPATTERN        , " _
-                    & "         rtrim(ML03.SHIWAKEPATERNNAME)          as SHIWAKEPATERNNAME     , " _
-                    & "         rtrim(ML03.ACDCKBN)                    as ACDCKBN               , " _
-                    & "         ''                                     as ACDCKBNNAMES          , " _
-                    & "         format(ML03.STYMD, 'yyyy/MM/dd')       as STYMD                 , " _
-                    & "         format(ML03.ENDYMD, 'yyyy/MM/dd')      as ENDYMD                , " _
-                    & "         rtrim(ML03.ACCODE)                     as ACCODE                , " _
-                    & "         ''                                     as ACCODENAMES           , " _
-                    & "         rtrim(ML03.INQKBN   )                  as INQKBN                , " _
-                    & "         ''                                     as INQKBNNAMES           , " _
-                    & "         rtrim(ML03.TORICODE   )                as TORICODE                , " _
-                    & "         ''                                     as TORICODENAMES           , " _
-                    & "         rtrim(ML03.BANKCODE)                   as BANKCODE              , " _
-                    & "         ''                                     as BANKCODENAMES         , " _
-                    & "         rtrim(ML03.SEGMENT1)                   as SEGMENT1              , " _
-                    & "         ''                                     as SEGMENT1NAMES         , " _
-                    & "         rtrim(ML03.SEGMENT2)                   as SEGMENT2              , " _
-                    & "         ''                                     as SEGMENT2NAMES         , " _
-                    & "         rtrim(ML03.SEGMENT3)                   as SEGMENT3              , " _
-                    & "         ''                                     as SEGMENT3NAMES         , " _
-                    & "         rtrim(ML03.TAXKBN)                     as TAXKBN                , " _
-                    & "         ''                                     as TAXKBNNAMES           , " _
-                    & "         rtrim(ML03.DELFLG)                     as DELFLG                , " _
-                    & "         ''                                     as INITYMD               , " _
-                    & "         ''                                     as UPDYMD                , " _
-                    & "         ''                                     as UPDUSER               , " _
-                    & "         ''                                     as UPDTERMID             , " _
-                    & "         ''                                     as RECEIVEYMD            , " _
-                    & "         ''                                     as UPDTIMSTP               " _
-                    & " FROM                                                                      " _
-                    & "           ML003_SHIWAKEPATTERN ML03                                       " _
-                    & " WHERE                                                                     " _
-                    & "           ML03.CAMPCODE    = @P1                                          "
+                Dim SQLStr As String = ""
+
+                SQLStr += " SELECT  0                             as LINECNT               , " _
+                    & "         ''                                as OPERATION             , " _
+                    & "         TIMSTP = cast(isnull(UPDTIMSTP,0) as bigint)               , " _
+                    & "         1                                 as 'SELECT'              , " _
+                    & "         0                                 as HIDDEN                , " _
+                    & "         rtrim(CAMPCODE)                   as CAMPCODE              , " _
+                    & "         ''                                as CAMPNAMES             , " _
+                    & "         rtrim(SHIWAKEPATERNKBN)           as SHIWAKEPATERNKBN      , " _
+                    & "         ''                                as SHIWAKEPATERNKBNNAMES , " _
+                    & "         rtrim(SHIWAKEPATTERN)             as SHIWAKEPATTERN        , " _
+                    & "         rtrim(SHIWAKEPATERNNAME)          as SHIWAKEPATERNNAME     , " _
+                    & "         format(STYMD, 'yyyy/MM/dd')       as STYMD                 , " _
+                    & "         format(ENDYMD, 'yyyy/MM/dd')      as ENDYMD                , " _
+                    & "         rtrim(DELFLG)                     as DELFLG                , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN ACDCKBN END  )) as ACDCKBN_C        , " _
+                    & "         ''                                                    as ACDCKBNNAMES_C   , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN ACCODE END   )) as ACCODE_C         , " _
+                    & "         ''                                                    as ACCODENAMES_C    , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN INPUTKBN END )) as INPUTKBN_C       , " _
+                    & "         ''                                                    as INPUTKBNNAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN TORICODE END )) as TORICODE_C       , " _
+                    & "         ''                                                    as TORICODENAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN BANKCODE END )) as BANKCODE_C       , " _
+                    & "         ''                                                    as BANKCODENAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN SEGMENT1 END )) as SEGMENT1_C       , " _
+                    & "         ''                                                    as SEGMENT1NAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN SEGMENT2 END )) as SEGMENT2_C       , " _
+                    & "         ''                                                    as SEGMENT2NAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN SEGMENT3 END )) as SEGMENT3_C       , " _
+                    & "         ''                                                    as SEGMENT3NAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN TAXKBN END   )) as TAXKBN_C         , " _
+                    & "         ''                                                    as TAXKBNNAMES_C    , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN TEKIYO END   )) as TEKIYO_C         , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN ACDCKBN END  )) as ACDCKBN_D        , " _
+                    & "         ''                                                    as ACDCKBNNAMES_D   , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN ACCODE END   )) as ACCODE_D         , " _
+                    & "         ''                                                    as ACCODENAMES_D    , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN INPUTKBN END )) as INPUTKBN_D       , " _
+                    & "         ''                                                    as INPUTKBNNAMES_D  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN TORICODE END )) as TORICODE_D       , " _
+                    & "         ''                                                    as TORICODENAMES_D  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN BANKCODE END )) as BANKCODE_D       , " _
+                    & "         ''                                                    as BANKCODENAMES_D  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN SEGMENT1 END )) as SEGMENT1_D       , " _
+                    & "         ''                                                    as SEGMENT1NAMES_D  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN SEGMENT2 END )) as SEGMENT2_D       , " _
+                    & "         ''                                                    as SEGMENT2NAMES_d  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN SEGMENT3 END )) as SEGMENT3_D       , " _
+                    & "         ''                                                    as SEGMENT3NAMES_D  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN TAXKBN END   )) as TAXKBN_D         , " _
+                    & "         ''                                                    as TAXKBNNAMES_D    , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN TEKIYO END   )) as TEKIYO_D         , " _
+                    & "         ''                                                    as INITYMD          , " _
+                    & "         ''                                                    as UPDYMD           , " _
+                    & "         ''                                                    as UPDUSER          , " _
+                    & "         ''                                                    as UPDTERMID        , " _
+                    & "         ''                                                    as RECEIVEYMD       , " _
+                    & "         ''                                                    as UPDTIMSTP          " _
+                    & " FROM (                                                                              " _
+                    & "     SELECT                                                                          " _
+                    & "      CAMPCODE                                                                       " _
+                    & "     ,SHIWAKEPATERNKBN                                                               " _
+                    & "     ,SHIWAKEPATTERN                                                                 " _
+                    & "     ,SHIWAKEPATERNNAME                                                              " _
+                    & "     ,ACDCKBN                                                                        " _
+                    & "     ,STYMD                                                                          " _
+                    & "     ,ENDYMD                                                                         " _
+                    & "     ,ACCODE                                                                         " _
+                    & "     ,INPUTKBN                                                                       " _
+                    & "     ,TORICODE                                                                       " _
+                    & "     ,BANKCODE                                                                       " _
+                    & "     ,SEGMENT1                                                                       " _
+                    & "     ,SEGMENT2                                                                       " _
+                    & "     ,SEGMENT3                                                                       " _
+                    & "     ,TAXKBN                                                                         " _
+                    & "     ,TEKIYO                                                                         " _
+                    & "     ,DELFLG                                                                         " _
+                    & "     ,1 as UPDTIMSTP                                                                 " _
+                    & "     ,row_number() OVER (partition by CAMPCODE,SHIWAKEPATERNKBN,SHIWAKEPATTERN,STYMD " _
+                    & "                order by CAMPCODE,SHIWAKEPATERNKBN,SHIWAKEPATTERN ,ACDCKBN ) as seq  " _
+                    & " FROM  ML003_SHIWAKEPATTERN                                                          " _
+                    & " WHERE                                                                               " _
+                    & "           CAMPCODE    = @P1                                                         " _
+                    & "      AND  STYMD      <= @P3                                                         " _
+                    & "      AND  ENDYMD     >= @P4                                                         " _
+                    & "      AND  DELFLG     <> '1'                                                         " _
 
                 '仕訳パターン分類が入力されていた場合は条件にセット
                 If work.WF_SEL_SHIWAKEPATERNKBN.Text.Length <> 0 Then
-                    SQLStr += "      and  ML03.SHIWAKEPATERNKBN    = @P2                          "
+                    SQLStr += "  AND  SHIWAKEPATERNKBN    = @P2                                             "
                 End If
 
-                '貸借区分が入力されていた場合は条件にセット
-                If work.WF_SEL_ACDCKBN.Text.Length <> 0 Then
-                    SQLStr += "      and  ML03.ACDCKBN = @P3                                    "
-                End If
+                SQLStr += "  ) AS TMP                                                                       "
 
-                SQLStr += "  and  ML03.STYMD      <= @P4                                        " _
-                    & "      and  ML03.ENDYMD     >= @P5                                        " _
-                    & "      and  ML03.DELFLG     <> '1'                                        " _
-                    & " ORDER BY                                                                " _
-                    & "      ML03.CAMPCODE, ML03.SHIWAKEPATERNKBN, ML03.SHIWAKEPATTERN,         " _
-                    & "      ML03.ACDCKBN,  ML03.STYMD       "
+                SQLStr += " GROUP BY CAMPCODE, SHIWAKEPATERNKBN, SHIWAKEPATTERN, SHIWAKEPATERNNAME          "
+                SQLStr += " , STYMD, ENDYMD, DELFLG, UPDTIMSTP                                              "
+
+                SQLStr += " ORDER BY                                                                        " _
+                    & "      CAMPCODE, SHIWAKEPATERNKBN, SHIWAKEPATTERN,                                    " _
+                    & "      STYMD                                                                          "
 
                 Using SQLcmd As New SqlCommand(SQLStr, SQLcon)
                     Dim PARA1 As SqlParameter = SQLcmd.Parameters.Add("@P1", SqlDbType.NVarChar, 20)
                     Dim PARA2 As SqlParameter = SQLcmd.Parameters.Add("@P2", SqlDbType.NVarChar, 20)
-                    Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P3", SqlDbType.NVarChar, 1)
+                    Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P3", SqlDbType.Date)
                     Dim PARA4 As SqlParameter = SQLcmd.Parameters.Add("@P4", SqlDbType.Date)
-                    Dim PARA5 As SqlParameter = SQLcmd.Parameters.Add("@P5", SqlDbType.Date)
 
                     PARA1.Value = work.WF_SEL_CAMPCODE.Text
                     PARA2.Value = work.WF_SEL_SHIWAKEPATERNKBN.Text
-                    PARA3.Value = work.WF_SEL_ACDCKBN.Text
-                    PARA4.Value = work.WF_SEL_ENDYMD.Text
-                    PARA5.Value = work.WF_SEL_STYMD.Text
+                    PARA3.Value = work.WF_SEL_ENDYMD.Text
+                    PARA4.Value = work.WF_SEL_STYMD.Text
 
                     Using SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
                         'フィールド名とフィールドの型を取得
@@ -2020,23 +2283,34 @@ Public Class GRML0003SHIWAKEPATTERN
                             '仕訳パターン分類名を取得(固定値マスタ)
                             CODENAME_get("SHIWAKEPATERNKBN", ML0003row("SHIWAKEPATERNKBN"), ML0003row("SHIWAKEPATERNKBNNAMES"), WW_DUMMY)
                             '貸借区分名を取得(固定値マスタ)
-                            CODENAME_get("ACDCKBN", ML0003row("ACDCKBN"), ML0003row("ACDCKBNNAMES"), WW_DUMMY)
+                            CODENAME_get("ACDCKBN", ML0003row("ACDCKBN_C"), ML0003row("ACDCKBNNAMES_C"), WW_DUMMY)
                             '勘定科目名を取得
-                            CODENAME_get("ACCODE", ML0003row("ACCODE"), ML0003row("ACCODENAMES"), WW_DUMMY)
-                            '照会区分名を取得(固定値マスタ)
-                            CODENAME_get("INQKBN", ML0003row("INQKBN"), ML0003row("INQKBNNAMES"), WW_DUMMY)
-                            '取引先名を取得
-                            CODENAME_get("TORICODE", ML0003row("TORICODE"), ML0003row("TORICODENAMES"), WW_DUMMY)
-                            '銀行コード名を取得
-                            CODENAME_get("BANKCODE", ML0003row("BANKCODE"), ML0003row("BANKCODENAMES"), WW_DUMMY)
+                            CODENAME_get("ACCODE", ML0003row("ACCODE_C"), ML0003row("ACCODENAMES_C"), WW_DUMMY)
+                            '画面入力区分名を取得(固定値マスタ)
+                            CODENAME_get("INPUTKBN", ML0003row("INPUTKBN_C"), ML0003row("INPUTKBNNAMES_C"), WW_DUMMY)
                             'セグメント1名を取得(固定値マスタ)
-                            CODENAME_get("SEGMENT1", ML0003row("SEGMENT1"), ML0003row("SEGMENT1NAMES"), WW_DUMMY)
+                            CODENAME_get("SEGMENT1", ML0003row("SEGMENT1_C"), ML0003row("SEGMENT1NAMES_C"), WW_DUMMY)
                             'セグメント2名を取得(固定値マスタ)
-                            CODENAME_get("SEGMENT2", ML0003row("SEGMENT2"), ML0003row("SEGMENT2NAMES"), WW_DUMMY)
+                            CODENAME_get("SEGMENT2", ML0003row("SEGMENT2_C"), ML0003row("SEGMENT2NAMES_C"), WW_DUMMY)
                             'セグメント3名を取得(固定値マスタ)
-                            CODENAME_get("SEGMENT3", ML0003row("SEGMENT3"), ML0003row("SEGMENT3NAMES"), WW_DUMMY)
+                            CODENAME_get("SEGMENT3", ML0003row("SEGMENT3_C"), ML0003row("SEGMENT3NAMES_C"), WW_DUMMY)
                             '税区分名を取得(固定値マスタ)
-                            CODENAME_get("TAXKBN", ML0003row("TAXKBN"), ML0003row("TAXKBNNAMES"), WW_DUMMY)
+                            CODENAME_get("TAXKBN", ML0003row("TAXKBN_C"), ML0003row("TAXKBNNAMES_C"), WW_DUMMY)
+                            '貸借区分名を取得(固定値マスタ)
+                            CODENAME_get("ACDCKBN", ML0003row("ACDCKBN_D"), ML0003row("ACDCKBNNAMES_D"), WW_DUMMY)
+                            '勘定科目名を取得
+                            CODENAME_get("ACCODE", ML0003row("ACCODE_D"), ML0003row("ACCODENAMES_D"), WW_DUMMY)
+                            '画面入力区分名を取得(固定値マスタ)
+                            CODENAME_get("INPUTKBN", ML0003row("INPUTKBN_D"), ML0003row("INPUTKBNNAMES_D"), WW_DUMMY)
+                            'セグメント1名を取得(固定値マスタ)
+                            CODENAME_get("SEGMENT1", ML0003row("SEGMENT1_D"), ML0003row("SEGMENT1NAMES_D"), WW_DUMMY)
+                            'セグメント2名を取得(固定値マスタ)
+                            CODENAME_get("SEGMENT2", ML0003row("SEGMENT2_D"), ML0003row("SEGMENT2NAMES_D"), WW_DUMMY)
+                            'セグメント3名を取得(固定値マスタ)
+                            CODENAME_get("SEGMENT3", ML0003row("SEGMENT3_D"), ML0003row("SEGMENT3NAMES_D"), WW_DUMMY)
+                            '税区分名を取得(固定値マスタ)
+                            CODENAME_get("TAXKBN", ML0003row("TAXKBN_D"), ML0003row("TAXKBNNAMES_D"), WW_DUMMY)
+
                         Next
 
                     End Using
@@ -2160,14 +2434,40 @@ Public Class GRML0003SHIWAKEPATTERN
 
 
             '○単項目チェック(貸借区分)
-            WW_TEXT = ML0003INProw("ACDCKBN")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ACDCKBN", ML0003INProw("ACDCKBN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = ML0003INProw("ACDCKBN_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ACDCKBN_D", ML0003INProw("ACDCKBN_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("ACDCKBN") = ""
+                    ML0003INProw("ACDCKBN_D") = ""
                 Else
-                    CODENAME_get("ACDCKBN", ML0003INProw("ACDCKBN"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("ACDCKBN", ML0003INProw("ACDCKBN_C"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(貸借区分エラー)です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(貸借区分エラー)です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(貸借区分)
+            WW_TEXT = ML0003INProw("ACDCKBN_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ACDCKBN_C", ML0003INProw("ACDCKBN_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("ACDCKBN_C") = ""
+                Else
+                    CODENAME_get("ACDCKBN", ML0003INProw("ACDCKBN_C"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
                         WW_CheckMES1 = "・更新できないレコード(貸借区分エラー)です。"
                         WW_CheckMES2 = ""
@@ -2243,16 +2543,16 @@ Public Class GRML0003SHIWAKEPATTERN
 
 
             '○単項目チェック(勘定科目)
-            WW_TEXT = ML0003INProw("ACCODE")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ACCODE", ML0003INProw("ACCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = ML0003INProw("ACCODE_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ACCODE_D", ML0003INProw("ACCODE_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("ACCODE") = ""
+                    ML0003INProw("ACCODE_D") = ""
                 Else
-                    CODENAME_get("ACCODE", ML0003INProw("ACCODE"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("ACCODE", ML0003INProw("ACCODE_D"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
-                        WW_CheckMES1 = "・更新できないレコード(勘定科目エラー)です。"
+                        WW_CheckMES1 = "・更新できないレコード(勘定科目エラー(借方))です。"
                         WW_CheckMES2 = ""
                         WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2260,7 +2560,7 @@ Public Class GRML0003SHIWAKEPATTERN
                     End If
                 End If
             Else
-                WW_CheckMES1 = "・更新できないレコード(勘定科目エラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(勘定科目エラー(借方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2268,17 +2568,17 @@ Public Class GRML0003SHIWAKEPATTERN
             End If
 
 
-            '○単項目チェック(照会区分)
-            WW_TEXT = ML0003INProw("INQKBN")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "INQKBN", ML0003INProw("INQKBN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            '○単項目チェック(勘定科目)
+            WW_TEXT = ML0003INProw("ACCODE_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ACCODE_C", ML0003INProw("ACCODE_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("INQKBN") = ""
+                    ML0003INProw("ACCODE_C") = ""
                 Else
-                    CODENAME_get("INQKBN", ML0003INProw("INQKBN"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("ACCODE", ML0003INProw("ACCODE_C"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
-                        WW_CheckMES1 = "・更新できないレコード(照会区分エラー)です。"
+                        WW_CheckMES1 = "・更新できないレコード(勘定科目エラー(貸方))です。"
                         WW_CheckMES2 = ""
                         WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2286,7 +2586,7 @@ Public Class GRML0003SHIWAKEPATTERN
                     End If
                 End If
             Else
-                WW_CheckMES1 = "・更新できないレコード(照会区分エラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(勘定科目エラー(貸方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2294,24 +2594,83 @@ Public Class GRML0003SHIWAKEPATTERN
             End If
 
 
-            '○単項目チェック(取引先)
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TORICODE", ML0003INProw("TORICODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            '○単項目チェック(画面入力区分)
+            WW_TEXT = ML0003INProw("INPUTKBN_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "INPUTKBN_D", ML0003INProw("INPUTKBN_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("TORICODE") = ""
+                    ML0003INProw("INPUTKBN_D") = ""
                 Else
-                    'CODENAME_get("TORICODE", ML0003INProw("TORICODE"), WW_DUMMY, WW_RTN_SW)
-                    'If Not isNormal(WW_RTN_SW) Then
-                    '    WW_CheckMES1 = "・更新できないレコード(取引先コードエラー)です。"
-                    '    WW_CheckMES2 = ""
-                    '    WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
-                    '    O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
-                    '    WW_LINEERR_SW = "ERR"
-                    'End If
+                    CODENAME_get("INPUTKBN", ML0003INProw("INPUTKBN_D"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(照会区分エラー(借方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
                 End If
             Else
-                WW_CheckMES1 = "・更新できないレコード(取引先コードエラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(照会区分エラー(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(画面入力区分(貸方))
+            WW_TEXT = ML0003INProw("INPUTKBN_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "INPUTKBN_C", ML0003INProw("INPUTKBN_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("INPUTKBN_C") = ""
+                Else
+                    CODENAME_get("INPUTKBN", ML0003INProw("INPUTKBN_C"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(照会区分エラー(貸方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(照会区分エラー(貸方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(取引先(借方))
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TORICODE_D", ML0003INProw("TORICODE_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If Not isNormal(WW_CS0024FCHECKERR) Then
+                WW_CheckMES1 = "・更新できないレコード(取引先エラー(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(取引先(貸方))
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TORICODE_C", ML0003INProw("TORICODE_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If Not isNormal(WW_CS0024FCHECKERR) Then
+                WW_CheckMES1 = "・更新できないレコード(取引先エラー(貸方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+            '○単項目チェック(銀行コード)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "BANKCODE_D", ML0003INProw("BANKCODE_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If Not isNormal(WW_CS0024FCHECKERR) Then
+                WW_CheckMES1 = "・更新できないレコード(銀行エラー(借方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2320,9 +2679,9 @@ Public Class GRML0003SHIWAKEPATTERN
 
 
             '○単項目チェック(銀行コード)
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "BANKCODE", ML0003INProw("BANKCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "BANKCODE_C", ML0003INProw("BANKCODE_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
-                WW_CheckMES1 = "・更新できないレコード(銀行エラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(銀行エラー(貸方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2331,16 +2690,16 @@ Public Class GRML0003SHIWAKEPATTERN
 
 
             '○単項目チェック(セグメント1)
-            WW_TEXT = ML0003INProw("SEGMENT1")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT1", ML0003INProw("SEGMENT1"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = ML0003INProw("SEGMENT1_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT1_D", ML0003INProw("SEGMENT1_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("SEGMENT1") = ""
+                    ML0003INProw("SEGMENT1_D") = ""
                 Else
-                    CODENAME_get("SEGMENT1", ML0003INProw("SEGMENT1"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("SEGMENT1", ML0003INProw("SEGMENT1_D"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
-                        WW_CheckMES1 = "・更新できないレコード(セグメント1エラー)です。"
+                        WW_CheckMES1 = "・更新できないレコード(セグメント1エラー(借方))です。"
                         WW_CheckMES2 = ""
                         WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2348,7 +2707,33 @@ Public Class GRML0003SHIWAKEPATTERN
                     End If
                 End If
             Else
-                WW_CheckMES1 = "・更新できないレコード(セグメント1エラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(セグメント1エラー(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(セグメント1)
+            WW_TEXT = ML0003INProw("SEGMENT1_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT1_C", ML0003INProw("SEGMENT1_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("SEGMENT1_C") = ""
+                Else
+                    CODENAME_get("SEGMENT1", ML0003INProw("SEGMENT1_C"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(セグメント1エラー(貸方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(セグメント1エラー(貸方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2357,16 +2742,16 @@ Public Class GRML0003SHIWAKEPATTERN
 
 
             '○単項目チェック(セグメント2)
-            WW_TEXT = ML0003INProw("SEGMENT2")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT2", ML0003INProw("SEGMENT2"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = ML0003INProw("SEGMENT2_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT2_D", ML0003INProw("SEGMENT2_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("SEGMENT2") = ""
+                    ML0003INProw("SEGMENT2_D") = ""
                 Else
-                    CODENAME_get("SEGMENT2", ML0003INProw("SEGMENT2"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("SEGMENT2", ML0003INProw("SEGMENT2_D"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
-                        WW_CheckMES1 = "・更新できないレコード(セグメント2エラー)です。"
+                        WW_CheckMES1 = "・更新できないレコード(セグメント2(貸方)エラー)です。"
                         WW_CheckMES2 = ""
                         WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2382,17 +2767,17 @@ Public Class GRML0003SHIWAKEPATTERN
             End If
 
 
-            '○単項目チェック(セグメント3)
-            WW_TEXT = ML0003INProw("SEGMENT3")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT3", ML0003INProw("SEGMENT3"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            '○単項目チェック(セグメント2)
+            WW_TEXT = ML0003INProw("SEGMENT2_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT2_C", ML0003INProw("SEGMENT2_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("SEGMENT3") = ""
+                    ML0003INProw("SEGMENT2_C") = ""
                 Else
-                    CODENAME_get("SEGMENT3", ML0003INProw("SEGMENT3"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("SEGMENT2", ML0003INProw("SEGMENT2_C"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
-                        WW_CheckMES1 = "・更新できないレコード(セグメント3エラー)です。"
+                        WW_CheckMES1 = "・更新できないレコード(セグメント2エラー(貸方))です。"
                         WW_CheckMES2 = ""
                         WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2400,7 +2785,59 @@ Public Class GRML0003SHIWAKEPATTERN
                     End If
                 End If
             Else
-                WW_CheckMES1 = "・更新できないレコード(セグメント3エラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(セグメント2エラー(貸方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(セグメント3)
+            WW_TEXT = ML0003INProw("SEGMENT3_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT3_D", ML0003INProw("SEGMENT3_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("SEGMENT3_D") = ""
+                Else
+                    CODENAME_get("SEGMENT3", ML0003INProw("SEGMENT3_D"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(セグメント3エラー(借方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(セグメント3エラー(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(セグメント3)
+            WW_TEXT = ML0003INProw("SEGMENT3_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SEGMENT3_C", ML0003INProw("SEGMENT3_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("SEGMENT3_C") = ""
+                Else
+                    CODENAME_get("SEGMENT3", ML0003INProw("SEGMENT3_C"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(セグメント3エラー(貸方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(セグメント3エラー(貸方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2409,16 +2846,16 @@ Public Class GRML0003SHIWAKEPATTERN
 
 
             '○単項目チェック(税区分)
-            WW_TEXT = ML0003INProw("TAXKBN")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TAXKBN", ML0003INProw("TAXKBN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = ML0003INProw("TAXKBN_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TAXKBN_D", ML0003INProw("TAXKBN_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    ML0003INProw("TAXKBN") = ""
+                    ML0003INProw("TAXKBN_D") = ""
                 Else
-                    CODENAME_get("TAXKBN", ML0003INProw("TAXKBN"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("TAXKBN", ML0003INProw("TAXKBN_D"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
-                        WW_CheckMES1 = "・更新できないレコード(税区分エラー)です。"
+                        WW_CheckMES1 = "・更新できないレコード(税区分エラー(借方))です。"
                         WW_CheckMES2 = ""
                         WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2426,7 +2863,55 @@ Public Class GRML0003SHIWAKEPATTERN
                     End If
                 End If
             Else
-                WW_CheckMES1 = "・更新できないレコード(税区分エラー)です。"
+                WW_CheckMES1 = "・更新できないレコード(税区分エラー(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(税区分)
+            WW_TEXT = ML0003INProw("TAXKBN_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TAXKBN_C", ML0003INProw("TAXKBN_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("TAXKBN_C") = ""
+                Else
+                    CODENAME_get("TAXKBN", ML0003INProw("TAXKBN_C"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(税区分エラー(貸方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(税区分エラー(貸方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(摘要(借方))
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TEKIYO_D", ML0003INProw("TEKIYO_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If Not isNormal(WW_CS0024FCHECKERR) Then
+                WW_CheckMES1 = "・更新できないレコード(摘要(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(摘要(貸方))
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TEKIYO_C", ML0003INProw("TEKIYO_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If Not isNormal(WW_CS0024FCHECKERR) Then
+                WW_CheckMES1 = "・更新できないレコード(摘要(貸方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2489,7 +2974,8 @@ Public Class GRML0003SHIWAKEPATTERN
                 If ML0003INProw("CAMPCODE") = ML0003row("CAMPCODE") AndAlso
                    ML0003INProw("SHIWAKEPATERNKBN") = ML0003row("SHIWAKEPATERNKBN") AndAlso
                    ML0003INProw("SHIWAKEPATTERN") = ML0003row("SHIWAKEPATTERN") AndAlso
-                   ML0003INProw("ACDCKBN") = ML0003row("ACDCKBN") AndAlso
+                   ML0003INProw("ACDCKBN_C") = ML0003row("ACDCKBN_C") AndAlso
+                   ML0003INProw("ACDCKBN_D") = ML0003row("ACDCKBN_D") AndAlso
                    ML0003row("DELFLG") <> C_DELETE_FLG.DELETE Then
                 Else
                     Continue For
@@ -2578,7 +3064,8 @@ Public Class GRML0003SHIWAKEPATTERN
                 If ML0003INProw("CAMPCODE") = ML0003row("CAMPCODE") AndAlso
                    ML0003INProw("SHIWAKEPATERNKBN") = ML0003row("SHIWAKEPATERNKBN") AndAlso
                    ML0003INProw("SHIWAKEPATTERN") = ML0003row("SHIWAKEPATTERN") AndAlso
-                   ML0003INProw("ACDCKBN") = ML0003row("ACDCKBN") AndAlso
+                   ML0003INProw("ACDCKBN_C") = ML0003row("ACDCKBN_C") AndAlso
+                   ML0003INProw("ACDCKBN_D") = ML0003row("ACDCKBN_D") AndAlso
                    ML0003INProw("STYMD") = ML0003row("STYMD") Then
                 Else
                     Continue For
@@ -2591,26 +3078,46 @@ Public Class GRML0003SHIWAKEPATTERN
                    ML0003row("SHIWAKEPATERNKBNNAMES") = ML0003INProw("SHIWAKEPATERNKBNNAMES") AndAlso
                    ML0003row("SHIWAKEPATTERN") = ML0003INProw("SHIWAKEPATTERN") AndAlso
                    ML0003row("SHIWAKEPATERNNAME") = ML0003INProw("SHIWAKEPATERNNAME") AndAlso
-                   ML0003row("ACDCKBN") = ML0003INProw("ACDCKBN") AndAlso
-                   ML0003row("ACDCKBNNAMES") = ML0003INProw("ACDCKBNNAMES") AndAlso
+                   ML0003row("ACDCKBN_C") = ML0003INProw("ACDCKBN_C") AndAlso
+                   ML0003row("ACDCKBN_D") = ML0003INProw("ACDCKBN_D") AndAlso
+                   ML0003row("ACDCKBNNAMES_C") = ML0003INProw("ACDCKBNNAMES_C") AndAlso
+                   ML0003row("ACDCKBNNAMES_D") = ML0003INProw("ACDCKBNNAMES_D") AndAlso
                    ML0003row("STYMD") = ML0003INProw("STYMD") AndAlso
                    ML0003row("ENDYMD") = ML0003INProw("ENDYMD") AndAlso
-                   ML0003row("ACCODE") = ML0003INProw("ACCODE") AndAlso
-                   ML0003row("ACCODENAMES") = ML0003INProw("ACCODENAMES") AndAlso
-                   ML0003row("INQKBN") = ML0003INProw("INQKBN") AndAlso
-                   ML0003row("INQKBNNAMES") = ML0003INProw("INQKBNNAMES") AndAlso
-                   ML0003row("TORICODE") = ML0003INProw("TORICODE") AndAlso
-                   ML0003row("TORICODENAMES") = ML0003INProw("TORICODENAMES") AndAlso
-                   ML0003row("BANKCODE") = ML0003INProw("BANKCODE") AndAlso
-                   ML0003row("BANKCODENAMES") = ML0003INProw("BANKCODENAMES") AndAlso
-                   ML0003row("SEGMENT1") = ML0003INProw("SEGMENT1") AndAlso
-                   ML0003row("SEGMENT1NAMES") = ML0003INProw("SEGMENT1NAMES") AndAlso
-                   ML0003row("SEGMENT2") = ML0003INProw("SEGMENT2") AndAlso
-                   ML0003row("SEGMENT2NAMES") = ML0003INProw("SEGMENT2NAMES") AndAlso
-                   ML0003row("SEGMENT3") = ML0003INProw("SEGMENT3") AndAlso
-                   ML0003row("SEGMENT3NAMES") = ML0003INProw("SEGMENT3NAMES") AndAlso
-                   ML0003row("TAXKBN") = ML0003INProw("TAXKBN") AndAlso
-                   ML0003row("TAXKBNNAMES") = ML0003INProw("TAXKBNNAMES") AndAlso
+                   ML0003row("ACCODE_C") = ML0003INProw("ACCODE_C") AndAlso
+                   ML0003row("ACCODE_D") = ML0003INProw("ACCODE_D") AndAlso
+                   ML0003row("ACCODENAMES_C") = ML0003INProw("ACCODENAMES_C") AndAlso
+                   ML0003row("ACCODENAMES_D") = ML0003INProw("ACCODENAMES_D") AndAlso
+                   ML0003row("INPUTKBN_C") = ML0003INProw("INPUTKBN_C") AndAlso
+                   ML0003row("INPUTKBN_D") = ML0003INProw("INPUTKBN_D") AndAlso
+                   ML0003row("INPUTKBNNAMES_C") = ML0003INProw("INPUTKBNNAMES_C") AndAlso
+                   ML0003row("INPUTKBNNAMES_D") = ML0003INProw("INPUTKBNNAMES_D") AndAlso
+                   ML0003row("TORICODE_C") = ML0003INProw("TORICODE_C") AndAlso
+                   ML0003row("TORICODE_D") = ML0003INProw("TORICODE_D") AndAlso
+                   ML0003row("TORICODENAMES_C") = ML0003INProw("TORICODENAMES_C") AndAlso
+                   ML0003row("TORICODENAMES_D") = ML0003INProw("TORICODENAMES_D") AndAlso
+                   ML0003row("BANKCODE_C") = ML0003INProw("BANKCODE_C") AndAlso
+                   ML0003row("BANKCODE_D") = ML0003INProw("BANKCODE_D") AndAlso
+                   ML0003row("BANKCODENAMES_C") = ML0003INProw("BANKCODENAMES_C") AndAlso
+                   ML0003row("BANKCODENAMES_D") = ML0003INProw("BANKCODENAMES_D") AndAlso
+                   ML0003row("SEGMENT1_C") = ML0003INProw("SEGMENT1_C") AndAlso
+                   ML0003row("SEGMENT1_D") = ML0003INProw("SEGMENT1_D") AndAlso
+                   ML0003row("SEGMENT1NAMES_C") = ML0003INProw("SEGMENT1NAMES_C") AndAlso
+                   ML0003row("SEGMENT1NAMES_D") = ML0003INProw("SEGMENT1NAMES_D") AndAlso
+                   ML0003row("SEGMENT2_C") = ML0003INProw("SEGMENT2_C") AndAlso
+                   ML0003row("SEGMENT2_D") = ML0003INProw("SEGMENT2_D") AndAlso
+                   ML0003row("SEGMENT2NAMES_C") = ML0003INProw("SEGMENT2NAMES_C") AndAlso
+                   ML0003row("SEGMENT2NAMES_D") = ML0003INProw("SEGMENT2NAMES_D") AndAlso
+                   ML0003row("SEGMENT3_C") = ML0003INProw("SEGMENT3_C") AndAlso
+                   ML0003row("SEGMENT3_D") = ML0003INProw("SEGMENT3_D") AndAlso
+                   ML0003row("SEGMENT3NAMES_C") = ML0003INProw("SEGMENT3NAMES_C") AndAlso
+                   ML0003row("SEGMENT3NAMES_D") = ML0003INProw("SEGMENT3NAMES_D") AndAlso
+                   ML0003row("TAXKBN_C") = ML0003INProw("TAXKBN_C") AndAlso
+                   ML0003row("TAXKBN_D") = ML0003INProw("TAXKBN_D") AndAlso
+                   ML0003row("TAXKBNNAMES_C") = ML0003INProw("TAXKBNNAMES_C") AndAlso
+                   ML0003row("TAXKBNNAMES_D") = ML0003INProw("TAXKBNNAMES_D") AndAlso
+                   ML0003row("TEKIYO_C") = ML0003INProw("TEKIYO_C") AndAlso
+                   ML0003row("TEKIYO_D") = ML0003INProw("TEKIYO_D") AndAlso
                    ML0003row("DELFLG") = ML0003INProw("DELFLG") Then
 
                     ML0003INProw("OPERATION") = C_LIST_OPERATION_CODE.NODATA
@@ -2679,6 +3186,7 @@ Public Class GRML0003SHIWAKEPATTERN
 
     End Sub
 
+
     ' ******************************************************************************
     ' ***  サブルーチン                                                          ***
     ' ******************************************************************************
@@ -2701,10 +3209,11 @@ Public Class GRML0003SHIWAKEPATTERN
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 仕訳パターン分類 =" & ML0003INProw("SHIWAKEPATERNKBN") & " , "
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 仕訳パターン     =" & ML0003INProw("SHIWAKEPATTERN") & " , "
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 仕訳パターン名　 =" & ML0003INProw("SHIWAKEPATERNNAME") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 貸借区分　　     =" & ML0003INProw("ACDCKBN") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 開始年月日　　　　　　=" & ML0003INProw("STYMD") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 終了年月日　　　　　　=" & ML0003INProw("ENDYMD") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 削除フラグ　　　　　　=" & ML0003INProw("DELFLG") & " "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 貸借区分(貸方)　 =" & ML0003INProw("ACDCKBN_C") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 貸借区分(借方)　 =" & ML0003INProw("ACDCKBN_D") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 開始年月日　　　 =" & ML0003INProw("STYMD") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 終了年月日　　　 =" & ML0003INProw("ENDYMD") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 削除フラグ　　　 =" & ML0003INProw("DELFLG") & " "
         rightview.AddErrorReport(WW_ERR_MES)
 
     End Sub
@@ -2728,40 +3237,34 @@ Public Class GRML0003SHIWAKEPATTERN
         If I_VALUE <> "" Then
             With leftview
                 Select Case I_FIELD
-                    Case "CAMPCODE"             '会社
+                    Case "CAMPCODE"                             '会社
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text))
 
-                    Case "SHIWAKEPATERNKBN"     '仕訳パターン分類(固定値マスタ)
+                    Case "SHIWAKEPATERNKBN"                     '仕訳パターン分類(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHIWAKEPATERNKBN"))
 
-                    Case "ACDCKBN"              '貸借区分(固定値マスタ)
+                    Case "ACDCKBN", "ACDCKBN_C", "ACDCKBN_D"                              '貸借区分(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "ACDCKBN"))
 
-                    Case "ACCODE"               '勘定科目
+                    Case "ACCODE", "ACCODE_C", "ACCODE_D"       '勘定科目
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_ACCODE, I_VALUE, O_TEXT, O_RTN, work.CreateACCParam(work.WF_SEL_CAMPCODE.Text, ""))
 
-                    Case "INQKBN"               '照会区分（画面）
-                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "INQKBN"))
+                    Case "INPUTKBN", "INPUTKBN_C", "INPUTKBN_D" '画面入力区分(固定値マスタ)
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "INPUTKBN"))
 
-                    'Case "TORICODE"             '取引先
-                    '    .CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, I_VALUE, O_TEXT, O_RTN, work.CreateTORIParam(work.WF_SEL_CAMPCODE.Text))
-
-                    'Case "BANKCODE"             '銀行コード
-                    '    .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "BANKCODE"))
-
-                    Case "SEGMENT1"             'セグメント1(固定値マスタ)
+                    Case "SEGMENT1", "SEGMENT1_C", "SEGMENT1_D" 'セグメント1(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SEGMENT1"))
 
-                    Case "SEGMENT2"             'セグメント2(固定値マスタ)
+                    Case "SEGMENT2", "SEGMENT2_C", "SEGMENT2_D" 'セグメント2(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SEGMENT2"))
 
-                    Case "SEGMENT3"   　        'セグメント3(固定値マスタ)
+                    Case "SEGMENT3", "SEGMENT3_C", "SEGMENT3_D" 'セグメント3(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SEGMENT3"))
 
-                    Case "TAXKBN"  　           '税区分(固定値マスタ)
+                    Case "TAXKBN", "TAXKBN_C", "TAXKBN_D"  　   '税区分(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "TAXKBN"))
 
-                    Case "DELFLG"       　   '削除フラグ名称
+                    Case "DELFLG"       　          '削除フラグ名称
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_DELFLG, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "DELFLG"))
 
 

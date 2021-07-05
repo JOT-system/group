@@ -316,7 +316,7 @@ Public Class GRML0003SELECT
         '○入力文字置き換え(使用禁止文字排除)
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
         Master.EraseCharToIgnore(WF_SHIWAKEPATERNKBN.Text)  '仕訳パターン分類
-        Master.EraseCharToIgnore(WF_ACDCKBN.Text)           '貸借区分
+        'Master.EraseCharToIgnore(WF_ACDCKBN.Text)           '貸借区分
         Master.EraseCharToIgnore(WF_STYMD.Text)             '有効年月日(From)
         Master.EraseCharToIgnore(WF_ENDYMD.Text)            '有効年月日(To)
 
@@ -324,9 +324,9 @@ Public Class GRML0003SELECT
         WW_Check(WW_DUMMY)
 
         '○名称設定
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                                          '会社コード
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_SHIWAKEPATERNKBN.Text, WF_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text))  '仕訳パターン分類
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_ACDCKBN.Text, WF_ACDCKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN"))        '貸借区分
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                                                              '会社コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_SHIWAKEPATERNKBN.Text, WF_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN"))  '仕訳パターン分類
+        'leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_ACDCKBN.Text, WF_ACDCKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN"))                            '貸借区分
 
     End Sub
 
@@ -348,7 +348,7 @@ Public Class GRML0003SELECT
             '○初期変数設定処理
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "CAMPCODE", WF_CAMPCODE.Text)                   '会社コード
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "SHIWAKEPATERNKBN", WF_SHIWAKEPATERNKBN.Text)   '仕訳パターン分類
-            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "ACDCKBN", WF_ACDCKBN.Text)                     '貸借区分
+            'Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "ACDCKBN", WF_ACDCKBN.Text)                     '貸借区分
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "STYMD", WF_STYMD.Text)                         '有効年月日(From)
             Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "ENDYMD", WF_ENDYMD.Text)                       '有効年月日(To)
 
@@ -366,7 +366,7 @@ Public Class GRML0003SELECT
             '○画面項目設定処理                                       
             WF_CAMPCODE.Text = work.WF_SEL_CAMPCODE.Text                        '会社コード                            
             WF_SHIWAKEPATERNKBN.Text = work.WF_SEL_SHIWAKEPATERNKBN.Text        '仕訳パターン分類                            
-            WF_ACDCKBN.Text = work.WF_SEL_ACDCKBN.Text                          '貸借区分                           
+            'WF_ACDCKBN.Text = work.WF_SEL_ACDCKBN.Text                          '貸借区分                           
             WF_STYMD.Text = work.WF_SEL_STYMD.Text                              '有効年月日(From)
             WF_ENDYMD.Text = work.WF_SEL_ENDYMD.Text                            '有効年月日(To)
 
@@ -384,8 +384,8 @@ Public Class GRML0003SELECT
 
         '○名称設定処理
         leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                                                                  '会社コード
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_SHIWAKEPATERNKBN.Text, WF_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN_TEXT")) '仕訳パターン分類
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_ACDCKBN.Text, WF_ACDCKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN"))                                '貸借区分
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_SHIWAKEPATERNKBN.Text, WF_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN_TEXT")) '仕訳パターン分類
+        'leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_ACDCKBN.Text, WF_ACDCKBN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN"))                                '貸借区分
 
     End Sub
 
@@ -453,28 +453,28 @@ Public Class GRML0003SELECT
         End If
 
 
-        '貸借区分 WF_ACDCKBN.Text
-        WW_TEXT = WF_ACDCKBN.Text
-        Master.CheckField(WF_ACDCKBN.Text, "ACDCKBN", WF_ACDCKBN.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
-        If isNormal(WW_CS0024FCHECKERR) Then
-            '存在チェック
-            If WW_TEXT = "" Then
-                WF_ACDCKBN.Text = ""
-            Else
-                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_ACDCKBN.Text, WF_ACDCKBN_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN"))
-                If Not isNormal(WW_RTN_SW) Then
-                    Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
-                    WF_ACDCKBN.Focus()
-                    O_RTN = WW_RTN_SW
-                    Exit Sub
-                End If
-            End If
-        Else
-            Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
-            WF_ACDCKBN.Focus()
-            O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
-            Exit Sub
-        End If
+        ''貸借区分 WF_ACDCKBN.Text
+        'WW_TEXT = WF_ACDCKBN.Text
+        'Master.CheckField(WF_ACDCKBN.Text, "ACDCKBN", WF_ACDCKBN.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+        'If isNormal(WW_CS0024FCHECKERR) Then
+        '    '存在チェック
+        '    If WW_TEXT = "" Then
+        '        WF_ACDCKBN.Text = ""
+        '    Else
+        '        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_ACDCKBN.Text, WF_ACDCKBN_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN"))
+        '        If Not isNormal(WW_RTN_SW) Then
+        '            Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
+        '            WF_ACDCKBN.Focus()
+        '            O_RTN = WW_RTN_SW
+        '            Exit Sub
+        '        End If
+        '    End If
+        'Else
+        '    Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
+        '    WF_ACDCKBN.Focus()
+        '    O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
+        '    Exit Sub
+        'End If
 
 
         '有効年月日(From) WF_STYMD.Text

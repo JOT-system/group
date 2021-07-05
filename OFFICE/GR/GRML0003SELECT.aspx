@@ -57,6 +57,7 @@
 
 
         <!-- 貸借区分 -->
+        <!--
         <a style="position:fixed; top:14.3em; left:4em; font-weight:bold; text-decoration:underline;">貸借区分</a>
         <a style="position:fixed; top:14.3em; left:18em;" ondblclick="Field_DBclick('WF_ACDCKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_ACDCKBN');">
             <asp:TextBox ID="WF_ACDCKBN" runat="server" MaxLength="1" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
@@ -64,7 +65,7 @@
         <a style="position:fixed; top:14.3em; left:28em;">
             <asp:Label ID="WF_ACDCKBN_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
-
+        -->
 
     </div>
 

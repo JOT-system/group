@@ -32,17 +32,6 @@
                     <asp:Label ID="WF_SELSHIWAKEPATERNKBN_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
                 </a>
 
-                <!-- ■　貸借区分　■ -->
-                <a>
-                    <asp:Label ID="WF_LabelSELACDCKBN" runat="server" Text="貸借区分" Height="1.5em" Font-Bold="true" Font-Underline="true"></asp:Label>
-                </a>
-                <a ondblclick="Field_DBclick('WF_SELACDCKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                    <asp:TextBox ID="WF_SELACDCKBN" runat="server" MaxLength="1" Height="1.1em" Width="7.1em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
-                </a>
-                <a>
-                    <asp:Label ID="WF_SELACDCKBN_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
-                </a>
-
                 <!-- ■　ボタン　■ -->
                 <a style="position:fixed;top:2.8em;left:49em;">
                     <input type="button" id="WF_ButtonExtract" value="絞り込み"  style="Width:5em" onclick="ButtonClick('WF_ButtonExtract');" />
@@ -99,26 +88,31 @@
                         <asp:Label ID="WF_CAMPCODE" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXT_LEFT"></asp:Label>
                         <asp:Label ID="WF_CAMPCODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
+
+                    <!-- ■　貸借区分　■ -->
+                    <asp:textbox ID="WF_ACDCKBN_C" runat="server" Visible="false"></asp:textbox>
+                    <asp:textbox ID="WF_ACDCKBN_D" runat="server" Visible="false"></asp:textbox>
+
                 </p>
 
                 <!-- ■　キー情報疑似フレーム３　■ -->
                 <p id="KEY_LINE_3">
                     <!-- ■　仕訳パターン分類　■ -->
                     <a  ondblclick="Field_DBclick('WF_SHIWAKEPATERNKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                        <asp:Label ID="WF_SHIWAKEPATERNKBN_LBL" runat="server" Text="仕訳パターン分類" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:Label ID="WF_SHIWAKEPATERNKBN_LBL" runat="server" Text="パターン分類" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
                         <asp:TextBox ID="WF_SHIWAKEPATERNKBN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         <asp:Label ID="WF_SHIWAKEPATERNKBN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
 
                     <!-- ■　仕訳パターン　■ -->
-                    <asp:Label ID="WF_SHIWAKEPATTERN_LBL" runat="server" Text="仕訳パターン" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="WF_SHIWAKEPATTERN_LBL" runat="server" Text="パターンCD" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
                     <asp:TextBox ID="WF_SHIWAKEPATTERN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
 
-                    <!-- ■　貸借区分　■ -->
-                    <a ondblclick="Field_DBclick('WF_ACDCKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                        <asp:Label ID="WF_ACDCKBN_LBL" runat="server" Text="貸借区分" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_ACDCKBN" runat="server" MaxLength="1" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
-                        <asp:Label ID="WF_ACDCKBN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
+                    <!-- ■　仕訳パターン名　■ -->
+                    <a>
+                        <asp:Label ID="WF_SHIWAKEPATTERNNAME_LBL" runat="server" Text="パターン名" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:TextBox ID="WF_SHIWAKEPATTERNNAME" runat="server" MaxLength="50" Height="1.1em" Width="12em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:Label ID="WF_SHIWAKEPATTERNNAME_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                 </p>
 
@@ -143,6 +137,7 @@
                         <asp:TextBox ID="WF_DELFLG" runat="server"  MaxLength="1"  Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_DELFLG_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
+
                 </p>
             </div>
             <!-- DETAIL画面 -->
