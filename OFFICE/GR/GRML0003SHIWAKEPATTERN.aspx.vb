@@ -263,44 +263,44 @@ Public Class GRML0003SHIWAKEPATTERN
     ' ******************************************************************************
     Protected Sub WF_ButtonExtract_Click()
 
-        '○絞り込み操作（GridView明細Hidden設定）
-        For Each row As DataRow In ML0003tbl.Rows
+        ''○絞り込み操作（GridView明細Hidden設定）
+        'For Each row As DataRow In ML0003tbl.Rows
 
 
 
-            '一度全部非表示化する
-            If WF_SELSHIWAKEPATERNKBN.Text = "" Then
-                WF_SELSHIWAKEPATERNKBN_TEXT.Text = ""
-            End If
+        '    '一度全部非表示化する
+        '    If WF_SELSHIWAKEPATERNKBN.Text = "" Then
+        '        WF_SELSHIWAKEPATERNKBN_TEXT.Text = ""
+        '    End If
 
-            row("HIDDEN") = 1
+        '    row("HIDDEN") = 1
 
-            '仕訳パターン、貸借区分
-            If WF_SELSHIWAKEPATERNKBN.Text = "" Then
-                row("HIDDEN") = 0
-            End If
+        '    '仕訳パターン、貸借区分
+        '    If WF_SELSHIWAKEPATERNKBN.Text = "" Then
+        '        row("HIDDEN") = 0
+        '    End If
 
-            If WF_SELSHIWAKEPATERNKBN.Text <> "" Then
-                Dim WW_STRING As String = row("SHIWAKEPATERNKBN")     '検索用文字列（前方一致）
-                If WW_STRING.StartsWith(WF_SELSHIWAKEPATERNKBN.Text) Then
-                    row("HIDDEN") = 0
-                End If
-            End If
+        '    If WF_SELSHIWAKEPATERNKBN.Text <> "" Then
+        '        Dim WW_STRING As String = row("SHIWAKEPATERNKBN")     '検索用文字列（前方一致）
+        '        If WW_STRING.StartsWith(WF_SELSHIWAKEPATERNKBN.Text) Then
+        '            row("HIDDEN") = 0
+        '        End If
+        '    End If
 
-        Next
+        'Next
 
-        '○画面表示データ保存
-        Master.SaveTable(ML0003tbl)
+        ''○画面表示データ保存
+        'Master.SaveTable(ML0003tbl)
 
-        '○画面表示
-        '画面先頭を表示
-        WF_GridPosition.Text = "1"
+        ''○画面表示
+        ''画面先頭を表示
+        'WF_GridPosition.Text = "1"
 
-        '○メッセージ表示
-        Master.Output(C_MESSAGE_NO.DATA_FILTER_SUCCESSFUL, C_MESSAGE_TYPE.INF)
+        ''○メッセージ表示
+        'Master.Output(C_MESSAGE_NO.DATA_FILTER_SUCCESSFUL, C_MESSAGE_TYPE.INF)
 
-        'カーソル設定
-        'WF_SELSHIWAKEPATERNKBN.Focus()
+        ''カーソル設定
+        ''WF_SELSHIWAKEPATERNKBN.Focus()
 
     End Sub
 
@@ -1488,10 +1488,10 @@ Public Class GRML0003SHIWAKEPATTERN
         If WF_FIELD_REP.Value = "" Then
             Select Case WF_FIELD.Value
 
-                Case "WF_SELSHIWAKEPATERNKBN"   '仕訳パターン分類(絞り込み)
-                    WF_SELSHIWAKEPATERNKBN_TEXT.Text = WW_SelectTEXT
-                    WF_SELSHIWAKEPATERNKBN.Text = WW_SelectValue
-                    WF_SELSHIWAKEPATERNKBN.Focus()
+                'Case "WF_SELSHIWAKEPATERNKBN"   '仕訳パターン分類(絞り込み)
+                '    WF_SELSHIWAKEPATERNKBN_TEXT.Text = WW_SelectTEXT
+                '    WF_SELSHIWAKEPATERNKBN.Text = WW_SelectValue
+                '    WF_SELSHIWAKEPATERNKBN.Focus()
 
                 Case "WF_SHIWAKEPATERNKBN"      '仕訳パターン分類
                     WF_SHIWAKEPATERNKBN_TEXT.Text = WW_SelectTEXT
@@ -1578,8 +1578,8 @@ Public Class GRML0003SHIWAKEPATTERN
             '○フォーカスセット
             Select Case WF_FIELD.Value
 
-                Case "WF_SELSHIWAKEPATERNKBN"       '仕訳パターン分類（絞り込み）
-                    WF_SELSHIWAKEPATERNKBN.Focus()
+                'Case "WF_SELSHIWAKEPATERNKBN"       '仕訳パターン分類（絞り込み）
+                '    WF_SELSHIWAKEPATERNKBN.Focus()
 
                 Case "WF_SHIWAKEPATERNKBN"          '仕訳パターン分類(キー部)
                     WF_SHIWAKEPATERNKBN.Focus()

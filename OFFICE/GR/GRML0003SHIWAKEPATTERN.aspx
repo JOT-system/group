@@ -21,21 +21,7 @@
         <div  class="headerboxOnly" id="headerbox" >
             <div class="Operation">
 
-                <!-- ■　仕訳パターン分類　■ -->
-                <a>
-                    <asp:Label ID="WF_LabelSELSHIWAKEPATERNKBN" runat="server" Text="仕訳パターン分類" Height="1.5em" Font-Bold="true" Font-Underline="true"></asp:Label>
-                </a>
-                <a ondblclick="Field_DBclick('WF_SELSHIWAKEPATERNKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                    <asp:TextBox ID="WF_SELSHIWAKEPATERNKBN" runat="server" MaxLength="20" Height="1.1em" Width="7.1em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
-                </a>
-                <a>
-                    <asp:Label ID="WF_SELSHIWAKEPATERNKBN_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
-                </a>
-
                 <!-- ■　ボタン　■ -->
-                <a style="position:fixed;top:2.8em;left:49em;">
-                    <input type="button" id="WF_ButtonExtract" value="絞り込み"  style="Width:5em" onclick="ButtonClick('WF_ButtonExtract');" />
-                </a>
                 <a style="position:fixed;top:2.8em;left:53.5em;">
                     <input type="button" id="WF_ButtonUPDATE" value="DB更新"  style="Width:5em" onclick="ButtonClick('WF_ButtonUPDATE');" />
                 </a>
