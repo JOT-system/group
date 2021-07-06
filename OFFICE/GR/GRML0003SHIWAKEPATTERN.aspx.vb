@@ -174,10 +174,32 @@ Public Class GRML0003SHIWAKEPATTERN
             Master.Output(C_MESSAGE_NO.SYSTEM_ADM_ERROR, C_MESSAGE_TYPE.ABORT, "一覧設定エラー")
             Exit Sub
         End If
+
+        '○ 画面の値設定
+        WW_MAPValueSet()
+
         '詳細-画面初期設定
         Repeater_INIT()
     End Sub
 
+
+    ''' <summary>
+    ''' 画面初期値設定処理
+    ''' </summary>
+    ''' <remarks></remarks>
+    Protected Sub WW_MAPValueSet()
+
+        '○ 検索画面からの遷移
+        If Context.Handler.ToString().ToUpper() = C_PREV_MAP_LIST.MC0012S Then
+            'Grid情報保存先のファイル名
+            Master.CreateXMLSaveFile()
+        End If
+
+        '○ 名称設定処理
+        CODENAME_get("CAMPCODE", work.WF_SEL_CAMPCODE.Text, WF_SEL_CAMPNAME.Text, WW_DUMMY)             '会社コード
+        CODENAME_get("SHIWAKEPATERNKBN", work.WF_SEL_SHIWAKEPATERNKBN.Text, WF_SEL_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY)                     '運用部署
+
+    End Sub
 
     ''' <summary>
     ''' 一覧再表示処理

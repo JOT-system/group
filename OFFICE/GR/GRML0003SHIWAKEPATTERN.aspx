@@ -21,6 +21,14 @@
         <div  class="headerboxOnly" id="headerbox" >
             <div class="Operation">
 
+                <!-- 会社 -->
+                <asp:Label ID="WF_SEL_CAMPCODE" runat="server" Text="会社" Font-Bold="True" Font-Underline="false"></asp:Label>
+                <asp:Label ID="WF_SEL_CAMPNAME" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
+
+                <!-- 仕訳パターン分類 -->
+                <asp:Label ID="WF_SEL_SHIWAKEPATERNKBN_L" runat="server" Text="仕訳パターン分類" Font-Bold="True" Font-Underline="false"></asp:Label>
+                <asp:Label ID="WF_SEL_SHIWAKEPATERNKBN_TEXT" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
+
                 <!-- ■　ボタン　■ -->
                 <a style="position:fixed;top:2.8em;left:53.5em;">
                     <input type="button" id="WF_ButtonUPDATE" value="DB更新"  style="Width:5em" onclick="ButtonClick('WF_ButtonUPDATE');" />
