@@ -286,6 +286,15 @@ Public Module PrevDispMap
         ''' <summary>
         ''' 仕訳パターンマスタ（条件）
         ''' </summary>
+        Public Const MA0007S As String = "ASP.GR_GRMA0007SELECT_ASPX"
+        ''' <summary>
+        '''  仕訳パターンマスタ（実行）
+        ''' </summary>
+        Public Const MA0007 As String = "ASP.GR_GRMA0007NINUSHISHABAN_ASPX"
+
+        ''' <summary>
+        ''' 仕訳パターンマスタ（条件）
+        ''' </summary>
         Public Const ML0003S As String = "ASP.GR_GRML0003SELECT_ASPX"
         ''' <summary>
         '''  仕訳パターンマスタ（実行）

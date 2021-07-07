@@ -282,6 +282,8 @@
     <Content Include="GR\GRMC0012MODEL.aspx" />
     <Content Include="GR\GRMC0012SELECT.aspx" />
     <Content Include="GR\GRMC0013SELECT.aspx" />
+    <Content Include="GR\GRMA0007SELECT.aspx" />
+    <Content Include="GR\GRMA0007NINUSHISHABAN.aspx" />
     <Content Include="GR\GRML0003SHIWAKEPATTERN.aspx" />
     <Content Include="GR\GRMC0013UNCHINKETEI.aspx" />
     <Content Include="GR\GRMD0002PRODORG.aspx" />
@@ -372,6 +374,7 @@
     <Content Include="GR\inc\GRMC0007WRKINC.ascx" />
     <Content Include="GR\inc\GRMC0012WRKINC.ascx" />
     <Content Include="GR\inc\GRMC0013WRKINC.ascx" />
+    <Content Include="GR\inc\GRMA0007WRKINC.ascx" />
     <Content Include="GR\inc\GRML0003WRKINC.ascx" />
     <Content Include="GR\inc\GRT00015WRKINC.ascx" />
     <Content Include="GR\inc\GRT00004WRKINC.ascx" />
@@ -454,9 +457,11 @@
     <Content Include="GR\script\MB0005S.js" />
     <Content Include="GR\script\MB0007.js" />
     <Content Include="GR\script\MB0007S.js" />
+    <Content Include="GR\script\MA0007.js" />
     <Content Include="GR\script\ML0003.js" />
     <Content Include="GR\script\MC0013.js" />
     <Content Include="GR\script\MC0001.js" />
+    <Content Include="GR\script\MA0007S.js" />
     <Content Include="GR\script\ML0003S.js" />
     <Content Include="GR\script\MC0013S.js" />
     <Content Include="GR\script\MC0001S.js" />
@@ -998,6 +1003,20 @@
     <Compile Include="GR\GRMC0013SELECT.aspx.vb">
       <DependentUpon>GRMC0013SELECT.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\GRMA0007SELECT.aspx.designer.vb">
+      <DependentUpon>GRMA0007SELECT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRMA0007SELECT.aspx.vb">
+      <DependentUpon>GRMA0007SELECT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\GRMA0007NINUSHISHABAN.aspx.designer.vb">
+      <DependentUpon>GRMA0007NINUSHISHABAN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\GRMA0007NINUSHISHABAN.aspx.vb">
+      <DependentUpon>GRMA0007NINUSHISHABAN.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="GR\GRML0003SHIWAKEPATTERN.aspx.designer.vb">
       <DependentUpon>GRML0003SHIWAKEPATTERN.aspx</DependentUpon>
@@ -1638,6 +1657,13 @@
     </Compile>
     <Compile Include="GR\inc\GRMC0013WRKINC.ascx.vb">
       <DependentUpon>GRMC0013WRKINC.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GR\inc\GRMA0007WRKINC.ascx.designer.vb">
+      <DependentUpon>GRMA0007WRKINC.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="GR\inc\GRMA0007WRKINC.ascx.vb">
+      <DependentUpon>GRMA0007WRKINC.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GR\inc\GRML0003WRKINC.ascx.designer.vb">
