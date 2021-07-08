@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class GRMC0013SELECT
+Partial Public Class GRML0003SELECT
     
     '''<summary>
     '''WF_CAMPCODE コントロール。
@@ -50,58 +50,40 @@ Partial Public Class GRMC0013SELECT
     Protected WithEvents WF_ENDYMD As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''WF_TORICODE コントロール。
+    '''WF_SHIWAKEPATERNKBN コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_TORICODE As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents WF_SHIWAKEPATERNKBN As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''WF_TORICODE_TEXT コントロール。
+    '''WF_SHIWAKEPATERNKBN_TEXT コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_TORICODE_TEXT As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents WF_SHIWAKEPATERNKBN_TEXT As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''WF_OILTYPEGRP コントロール。
+    '''WF_ACDCKBN コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_OILTYPEGRP As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents WF_ACDCKBN As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''WF_OILTYPEGRP_TEXT コントロール。
+    '''WF_ACDCKBN_TEXT コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_OILTYPEGRP_TEXT As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''WF_URIHIYOKBN コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Protected WithEvents WF_URIHIYOKBN As Global.System.Web.UI.WebControls.TextBox
-    
-    '''<summary>
-    '''WF_URIHIYOKBN_TEXT コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Protected WithEvents WF_URIHIYOKBN_TEXT As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents WF_ACDCKBN_TEXT As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''WF_FIELD コントロール。
@@ -183,7 +165,7 @@ Partial Public Class GRMC0013SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents leftview As Global.OFFICE.GRIS0005LeftBox
-    
+
     '''<summary>
     '''work コントロール。
     '''</summary>
@@ -191,8 +173,8 @@ Partial Public Class GRMC0013SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents work As Global.OFFICE.GRMC0013WRKINC
-    
+    Protected WithEvents work As Global.OFFICE.GRML0003WRKINC
+
     '''<summary>
     '''Master プロパティ。
     '''</summary>

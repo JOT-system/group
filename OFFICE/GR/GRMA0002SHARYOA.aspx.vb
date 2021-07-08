@@ -4521,12 +4521,12 @@ Public Class GRMA0002SHARYOA
                             If Val(SQLdr("TAXATAX")) = 0 Then
                                 MA0002row("TAXATAX") = ""
                             Else
-                                MA0002row("TAXATAX") = Format(SQLdr("TAXATAX"), "#,#")
+                                MA0002row("TAXATAX") = Format(Val(SQLdr("TAXATAX")), "#,#")
                             End If
                             If Val(SQLdr("TAXLINS")) = 0 Then
                                 MA0002row("TAXLINS") = ""
                             Else
-                                MA0002row("TAXLINS") = Format(SQLdr("TAXLINS"), "#,#")
+                                MA0002row("TAXLINS") = Format(Val(SQLdr("TAXLINS")), "#,#")
                             End If
 
                             MA0002row("TAXLINSYMD") = If(SQLdr("TAXLINSYMD"), "")
@@ -4534,7 +4534,7 @@ Public Class GRMA0002SHARYOA
                             If Val(SQLdr("TAXVTAX")) = 0 Then
                                 MA0002row("TAXVTAX") = ""
                             Else
-                                MA0002row("TAXVTAX") = Format(SQLdr("TAXVTAX"), "#,#")
+                                MA0002row("TAXVTAX") = Format(Val(SQLdr("TAXVTAX")), "#,#")
                             End If
 
                             MA0002row("OTNKTINSNYMD") = If(SQLdr("OTNKTINSNYMD"), "")

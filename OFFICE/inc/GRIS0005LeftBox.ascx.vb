@@ -97,6 +97,8 @@ Public Class GRIS0005LeftBox
         LC_EXTRA_LIST
         LC_CALENDAR
         LC_FIX_VALUE
+        LC_SHIWAKEPATTERN
+        LC_ACCODE
     End Enum
     ''' <summary>
     ''' パラメタ群
@@ -139,6 +141,8 @@ Public Class GRIS0005LeftBox
         LP_DISPLAY_FORMAT
         LP_ROLE
         LP_SELECTED_CODE
+        LP_SHIWAKEPATTERNKBN
+        LP_ACSUBCODE
         ''' <summary>
         ''' データリロード
         ''' </summary>
@@ -416,6 +420,14 @@ Public Class GRIS0005LeftBox
             Case LIST_BOX_CLASSIFICATION.LC_CALENDAR
                 'カレンダー
                 lbox = Nothing
+            Case LIST_BOX_CLASSIFICATION.LC_SHIWAKEPATTERN
+                '仕分けパターン
+                lbox = CreateSHIWAKEPATTERNList(Params, O_RTN)
+
+            Case LIST_BOX_CLASSIFICATION.LC_ACCODE
+                '勘定科目マスタ
+                lbox = CreateACCCODEList(Params, O_RTN)
+
             Case Else
                 lbox = createFixValueList(Params, O_RTN)
         End Select
@@ -540,6 +552,8 @@ Public Class GRIS0005LeftBox
         End If
         Return LbMap.Item(key)
     End Function
+
+
     ''' <summary>
     ''' 届先一覧の作成
     ''' </summary>
@@ -899,6 +913,80 @@ Public Class GRIS0005LeftBox
 
         Return If(Params.Item(C_PARAMETERS.LP_LIST), New ListBox)
     End Function
+
+
+    ''' <summary>
+    ''' 仕分けパターン一覧の作成
+    ''' </summary>
+    ''' <param name="Params">取得用パラメータ</param>
+    ''' <param name="O_RTN">成功可否</param>
+    ''' <returns>作成した一覧情報</returns>
+    ''' <remarks></remarks>
+    Protected Function CreateSHIWAKEPATTERNList(ByVal Params As Hashtable, ByRef O_RTN As String) As ListBox
+        '○仕分けパターンListBox設定
+        Dim key As String = If(Params.Item(C_PARAMETERS.LP_TYPEMODE), GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE.ALL) _
+                              & If(Params.Item(C_PARAMETERS.LP_COMPANY), "-") _
+                              & If(Params.Item(C_PARAMETERS.LP_SHIWAKEPATTERNKBN), "-") _
+                              & If(Params.Item(C_PARAMETERS.LP_DISPLAY_FORMAT), GL0014SHIWAKEPATTERNList.C_VIEW_FORMAT_PATTERN.NAMES) _
+                              & LIST_BOX_CLASSIFICATION.LC_SHIWAKEPATTERN
+        '既にKeyCodeがHash存在かつRELOAD設定の場合は一旦削除
+        CheckReload(key, Params)
+
+        If Not LbMap.ContainsKey(key) Then
+            Using GL0014SHIWAKEPATTERNList As New GL0014SHIWAKEPATTERNList With {
+                  .TYPE = If(Params.Item(C_PARAMETERS.LP_TYPEMODE), GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE.ALL) _
+                , .STYMD = If(Params.Item(C_PARAMETERS.LP_STYMD), Date.Now) _
+                , .ENDYMD = If(Params.Item(C_PARAMETERS.LP_ENDYMD), Date.Now) _
+                , .DEFAULT_SORT = If(Params.Item(C_PARAMETERS.LP_DEFAULT_SORT), String.Empty) _
+                , .VIEW_FORMAT = If(Params.Item(C_PARAMETERS.LP_DISPLAY_FORMAT), GL0004DestinationList.C_VIEW_FORMAT_PATTERN.NAMES) _
+                , .CAMPCODE = If(Params.Item(C_PARAMETERS.LP_COMPANY), "") _
+                , .SHIWAKEPATERNKBN = If(Params.Item(C_PARAMETERS.LP_SHIWAKEPATTERNKBN), "")
+                }
+                GL0014SHIWAKEPATTERNList.getList()
+                O_RTN = GL0014SHIWAKEPATTERNList.ERR
+                Dim lsbx = GL0014SHIWAKEPATTERNList.LIST
+                LbMap.Add(key, lsbx)
+            End Using
+        End If
+        Return LbMap.Item(key)
+    End Function
+
+
+    ''' <summary>
+    ''' 勘定科目一覧の作成
+    ''' </summary>
+    ''' <param name="Params">取得用パラメータ</param>
+    ''' <param name="O_RTN">成功可否</param>
+    ''' <returns>作成した一覧情報</returns>
+    ''' <remarks></remarks>
+    Protected Function CreateACCCODEList(ByVal Params As Hashtable, ByRef O_RTN As String) As ListBox
+        '○勘定科目ListBox設定
+        Dim key As String = If(Params.Item(C_PARAMETERS.LP_COMPANY), "-") _
+                              & If(Params.Item(C_PARAMETERS.LP_ACSUBCODE), "-") _
+                              & If(Params.Item(C_PARAMETERS.LP_DISPLAY_FORMAT), GL0015ACCODEList.C_VIEW_FORMAT_PATTERN.NAMES) _
+                              & LIST_BOX_CLASSIFICATION.LC_ACCODE
+        '既にKeyCodeがHash存在かつRELOAD設定の場合は一旦削除
+        CheckReload(key, Params)
+
+        If Not LbMap.ContainsKey(key) Then
+            Using GL0015ACCODEList As New GL0015ACCODEList With {
+                  .STYMD = If(Params.Item(C_PARAMETERS.LP_STYMD), Date.Now) _
+                , .ENDYMD = If(Params.Item(C_PARAMETERS.LP_ENDYMD), Date.Now) _
+                , .DEFAULT_SORT = If(Params.Item(C_PARAMETERS.LP_DEFAULT_SORT), String.Empty) _
+                , .VIEW_FORMAT = If(Params.Item(C_PARAMETERS.LP_DISPLAY_FORMAT), GL0015ACCODEList.C_VIEW_FORMAT_PATTERN.NAMES) _
+                , .CAMPCODE = If(Params.Item(C_PARAMETERS.LP_COMPANY), "") _
+                , .ACSUBCODE = If(Params.Item(C_PARAMETERS.LP_ACSUBCODE), "")
+                }
+                GL0015ACCODEList.getList()
+                O_RTN = GL0015ACCODEList.ERR
+                Dim lsbx = GL0015ACCODEList.LIST
+                LbMap.Add(key, lsbx)
+            End Using
+        End If
+        Return LbMap.Item(key)
+    End Function
+
+
     ''' <summary>
     ''' ListBox設定共通サブ
     ''' </summary>

@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class GRMC0013WRKINC
+Partial Public Class GRML0003WRKINC
 
     '''<summary>
     '''WF_SEL_CAMPCODE コントロール。
@@ -23,31 +23,22 @@ Partial Public Class GRMC0013WRKINC
     Public WithEvents WF_SEL_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''WF_SEL_TORICODE コントロール。
+    '''WF_SEL_SHIWAKEPATERNKBN コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_TORICODE As Global.System.Web.UI.WebControls.TextBox
+    Public WithEvents WF_SEL_SHIWAKEPATERNKBN As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''WF_SEL_OILTYPEGRP コントロール。
+    '''WF_SEL_ACDCKBN コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Public WithEvents WF_SEL_OILTYPEGRP As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''WF_SEL_URIHIYOKBN コントロール。
-    '''</summary>
-    '''<remarks>
-    '''自動生成されたフィールド。
-    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
-    '''</remarks>
-    Public WithEvents WF_SEL_URIHIYOKBN As Global.System.Web.UI.WebControls.TextBox
+    Public WithEvents WF_SEL_ACDCKBN As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''WF_SEL_STYMD コントロール。
