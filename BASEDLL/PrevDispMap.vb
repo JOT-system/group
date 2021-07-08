@@ -132,18 +132,20 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const MA0004 As String = "ASP.GR_GRMA0004SHARYOC_ASPX"
         ''' <summary>
-        ''' 荷主車番マスタ（条件）
+        ''' 車両台帳・車番部署マスタ登録（条件）
         ''' </summary>
-        Public Const MA0007S As String = "ASP.GR_GRMA0007SELECT_ASPX"
+        Public Const MA0006S As String = "ASP.GR_GRMA0006SELECT_ASPX"
         ''' <summary>
-        ''' 荷主車番マスタ（入力）
+        ''' 車両台帳・車番部署マスタ登録（入力）
         ''' </summary>
-        Public Const MA0007 As String = "ASP.GR_GRMA007NINUSHISHABAN_ASPX"
+        Public Const MA0006 As String = "ASP.GR_GRMA0006SHABANORG_ASPX"
+
         ''' <summary>
         ''' 従業員マスタ登録（条件）
         ''' </summary>
         Public Const MB0001S As String = "ASP.GR_GRMB0001SELECT_ASPX"
         ''' <summary>
+        ''' 車両台帳・車番部署マスタ登録（入力）
         ''' 従業員マスタ登録（入力）
         ''' </summary>
         Public Const MB0001 As String = "ASP.GR_GRMB0001STAFF_ASPX"
@@ -284,14 +286,13 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const MC0013 As String = "ASP.GR_GRMC0013UNCHINKETEI_ASPX"
         ''' <summary>
-        ''' 仕訳パターンマスタ（条件）
+        ''' 荷主車番マスタ（条件）
         ''' </summary>
         Public Const MA0007S As String = "ASP.GR_GRMA0007SELECT_ASPX"
         ''' <summary>
-        '''  仕訳パターンマスタ（実行）
+        '''  荷主車番マスタ（実行）
         ''' </summary>
         Public Const MA0007 As String = "ASP.GR_GRMA0007NINUSHISHABAN_ASPX"
-
         ''' <summary>
         ''' 仕訳パターンマスタ（条件）
         ''' </summary>
