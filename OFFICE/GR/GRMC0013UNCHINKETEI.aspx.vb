@@ -754,6 +754,9 @@ Public Class GRMC0013UNTINKETEI
         CODENAME_get("DELFLG", WF_DELFLG.Text, WW_TEXT, WW_DUMMY, "", "")
         WF_DELFLG_TEXT.Text = WW_TEXT
 
+        'ヘッダー部を非表示にして詳細部を表示する
+        'WF_DISP.Value = "headerbox"
+
         '○出荷場所検索
         For Each reitem As RepeaterItem In WF_DViewRep1.Items
             WW_FILED_OBJ = CType(reitem.FindControl("WF_Rep1_FIELD_1"), Label)
@@ -886,9 +889,6 @@ Public Class GRMC0013UNTINKETEI
             Case Else
         End Select
 
-        '○画面切替設定
-        WF_BOXChange.Value = "detailbox"
-
         '○画面表示データ保存
         Master.SaveTable(MC0013tbl)
 
@@ -977,9 +977,6 @@ Public Class GRMC0013UNTINKETEI
         Else
             Master.Output(WW_ERRCODE, C_MESSAGE_TYPE.ERR)
         End If
-
-        '○画面切替設定
-        WF_BOXChange.Value = "headerbox"
 
         'カーソル設定
         WF_SELMANGORG.Focus()
@@ -1190,9 +1187,6 @@ Public Class GRMC0013UNTINKETEI
 
         'メッセージ表示
         Master.Output(C_MESSAGE_NO.DATA_CLEAR_SUCCESSFUL, C_MESSAGE_TYPE.INF)
-
-        '○画面切替設定
-        WF_BOXChange.Value = "headerbox"
 
         '○カーソル設定
         WF_SELMANGORG.Focus()
@@ -2471,10 +2465,8 @@ Public Class GRMC0013UNTINKETEI
                     SQLStr += "      and  MC13.URIHIYOKBN = @P4                                "
                 End If
 
-                'SQLStr += "  and  MC13.STYMD      >= @P6                                        " _
-                '    & "      and  MC13.ENDYMD     <= @P5                                        " _
-                SQLStr += "  and  MC13.STYMD      <= @P5                                        " _
-                    & "      and  MC13.ENDYMD     >= @P6                                        " _
+                SQLStr += "  and  MC13.STYMD      >= @P6                                        " _
+                    & "      and  MC13.ENDYMD     <= @P5                                        " _
                     & "      and  MC13.DELFLG     <> '1'                                        " _
                     & " ORDER BY                                                                " _
                     & "      MC13.CAMPCODE, MC13.TORICODE, MC13.OILTYPEGRP, MC13.URIHIYOKBN,    " _
