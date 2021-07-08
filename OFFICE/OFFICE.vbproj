@@ -138,9 +138,9 @@
     <Content Include="GR\css\MC0013S.css" />
     <Content Include="GR\css\MD0002.css" />
     <Content Include="GR\css\MD0002S.css" />
-    <Content Include="GR\css\ML0003S.css" />
     <Content Include="GR\css\T00016.css" />
     <Content Include="GR\css\T00016S.css" />
+    <Content Include="GR\css\ML0003S.css" />
     <Content Include="GR\css\T00015S.css" />
     <Content Include="GR\css\T00015.css" />
     <Content Include="GR\css\T00004.css" />
@@ -290,10 +290,10 @@
     <Content Include="GR\GRMC0013UNCHINKETEI.aspx" />
     <Content Include="GR\GRMD0002PRODORG.aspx" />
     <Content Include="GR\GRMD0002SELECT.aspx" />
-    <Content Include="GR\GRML0003SELECT.aspx" />
     <Content Include="GR\GRMC0013SELECT.aspx" />
     <Content Include="GR\GRT00016NSEIKYU.aspx" />
     <Content Include="GR\GRT00016SELECT.aspx" />
+    <Content Include="GR\GRML0003SELECT.aspx" />
     <Content Include="GR\GRT00015SUPPLJISSKI.aspx" />
     <Content Include="GR\GRT00004HORDER.aspx" />
     <Content Include="GR\GRT00015SELECT.aspx" />
