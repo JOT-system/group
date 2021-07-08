@@ -69,6 +69,11 @@ Public Class CS0033AutoNumber
         ''' </summary>
         Public Const DENNO As String = "DENNO"
 
+        ''' <summary>
+        ''' 伝票番号(取引)
+        ''' </summary>
+        Public Const DENNO_TORIHIKI As String = "DENNO_TORIHIKI"
+
     End Class
 
     Public Class C_POST_KEYWORD
@@ -245,6 +250,8 @@ Public Class CS0033AutoNumber
             Case C_SEQTYPE.ORDERNO
                 WW_SVPROC = True
             Case C_SEQTYPE.DENNO
+                WW_SVPROC = True
+            Case C_SEQTYPE.DENNO_TORIHIKI
                 WW_SVPROC = True
             Case Else
                 ERR = C_MESSAGE_NO.DLL_IF_ERROR

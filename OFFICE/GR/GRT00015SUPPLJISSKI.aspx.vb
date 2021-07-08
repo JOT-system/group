@@ -3742,8 +3742,8 @@ Public Class GRT00015SUPPLJISSKI
                            & " WHERE A.CAMPCODE         = @P01                      " _
                            & "  and  A.TORICODE         = @P02                      " _
                            & "  and  A.OILTYPE          = @P03           		    " _
-                           & "  and  A.SHIPORG          = @P05           		    " _
-                           & "  and  A.KIJUNDATE        = @P06                      " _
+                           & "  and  A.SHIPORG          = @P04           		    " _
+                           & "  and  A.KIJUNDATE        = @P05                      " _
                            & "  and  A.DELFLG          <> '1'                       " _
                            & " ORDER BY A.TORICODE  ,A.OILTYPE ,A.KIJUNDATE ,       " _
                            & " 		    A.SHIPORG ,A.GSHABAN           "

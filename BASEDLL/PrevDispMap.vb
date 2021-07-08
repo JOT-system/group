@@ -465,6 +465,14 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const T00015 As String = "ASP.GR_GRT00015SUPPLJISSKI_ASPX"
         ''' <summary>
+        ''' 荷主請求メンテナンス（条件）
+        ''' </summary>
+        Public Const T00016S As String = "ASP.GR_GRT00016SELECT_ASPX"
+        ''' <summary>
+        ''' 荷主請求メンテナンス（実行）
+        ''' </summary>
+        Public Const T00016 As String = "ASP.GR_GRT00016NSEIKYU_ASPX"
+        ''' <summary>
         ''' 配送照会（条件）
         ''' </summary>
         Public Const TA0001S As String = "ASP.GR_GRTA0001SELECT_ASPX"

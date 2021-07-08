@@ -174,7 +174,7 @@ Public Class GRMA0004SELECT
         '日付チェック
         If Not WF_NENDO_CREATE.Text = Date.Now.ToString("yyyy") Then
             WF_NENDO_CREATE.Focus()
-            WF_MESSAGE_CREATE_Text.Text = "システム日付(年)を設定して下さい。"
+            WF_MESSAGE_CREATE_Text.Text = "今年度分のみ作成可能です。"
             Exit Sub
         End If
 
@@ -199,9 +199,9 @@ Public Class GRMA0004SELECT
         Dim cnt As Integer = DATAinsert()
 
         If cnt > 0 Then
-            WF_MESSAGE_CREATE_Text.Text = "※登録完了"
+            WF_MESSAGE_CREATE_Text.Text = "登録完了"
         Else
-            WF_MESSAGE_CREATE_Text.Text = "※既に登録済です！"
+            WF_MESSAGE_CREATE_Text.Text = "既に登録済です！"
         End If
 
     End Sub
@@ -2026,7 +2026,7 @@ Public Class GRMA0004SELECT
                 End Using
             End Using
         Catch ex As Exception
-            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "MA004_SHARYOC UPDATE_INSERT")
+            'Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "MA004_SHARYOC UPDATE_INSERT")
             CS0011LOGWRITE.INFSUBCLASS = "MAIN"                         'SUBクラス名
             CS0011LOGWRITE.INFPOSI = "DB:MA004_SHARYOC UPDATE_INSERT"
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
