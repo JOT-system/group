@@ -3,7 +3,7 @@ Imports OFFICE.GRIS0005LeftBox
 Imports BASEDLL
 
 ''' <summary>
-''' 荷主運賃決定マスタ（登録）
+''' 荷主車番マスタ（登録）
 ''' </summary>
 ''' <remarks></remarks>
 Public Class GRMA0007NINUSHISHABAN
@@ -11,7 +11,7 @@ Public Class GRMA0007NINUSHISHABAN
 
     '検索結果格納
     Private MA0007tbl As DataTable                              'Grid格納用テーブル
-    Private MC0013INPtbl As DataTable                           'チェック用テーブル
+    Private MA0007INPtbl As DataTable                           'チェック用テーブル
 
     '共通関数宣言(BASEDLL)
     Private CS0010CHARstr As New CS0010CHARget                  '例外文字排除 String Get
@@ -116,10 +116,10 @@ Public Class GRMA0007NINUSHISHABAN
                 MA0007tbl = Nothing
             End If
 
-            If Not IsNothing(MC0013INPtbl) Then
-                MC0013INPtbl.Clear()
-                MC0013INPtbl.Dispose()
-                MC0013INPtbl = Nothing
+            If Not IsNothing(MA0007INPtbl) Then
+                MA0007INPtbl.Clear()
+                MA0007INPtbl.Dispose()
+                MA0007INPtbl = Nothing
             End If
         End Try
 
@@ -837,9 +837,9 @@ Public Class GRMA0007NINUSHISHABAN
 
         Dim WW_ERR10023 As String = C_MESSAGE_NO.NORMAL
 
-        '○DetailBoxをMC0013INPtblへ退避
-        Master.CreateEmptyTable(MC0013INPtbl)
-        DetailBoxToMC0013INPtbl(WW_ERRCODE)
+        '○DetailBoxをMA0007INPtblへ退避
+        Master.CreateEmptyTable(MA0007INPtbl)
+        DetailBoxToMA0007INPtbl(WW_ERRCODE)
         If Not isNormal(WW_ERRCODE) Then
             Exit Sub
         End If
@@ -898,15 +898,15 @@ Public Class GRMA0007NINUSHISHABAN
     ''' </summary>
     ''' <param name="O_RTNCODE"></param>
     ''' <remarks></remarks>
-    Protected Sub DetailBoxToMC0013INPtbl(ByRef O_RTNCODE As String)
+    Protected Sub DetailBoxToMA0007INPtbl(ByRef O_RTNCODE As String)
 
         Dim WW_TEXT As String = String.Empty
         Dim WW_RTN As String = String.Empty
 
         O_RTNCODE = C_MESSAGE_NO.NORMAL
 
-        'MC0013テンポラリDB項目作成
-        Master.CreateEmptyTable(MC0013INPtbl)
+        'MA0007テンポラリDB項目作成
+        Master.CreateEmptyTable(MA0007INPtbl)
 
         '○入力文字置き換え & CS0007CHKテーブルレコード追加
 
@@ -926,7 +926,7 @@ Public Class GRMA0007NINUSHISHABAN
             String.IsNullOrEmpty(WF_ENDYMD.Text) AndAlso
             String.IsNullOrEmpty(WF_DELFLG.Text) Then
             Master.Output(C_MESSAGE_NO.INVALID_PROCCESS_ERROR, C_MESSAGE_TYPE.ERR, "no Detail")
-            CS0011LOGWRITE.INFSUBCLASS = "DetailBoxToMC0013INPtbl"      'SUBクラス名
+            CS0011LOGWRITE.INFSUBCLASS = "DetailBoxToMA0007INPtbl"      'SUBクラス名
             CS0011LOGWRITE.INFPOSI = "non Detail"
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ERR
             CS0011LOGWRITE.TEXT = "non Detail"
@@ -939,30 +939,30 @@ Public Class GRMA0007NINUSHISHABAN
         End If
 
         '○画面(Repeaterヘッダー情報)のテーブル退避
-        Dim MC0013INProw As DataRow = MC0013INPtbl.NewRow
+        Dim MA0007INProw As DataRow = MA0007INPtbl.NewRow
         '初期クリア
-        For Each MC0013INPcol As DataColumn In MC0013INProw.Table.Columns
-            If MC0013INPcol.DataType.Name.ToString() = "String" Then
-                MC0013INProw(MC0013INPcol.ColumnName) = ""
+        For Each MA0007INPcol As DataColumn In MA0007INProw.Table.Columns
+            If MA0007INPcol.DataType.Name.ToString() = "String" Then
+                MA0007INProw(MA0007INPcol.ColumnName) = ""
             End If
         Next
 
         If (String.IsNullOrEmpty(WF_Sel_LINECNT.Text)) Then
-            MC0013INProw("LINECNT") = 0
+            MA0007INProw("LINECNT") = 0
         Else
-            MC0013INProw("LINECNT") = CType(WF_Sel_LINECNT.Text, Integer)   'DBの固定フィールド
+            MA0007INProw("LINECNT") = CType(WF_Sel_LINECNT.Text, Integer)   'DBの固定フィールド
         End If
-        MC0013INProw("OPERATION") = C_LIST_OPERATION_CODE.NODATA            'DBの固定フィールド
-        MC0013INProw("TIMSTP") = 0                                          'DBの固定フィールド
-        MC0013INProw("SELECT") = "0"                                        'DBの固定フィールド
-        MC0013INProw("HIDDEN") = "0"                                        'DBの固定フィールド
+        MA0007INProw("OPERATION") = C_LIST_OPERATION_CODE.NODATA            'DBの固定フィールド
+        MA0007INProw("TIMSTP") = 0                                          'DBの固定フィールド
+        MA0007INProw("SELECT") = "0"                                        'DBの固定フィールド
+        MA0007INProw("HIDDEN") = "0"                                        'DBの固定フィールド
 
-        MC0013INProw("CAMPCODE") = WF_CAMPCODE.Text
-        MC0013INProw("TORICODE") = WF_TORICODE.Text
-        MC0013INProw("NSHABAN") = WF_NSHABAN.Text
-        MC0013INProw("STYMD") = WF_STYMD.Text
-        MC0013INProw("ENDYMD") = WF_ENDYMD.Text
-        MC0013INProw("DELFLG") = WF_DELFLG.Text
+        MA0007INProw("CAMPCODE") = WF_CAMPCODE.Text
+        MA0007INProw("TORICODE") = WF_TORICODE.Text
+        MA0007INProw("NSHABAN") = WF_NSHABAN.Text
+        MA0007INProw("STYMD") = WF_STYMD.Text
+        MA0007INProw("ENDYMD") = WF_ENDYMD.Text
+        MA0007INProw("DELFLG") = WF_DELFLG.Text
 
 
         '○Detail設定処理
@@ -971,59 +971,59 @@ Public Class GRMA0007NINUSHISHABAN
             If CType(reitem.FindControl("WF_Rep1_FIELD_1"), Label).Text <> "" Then
                 CS0010CHARstr.CHARIN = CType(reitem.FindControl("WF_Rep1_VALUE_1"), TextBox).Text
                 CS0010CHARstr.CS0010CHARget()
-                MC0013INProw(CType(reitem.FindControl("WF_Rep1_FIELD_1"), Label).Text) = CS0010CHARstr.CHAROUT
+                MA0007INProw(CType(reitem.FindControl("WF_Rep1_FIELD_1"), Label).Text) = CS0010CHARstr.CHAROUT
             End If
 
             '中央
             If CType(reitem.FindControl("WF_Rep1_FIELD_2"), Label).Text <> "" Then
                 CS0010CHARstr.CHARIN = CType(reitem.FindControl("WF_Rep1_VALUE_2"), TextBox).Text
                 CS0010CHARstr.CS0010CHARget()
-                MC0013INProw(CType(reitem.FindControl("WF_Rep1_FIELD_2"), Label).Text) = CS0010CHARstr.CHAROUT
+                MA0007INProw(CType(reitem.FindControl("WF_Rep1_FIELD_2"), Label).Text) = CS0010CHARstr.CHAROUT
             End If
 
             '右
             If CType(reitem.FindControl("WF_Rep1_FIELD_3"), Label).Text <> "" Then
                 CS0010CHARstr.CHARIN = CType(reitem.FindControl("WF_Rep1_VALUE_3"), TextBox).Text
                 CS0010CHARstr.CS0010CHARget()
-                MC0013INProw(CType(reitem.FindControl("WF_Rep1_FIELD_3"), Label).Text) = CS0010CHARstr.CHAROUT
+                MA0007INProw(CType(reitem.FindControl("WF_Rep1_FIELD_3"), Label).Text) = CS0010CHARstr.CHAROUT
             End If
         Next
 
         '○コード名称を設定する
         ' 会社コード
         WW_TEXT = ""
-        CODENAME_get("CAMPCODE", MC0013INProw("CAMPCODE"), WW_TEXT, WW_DUMMY)
-        MC0013INProw("CAMPNAMES") = WW_TEXT
+        CODENAME_get("CAMPCODE", MA0007INProw("CAMPCODE"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("CAMPNAMES") = WW_TEXT
 
         ' 取引先コード
         WW_TEXT = ""
-        CODENAME_get("TORICODE", MC0013INProw("TORICODE"), WW_TEXT, WW_DUMMY)
-        MC0013INProw("TORICODENAMES") = WW_TEXT
+        CODENAME_get("TORICODE", MA0007INProw("TORICODE"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("TORICODENAMES") = WW_TEXT
 
         ' 車両契約内容コード
         WW_TEXT = ""
-        CODENAME_get("SHARYOKEIYAKUCODE", MC0013INProw("SHARYOKEIYAKUCODE"), WW_TEXT, WW_DUMMY)
-        MC0013INProw("SHARYOKEIYAKUCODENAMES") = WW_TEXT
+        CODENAME_get("SHARYOKEIYAKUCODE", MA0007INProw("SHARYOKEIYAKUCODE"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("SHARYOKEIYAKUCODENAMES") = WW_TEXT
 
         ' 車型
         WW_TEXT = ""
-        CODENAME_get("SHAGATA", MC0013INProw("SHAGATA"), WW_TEXT, WW_DUMMY)
-        MC0013INProw("SHAGATANAMES") = WW_TEXT
+        CODENAME_get("SHAGATA", MA0007INProw("SHAGATA"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("SHAGATANAMES") = WW_TEXT
 
         ' コンテナ状態
         WW_TEXT = ""
-        CODENAME_get("CONTENASTATE", MC0013INProw("CONTENASTATE"), WW_TEXT, WW_DUMMY)
-        MC0013INProw("CONTENASTATENAMES") = WW_TEXT
+        CODENAME_get("CONTENASTATE", MA0007INProw("CONTENASTATE"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("CONTENASTATENAMES") = WW_TEXT
 
 
         ' 用車会社
         WW_TEXT = ""
-        CODENAME_get("SUPPL", MC0013INProw("SUPPL"), WW_TEXT, WW_DUMMY)
-        MC0013INProw("SUPPL") = WW_TEXT
+        CODENAME_get("SUPPL", MA0007INProw("SUPPL"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("SUPPL") = WW_TEXT
 
 
         ' チェック用テーブルに登録する
-        MC0013INPtbl.Rows.Add(MC0013INProw)
+        MA0007INPtbl.Rows.Add(MA0007INProw)
 
     End Sub
 
@@ -1497,7 +1497,7 @@ Public Class GRMA0007NINUSHISHABAN
         '○エラーレポート準備
         rightview.SetErrorReport("")
 
-        Master.CreateEmptyTable(MC0013INPtbl)
+        Master.CreateEmptyTable(MA0007INPtbl)
 
         '○UPLOAD_XLSデータ取得        
         CS0023XLSUPLOAD.CAMPCODE = work.WF_SEL_CAMPCODE.Text
@@ -1543,31 +1543,31 @@ Public Class GRMA0007NINUSHISHABAN
 
         '○Excelデータ毎にチェック＆更新
         For Each XLSTBLrow As DataRow In CS0023XLSUPLOAD.TBLDATA.Rows
-            '○XLSTBL明細⇒MC0013INProw
-            Dim MC0013INProw = MC0013INPtbl.NewRow
+            '○XLSTBL明細⇒MA0007INProw
+            Dim MA0007INProw = MA0007INPtbl.NewRow
 
             '初期クリア
-            For Each MC0013INPcol As DataColumn In MC0013INPtbl.Columns
+            For Each MA0007INPcol As DataColumn In MA0007INPtbl.Columns
 
-                If IsDBNull(MC0013INProw.Item(MC0013INPcol)) OrElse IsNothing(MC0013INProw.Item(MC0013INPcol)) Then
-                    Select Case MC0013INPcol.ColumnName
+                If IsDBNull(MA0007INProw.Item(MA0007INPcol)) OrElse IsNothing(MA0007INProw.Item(MA0007INPcol)) Then
+                    Select Case MA0007INPcol.ColumnName
                         Case "LINECNT"
-                            MC0013INProw.Item(MC0013INPcol) = 0
+                            MA0007INProw.Item(MA0007INPcol) = 0
                         Case "TIMSTP"
-                            MC0013INProw.Item(MC0013INPcol) = 0
+                            MA0007INProw.Item(MA0007INPcol) = 0
                         Case "SELECT"
-                            MC0013INProw.Item(MC0013INPcol) = 1
+                            MA0007INProw.Item(MA0007INPcol) = 1
                         Case "HIDDEN"
-                            MC0013INProw.Item(MC0013INPcol) = 0
+                            MA0007INProw.Item(MA0007INPcol) = 0
                         Case "SEQ"
-                            MC0013INProw.Item(MC0013INPcol) = 0
+                            MA0007INProw.Item(MA0007INPcol) = 0
                         Case Else
-                            If MC0013INPcol.DataType.Name = "String" Then
-                                MC0013INProw.Item(MC0013INPcol) = ""
-                            ElseIf MC0013INPcol.DataType.Name = "DateTime" Then
-                                MC0013INProw.Item(MC0013INPcol) = C_DEFAULT_YMD
+                            If MA0007INPcol.DataType.Name = "String" Then
+                                MA0007INProw.Item(MA0007INPcol) = ""
+                            ElseIf MA0007INPcol.DataType.Name = "DateTime" Then
+                                MA0007INProw.Item(MA0007INPcol) = C_DEFAULT_YMD
                             Else
-                                MC0013INProw.Item(MC0013INPcol) = 0
+                                MA0007INProw.Item(MA0007INPcol) = 0
                             End If
                     End Select
                 End If
@@ -1586,7 +1586,7 @@ Public Class GRMA0007NINUSHISHABAN
                        XLSTBLrow("TORICODE") = MA0007row("TORICODE") AndAlso
                        XLSTBLrow("NSHABAN") = MA0007row("NSHABAN") AndAlso
                        XLSTBLrow("STYMD") = MA0007row("STYMD") Then
-                        MC0013INProw.ItemArray = MA0007row.ItemArray
+                        MA0007INProw.ItemArray = MA0007row.ItemArray
                         Exit For
                     End If
                 Next
@@ -1595,65 +1595,65 @@ Public Class GRMA0007NINUSHISHABAN
             '○項目セット
             '会社コード
             If WW_COLUMNS.IndexOf("CAMPCODE") >= 0 Then
-                MC0013INProw("CAMPCODE") = XLSTBLrow("CAMPCODE")
+                MA0007INProw("CAMPCODE") = XLSTBLrow("CAMPCODE")
             End If
 
             '会社名
             If WW_COLUMNS.IndexOf("CAMPNAMES") >= 0 Then
-                MC0013INProw("CAMPNAMES") = XLSTBLrow("CAMPNAMES")
+                MA0007INProw("CAMPNAMES") = XLSTBLrow("CAMPNAMES")
             End If
 
 
             '取引先コード
             If WW_COLUMNS.IndexOf("TORICODE") >= 0 Then
-                MC0013INProw("TORICODE") = XLSTBLrow("TORICODE")
+                MA0007INProw("TORICODE") = XLSTBLrow("TORICODE")
             End If
 
             '取引先名
             If WW_COLUMNS.IndexOf("TORICODENAMES") >= 0 Then
-                MC0013INProw("TORICODENAMES") = XLSTBLrow("TORICODENAMES")
+                MA0007INProw("TORICODENAMES") = XLSTBLrow("TORICODENAMES")
             End If
 
             '荷主車番
             If WW_COLUMNS.IndexOf("NSHABAN") >= 0 Then
-                MC0013INProw("NSHABAN") = XLSTBLrow("NSHABAN")
+                MA0007INProw("NSHABAN") = XLSTBLrow("NSHABAN")
             End If
 
             '運賃計算車腹
             If WW_COLUMNS.IndexOf("UNCHINSHAFUKU") >= 0 Then
-                MC0013INProw("UNCHINSHAFUKU") = XLSTBLrow("UNCHINSHAFUKU")
+                MA0007INProw("UNCHINSHAFUKU") = XLSTBLrow("UNCHINSHAFUKU")
             End If
 
             '売上費用区分
             If WW_COLUMNS.IndexOf("SHAGATA") >= 0 Then
-                MC0013INProw("SHAGATA") = XLSTBLrow("SHAGATA")
+                MA0007INProw("SHAGATA") = XLSTBLrow("SHAGATA")
             End If
 
             'コンテナ状態
             If WW_COLUMNS.IndexOf("CONTENASTATE") >= 0 Then
-                MC0013INProw("CONTENASTATE") = XLSTBLrow("CONTENASTATE")
+                MA0007INProw("CONTENASTATE") = XLSTBLrow("CONTENASTATE")
             End If
 
             'コンテナ状態名
             If WW_COLUMNS.IndexOf("CONTENASTATENAMES") >= 0 Then
-                MC0013INProw("CONTENASTATENAMES") = XLSTBLrow("CONTENASTATENAMES")
+                MA0007INProw("CONTENASTATENAMES") = XLSTBLrow("CONTENASTATENAMES")
             End If
 
             '用車会社
             If WW_COLUMNS.IndexOf("SUPPL") >= 0 Then
-                MC0013INProw("SUPPL") = XLSTBLrow("SUPPL")
+                MA0007INProw("SUPPL") = XLSTBLrow("SUPPL")
             End If
 
 
             '用車会社名
             If WW_COLUMNS.IndexOf("SUPPLNAMES") >= 0 Then
-                MC0013INProw("SUPPLNAMES") = XLSTBLrow("SUPPLNAMES")
+                MA0007INProw("SUPPLNAMES") = XLSTBLrow("SUPPLNAMES")
             End If
 
 
             '運賃統括組織名
             If WW_COLUMNS.IndexOf("UNCHINORGMAMES") >= 0 Then
-                MC0013INProw("UNCHINORGMAMES") = XLSTBLrow("UNCHINORGMAMES")
+                MA0007INProw("UNCHINORGMAMES") = XLSTBLrow("UNCHINORGMAMES")
             End If
 
 
@@ -1662,7 +1662,7 @@ Public Class GRMA0007NINUSHISHABAN
                 If IsDate(XLSTBLrow("STYMD")) Then
                     Dim WW_DATE As Date
                     Date.TryParse(XLSTBLrow("STYMD"), WW_DATE)
-                    MC0013INProw("STYMD") = WW_DATE.ToString("yyyy/MM/dd")
+                    MA0007INProw("STYMD") = WW_DATE.ToString("yyyy/MM/dd")
                 End If
             End If
 
@@ -1671,16 +1671,16 @@ Public Class GRMA0007NINUSHISHABAN
                 If IsDate(XLSTBLrow("ENDYMD")) Then
                     Dim WW_DATE As Date
                     Date.TryParse(XLSTBLrow("ENDYMD"), WW_DATE)
-                    MC0013INProw("ENDYMD") = WW_DATE.ToString("yyyy/MM/dd")
+                    MA0007INProw("ENDYMD") = WW_DATE.ToString("yyyy/MM/dd")
                 End If
             End If
 
             '削除
             If WW_COLUMNS.IndexOf("DELFLG") >= 0 Then
-                MC0013INProw("DELFLG") = XLSTBLrow("DELFLG")
+                MA0007INProw("DELFLG") = XLSTBLrow("DELFLG")
             End If
 
-            MC0013INPtbl.Rows.Add(MC0013INProw)
+            MA0007INPtbl.Rows.Add(MA0007INProw)
         Next
 
         '○項目チェック
@@ -1721,7 +1721,7 @@ Public Class GRMA0007NINUSHISHABAN
     Protected Sub MAPrefelence()
 
         '○選択画面の入力初期値設定
-        If Context.Handler.ToString().ToUpper() = C_PREV_MAP_LIST.MC0013S Then
+        If Context.Handler.ToString().ToUpper() = C_PREV_MAP_LIST.MA0007S Then
 
             Master.MAPID = GRMA0007WRKINC.MAPID
             '○Grid情報保存先のファイル名
@@ -1757,7 +1757,7 @@ Public Class GRMA0007NINUSHISHABAN
             MA0007tbl.Clear()
 
             '○テーブル検索結果をテーブル退避
-            'MC0013テンポラリDB項目作成
+            'MA0007テンポラリDB項目作成
 
             'DataBase接続文字
             Using SQLcon As SqlConnection = CS0050SESSION.getConnection
@@ -1783,8 +1783,11 @@ Public Class GRMA0007NINUSHISHABAN
                     & "         rtrim(NSHABAN)                         as NSHABAN          , " _
                     & "         rtrim(UNCHINSHAFUKU)                   as UNCHINSHAFUKU    , " _
                     & "         rtrim(SHARYOKEIYAKUCODE)               as SHARYOKEIYAKUCODE, " _
+                    & "         ''　　　　　　　　　                   as SHARYOKEIYAKUCODENAMES, " _
                     & "         rtrim(SHAGATA)                         as SHAGATA          , " _
-                    & "         rtrim(CONTENASTATE)                    as UNCHINCODENAME   , " _
+                    & "         ''　　　　　　　　　                   as SHAGATANAMES, " _
+                    & "         rtrim(CONTENASTATE)                    as CONTENASTATE   　, " _
+                    & "         ''　　　　　　　　　                   as CONTENASTATENAMES, " _
                     & "         format(STYMD, 'yyyy/MM/dd')            as STYMD            , " _
                     & "         format(ENDYMD, 'yyyy/MM/dd')           as ENDYMD           , " _
                     & "         rtrim(SUPPL)                           as SUPPL            , " _
@@ -1843,6 +1846,7 @@ Public Class GRMA0007NINUSHISHABAN
                             CODENAME_get("CAMPCODE", MA0007row("CAMPCODE"), MA0007row("CAMPNAMES"), WW_DUMMY)
                             CODENAME_get("TORICODE", MA0007row("TORICODE"), MA0007row("TORICODENAMES"), WW_DUMMY)
                             CODENAME_get("SHAGATA", MA0007row("SHAGATA"), MA0007row("SHAGATANAMES"), WW_DUMMY)
+                            CODENAME_get("SHARYOKEIYAKUCODE", MA0007row("SHARYOKEIYAKUCODE"), MA0007row("SHARYOKEIYAKUCODENAMES"), WW_DUMMY)
                             CODENAME_get("CONTENASTATE", MA0007row("CONTENASTATE"), MA0007row("CONTENASTATENAMES"), WW_DUMMY)
                         Next
 
@@ -1911,22 +1915,22 @@ Public Class GRMA0007NINUSHISHABAN
             Exit Sub
         End If
 
-        For Each MC0013INProw As DataRow In MC0013INPtbl.Rows
+        For Each MA0007INProw As DataRow In MA0007INPtbl.Rows
 
             WW_LINEERR_SW = ""
             '○単項目チェック(会社コード)
-            WW_TEXT = MC0013INProw("CAMPCODE")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "CAMPCODE", MC0013INProw("CAMPCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = MA0007INProw("CAMPCODE")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "CAMPCODE", MA0007INProw("CAMPCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    MC0013INProw("CAMPCODE") = ""
+                    MA0007INProw("CAMPCODE") = ""
                 Else
-                    CODENAME_get("CAMPCODE", MC0013INProw("CAMPCODE"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("CAMPCODE", MA0007INProw("CAMPCODE"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
                         WW_CheckMES1 = "・更新できないレコード(会社エラー)です。"
                         WW_CheckMES2 = ""
-                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                         WW_LINEERR_SW = "ERR"
                     End If
@@ -1934,25 +1938,25 @@ Public Class GRMA0007NINUSHISHABAN
             Else
                 WW_CheckMES1 = "・更新できないレコード(会社コードエラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(取引先コード)
-            WW_TEXT = MC0013INProw("TORICODE")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TORICODE", MC0013INProw("TORICODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = MA0007INProw("TORICODE")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "TORICODE", MA0007INProw("TORICODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    MC0013INProw("TORICODE") = ""
+                    MA0007INProw("TORICODE") = ""
                 Else
-                    CODENAME_get("TORICODE", MC0013INProw("TORICODE"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("TORICODE", MA0007INProw("TORICODE"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
                         WW_CheckMES1 = "・更新できないレコード(取引先コードエラー)です。"
                         WW_CheckMES2 = ""
-                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                         WW_LINEERR_SW = "ERR"
                     End If
@@ -1960,82 +1964,82 @@ Public Class GRMA0007NINUSHISHABAN
             Else
                 WW_CheckMES1 = "・更新できないレコード(取引先コードエラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(荷主車番)
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "NSHABAN", MC0013INProw("NSHABAN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "NSHABAN", MA0007INProw("NSHABAN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
                 WW_CheckMES1 = "・更新できないレコード(荷主車番エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(有効開始日付)
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "STYMD", MC0013INProw("STYMD"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "STYMD", MA0007INProw("STYMD"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
                 WW_CheckMES1 = "・更新できないレコード(有効日付：開始エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
             '○単項目チェック(有効終了日付)
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ENDYMD", MC0013INProw("ENDYMD"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "ENDYMD", MA0007INProw("ENDYMD"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
                 WW_CheckMES1 = "・更新できないレコード(有効日付：終了エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(DELFLG)
-            If MC0013INProw("DELFLG") = "" OrElse MC0013INProw("DELFLG") = C_DELETE_FLG.ALIVE OrElse MC0013INProw("DELFLG") = C_DELETE_FLG.DELETE Then
-                If MC0013INProw("DELFLG") = "" Then
-                    MC0013INProw("DELFLG") = C_DELETE_FLG.ALIVE
+            If MA0007INProw("DELFLG") = "" OrElse MA0007INProw("DELFLG") = C_DELETE_FLG.ALIVE OrElse MA0007INProw("DELFLG") = C_DELETE_FLG.DELETE Then
+                If MA0007INProw("DELFLG") = "" Then
+                    MA0007INProw("DELFLG") = C_DELETE_FLG.ALIVE
                 End If
             Else
                 WW_CheckMES1 = "・更新できないレコード(削除CD不正)です。"
                 WW_CheckMES2 = ""
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(運賃計算車腹)
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "UNCHINSHAFUKU", MC0013INProw("UNCHINSHAFUKU"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "UNCHINSHAFUKU", MA0007INProw("UNCHINSHAFUKU"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
                 WW_CheckMES1 = "・更新できないレコード(運賃計算車腹エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(車両契約内容コード)
-            WW_TEXT = MC0013INProw("SHARYOKEIYAKUCODE")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHARYOKEIYAKUCODE", MC0013INProw("SHARYOKEIYAKUCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = MA0007INProw("SHARYOKEIYAKUCODE")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHARYOKEIYAKUCODE", MA0007INProw("SHARYOKEIYAKUCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    MC0013INProw("SHARYOKEIYAKUCODE") = ""
+                    MA0007INProw("SHARYOKEIYAKUCODE") = ""
                 Else
-                    CODENAME_get("SHARYOKEIYAKUCODE", MC0013INProw("SHARYOKEIYAKUCODE"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("SHARYOKEIYAKUCODE", MA0007INProw("SHARYOKEIYAKUCODE"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
                         WW_CheckMES1 = "・更新できないレコード(車両契約内容コードエラー)です。"
                         WW_CheckMES2 = ""
-                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                         WW_LINEERR_SW = "ERR"
                     End If
@@ -2043,25 +2047,25 @@ Public Class GRMA0007NINUSHISHABAN
             Else
                 WW_CheckMES1 = "・更新できないレコード(車両契約内容コードエラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(車型)
-            WW_TEXT = MC0013INProw("SHAGATA")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHAGATA", MC0013INProw("SHAGATA"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = MA0007INProw("SHAGATA")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHAGATA", MA0007INProw("SHAGATA"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    MC0013INProw("SHAGATA") = ""
+                    MA0007INProw("SHAGATA") = ""
                 Else
-                    CODENAME_get("SHAGATA", MC0013INProw("SHAGATA"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("SHAGATA", MA0007INProw("SHAGATA"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
                         WW_CheckMES1 = "・更新できないレコード(車型エラー)です。"
                         WW_CheckMES2 = ""
-                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                         WW_LINEERR_SW = "ERR"
                     End If
@@ -2069,25 +2073,25 @@ Public Class GRMA0007NINUSHISHABAN
             Else
                 WW_CheckMES1 = "・更新できないレコード(車型エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
 
 
             '○単項目チェック(コンテナ状態)
-            WW_TEXT = MC0013INProw("CONTENASTATE")
-            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "CONTENASTATE", MC0013INProw("CONTENASTATE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            WW_TEXT = MA0007INProw("CONTENASTATE")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "CONTENASTATE", MA0007INProw("CONTENASTATE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If isNormal(WW_CS0024FCHECKERR) Then
                 '存在チェック
                 If WW_TEXT = "" Then
-                    MC0013INProw("CONTENASTATE") = ""
+                    MA0007INProw("CONTENASTATE") = ""
                 Else
-                    CODENAME_get("CONTENASTATE", MC0013INProw("CONTENASTATE"), WW_DUMMY, WW_RTN_SW)
+                    CODENAME_get("CONTENASTATE", MA0007INProw("CONTENASTATE"), WW_DUMMY, WW_RTN_SW)
                     If Not isNormal(WW_RTN_SW) Then
                         WW_CheckMES1 = "・更新できないレコード(コンテナ状態エラー)です。"
                         WW_CheckMES2 = ""
-                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                         O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                         WW_LINEERR_SW = "ERR"
                     End If
@@ -2095,7 +2099,7 @@ Public Class GRMA0007NINUSHISHABAN
             Else
                 WW_CheckMES1 = "・更新できないレコード(コンテナ状態エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
-                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
                 WW_LINEERR_SW = "ERR"
             End If
@@ -2103,11 +2107,11 @@ Public Class GRMA0007NINUSHISHABAN
 
             '○操作設定
             If WW_LINEERR_SW = "" Then
-                If MC0013INProw("OPERATION") <> C_LIST_OPERATION_CODE.ERRORED Then
-                    MC0013INProw("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
+                If MA0007INProw("OPERATION") <> C_LIST_OPERATION_CODE.ERRORED Then
+                    MA0007INProw("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
                 End If
             Else
-                MC0013INProw("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
+                MA0007INProw("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
             End If
         Next
 
@@ -2137,13 +2141,13 @@ Public Class GRMA0007NINUSHISHABAN
         Dim WW_DATE_END2 As Date
 
         '○関連チェック
-        For Each MC0013INProw As DataRow In MA0007tbl.Rows
+        For Each MA0007INProw As DataRow In MA0007tbl.Rows
 
             '読み飛ばし
-            If (MC0013INProw("OPERATION") <> C_LIST_OPERATION_CODE.UPDATING AndAlso
-                MC0013INProw("OPERATION") <> C_LIST_OPERATION_CODE.ERRORED) OrElse
-                MC0013INProw("DELFLG") = C_DELETE_FLG.DELETE OrElse
-                MC0013INProw("STYMD") < C_DEFAULT_YMD Then
+            If (MA0007INProw("OPERATION") <> C_LIST_OPERATION_CODE.UPDATING AndAlso
+                MA0007INProw("OPERATION") <> C_LIST_OPERATION_CODE.ERRORED) OrElse
+                MA0007INProw("DELFLG") = C_DELETE_FLG.DELETE OrElse
+                MA0007INProw("STYMD") < C_DEFAULT_YMD Then
                 Continue For
             End If
 
@@ -2153,23 +2157,23 @@ Public Class GRMA0007NINUSHISHABAN
             For Each MA0007row As DataRow In MA0007tbl.Rows
 
                 '日付以外の項目が等しい
-                If MC0013INProw("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
-                   MC0013INProw("TORICODE") = MA0007row("TORICODE") AndAlso
-                   MC0013INProw("OILTYPEGRP") = MA0007row("OILTYPEGRP") AndAlso
-                   MC0013INProw("URIHIYOKBN") = MA0007row("URIHIYOKBN") AndAlso
+                If MA0007INProw("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
+                   MA0007INProw("TORICODE") = MA0007row("TORICODE") AndAlso
+                   MA0007INProw("OILTYPEGRP") = MA0007row("OILTYPEGRP") AndAlso
+                   MA0007INProw("URIHIYOKBN") = MA0007row("URIHIYOKBN") AndAlso
                     MA0007row("DELFLG") <> C_DELETE_FLG.DELETE Then
                 Else
                     Continue For
                 End If
 
                 '期間変更対象は読み飛ばし
-                If MC0013INProw("STYMD") = MA0007row("STYMD") Then
+                If MA0007INProw("STYMD") = MA0007row("STYMD") Then
                     Continue For
                 End If
 
                 Try
-                    Date.TryParse(MC0013INProw("STYMD"), WW_DATE_ST)
-                    Date.TryParse(MC0013INProw("ENDYMD"), WW_DATE_END)
+                    Date.TryParse(MA0007INProw("STYMD"), WW_DATE_ST)
+                    Date.TryParse(MA0007INProw("ENDYMD"), WW_DATE_END)
                     Date.TryParse(MA0007row("STYMD"), WW_DATE_ST2)
                     Date.TryParse(MA0007row("ENDYMD"), WW_DATE_END2)
                 Catch ex As Exception
@@ -2198,9 +2202,9 @@ Public Class GRMA0007NINUSHISHABAN
             Next
 
             If WW_LINEERR_SW = "" Then
-                MC0013INProw("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
+                MA0007INProw("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
             Else
-                MC0013INProw("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
+                MA0007INProw("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
             End If
         Next
 
@@ -2230,58 +2234,58 @@ Public Class GRMA0007NINUSHISHABAN
         Next
 
         '○追加変更判定
-        For Each MC0013INProw As DataRow In MC0013INPtbl.Rows
+        For Each MA0007INProw As DataRow In MA0007INPtbl.Rows
 
             'エラーレコード読み飛ばし
-            If MC0013INProw("OPERATION") <> C_LIST_OPERATION_CODE.UPDATING Then
+            If MA0007INProw("OPERATION") <> C_LIST_OPERATION_CODE.UPDATING Then
                 Continue For
             End If
 
             '初期判定セット
-            MC0013INProw("OPERATION") = "Insert"
+            MA0007INProw("OPERATION") = "Insert"
 
             For Each MA0007row As DataRow In MA0007tbl.Rows
 
-                If MC0013INProw("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
-                   MC0013INProw("TORICODE") = MA0007row("TORICODE") AndAlso
-                   MC0013INProw("NSHABAN") = MA0007row("NSHABAN") AndAlso
-                   MC0013INProw("STYMD") = MA0007row("STYMD") Then
+                If MA0007INProw("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
+                   MA0007INProw("TORICODE") = MA0007row("TORICODE") AndAlso
+                   MA0007INProw("NSHABAN") = MA0007row("NSHABAN") AndAlso
+                   MA0007INProw("STYMD") = MA0007row("STYMD") Then
                 Else
                     Continue For
                 End If
 
                 'レコード内容に変更があったか判定
-                If MA0007row("CAMPCODE") = MC0013INProw("CAMPCODE") AndAlso
-                    MA0007row("CAMPNAMES") = MC0013INProw("CAMPNAMES") AndAlso
-                    MA0007row("TORICODE") = MC0013INProw("TORICODE") AndAlso
-                    MA0007row("TORICODENAMES") = MC0013INProw("TORICODENAMES") AndAlso
-                    MA0007row("NSHABAN") = MC0013INProw("NSHABAN") AndAlso
-                    MA0007row("STYMD") = MC0013INProw("STYMD") AndAlso
-                    MA0007row("ENDYMD") = MC0013INProw("ENDYMD") AndAlso
-                    MA0007row("UNCHINSHAFUKU") = MC0013INProw("UNCHINSHAFUKU") AndAlso
-                    MA0007row("SHARYOKEIYAKUCODE") = MC0013INProw("SHARYOKEIYAKUCODE") AndAlso
-                    MA0007row("SHARYOKEIYAKUCODENAMES") = MC0013INProw("SHARYOKEIYAKUCODENAMES") AndAlso
-                    MA0007row("SHAGATA") = MC0013INProw("SHAGATA") AndAlso
-                    MA0007row("SHAGATANAMES") = MC0013INProw("SHAGATANAMES") AndAlso
-                    MA0007row("CONTENASTATE") = MC0013INProw("CONTENASTATE") AndAlso
-                    MA0007row("CONTENASTATENAMES") = MC0013INProw("CONTENASTATENAMES") AndAlso
-                    MA0007row("SUPPL") = MC0013INProw("SUPPL") AndAlso
-                    MA0007row("DELFLG") = MC0013INProw("DELFLG") Then
+                If MA0007row("CAMPCODE") = MA0007INProw("CAMPCODE") AndAlso
+                    MA0007row("CAMPNAMES") = MA0007INProw("CAMPNAMES") AndAlso
+                    MA0007row("TORICODE") = MA0007INProw("TORICODE") AndAlso
+                    MA0007row("TORICODENAMES") = MA0007INProw("TORICODENAMES") AndAlso
+                    MA0007row("NSHABAN") = MA0007INProw("NSHABAN") AndAlso
+                    MA0007row("STYMD") = MA0007INProw("STYMD") AndAlso
+                    MA0007row("ENDYMD") = MA0007INProw("ENDYMD") AndAlso
+                    MA0007row("UNCHINSHAFUKU") = MA0007INProw("UNCHINSHAFUKU") AndAlso
+                    MA0007row("SHARYOKEIYAKUCODE") = MA0007INProw("SHARYOKEIYAKUCODE") AndAlso
+                    MA0007row("SHARYOKEIYAKUCODENAMES") = MA0007INProw("SHARYOKEIYAKUCODENAMES") AndAlso
+                    MA0007row("SHAGATA") = MA0007INProw("SHAGATA") AndAlso
+                    MA0007row("SHAGATANAMES") = MA0007INProw("SHAGATANAMES") AndAlso
+                    MA0007row("CONTENASTATE") = MA0007INProw("CONTENASTATE") AndAlso
+                    MA0007row("CONTENASTATENAMES") = MA0007INProw("CONTENASTATENAMES") AndAlso
+                    MA0007row("SUPPL") = MA0007INProw("SUPPL") AndAlso
+                    MA0007row("DELFLG") = MA0007INProw("DELFLG") Then
 
-                    MC0013INProw("OPERATION") = C_LIST_OPERATION_CODE.NODATA
+                    MA0007INProw("OPERATION") = C_LIST_OPERATION_CODE.NODATA
                 Else
                     '○更新（Update）
-                    TBL_Update_SUB(MC0013INProw, MA0007row)
+                    TBL_Update_SUB(MA0007INProw, MA0007row)
                 End If
 
                 Exit For
 
             Next
 
-            '○MC0013追加処理
-            If MC0013INProw("OPERATION") = "Insert" Then
+            '○MA0007追加処理
+            If MA0007INProw("OPERATION") = "Insert" Then
                 '○更新（Insert）
-                TBL_Insert_SUB(MC0013INProw)
+                TBL_Insert_SUB(MA0007INProw)
             End If
         Next
 
@@ -2301,7 +2305,7 @@ Public Class GRMA0007NINUSHISHABAN
         INProw("SELECT") = 1
         INProw("HIDDEN") = 0
 
-        '○MC0013変更処理
+        '○MA0007変更処理
         UPDRow.ItemArray = INProw.ItemArray
         If UPDRow("DELFLG") = "" Then
             UPDRow("DELFLG") = C_DELETE_FLG.ALIVE
@@ -2321,7 +2325,7 @@ Public Class GRMA0007NINUSHISHABAN
 
         INProw("OPERATION") = C_LIST_OPERATION_CODE.UPDATING
 
-        '○MC0013追加処理
+        '○MA0007追加処理
         Dim MA0007row As DataRow = MA0007tbl.NewRow
         MA0007row.ItemArray = INProw.ItemArray
 
@@ -2334,6 +2338,7 @@ Public Class GRMA0007NINUSHISHABAN
 
     End Sub
 
+
     ' ******************************************************************************
     ' ***  サブルーチン                                                          ***
     ' ******************************************************************************
@@ -2345,22 +2350,22 @@ Public Class GRMA0007NINUSHISHABAN
     ''' <param name="I_MESSAGE2"></param>
     ''' <param name="I_ERRCD"></param>
     ''' <remarks></remarks>
-    Protected Sub WW_CheckERR(ByRef I_MESSAGE1 As String, ByRef I_MESSAGE2 As String, ByVal I_ERRCD As String, ByVal MC0013INProw As DataRow)
+    Protected Sub WW_CheckERR(ByRef I_MESSAGE1 As String, ByRef I_MESSAGE2 As String, ByVal I_ERRCD As String, ByVal MA0007INProw As DataRow)
 
         Dim WW_ERR_MES As String = ""
         WW_ERR_MES = I_MESSAGE1
         If I_MESSAGE2 <> "" Then
             WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> " & I_MESSAGE2 & " , "
         End If
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 会社コード　　　　　　=" & MC0013INProw("CAMPCODE") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 取引先コード　　　　　=" & MC0013INProw("TORICODE") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃計算油種グループ　=" & MC0013INProw("OILTYPEGRP") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 売上費用区分　　　　　=" & MC0013INProw("URIHIYOKBN") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃コード　　　　　　=" & MC0013INProw("UNCHINCODE") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 開始年月日　　　　　　=" & MC0013INProw("STYMD") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 終了年月日　　　　　　=" & MC0013INProw("ENDYMD") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃コード名称　　　　=" & MC0013INProw("UNCHINCODENAME") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 削除フラグ　　　　　　=" & MC0013INProw("DELFLG") & " "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 会社コード　　　　　　=" & MA0007INProw("CAMPCODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 取引先コード　　　　　=" & MA0007INProw("TORICODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃計算油種グループ　=" & MA0007INProw("OILTYPEGRP") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 売上費用区分　　　　　=" & MA0007INProw("URIHIYOKBN") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃コード　　　　　　=" & MA0007INProw("UNCHINCODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 開始年月日　　　　　　=" & MA0007INProw("STYMD") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 終了年月日　　　　　　=" & MA0007INProw("ENDYMD") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃コード名称　　　　=" & MA0007INProw("UNCHINCODENAME") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 削除フラグ　　　　　　=" & MA0007INProw("DELFLG") & " "
         rightview.AddErrorReport(WW_ERR_MES)
 
     End Sub
@@ -2384,16 +2389,22 @@ Public Class GRMA0007NINUSHISHABAN
         If I_VALUE <> "" Then
             With leftview
                 Select Case I_FIELD
-                    Case "CAMPCODE"      '会社
+                    Case "CAMPCODE"             '会社
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text))
 
-                    Case "TORICODE"      '取引先コード
+                    Case "TORICODE"             '取引先コード
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, I_VALUE, O_TEXT, O_RTN, work.CreateTORIParam(work.WF_SEL_CAMPCODE.Text))
 
-                    Case "NSHABAN"       '荷主車番
+                    Case "SHARYOKEIYAKUCODE"    '車両契約内容コード
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHARYOKEIYAKUCODE"))
+
+                    Case "SHAGATA"              '荷主車番
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHAGATA"))
+
+                    Case "NSHABAN"              '荷主車番
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "NSHABAN"))
 
-                    Case "DELFLG"        '削除フラグ名称
+                    Case "DELFLG"               '削除フラグ名称
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_DELFLG, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "DELFLG"))
 
                     Case Else
