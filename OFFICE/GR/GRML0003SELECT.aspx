@@ -1,4 +1,4 @@
-﻿<%@ Page Title="MC0013S" Language="vb" AutoEventWireup="false" CodeBehind="GRMC0013SELECT.aspx.vb" Inherits="OFFICE.GRMC0013SELECT" %>
+﻿<%@ Page Title="ML0003S" Language="vb" AutoEventWireup="false" CodeBehind="GRML0003SELECT.aspx.vb" Inherits="OFFICE.GRML0003SELECT" %>
 <%@ MasterType VirtualPath="~/GR/GRMasterPage.Master" %> 
 
 <%@ Import Namespace="OFFICE.GRIS0005LeftBox" %>
@@ -6,13 +6,13 @@
 <%@ register src="~/inc/GRIS0003SRightBox.ascx" tagname="rightview" tagprefix="MSINC" %>
 <%@ register src="~/inc/GRIS0005LeftBox.ascx" tagname="leftview" tagprefix="MSINC" %>
 
-<%@ register src="inc/GRMC0013WRKINC.ascx" tagname="work" tagprefix="LSINC" %>
-<asp:Content ID="GRMC0013SH" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/GR/css/MC0013S.css")%>"/>
-    <script type="text/javascript" src="<%=ResolveUrl("~/GR/script/MC0013S.js")%>"></script>
+<%@ register src="inc/GRML0003WRKINC.ascx" tagname="work" tagprefix="LSINC" %>
+<asp:Content ID="GRML0003SH" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/GR/css/ML0003S.css")%>"/>
+    <script type="text/javascript" src="<%=ResolveUrl("~/GR/script/ML0003S.js")%>"></script>
 </asp:Content>
 
-<asp:Content ID="GRMC0013S" ContentPlaceHolderID="contents1" runat="server">
+<asp:Content ID="GRML0003S" ContentPlaceHolderID="contents1" runat="server">
     <!-- 全体レイアウト　searchbox -->
     <div class="searchbox" id="searchbox">
         <!-- ○ 固定項目 ○ -->
@@ -46,34 +46,26 @@
         </a>
 
 
-        <!-- 取引先コード -->
-        <a style="position:fixed; top:12.1em; left:4em; font-weight:bold; text-decoration:underline;">取引先コード</a>
-        <a style="position:fixed; top:12.1em; left:18em;" ondblclick="Field_DBclick('WF_TORICODE', <%=LIST_BOX_CLASSIFICATION.LC_CUSTOMER%>);" onchange="TextBox_change('WF_TORICODE');">
-            <asp:TextBox ID="WF_TORICODE" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
+        <!-- 仕訳パターン分類 -->
+        <a style="position:fixed; top:12.1em; left:4em; font-weight:bold; text-decoration:underline;">仕訳パターン分類</a>
+        <a style="position:fixed; top:12.1em; left:18em;" ondblclick="Field_DBclick('WF_SHIWAKEPATERNKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_SHIWAKEPATERNKBN');">
+            <asp:TextBox ID="WF_SHIWAKEPATERNKBN" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
         <a style="position:fixed; top:12.1em; left:28em;">
-            <asp:Label ID="WF_TORICODE_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
+            <asp:Label ID="WF_SHIWAKEPATERNKBN_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
 
-        <!-- 運賃計算油種グループ -->
-        <a style="position:fixed; top:14.3em; left:4em; font-weight:bold; text-decoration:underline;">運賃計算油種グループ</a>
-        <a style="position:fixed; top:14.3em; left:18em;" ondblclick="Field_DBclick('WF_OILTYPEGRP', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_OILTYPEGRP');">
-            <asp:TextBox ID="WF_OILTYPEGRP" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
+
+        <!-- 貸借区分 -->
+        <!--
+        <a style="position:fixed; top:14.3em; left:4em; font-weight:bold; text-decoration:underline;">貸借区分</a>
+        <a style="position:fixed; top:14.3em; left:18em;" ondblclick="Field_DBclick('WF_ACDCKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_ACDCKBN');">
+            <asp:TextBox ID="WF_ACDCKBN" runat="server" MaxLength="1" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
         <a style="position:fixed; top:14.3em; left:28em;">
-            <asp:Label ID="WF_OILTYPEGRP_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
+            <asp:Label ID="WF_ACDCKBN_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
-
-
-        <!-- 売上費用区分 -->
-        <a style="position:fixed; top:16.5em; left:4em; font-weight:bold; text-decoration:underline;">売上費用区分</a>
-        <a style="position:fixed; top:16.5em; left:18em;" ondblclick="Field_DBclick('WF_URIHIYOKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_URIHIYOKBN');">
-            <asp:TextBox ID="WF_URIHIYOKBN" runat="server" MaxLength="1" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
-        </a>
-        <a style="position:fixed; top:16.5em; left:28em;">
-            <asp:Label ID="WF_URIHIYOKBN_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
-        </a>
-
+        -->
 
     </div>
 

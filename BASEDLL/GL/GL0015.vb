@@ -2,36 +2,11 @@
 Imports System.Web.UI.WebControls
 
 ''' <summary>
-''' 仕訳パターン報取得
+''' 勘定科目一覧取得
 ''' </summary>
 ''' <remarks></remarks>
-Public Class GL0014SHIWAKEPATTERNList
+Public Class GL0015ACCODEList
     Inherits GL0000
-    ''' <summary>
-    ''' 取得条件
-    ''' </summary>
-    Public Enum LC_ACDCKBN_TYPE
-        ''' <summary>
-        ''' 全取得
-        ''' </summary>
-        ALL
-        ''' <summary>
-        ''' 借方
-        ''' </summary>
-        DEBIT
-        ''' <summary>
-        ''' 貸方
-        ''' </summary>
-        CREDITOR
-    End Enum
-
-    ''' <summary>
-    '''　取得区分
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Property TYPE() As LC_ACDCKBN_TYPE
     ''' <summary>
     ''' 会社コード
     ''' </summary>
@@ -40,19 +15,19 @@ Public Class GL0014SHIWAKEPATTERNList
     ''' <remarks></remarks>
     Public Property CAMPCODE() As String
     ''' <summary>
-    ''' 取引先コード
+    ''' 勘定科目
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Property SHIWAKEPATERN() As String
+    Public Property ACCODE() As String
     ''' <summary>
-    ''' 分類コード
+    ''' 補助科目コード
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Property SHIWAKEPATERNKBN() As String
+    Public Property ACSUBCODE() As String
     ''' <summary>
     ''' メソッド名
     ''' </summary>
@@ -71,20 +46,11 @@ Public Class GL0014SHIWAKEPATTERNList
         '●初期処理
 
 
-        'PARAM 01: TYPE
-        If checkParam(METHOD_NAME, TYPE) Then
-            Exit Sub
+        'PARAM EXTRA01: ACSUBCODE
+        If IsNothing(ACSUBCODE) Then
+            ACSUBCODE = ""
         End If
 
-        'PARAM EXTRA02: SHIWAKEPATERNKBN
-        If IsNothing(SHIWAKEPATERNKBN) Then
-            SHIWAKEPATERNKBN = ""
-        End If
-
-        'PARAM EXTRA03: SHIWAKEPATERNKBN
-        If IsNothing(SHIWAKEPATERN) Then
-            SHIWAKEPATERN = ""
-        End If
 
         'PARAM EXTRA02: STYMD
         If STYMD < C_DEFAULT_YMD Then
@@ -107,13 +73,7 @@ Public Class GL0014SHIWAKEPATTERNList
         Using SQLcon = sm.getConnection
             SQLcon.Open() 'DataBase接続(Open)
 
-            Select Case TYPE
-                Case LC_ACDCKBN_TYPE.ALL,
-                     LC_ACDCKBN_TYPE.DEBIT,
-                     LC_ACDCKBN_TYPE.CREDITOR
-                    getSHIWAKEPATTERNList(SQLcon)
-
-            End Select
+            getACCODEList(SQLcon)
 
         End Using
 
@@ -123,30 +83,21 @@ Public Class GL0014SHIWAKEPATTERNList
     ''' <summary>
     ''' 仕分けパターン一覧取得
     ''' </summary>
-    Protected Sub getSHIWAKEPATTERNList(ByVal SQLcon As SqlConnection)
+    Protected Sub getACCODEList(ByVal SQLcon As SqlConnection)
 
         Try
             Dim SQLStr As String
             '●Leftボックス用仕訳パターン取得
             SQLStr =
-                  "  SELECT rtrim(A.SHIWAKEPATTERN)    as CODE    ," _
-                & "         rtrim(A.SHIWAKEPATERNNAME) as NAMES    " _
-                & "    FROM ML003_SHIWAKEPATTERN A                 " _
+                  "  SELECT rtrim(A.ACCODE)  as CODE    ," _
+                & "         rtrim(A.ACNAMES) as NAMES    " _
+                & "    FROM ML001_ACCOUNT A                 " _
                 & "   WHERE                                        " _
                 & "         A.CAMPCODE      = @P1                  " _
-                & "       And   STYMD        <= @P2                " _
-                & "       And   ENDYMD       >= @P3                " _
-                & "     And A.SHIWAKEPATERNKBN = @P4               " _
-                & "     And A.DELFLG       <> '1'                  " _
-
-            '〇抽出条件追加
-            If TYPE = LC_ACDCKBN_TYPE.DEBIT Then
-                SQLStr = SQLStr _
-                        & "     AND A.ACDCKBN  =  'D'  "
-            ElseIf TYPE = LC_ACDCKBN_TYPE.CREDITOR Then
-                SQLStr = SQLStr _
-                        & "     AND A.ACDCKBN  =  'C'  "
-            End If
+                & "     And   STYMD        <= @P2                " _
+                & "     And   ENDYMD       >= @P3                " _
+                & "     AND A.ACSUBCODE = @P4               " _
+                & "     AND A.DELFLG       <> '1'                  " _
 
             '〇ソート条件追加
             Select Case DEFAULT_SORT
@@ -168,7 +119,7 @@ Public Class GL0014SHIWAKEPATTERNList
                 PARA1.Value = CAMPCODE
                 PARA2.Value = STYMD
                 PARA3.Value = ENDYMD
-                PARA4.Value = SHIWAKEPATERNKBN
+                PARA4.Value = ACSUBCODE
 
                 Dim SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
 
@@ -182,8 +133,8 @@ Public Class GL0014SHIWAKEPATTERNList
             End Using
         Catch ex As Exception
             Dim CS0011LOGWRITE As New CS0011LOGWrite                    'LogOutput DirString Get
-            CS0011LOGWRITE.INFSUBCLASS = "GL0014"          'SUBクラス名
-            CS0011LOGWRITE.INFPOSI = "DB:ML003_SHIWAKEPATTERN Select"       '
+            CS0011LOGWRITE.INFSUBCLASS = "GL0015"          'SUBクラス名
+            CS0011LOGWRITE.INFPOSI = "DB:ML001_ACCOUNT Select"       '
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
             CS0011LOGWRITE.TEXT = ex.ToString()
             CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR

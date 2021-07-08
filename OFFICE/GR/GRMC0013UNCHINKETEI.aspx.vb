@@ -743,9 +743,8 @@ Public Class GRMC0013UNTINKETEI
         WF_URIHIYOKBN_TEXT.Text = MC0013tbl.Rows(WW_Position)("URIHIYOKBNNAMES")
         WF_UNCHINCODE.Text = MC0013tbl.Rows(WW_Position)("UNCHINCODE")
         WF_SHIWAKEPATERNKBN = MC0013tbl.Rows(WW_Position)("SHIWAKEPATERNKBN")
+        WK_SHIPORG = MC0013tbl.Rows(WW_Position)("SHIPORG")
 
-        '表示順をHiddenに設定
-        'WF_SEQ.Value = MC0013tbl.Rows(WW_Position)("SEQ").ToString()
         '有効年月日
         WF_STYMD.Text = MC0013tbl.Rows(WW_Position)("STYMD")
         WF_ENDYMD.Text = MC0013tbl.Rows(WW_Position)("ENDYMD")
@@ -754,40 +753,6 @@ Public Class GRMC0013UNTINKETEI
         CODENAME_get("DELFLG", WF_DELFLG.Text, WW_TEXT, WW_DUMMY, "", "")
         WF_DELFLG_TEXT.Text = WW_TEXT
 
-        'ヘッダー部を非表示にして詳細部を表示する
-        'WF_DISP.Value = "headerbox"
-
-        '○出荷場所検索
-        For Each reitem As RepeaterItem In WF_DViewRep1.Items
-            WW_FILED_OBJ = CType(reitem.FindControl("WF_Rep1_FIELD_1"), Label)
-
-            If WW_FILED_OBJ.Text <> "" Then
-
-                WW_VALUE = WF_ITEM_FORMAT(WW_FILED_OBJ.text, MC0013tbl.Rows(WW_LINECNT)(WW_FILED_OBJ.Text))
-                If WW_FILED_OBJ.Text = "SHIPORG" Then
-                    WK_SHIPORG = WW_VALUE
-                End If
-            End If
-
-            WW_FILED_OBJ = CType(reitem.FindControl("WF_Rep1_FIELD_2"), Label)
-
-            If WW_FILED_OBJ.Text <> "" Then
-
-                WW_VALUE = WF_ITEM_FORMAT(WW_FILED_OBJ.text, MC0013tbl.Rows(WW_LINECNT)(WW_FILED_OBJ.Text))
-                If WW_FILED_OBJ.Text = "SHIPORG" Then
-                    WK_SHIPORG = WW_VALUE
-                End If
-            End If
-
-            WW_FILED_OBJ = CType(reitem.FindControl("WF_Rep1_FIELD_3"), Label)
-            If WW_FILED_OBJ.Text <> "" Then
-
-                WW_VALUE = WF_ITEM_FORMAT(WW_FILED_OBJ.text, MC0013tbl.Rows(WW_LINECNT)(WW_FILED_OBJ.Text))
-                If WW_FILED_OBJ.Text = "SHIPORG" Then
-                    WK_SHIPORG = WW_VALUE
-                End If
-            End If
-        Next
 
         '○Grid設定処理
         For Each reitem As RepeaterItem In WF_DViewRep1.Items
@@ -889,6 +854,9 @@ Public Class GRMC0013UNTINKETEI
             Case Else
         End Select
 
+        '○画面切替設定
+        WF_BOXChange.Value = "detailbox"
+
         '○画面表示データ保存
         Master.SaveTable(MC0013tbl)
 
@@ -977,6 +945,13 @@ Public Class GRMC0013UNTINKETEI
         Else
             Master.Output(WW_ERRCODE, C_MESSAGE_TYPE.ERR)
         End If
+
+        If isNormal(WW_ERRCODE) Then
+            '○画面切替設定
+            WF_BOXChange.Value = "headerbox"
+        Else
+        End If
+
 
         'カーソル設定
         WF_SELMANGORG.Focus()
@@ -1166,7 +1141,12 @@ Public Class GRMC0013UNTINKETEI
         CODENAME_get("OUTPUTSUMKBN", MC0013INProw("OUTPUTSUMKBN"), WW_TEXT, WW_DUMMY, "", "")
         MC0013INProw("OUTPUTSUMKBNNAMES") = WW_TEXT
 
-        ' 仕分けパターン)
+        ' 仕分けパターン分類
+        WW_TEXT = ""
+        CODENAME_get("SHIWAKEPATERNKBN", MC0013INProw("SHIWAKEPATERNKBN"), WW_TEXT, WW_DUMMY, "", MC0013INProw("SHIWAKEPATERNKBN"))
+        MC0013INProw("SHIWAKEPATERNKBNNAMES") = WW_TEXT
+
+        ' 仕分けパターン
         WW_TEXT = ""
         CODENAME_get("SHIWAKEPATTERN", MC0013INProw("SHIWAKEPATTERN"), WW_TEXT, WW_DUMMY, "", MC0013INProw("SHIWAKEPATERNKBN"))
         MC0013INProw("SHIWAKEPATERNNAME") = WW_TEXT
@@ -1187,6 +1167,9 @@ Public Class GRMC0013UNTINKETEI
 
         'メッセージ表示
         Master.Output(C_MESSAGE_NO.DATA_CLEAR_SUCCESSFUL, C_MESSAGE_TYPE.INF)
+
+        '○画面切替設定
+        WF_BOXChange.Value = "headerbox"
 
         '○カーソル設定
         WF_SELMANGORG.Focus()
@@ -1234,6 +1217,7 @@ Public Class GRMC0013UNTINKETEI
         WF_UNCHINCODE.Text = ""
         WF_STYMD.Text = ""
         WF_ENDYMD.Text = ""
+        WF_DELFLG_TEXT.Text = ""
         WF_DELFLG.Text = ""
         WF_SEQ.Value = ""
 
@@ -1370,8 +1354,12 @@ Public Class GRMC0013UNTINKETEI
                 ' 表示用サマリ区分
                 O_ATTR = "REF_Field_DBclick('OUTPUTSUMKBN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
+            Case "SHIWAKEPATERNKBN"
+                ' 仕訳パターン分類
+                O_ATTR = "REF_Field_DBclick('SHIWAKEPATERNKBN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+
             Case "SHIWAKEPATTERN"
-                ' 表示用サマリ区分
+                ' 仕訳パターン
                 O_ATTR = "REF_Field_DBclick('SHIWAKEPATTERN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_SHIWAKEPATTERN & "');"
 
         End Select
@@ -1512,7 +1500,9 @@ Public Class GRMC0013UNTINKETEI
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SEIKYUSUMKBN")
                             Case "OUTPUTSUMKBN"       　　'表示用サマリ区分
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "OUTPUTSUMKBN")
-                            Case "SHIWAKEPATTERN", "SHIWAKEPATTERNKBN"       　　'表示用サマリ区分
+                            Case "SHIWAKEPATERNKBN"       '表示用サマリ区分
+                                prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN")
+                            Case "SHIWAKEPATTERN"        　　'仕分けパターン
                                 '仕分けパターンが見つかったらコードを取得
                                 For Each reitem As RepeaterItem In WF_DViewRep1.Items
                                     '左
@@ -1539,7 +1529,7 @@ Public Class GRMC0013UNTINKETEI
                                     End If
                                 Next
 
-                                prmData = work.createSHIWAKEPATTERNParam(WF_CAMPCODE.Text, WW_VALUE, GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE.ALL)
+                                prmData = work.createSHIWAKEPATTERNParam(WF_CAMPCODE.Text, WW_VALUE, GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE.DEBIT)
                         End Select
 
                         Debug.Print(WF_LeftMViewChange.Value)
@@ -2129,11 +2119,22 @@ Public Class GRMC0013UNTINKETEI
             End If
 
 
+            '仕訳パターン分類名
+            If WW_COLUMNS.IndexOf("SHIWAKEPATERNKBNNAMES") >= 0 Then
+                MC0013INProw("SHIWAKEPATERNKBNNAMES") = XLSTBLrow("SHIWAKEPATERNKBNNAMES")
+            End If
+
+
             '仕訳パターン
             If WW_COLUMNS.IndexOf("SHIWAKEPATTERN") >= 0 Then
                 MC0013INProw("SHIWAKEPATTERN") = XLSTBLrow("SHIWAKEPATTERN")
             End If
 
+
+            '仕訳パターン名
+            If WW_COLUMNS.IndexOf("SHIWAKEPATERNNAME") >= 0 Then
+                MC0013INProw("SHIWAKEPATERNNAME") = XLSTBLrow("SHIWAKEPATERNNAME")
+            End If
 
             '請求書サマリ区分
             If WW_COLUMNS.IndexOf("SEIKYUSUMKBN") >= 0 Then
@@ -2315,29 +2316,30 @@ Public Class GRMC0013UNTINKETEI
                     & "         rtrim(MC1CLC.VALUE1)                   as UNCHINCALCNAMES     , " _
                     & "         rtrim(MC13.COST)                       as COST                , " _
                     & "         rtrim(MC13.SHIWAKEPATERNKBN)           as SHIWAKEPATERNKBN    , " _
-                    & "         rtrim(MC13.SHIWAKEPATTERN)             as SHIWAKEPATTERN      , " _
-                    & "         rtrim(ML03.SHIWAKEPATERNNAME)          as SHIWAKEPATERNNAME   , " _
-                    & "         rtrim(MC13.SEIKYUSUMKBN)               as SEIKYUSUMKBN        , " _
-                    & "         rtrim(MC1SEI.VALUE1)                   as SEIKYUSUMKBNNAMES   , " _
-                    & "         rtrim(MC13.OUTPUTSUMKBN)               as OUTPUTSUMKBN        , " _
-                    & "         rtrim(MC1OUT.VALUE1)                   as OUTPUTSUMKBNNAMES   , " _
-                    & "         rtrim(MC13.DELFLG)                     as DELFLG              , " _
-                    & "         ''                                     as INITYMD             , " _
-                    & "         ''                                     as UPDYMD              , " _
-                    & "         ''                                     as UPDUSER             , " _
-                    & "         ''                                     as UPDTERMID           , " _
-                    & "         ''                                     as RECEIVEYMD          , " _
-                    & "         ''                                     as UPDTIMSTP             " _
-                    & " FROM                                                                    " _
-                    & "           MC013_UNCHINKETEI MC13                                        " _
-                    & " --会社名取得                                                            " & vbCrLf _
-                    & " LEFT JOIN M0001_CAMP M01                                             ON " _
-                    & "           M01.CAMPCODE    = MC13.CAMPCODE                               " _
-                    & "      and  M01.STYMD      <= @P7                                         " _
-                    & "      and  M01.ENDYMD     >= @P7                                         " _
-                    & "      and  M01.DELFLG     <> '1'                                         " _
-                    & " --取引先名取得                                                          " & vbCrLf _
-                    & " LEFT JOIN MC002_TORIHIKISAKI MC02                                    ON " _
+                    & "         ''                                     as SHIWAKEPATERNKBNNAMES , " _
+                    & "         rtrim(MC13.SHIWAKEPATTERN)             as SHIWAKEPATTERN        , " _
+                    & "         rtrim(ML03.SHIWAKEPATERNNAME)          as SHIWAKEPATERNNAME  　 , " _
+                    & "         rtrim(MC13.SEIKYUSUMKBN)               as SEIKYUSUMKBN          , " _
+                    & "         rtrim(MC1SEI.VALUE1)                   as SEIKYUSUMKBNNAMES     , " _
+                    & "         rtrim(MC13.OUTPUTSUMKBN)               as OUTPUTSUMKBN          , " _
+                    & "         rtrim(MC1OUT.VALUE1)                   as OUTPUTSUMKBNNAMES     , " _
+                    & "         rtrim(MC13.DELFLG)                     as DELFLG                , " _
+                    & "         ''                                     as INITYMD               , " _
+                    & "         ''                                     as UPDYMD                , " _
+                    & "         ''                                     as UPDUSER               , " _
+                    & "         ''                                     as UPDTERMID             , " _
+                    & "         ''                                     as RECEIVEYMD            , " _
+                    & "         ''                                     as UPDTIMSTP               " _
+                    & " FROM                                                                      " _
+                    & "           MC013_UNCHINKETEI MC13                                          " _
+                    & " --会社名取得                                                              " & vbCrLf _
+                    & " LEFT JOIN M0001_CAMP M01                                               ON " _
+                    & "           M01.CAMPCODE    = MC13.CAMPCODE                                 " _
+                    & "      and  M01.STYMD      <= @P7                                           " _
+                    & "      and  M01.ENDYMD     >= @P7                                           " _
+                    & "      and  M01.DELFLG     <> '1'                                           " _
+                    & " --取引先名取得                                                            " & vbCrLf _
+                    & " LEFT JOIN MC002_TORIHIKISAKI MC02                                      ON " _
                     & "           MC02.CAMPCODE    = MC13.CAMPCODE                              " _
                     & "      and  MC02.TORICODE    = MC13.TORICODE                              " _
                     & "      and  MC02.STYMD      <= @P7                                        " _
@@ -2428,6 +2430,7 @@ Public Class GRMC0013UNTINKETEI
                     & "           ML03.CAMPCODE          = MC13.CAMPCODE                        " _
                     & "      and  ML03.SHIWAKEPATERNKBN  = MC13.SHIWAKEPATERNKBN                " _
                     & "      and  ML03.SHIWAKEPATTERN    = MC13.SHIWAKEPATTERN                  " _
+                    & "      and  ML03.ACDCKBN      = 'D'                                       " _
                     & "      and  ML03.STYMD      <= @P7                                        " _
                     & "      and  ML03.ENDYMD     >= @P7                                        " _
                     & "      and  ML03.DELFLG     <> '1'                                        " _
@@ -2465,8 +2468,10 @@ Public Class GRMC0013UNTINKETEI
                     SQLStr += "      and  MC13.URIHIYOKBN = @P4                                "
                 End If
 
-                SQLStr += "  and  MC13.STYMD      >= @P6                                        " _
-                    & "      and  MC13.ENDYMD     <= @P5                                        " _
+                'SQLStr += "  and  MC13.STYMD      >= @P6                                        " _
+                '    & "      and  MC13.ENDYMD     <= @P5                                        " _
+                SQLStr += "  and  MC13.STYMD      <= @P5                                        " _
+                    & "      and  MC13.ENDYMD     >= @P6                                        " _
                     & "      and  MC13.DELFLG     <> '1'                                        " _
                     & " ORDER BY                                                                " _
                     & "      MC13.CAMPCODE, MC13.TORICODE, MC13.OILTYPEGRP, MC13.URIHIYOKBN,    " _
@@ -2503,6 +2508,8 @@ Public Class GRMC0013UNTINKETEI
                             CODENAME_get("SHUKABASHO", MC0013row("SHUKABASHO"), MC0013row("SHUKABASHONAMES"), WW_DUMMY, MC0013row("SHIPORG"), MC0013row("TORICODE"))
                             '届先名を取得（出荷部署）
                             CODENAME_get("TODOKECODE", MC0013row("TODOKECODE"), MC0013row("TODOKECODENAMES"), WW_DUMMY, MC0013row("SHIPORG"), MC0013row("TORICODE"))
+                            '仕分パターン分類名を取得（出荷部署）
+                            CODENAME_get("SHIWAKEPATERNKBN", MC0013row("SHIWAKEPATERNKBN"), MC0013row("SHIWAKEPATERNKBNNAMES"), WW_DUMMY, "", "")
                         Next
 
                     End Using
@@ -3029,32 +3036,6 @@ Public Class GRMC0013UNTINKETEI
             End If
 
 
-            ''○単項目チェック(運賃計算方法)
-            'WW_TEXT = MC0013INProw("UNCHINCALC")
-            'Master.CheckField(work.WF_SEL_CAMPCODE.Text, "UNCHINCALC", MC0013INProw("UNCHINCALC"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
-            'If isNormal(WW_CS0024FCHECKERR) Then
-            '    '存在チェック
-            '    If WW_TEXT = "" Then
-            '        MC0013INProw("UNCHINCALC") = ""
-            '    Else
-            '        CODENAME_get("UNCHINCALC", MC0013INProw("UNCHINCALC"), WW_DUMMY, WW_RTN_SW, MC0013INProw("UNCHINCALC"), "")
-            '        If Not isNormal(WW_RTN_SW) Then
-            '            WW_CheckMES1 = "・更新できないレコード(運賃計算方法エラー)です。"
-            '            WW_CheckMES2 = ""
-            '            WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
-            '            O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
-            '            WW_LINEERR_SW = "ERR"
-            '        End If
-            '    End If
-            'Else
-            '    WW_CheckMES1 = "・更新できないレコード(運賃計算方法エラー)です。"
-            '    WW_CheckMES2 = WW_CS0024FCHECKREPORT
-            '    WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
-            '    O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
-            '    WW_LINEERR_SW = "ERR"
-            'End If
-
-
             '○単項目チェック(単価)
             Master.CheckField(work.WF_SEL_CAMPCODE.Text, "COST", MC0013INProw("COST"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
@@ -3067,7 +3048,21 @@ Public Class GRMC0013UNTINKETEI
 
             '○単項目チェック(仕訳パターン分類)
             Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHIWAKEPATERNKBN", MC0013INProw("SHIWAKEPATERNKBN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
-            If Not isNormal(WW_CS0024FCHECKERR) Then
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    MC0013INProw("SHIWAKEPATERNKBN") = ""
+                Else
+                    CODENAME_get("SHIWAKEPATERNKBN", MC0013INProw("SHIWAKEPATERNKBN"), WW_DUMMY, WW_RTN_SW, MC0013INProw("SHIWAKEPATERNKBN"), "")
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(仕訳パターン分類エラー)です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
                 WW_CheckMES1 = "・更新できないレコード(仕訳パターン分類エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
@@ -3078,7 +3073,21 @@ Public Class GRMC0013UNTINKETEI
 
             '○単項目チェック(仕訳パターン)
             Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHIWAKEPATTERN", MC0013INProw("SHIWAKEPATTERN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
-            If Not isNormal(WW_CS0024FCHECKERR) Then
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    MC0013INProw("SHIWAKEPATTERN") = ""
+                Else
+                    CODENAME_get("SHIWAKEPATTERN", MC0013INProw("SHIWAKEPATTERN"), WW_DUMMY, WW_RTN_SW, "", MC0013INProw("SHIWAKEPATERNKBN"))
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(仕訳パターンエラー)です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
                 WW_CheckMES1 = "・更新できないレコード(仕訳パターンエラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MC0013INProw)
@@ -3328,7 +3337,7 @@ Public Class GRMC0013UNTINKETEI
                    MC0013row("COST") = MC0013INProw("COST") AndAlso
                    MC0013row("SHIWAKEPATERNKBN") = MC0013INProw("SHIWAKEPATERNKBN") AndAlso
                    MC0013row("SHIWAKEPATTERN") = MC0013INProw("SHIWAKEPATTERN") AndAlso
-                   MC0013row("SHIWAKEPATTERNNAMES") = MC0013INProw("SHIWAKEPATTERNNAMES") AndAlso
+                   MC0013row("SHIWAKEPATERNNAME") = MC0013INProw("SHIWAKEPATERNNAME") AndAlso
                    MC0013row("SEIKYUKBN") = MC0013INProw("SEIKYUKBN") AndAlso
                    MC0013row("SEIKYUKBNNAMES") = MC0013INProw("SEIKYUKBNNAMES") AndAlso
                    MC0013row("DELFLG") = MC0013INProw("DELFLG") Then
@@ -3497,11 +3506,14 @@ Public Class GRMC0013UNTINKETEI
                     Case "INDATAKBN"   　'運賃計算元情報
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "INDATAKBN"))
 
-                    Case "UNCHINCALC"  　 '運賃計算方法
+                    Case "UNCHINCALC"  　    '運賃計算方法
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "UNCHINCALC"))
 
+                    Case "SHIWAKEPATERNKBN"  '仕訳パターン分類
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHIWAKEPATERNKBN"))
+
                     Case "SHIWAKEPATTERN"   '仕訳パターン
-                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_SHIWAKEPATTERN, I_VALUE, O_TEXT, O_RTN, work.createSHIWAKEPATTERNParam(work.WF_SEL_CAMPCODE.Text, I_SHIWAKEPATERNKBN, GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE.ALL))
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_SHIWAKEPATTERN, I_VALUE, O_TEXT, O_RTN, work.createSHIWAKEPATTERNParam(work.WF_SEL_CAMPCODE.Text, I_SHIWAKEPATERNKBN, GL0014SHIWAKEPATTERNList.LC_ACDCKBN_TYPE.DEBIT))
 
                     Case "SEIKYUSUMKBN"  　 '請求書サマリ区分
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SEIKYUSUMKBN"))

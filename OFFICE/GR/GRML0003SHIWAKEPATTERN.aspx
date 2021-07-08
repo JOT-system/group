@@ -1,53 +1,35 @@
-﻿<%@ Page Title="MC0013" Language="vb" AutoEventWireup="false" CodeBehind="GRMC0013UNCHINKETEI.aspx.vb" Inherits="OFFICE.GRMC0013UNTINKETEI" %>
+﻿<%@ Page Title="ML0003" Language="vb" AutoEventWireup="false" CodeBehind="GRML0003SHIWAKEPATTERN.aspx.vb" Inherits="OFFICE.GRML0003SHIWAKEPATTERN" %>
 <%@ MasterType VirtualPath="~/GR/GRMasterPage.Master" %> 
 
 <%@ Import Namespace="OFFICE.GRIS0005LeftBox" %>
     
 <%@ register src="~/inc/GRIS0004RightBox.ascx" tagname="rightview" tagprefix="MSINC" %>
 <%@ register src="~/inc/GRIS0005LeftBox.ascx" tagname="leftview" tagprefix="MSINC" %>
-<%@ register src="inc/GRMC0013WRKINC.ascx" tagname="work" tagprefix="LSINC" %>
+<%@ register src="inc/GRML0003WRKINC.ascx" tagname="work" tagprefix="LSINC" %>
 
-<asp:Content ID="GRMC0013H" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/GR/css/MC0013.css")%>"/>
+<asp:Content ID="GRML0003H" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" type="text/css" href="<%=ResolveUrl("~/GR/css/ML0003.css")%>"/>
     <script type="text/javascript">
         var pnlListAreaId = '<%= Me.pnlListArea.ClientId %>';
         var IsPostBack = '<%= if(IsPostBack = True, "1", "0") %>';
     </script>
-    <script type="text/javascript" src="<%=ResolveUrl("~/GR/script/MC0013.js")%>"></script>
+    <script type="text/javascript" src="<%=ResolveUrl("~/GR/script/ML0003.js")%>"></script>
 </asp:Content> 
 
-<asp:Content ID="GRMC0013" ContentPlaceHolderID="contents1" runat="server">
+<asp:Content ID="GRML0003" ContentPlaceHolderID="contents1" runat="server">
         <!-- 全体レイアウト　headerbox -->
         <div  class="headerboxOnly" id="headerbox" >
             <div class="Operation">
 
-                <!-- ■　管理部署　■ -->
-                <a>
-                    <asp:Label ID="WF_LabelSELMANGORG" runat="server" Text="管理部署" Height="1.5em" Font-Bold="true" Font-Underline="true"></asp:Label>
-                </a>
-                <a ondblclick="Field_DBclick('WF_SELMANGORG', <%=LIST_BOX_CLASSIFICATION.LC_ORG%>)">
-                    <asp:TextBox ID="WF_SELMANGORG" runat="server" MaxLength="20" Height="1.1em" Width="7.1em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
-                </a>
-                <a>
-                    <asp:Label ID="WF_SELMANGORG_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
-                </a>
+                <!-- 会社 -->
+                <asp:Label ID="WF_SEL_CAMPCODE" runat="server" Text="会社" Font-Bold="True" Font-Underline="false"></asp:Label>
+                <asp:Label ID="WF_SEL_CAMPNAME" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
 
-                <!-- ■　出荷部署　■ -->
-                <a>
-                    <asp:Label ID="WF_LabelSELSHIPORG" runat="server" Text="出荷部署" Height="1.5em" Font-Bold="true" Font-Underline="true"></asp:Label>
-                </a>
-                <a ondblclick="Field_DBclick('WF_SELSHIPORG', <%=LIST_BOX_CLASSIFICATION.LC_ORG%>)">
-                    <asp:TextBox ID="WF_SELSHIPORG" runat="server" MaxLength="20" Height="1.1em" Width="7.1em" CssClass="WF_TEXTBOX_CSS" BorderStyle="NotSet"></asp:TextBox>
-                </a>
-                <a>
-                    <asp:Label ID="WF_SELSHIPORG_TEXT" runat="server" Height="1.3em" Width="12em" CssClass="WF_TEXT"></asp:Label>
-                </a>
-
+                <!-- 仕訳パターン分類 -->
+                <asp:Label ID="WF_SEL_SHIWAKEPATERNKBN_L" runat="server" Text="仕訳パターン分類" Font-Bold="True" Font-Underline="false"></asp:Label>
+                <asp:Label ID="WF_SEL_SHIWAKEPATERNKBN_TEXT" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
 
                 <!-- ■　ボタン　■ -->
-                <a style="position:fixed;top:2.8em;left:49em;">
-                    <input type="button" id="WF_ButtonExtract" value="絞り込み"  style="Width:5em" onclick="ButtonClick('WF_ButtonExtract');" />
-                </a>
                 <a style="position:fixed;top:2.8em;left:53.5em;">
                     <input type="button" id="WF_ButtonUPDATE" value="DB更新"  style="Width:5em" onclick="ButtonClick('WF_ButtonUPDATE');" />
                 </a>
@@ -100,40 +82,36 @@
                         <asp:Label ID="WF_CAMPCODE" runat="server" Height="1.1em" Width="8em" CssClass="WF_TEXT_LEFT"></asp:Label>
                         <asp:Label ID="WF_CAMPCODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
+
+                    <!-- ■　貸借区分　■ -->
+                    <asp:textbox ID="WF_ACDCKBN_C" runat="server" Visible="false"></asp:textbox>
+                    <asp:textbox ID="WF_ACDCKBN_D" runat="server" Visible="false"></asp:textbox>
+
                 </p>
 
                 <!-- ■　キー情報疑似フレーム３　■ -->
                 <p id="KEY_LINE_3">
-                    <!-- ■　取引先コード　■ -->
-                    <a  ondblclick="Field_DBclick('WF_TORICODE', <%=LIST_BOX_CLASSIFICATION.LC_CUSTOMER%>)">
-                        <asp:Label ID="WF_TORICODE_LBL" runat="server" Text="取引先コード" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_TORICODE" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
-                        <asp:Label ID="WF_TORICODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
+                    <!-- ■　仕訳パターン分類　■ -->
+                    <a  ondblclick="Field_DBclick('WF_SHIWAKEPATERNKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
+                        <asp:Label ID="WF_SHIWAKEPATERNKBN_LBL" runat="server" Text="パターン分類" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:TextBox ID="WF_SHIWAKEPATERNKBN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:Label ID="WF_SHIWAKEPATERNKBN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
 
-                    <!-- ■　運賃計算油種グループ　■ -->
-                    <a ondblclick="Field_DBclick('WF_OILTYPEGRP', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                        <asp:Label ID="WF_OILTYPEGRP_LBL" runat="server" Text="運賃計算油種グループ" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_OILTYPEGRP" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
-                        <asp:Label ID="WF_OILTYPEGRP_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
-                    </a>
+                    <!-- ■　仕訳パターン　■ -->
+                    <asp:Label ID="WF_SHIWAKEPATTERN_LBL" runat="server" Text="パターンCD" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
+                    <asp:TextBox ID="WF_SHIWAKEPATTERN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
 
-                    <!-- ■　売上費用区分　■ -->
-                    <a ondblclick="Field_DBclick('WF_URIHIYOKBN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                        <asp:Label ID="WF_URIHIYOKBN_LBL" runat="server" Text="売上費用区分" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_URIHIYOKBN" runat="server" MaxLength="1" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
-                        <asp:Label ID="WF_URIHIYOKBN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
+                    <!-- ■　仕訳パターン名　■ -->
+                    <a>
+                        <asp:Label ID="WF_SHIWAKEPATTERNNAME_LBL" runat="server" Text="パターン名" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:TextBox ID="WF_SHIWAKEPATTERNNAME" runat="server" MaxLength="50" Height="1.1em" Width="12em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:Label ID="WF_SHIWAKEPATTERNNAME_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                 </p>
 
                 <!-- ■　キー情報疑似フレーム４　■ -->
                 <p id="KEY_LINE_4">
-
-                    <!-- ■　運賃コード　■ -->
-                    <a >
-                        <asp:Label ID="WF_UNCHINCODE_LBL" runat="server" Text="運賃コード" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
-                        <asp:TextBox ID="WF_UNCHINCODE" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
-                    </a>
 
                     <!-- ■　有効年月日  ■ -->
                     <a>
@@ -153,6 +131,7 @@
                         <asp:TextBox ID="WF_DELFLG" runat="server"  MaxLength="1"  Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_DELFLG_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
+
                 </p>
             </div>
             <!-- DETAIL画面 -->
