@@ -100,10 +100,10 @@ Public Class GRT00016NSEIKYU
                             WF_ButtonUPDATE_Click()
                         Case "WF_ButtonCSV"                     'ﾀﾞｳﾝﾛｰﾄﾞ
                             WF_ButtonCSV_Click()
-                        'Case "WF_ButtonFIRST"                   '先頭頁[image]
-                        '    WF_ButtonFIRST_Click()
-                        'Case "WF_ButtonLAST"                    '最終頁[image]
-                        '    WF_ButtonLAST_Click()
+                        Case "WF_ButtonFIRST"                   '先頭頁[image]
+                            WF_ButtonFIRST_Click()
+                        Case "WF_ButtonLAST"                    '最終頁[image]
+                            WF_ButtonLAST_Click()
                         Case "WF_ButtonEND"                     '終了
                             WF_ButtonEND_Click()
                         Case "WF_DTAB_Click"                    'DetailTab切替処理
@@ -1055,18 +1055,10 @@ Public Class GRT00016NSEIKYU
                    & " WHERE A.CAMPCODE         = @P01                                   " _
                    & "   and A.YMD             <= @P02                                   " _
                    & "   and A.YMD             >= @P03                                   " _
-                   & "   and (A.OILTYPE1        = @P05                                   " _
-                   & "    or  A.OILTYPE2        = @P05                                   " _
-                   & "    or  A.OILTYPE3        = @P05                                   " _
-                   & "    or  A.OILTYPE4        = @P05                                   " _
-                   & "    or  A.OILTYPE5        = @P05)                                  " _
+                   & "   and A.OILTYPE1         = @P05                                   " _
                    & "   and A.TORICODE         = @P06                                   " _
                    & "   and A.WORKKBN          = 'B3'                                   " _
-                   & "   and (A.PRODUCT11       = '21'                                   " _
-                   & "    or  A.PRODUCT12       = '21'                                   " _
-                   & "    or  A.PRODUCT13       = '21'                                   " _
-                   & "    or  A.PRODUCT14       = '21'                                   " _
-                   & "    or  A.PRODUCT15       = '21')                                  " _
+                   & "   and A.PRODUCT11        = '21'                                   " _
                    & "   and A.DELFLG          <> '1'                                    "
 
                 '条件画面で指定された出荷部署を抽出
@@ -1107,6 +1099,8 @@ Public Class GRT00016NSEIKYU
                 PARA05.Value = work.WF_SEL_OILTYPE.Text
 
                 PARA06.Value = work.WF_SEL_TORICODE.Text
+
+                SQLcmd.CommandTimeout = 300
 
                 Dim SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
                 'フィールド名とフィールドの型を取得
@@ -2261,6 +2255,69 @@ Public Class GRT00016NSEIKYU
         '画面遷移実行
         Master.transitionPrevPage()
 
+    End Sub
+
+    ''' <summary>
+    ''' 先頭頁移動ボタン押下
+    ''' </summary>
+    ''' <remarks></remarks>
+    Protected Sub WF_ButtonFIRST_Click()
+
+        Select Case WF_DetailMView.ActiveViewIndex
+            Case 0
+                '○合計(社内)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab1, work.WF_SEL_INPTAB1TBL.Text)
+            Case 1
+                '○合計(請求)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab2, work.WF_SEL_INPTAB2TBL.Text)
+            Case 2
+                '○明細(金額)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab3, work.WF_SEL_INPTAB3TBL.Text)
+            Case 3
+                '○明細(数量)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab4, work.WF_SEL_INPTAB4TBL.Text)
+        End Select
+
+        '○先頭頁に移動
+        WF_GridPosition.Text = "1"
+    End Sub
+    ''' <summary>
+    ''' 最終頁ボタン処理 
+    ''' </summary>
+    ''' <remarks></remarks>
+    Protected Sub WF_ButtonLAST_Click()
+
+        '○ソート
+        Dim WW_TBLview As DataView
+        WW_TBLview = New DataView()
+
+        Select Case WF_DetailMView.ActiveViewIndex
+            Case 0
+                '○合計(社内)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab1, work.WF_SEL_INPTAB1TBL.Text)
+                WW_TBLview = New DataView(T00016tbl_tab1)
+            Case 1
+                '○合計(請求)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab2, work.WF_SEL_INPTAB2TBL.Text)
+                WW_TBLview = New DataView(T00016tbl_tab2)
+            Case 2
+                '○明細(金額)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab3, work.WF_SEL_INPTAB3TBL.Text)
+                WW_TBLview = New DataView(T00016tbl_tab3)
+            Case 3
+                '○明細(数量)タブ表示データ復元
+                Master.RecoverTable(T00016tbl_tab4, work.WF_SEL_INPTAB4TBL.Text)
+                WW_TBLview = New DataView(T00016tbl_tab4)
+        End Select
+
+        WW_TBLview.RowFilter = "HIDDEN= '0'"
+
+        '最終頁に移動
+        If WW_TBLview.Count Mod CONST_SCROLLROWCOUNT = 0 Then
+            WF_GridPosition.Text = WW_TBLview.Count - (WW_TBLview.Count Mod CONST_SCROLLROWCOUNT)
+        Else
+            WF_GridPosition.Text = WW_TBLview.Count - (WW_TBLview.Count Mod CONST_SCROLLROWCOUNT) + 1
+        End If
     End Sub
 
     ''' <summary>

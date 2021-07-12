@@ -49,12 +49,12 @@
             <a style="position:fixed;top:2.8em;left:67em;">
                 <input type="button" id="WF_ButtonEND" value="終了"  style="Width:5em" onclick="ButtonClick('WF_ButtonEND');" />
             </a>
-<%--            <a style="position:fixed;top:3.2em;left:75em;">
+            <a style="position:fixed;top:3.2em;left:75em;">
                 <asp:Image ID="WF_ButtonFIRST" runat="server" ImageUrl="~/先頭頁.png" Width="1.5em" onclick="ButtonClick('WF_ButtonFIRST');" Height="1em" ImageAlign="AbsMiddle" />
             </a>
             <a style="position:fixed;top:3.2em;left:77em;">
                 <asp:Image ID="WF_ButtonLAST" runat="server" ImageUrl="~/最終頁.png" Width="1.5em" onclick="ButtonClick('WF_ButtonLAST');" Height="1em" ImageAlign="AbsMiddle" />
-            </a>--%>
+            </a>
 
             <br/>
             <br/>
