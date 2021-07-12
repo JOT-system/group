@@ -92,11 +92,12 @@ Public Class GRMA0007SELECT
         WF_FIELD.Value = ""
 
         '○入力文字置き換え(使用禁止文字排除)
-        Master.EraseCharToIgnore(WF_CAMPCODE.Text)  '会社コード
-        Master.EraseCharToIgnore(WF_TORICODE.Text)  '取引先コード
-        Master.EraseCharToIgnore(WF_NSHABAN.Text)   '荷主車番 
-        Master.EraseCharToIgnore(WF_STYMD.Text)     '有効年月日(From)
-        Master.EraseCharToIgnore(WF_ENDYMD.Text)    '有効年月日(To)
+        Master.EraseCharToIgnore(WF_CAMPCODE.Text)        '会社コード
+        Master.EraseCharToIgnore(WF_UNCHINFUNCCODE.Text)  '運賃計算機能コード
+        Master.EraseCharToIgnore(WF_TORICODE.Text)        '取引先コード
+        Master.EraseCharToIgnore(WF_NSHABAN.Text)         '荷主車番 
+        Master.EraseCharToIgnore(WF_STYMD.Text)           '有効年月日(From)
+        Master.EraseCharToIgnore(WF_ENDYMD.Text)          '有効年月日(To)
 
         '○チェック処理
         WW_Check(WW_ERR_SW)
@@ -105,10 +106,11 @@ Public Class GRMA0007SELECT
         End If
 
         '○条件選択画面の入力値退避
-        work.WF_SEL_CAMPCODE.Text = WF_CAMPCODE.Text     '会社コード
-        work.WF_SEL_TORICODE.Text = WF_TORICODE.Text     '取引先コード
-        work.WF_SEL_NSHABAN.Text = WF_NSHABAN.Text       '荷主車番
-        work.WF_SEL_STYMD.Text = WF_STYMD.Text           '有効年月日
+        work.WF_SEL_CAMPCODE.Text = WF_CAMPCODE.Text                '会社コード
+        work.WF_SEL_TORICODE.Text = WF_TORICODE.Text                '運賃計算機能コード
+        work.WF_SEL_UNCHINFUNCCODE.Text = WF_UNCHINFUNCCODE.Text    '取引先コード
+        work.WF_SEL_NSHABAN.Text = WF_NSHABAN.Text                  '荷主車番
+        work.WF_SEL_STYMD.Text = WF_STYMD.Text                      '有効年月日
 
         If WF_ENDYMD.Text = "" Then
             work.WF_SEL_ENDYMD.Text = WF_STYMD.Text
@@ -154,6 +156,11 @@ Public Class GRMA0007SELECT
                 WF_TORICODE_TEXT.Text = WW_SelectTEXT
                 WF_TORICODE.Text = WW_SelectValue
                 WF_TORICODE.Focus()
+
+            Case "WF_UNCHINFUNCCODE"                        '運賃計算機能コード
+                WF_UNCHINFUNCCODE_TEXT.Text = WW_SelectTEXT
+                WF_UNCHINFUNCCODE.Text = WW_SelectValue
+                WF_UNCHINFUNCCODE.Focus()
 
             Case "WF_NSHABAN"                               '荷主車番
                 WF_NSHABAN_TEXT.Text = WW_SelectTEXT
@@ -256,6 +263,8 @@ Public Class GRMA0007SELECT
                     Select Case WF_FIELD.Value
                         Case "WF_TORICODE"          '取引先
                             prmData = work.CreateTORIParam(WF_CAMPCODE.Text)
+                        Case "WF_UNCHINFUNCCODE"       '売上費用区分
+                            prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "UNCHINFUNCCODE")
                     End Select
 
                     .SetListBox(WF_LeftMViewChange.Value, WW_DUMMY, prmData)
@@ -283,15 +292,17 @@ Public Class GRMA0007SELECT
 
         '○ フォーカスセット
         Select Case WF_FIELD.Value
-            Case "WF_CAMPCODE"          '会社コード
+            Case "WF_CAMPCODE"               '会社コード
                 WF_CAMPCODE.Focus()
-            Case "WF_TORICODE"          '荷主車番
+            Case "WF_TORICODE"               '取引先コード
                 WF_TORICODE.Focus()
-            Case "WF_NSHABAN"         　'荷主車番
+            Case "WF_UNCHINFUNCCODE"         '運賃計算機能コード
+                WF_UNCHINFUNCCODE.Focus()
+            Case "WF_NSHABAN"         　     '荷主車番
                 WF_NSHABAN.Focus()
-            Case "WF_STYMD"             '有効年月日(From)
+            Case "WF_STYMD"                  '有効年月日(From)
                 WF_STYMD.Focus()
-            Case "WF_ENDYMD"            '有効年月日(To)
+            Case "WF_ENDYMD"                 '有効年月日(To)
                 WF_ENDYMD.Focus()
         End Select
 
@@ -313,6 +324,8 @@ Public Class GRMA0007SELECT
 
         '○入力文字置き換え(使用禁止文字排除)
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
+        Master.EraseCharToIgnore(WF_TORICODE.Text)          '取引先コード
+        Master.EraseCharToIgnore(WF_UNCHINFUNCCODE.Text)    '運賃計算機能コード
         Master.EraseCharToIgnore(WF_NSHABAN.Text)           '荷主車番
         Master.EraseCharToIgnore(WF_STYMD.Text)             '有効年月日(From)
         Master.EraseCharToIgnore(WF_ENDYMD.Text)            '有効年月日(To)
@@ -321,8 +334,9 @@ Public Class GRMA0007SELECT
         WW_Check(WW_DUMMY)
 
         '○名称設定
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                             '会社コード
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_DUMMY, work.CreateTORIParam(WF_CAMPCODE.Text))    '取引先コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                                        '会社コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_DUMMY, work.CreateTORIParam(WF_CAMPCODE.Text))               '取引先コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_UNCHINFUNCCODE.Text, WF_UNCHINFUNCCODE_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text))   '運賃計算機能コード
 
     End Sub
 
@@ -342,14 +356,16 @@ Public Class GRMA0007SELECT
             work.Initialize()
 
             '○初期変数設定処理
-            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "CAMPCODE", WF_CAMPCODE.Text)   '会社コード
-            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "NSHABAN", WF_NSHABAN.Text)     '荷主車番
-            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "STYMD", WF_STYMD.Text)         '有効年月日(From)
-            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "ENDYMD", WF_ENDYMD.Text)       '有効年月日(To)
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "CAMPCODE", WF_CAMPCODE.Text)                '会社コード
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "TORICODE", WF_TORICODE.Text)                '取引先コード
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "UNCHINFUNCCODE", WF_UNCHINFUNCCODE.Text)    '運賃計算機能コード
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "NSHABAN", WF_NSHABAN.Text)                  '荷主車番
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "STYMD", WF_STYMD.Text)                      '有効年月日(From)
+            Master.GetFirstValue(work.WF_SEL_CAMPCODE.Text, "ENDYMD", WF_ENDYMD.Text)                    '有効年月日(To)
 
             '○RightBox情報設定
-            rightview.MAPID = GRML0003WRKINC.MAPID
-            rightview.MAPIDS = GRML0003WRKINC.MAPIDS
+            rightview.MAPID = GRMA0007WRKINC.MAPID
+            rightview.MAPIDS = GRMA0007WRKINC.MAPIDS
             rightview.COMPCODE = work.WF_SEL_CAMPCODE.Text
             rightview.MAPVARI = Master.MAPvariant
             rightview.PROFID = Master.PROF_VIEW
@@ -357,16 +373,18 @@ Public Class GRMA0007SELECT
             If Not isNormal(WW_ERR_SW) Then
                 Exit Sub
             End If
-        ElseIf Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.ML0003 Then         '実行画面からの画面遷移
+        ElseIf Context.Handler.ToString().ToUpper = C_PREV_MAP_LIST.MA0007 Then         '実行画面からの画面遷移
             '○画面項目設定処理                                       
             WF_CAMPCODE.Text = work.WF_SEL_CAMPCODE.Text                     '会社コード                            
+            WF_TORICODE.Text = work.WF_SEL_TORICODE.Text                     '取引先コード                            
+            WF_UNCHINFUNCCODE.Text = work.WF_SEL_UNCHINFUNCCODE.Text         '運賃計算機能コード                            
             WF_NSHABAN.Text = work.WF_SEL_NSHABAN.Text                       '荷主車番                            
             WF_STYMD.Text = work.WF_SEL_STYMD.Text                           '有効年月日(From)
             WF_ENDYMD.Text = work.WF_SEL_ENDYMD.Text                         '有効年月日(To)
 
             '○RightBox情報設定
-            rightview.MAPID = GRML0003WRKINC.MAPID
-            rightview.MAPIDS = GRML0003WRKINC.MAPIDS
+            rightview.MAPID = GRMA0007WRKINC.MAPID
+            rightview.MAPIDS = GRMA0007WRKINC.MAPIDS
             rightview.COMPCODE = work.WF_SEL_CAMPCODE.Text
             rightview.MAPVARI = Master.MAPvariant
             rightview.PROFID = Master.PROF_VIEW
@@ -377,8 +395,9 @@ Public Class GRMA0007SELECT
         End If
 
         '○名称設定処理
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                                   '会社コード
-        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_NSHABAN.Text, WF_NSHABAN_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text, "NSHABAN")) '荷主車番
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)                                                        '会社コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_DUMMY, work.CreateTORIParam(WF_CAMPCODE.Text))               '取引先コード
+        leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_UNCHINFUNCCODE.Text, WF_UNCHINFUNCCODE_TEXT.Text, WW_DUMMY, work.CreateFIXParam(WF_CAMPCODE.Text))   '運賃計算機能コード
 
     End Sub
 
@@ -431,7 +450,7 @@ Public Class GRMA0007SELECT
             If WW_TEXT = "" Then
                 WF_TORICODE.Text = ""
             Else
-                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_RTN_SW)
+                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, WF_TORICODE.Text, WF_TORICODE_TEXT.Text, WW_RTN_SW, work.CreateTORIParam(WF_CAMPCODE.Text))
                 If Not isNormal(WW_RTN_SW) Then
                     Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
                     WF_TORICODE.Focus()
@@ -442,6 +461,30 @@ Public Class GRMA0007SELECT
         Else
             Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
             WF_TORICODE.Focus()
+            O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
+            Exit Sub
+        End If
+
+
+        '運賃計算機能コード 
+        WW_TEXT = WF_UNCHINFUNCCODE.Text
+        Master.CheckField(WF_CAMPCODE.Text, "UNCHINFUNCCODE", WF_CAMPCODE.Text, WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+        If isNormal(WW_CS0024FCHECKERR) Then
+            '存在チェック
+            If WW_TEXT = "" Then
+                WF_UNCHINFUNCCODE.Text = ""
+            Else
+                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_UNCHINFUNCCODE.Text, WF_UNCHINFUNCCODE_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text))
+                If Not isNormal(WW_RTN_SW) Then
+                    Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
+                    WF_UNCHINFUNCCODE.Focus()
+                    O_RTN = WW_RTN_SW
+                    Exit Sub
+                End If
+            End If
+        Else
+            Master.Output(WW_CS0024FCHECKERR, C_MESSAGE_TYPE.ERR)
+            WF_UNCHINFUNCCODE.Focus()
             O_RTN = C_MESSAGE_NO.DATE_FORMAT_ERROR
             Exit Sub
         End If

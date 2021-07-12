@@ -21,7 +21,7 @@ Partial Public Class GRMA0007WRKINC
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Public WithEvents WF_SEL_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''WF_SEL_TORICODE コントロール。
     '''</summary>
@@ -30,6 +30,15 @@ Partial Public Class GRMA0007WRKINC
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Public WithEvents WF_SEL_TORICODE As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''WF_SEL_UNCHINFUNCCODE コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Public WithEvents WF_SEL_UNCHINFUNCCODE As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''WF_SEL_NSHABAN コントロール。

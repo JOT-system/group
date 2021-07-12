@@ -99,13 +99,13 @@
                     </a>
 
                     <!-- ■　仕訳パターン　■ -->
-                    <asp:Label ID="WF_SHIWAKEPATTERN_LBL" runat="server" Text="パターンCD" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
+                    <asp:Label ID="WF_SHIWAKEPATTERN_LBL" runat="server" Text="パターンCD" Width="7.1em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
                     <asp:TextBox ID="WF_SHIWAKEPATTERN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
 
                     <!-- ■　仕訳パターン名　■ -->
                     <a>
                         <asp:Label ID="WF_SHIWAKEPATTERNNAME_LBL" runat="server" Text="パターン名" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_SHIWAKEPATTERNNAME" runat="server" MaxLength="50" Height="1.1em" Width="12em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:TextBox ID="WF_SHIWAKEPATTERNNAME" runat="server" MaxLength="50" Height="1.1em" Width="15em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         <asp:Label ID="WF_SHIWAKEPATTERNNAME_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                 </p>
@@ -121,7 +121,7 @@
                         </b>
                         <asp:Label ID="WFENDYMD_LABEL" runat="server" Width="1em" Text=" ～ " CssClass="WF_TEXT_LEFT"></asp:Label>
                         <b ondblclick="Field_DBclick('WF_ENDYMD',  <%=LIST_BOX_CLASSIFICATION.LC_CALENDAR%>)">
-                            <asp:TextBox ID="WF_ENDYMD" runat="server" MaxLength="10" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                            <asp:TextBox ID="WF_ENDYMD" runat="server" MaxLength="10" Height="1.1em" Width="6.9em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         </b>
                     </a>
 

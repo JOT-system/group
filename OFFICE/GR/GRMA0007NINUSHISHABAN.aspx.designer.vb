@@ -50,6 +50,24 @@ Partial Public Class GRMA0007NINUSHISHABAN
     Protected WithEvents WF_SEL_TORICODE_TEXT As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
+    '''WF_SEL_UNCHINFUNCCODE コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_SEL_UNCHINFUNCCODE As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''WF_SEL_UNCHINFUNCCODE_TEXT コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_SEL_UNCHINFUNCCODE_TEXT As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
     '''WF_ButtonFIRST2 コントロール。
     '''</summary>
     '''<remarks>
@@ -147,6 +165,33 @@ Partial Public Class GRMA0007NINUSHISHABAN
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents WF_TORICODE_TEXT As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''WF_UNCHINFUNCCODE_LBL コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_UNCHINFUNCCODE_LBL As Global.System.Web.UI.WebControls.Label
+    
+    '''<summary>
+    '''WF_UNCHINFUNCCODE コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_UNCHINFUNCCODE As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''WF_UNCHINFUNCCODE_TEXT コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Protected WithEvents WF_UNCHINFUNCCODE_TEXT As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
     '''WF_NSHABAN_LBL コントロール。

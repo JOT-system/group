@@ -55,12 +55,22 @@
             <asp:Label ID="WF_TORICODE_TEXT" runat="server" Width="11em" CssClass="WF_TEXT"></asp:Label>
         </a>
 
-        <!-- 荷主車番 -->
-        <a style="position:fixed; top:14.3em; left:4em; font-weight:bold; text-decoration:none;">荷主車番</a>
-        <a style="position:fixed; top:14.3em; left:18em;" >
-            <asp:TextBox ID="WF_NSHABAN" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
+        <!-- 運賃計算機能コード -->
+        <a style="position:fixed; top:14.3em; left:4em; font-weight:bold; text-decoration:underline;">運賃計算機能コード</a>
+        <a style="position:fixed; top:14.3em; left:18em;" ondblclick="Field_DBclick('WF_UNCHINFUNCCODE', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>);" onchange="TextBox_change('WF_UNCHINFUNCCODE');">
+            <asp:TextBox ID="WF_UNCHINFUNCCODE" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
         </a>
         <a style="position:fixed; top:14.3em; left:28em;">
+            <asp:Label ID="WF_UNCHINFUNCCODE_TEXT" runat="server" Width="11em" CssClass="WF_TEXT"></asp:Label>
+        </a>
+
+
+        <!-- 荷主車番 -->
+        <a style="position:fixed; top:16.5em; left:4em; font-weight:bold; text-decoration:none;">荷主車番</a>
+        <a style="position:fixed; top:16.5em; left:18em;" >
+            <asp:TextBox ID="WF_NSHABAN" runat="server" MaxLength="20" Height="1.4em" Width="11em" onblur="MsgClear();"></asp:TextBox>
+        </a>
+        <a style="position:fixed; top:16.5em; left:28em;">
             <asp:Label ID="WF_NSHABAN_TEXT" runat="server" Width="17em" CssClass="WF_TEXT"></asp:Label>
         </a>
 

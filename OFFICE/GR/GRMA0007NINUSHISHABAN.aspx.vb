@@ -328,69 +328,42 @@ Public Class GRMA0007NINUSHISHABAN
                     & " set @hensuu = 0 ;                                                                              " _
                     & " DECLARE hensuu CURSOR FOR                                                                      " _
                     & "   SELECT CAST(UPDTIMSTP as bigint) as hensuu                                                   " _
-                    & "     FROM    MC013_UNCHINKETEI                                                                  " _
-                    & "     WHERE CAMPCODE =@P01 and TORICODE = @P02 and OILTYPEGRP = @P03 and URIHIYOKBN = @P04       " _
-                    & "       and UNCHINCODE =@P05 and STYMD = @P06 ;                                                  " _
+                    & "     FROM    MA007_NINUSHISHABAN                                                                " _
+                    & "     WHERE CAMPCODE =@P01 and TORICODE = @P02 and UNCHINFUNCCODE = @P03 and NSHABAN = @P04      " _
+                    & "       and STYMD =@P05 ;　　　　　　　　　　　　　　　                                          " _
                     & " OPEN hensuu ;                                                                                  " _
                     & " FETCH NEXT FROM hensuu INTO @hensuu ;                                                          " _
                     & " IF ( @@FETCH_STATUS = 0 )                                                                      " _
-                    & "    UPDATE   MC013_UNCHINKETEI                                                                  " _
+                    & "    UPDATE   MA007_NINUSHISHABAN                                                                " _
                     & "       SET                                                                                      " _
-                    & "         UNCHINCODENAME = @P07                                                                  " _
-                    & "       , ENDYMD = @P08                                                                          " _
-                    & "       , UNCHINORG = @P09                                                                       " _
-                    & "       , GYOSHA = @P10                                                                          " _
-                    & " 　　  , MANGORG = @P11                                                                         " _
-                    & " 　　  , SHIPORG = @P12                                                                         " _
-                    & " 　　  , NSHABAN = @P13                                                                         " _
-                    & " 　　  , SHUKABASHO = @P14                                                                      " _
-                    & " 　　  , TODOKECODE = @P15                                                                      " _
-                    & " 　　  , SHAFUKU = @P16                                                                         " _
-                    & " 　　  , SPOTRESCUEKBN = @P17                                                                   " _
-                    & " 　　  , SHARYOCLASS = @P18                                                                     " _
-                    & " 　　  , OPEKBN = @P19                                                                          " _
-                    & " 　　  , INDATAKBN = @P20                                                                       " _
-                    & " 　　  , UNCHINCALC = @P21                                                                      " _
-                    & " 　　  , COST = @P22                                                                            " _
-                    & " 　　  , SHIWAKEPATERNKBN = @P23                                                                " _
-                    & " 　　  , SHIWAKEPATTERN = @P24                                                                  " _
-                    & " 　　  , SEIKYUSUMKBN = @P25                                                                    " _
-                    & " 　　  , OUTPUTSUMKBN = @P26                                                                    " _
-                    & "       , DELFLG = @P27                                                                          " _
-                    & "       , UPDYMD = @P29                                                                          " _
-                    & "       , UPDUSER = @P30                                                                         " _
-                    & "       , UPDTERMID    = @P31                                                                    " _
-                    & "       , RECEIVEYMD   = @P32                                                                    " _
-                    & "     WHERE CAMPCODE =@P01 and TORICODE = @P02 and OILTYPEGRP = @P03 and URIHIYOKBN = @P04       " _
-                    & "       and UNCHINCODE =@P05 and STYMD = @P06 ;                                                  " _
+                    & "         ENDYMD = @P06                                                                          " _
+                    & "       , UNCHINSHAFUKU = @P07                                                                   " _
+                    & "       , SHARYOKEIYAKUCODE = @P08                                                               " _
+                    & "       , SHAFUKU = @P09                                                                         " _
+                    & " 　　  , SHAGATA = @P10                                                                         " _
+                    & " 　　  , CONTENASTATE = @P11                                                                    " _
+                    & " 　　  , SUPPL = @P12                                                                           " _
+                    & "       , DELFLG = @P13                                                                          " _
+                    & "       , UPDYMD = @P15                                                                          " _
+                    & "       , UPDUSER = @P16                                                                         " _
+                    & "       , UPDTERMID    = @P17                                                                    " _
+                    & "       , RECEIVEYMD   = @P18                                                                    " _
+                    & "     WHERE CAMPCODE =@P01 and TORICODE = @P02 and UNCHINFUNCCODE = @P03 and NSHABAN = @P04      " _
+                    & "       and STYMD =@P05 ;　　　　　　　　　　　　　　　                                          " _
                     & " IF ( @@FETCH_STATUS <> 0 )                                                                     " _
-                    & "    INSERT INTO MC013_UNCHINKETEI                                                               " _
+                    & "    INSERT INTO MA007_NINUSHISHABAN                                                              " _
                     & "       ( CAMPCODE                                                                               " _
                     & "       , TORICODE                                                                               " _
-                    & "       , OILTYPEGRP                                                                             " _
-                    & "       , URIHIYOKBN                                                                             " _
-                    & "       , UNCHINCODE                                                                             " _
+                    & "       , UNCHINFUNCCODE                                                                         " _
+                    & "       , NSHABAN                                                                                " _
                     & "       , STYMD                                                                                  " _
-                    & "       , UNCHINCODENAME                                                                         " _
                     & "       , ENDYMD                                                                                 " _
-                    & "       , UNCHINORG                                                                              " _
-                    & "       , GYOSHA                                                                                 " _
-                    & " 　　  , MANGORG                                                                                " _
-                    & " 　　  , SHIPORG                                                                                " _
-                    & " 　　  , NSHABAN                                                                                " _
-                    & " 　　  , SHUKABASHO                                                                             " _
-                    & " 　　  , TODOKECODE                                                                             " _
-                    & " 　　  , SHAFUKU                                                                                " _
-                    & " 　　  , SPOTRESCUEKBN                                                                          " _
-                    & " 　　  , SHARYOCLASS                                                                            " _
-                    & " 　　  , OPEKBN                                                                                 " _
-                    & " 　　  , INDATAKBN                                                                              " _
-                    & " 　　  , UNCHINCALC                                                                             " _
-                    & " 　　  , COST                                                                                   " _
-                    & " 　　  , SHIWAKEPATERNKBN                                                                       " _
-                    & " 　　  , SHIWAKEPATTERN                                                                         " _
-                    & " 　　  , SEIKYUSUMKBN                                                                           " _
-                    & " 　　  , OUTPUTSUMKBN                                                                           " _
+                    & "       , UNCHINSHAFUKU                                                                          " _
+                    & "       , SHARYOKEIYAKUCODE                                                                      " _
+                    & "       , SHAFUKU                                                                                " _
+                    & " 　　  , SHAGATA                                                                                " _
+                    & " 　　  , CONTENASTATE                                                                           " _
+                    & " 　　  , SUPPL                                                                                  " _
                     & "       , DELFLG                                                                                 " _
                     & "       , INITYMD                                                                                " _
                     & "       , UPDYMD                                                                                 " _
@@ -398,60 +371,44 @@ Public Class GRMA0007NINUSHISHABAN
                     & "       , UPDTERMID                                                                              " _
                     & "       , RECEIVEYMD )                                                                           " _
                     & "      VALUES (@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,@P14,@P15,@P16   " _
-                    & "             ,@P17,@P18,@P19,@P20,@P21,@P22,@P23,@P24,@P25,@P26,@P27,@P28,@P29,@P30,@P31,@P32) ;" _
+                    & "             ,@P17,@P18) ;" _
                     & " CLOSE hensuu ;                                                                                 " _
                     & " DEALLOCATE hensuu ;                                                                            "
 
                 Dim SQLStr1 As String =
-                      " Select  CAMPCODE  , TORICODE          , OILTYPEGRP    , URIHIYOKBN  , UNCHINCODE  , UNCHINCODENAME, STYMD      , " _
-                    & "         ENDYMD    , UNCHINORG         , GYOSHA        , MANGORG     , SHIPORG     , NSHABAN       , SHUKABASHO , " _
-                    & "         TODOKECODE, SHAFUKU           , SPOTRESCUEKBN , SHARYOCLASS , OPEKBN      , INDATAKBN     , UNCHINCALC , " _
-                    & "         COST      , SHIWAKEPATERNKBN  , SHIWAKEPATTERN, SEIKYUSUMKBN, OUTPUTSUMKBN, DELFLG        , INITYMD    , " _
-                    & "         UPDYMD , UPDUSER , UPDTERMID  , RECEIVEYMD , CAST(UPDTIMSTP As bigint) As TIMSTP " _
-                    & " FROM  MC013_UNCHINKETEI " _
-                    & "     WHERE CAMPCODE =@P01 and TORICODE = @P02 and OILTYPEGRP = @P03 and URIHIYOKBN = @P04       " _
-                    & "       and UNCHINCODE =@P05 and STYMD = @P06 ;                                                  "
+                      " Select  CAMPCODE      , TORICODE          , UNCHINFUNCCODE, NSHABAN     , STYMD       , ENDYMD," _
+                    & "         UNCHINSHAFUKU , SHARYOKEIYAKUCODE , SHAFUKU       , SHAGATA     , CONTENASTATE, SUPPL ," _
+                    & "         DELFLG        , INITYMD           , UPDYMD        , UPDUSER     , UPDTERMID   ,        " _
+                    & "         RECEIVEYMD    , CAST(UPDTIMSTP As bigint) As TIMSTP " _
+                    & " FROM  MA007_NINUSHISHABAN " _
+                    & "     WHERE CAMPCODE =@P01 and TORICODE = @P02 and UNCHINFUNCCODE = @P03 and NSHABAN = @P04      " _
+                    & "       and STYMD =@P05 ;　　　　　　　　　　　　　　　                                          "
 
                 Using SQLcmd As New SqlCommand(SQLStr, SQLcon), SQLcmd1 As New SqlCommand(SQLStr1, SQLcon)
                     Dim PARA01 As SqlParameter = SQLcmd.Parameters.Add("@P01", SqlDbType.NVarChar)          'CAMPCODE
                     Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@P02", SqlDbType.NVarChar)          'TORICODE
-                    Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@P03", SqlDbType.NVarChar)          'OILTYPEGRP
-                    Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@P04", SqlDbType.NVarChar)          'URIHIYOKBN
-                    Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@P05", SqlDbType.NVarChar)          'UNCHINCODE
-                    Dim PARA06 As SqlParameter = SQLcmd.Parameters.Add("@P06", SqlDbType.Date)              'STYMD
-                    Dim PARA07 As SqlParameter = SQLcmd.Parameters.Add("@P07", SqlDbType.NVarChar)          'UNCHINCODENAME
-                    Dim PARA08 As SqlParameter = SQLcmd.Parameters.Add("@P08", SqlDbType.Date)              'ENDYMD
-                    Dim PARA09 As SqlParameter = SQLcmd.Parameters.Add("@P09", SqlDbType.NVarChar)          'UNCHINORG
-                    Dim PARA10 As SqlParameter = SQLcmd.Parameters.Add("@P10", SqlDbType.NVarChar)          'GYOSHA
-                    Dim PARA11 As SqlParameter = SQLcmd.Parameters.Add("@P11", SqlDbType.NVarChar)          'MANGORG
-                    Dim PARA12 As SqlParameter = SQLcmd.Parameters.Add("@P12", SqlDbType.NVarChar)          'SHIPORG
-                    Dim PARA13 As SqlParameter = SQLcmd.Parameters.Add("@P13", SqlDbType.NVarChar)          'NSHABAN
-                    Dim PARA14 As SqlParameter = SQLcmd.Parameters.Add("@P14", SqlDbType.NVarChar)          'SHUKABASHO
-                    Dim PARA15 As SqlParameter = SQLcmd.Parameters.Add("@P15", SqlDbType.NVarChar)          'TODOKECODE
-                    Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", SqlDbType.NVarChar)          'SHAFUKU
-                    Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", SqlDbType.NVarChar)          'SPOTRESCUEKBN
-                    Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", SqlDbType.NVarChar)          'SHARYOCLASS
-                    Dim PARA19 As SqlParameter = SQLcmd.Parameters.Add("@P19", SqlDbType.NVarChar)          'OPEKBN
-                    Dim PARA20 As SqlParameter = SQLcmd.Parameters.Add("@P20", SqlDbType.NVarChar)          'INDATAKBN
-                    Dim PARA21 As SqlParameter = SQLcmd.Parameters.Add("@P21", SqlDbType.NVarChar)          'UNCHINCALC
-                    Dim PARA22 As SqlParameter = SQLcmd.Parameters.Add("@P22", SqlDbType.NVarChar)          'COST
-                    Dim PARA23 As SqlParameter = SQLcmd.Parameters.Add("@P23", SqlDbType.NVarChar)          'SHIWAKEPATERNKBN
-                    Dim PARA24 As SqlParameter = SQLcmd.Parameters.Add("@P24", SqlDbType.NVarChar)          'SHIWAKEPATTERN
-                    Dim PARA25 As SqlParameter = SQLcmd.Parameters.Add("@P25", SqlDbType.NVarChar)          'SEIKYUSUMKBN
-                    Dim PARA26 As SqlParameter = SQLcmd.Parameters.Add("@P26", SqlDbType.NVarChar)          'OUTPUTSUMKBN
-                    Dim PARA27 As SqlParameter = SQLcmd.Parameters.Add("@P27", SqlDbType.NVarChar)          'DELFLG
-                    Dim PARA28 As SqlParameter = SQLcmd.Parameters.Add("@P28", SqlDbType.SmallDateTime)     'INITYMD
-                    Dim PARA29 As SqlParameter = SQLcmd.Parameters.Add("@P29", SqlDbType.DateTime)          'UPDYMD
-                    Dim PARA30 As SqlParameter = SQLcmd.Parameters.Add("@P30", SqlDbType.NVarChar)          'UPDUSER
-                    Dim PARA31 As SqlParameter = SQLcmd.Parameters.Add("@P31", SqlDbType.NVarChar)          'UPDTERMID
-                    Dim PARA32 As SqlParameter = SQLcmd.Parameters.Add("@P32", SqlDbType.DateTime)          'RECEIVEYMD
+                    Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@P03", SqlDbType.NVarChar)          'UNCHINFUNCCODE
+                    Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@P04", SqlDbType.NVarChar)          'NSHABAN
+                    Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@P05", SqlDbType.Date)              'STYMD
+                    Dim PARA06 As SqlParameter = SQLcmd.Parameters.Add("@P06", SqlDbType.Date)              'ENDYMD
+                    Dim PARA07 As SqlParameter = SQLcmd.Parameters.Add("@P07", SqlDbType.NVarChar)          'UNCHINSHAFUKU
+                    Dim PARA08 As SqlParameter = SQLcmd.Parameters.Add("@P08", SqlDbType.NVarChar)          'SHARYOKEIYAKUCODE
+                    Dim PARA09 As SqlParameter = SQLcmd.Parameters.Add("@P09", SqlDbType.NVarChar)          'SHAFUKU
+                    Dim PARA10 As SqlParameter = SQLcmd.Parameters.Add("@P10", SqlDbType.NVarChar)          'SHAGATA
+                    Dim PARA11 As SqlParameter = SQLcmd.Parameters.Add("@P11", SqlDbType.NVarChar)          'CONTENASTATE
+                    Dim PARA12 As SqlParameter = SQLcmd.Parameters.Add("@P12", SqlDbType.NVarChar)          'SUPPL
+                    Dim PARA13 As SqlParameter = SQLcmd.Parameters.Add("@P13", SqlDbType.NVarChar)          'DELFLG
+                    Dim PARA14 As SqlParameter = SQLcmd.Parameters.Add("@P14", SqlDbType.SmallDateTime)     'INITYMD
+                    Dim PARA15 As SqlParameter = SQLcmd.Parameters.Add("@P15", SqlDbType.DateTime)          'UPDYMD
+                    Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", SqlDbType.NVarChar)          'UPDUSER
+                    Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", SqlDbType.NVarChar)          'UPDTERMID
+                    Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", SqlDbType.DateTime)          'RECEIVEYMD
 
                     Dim PARAS01 As SqlParameter = SQLcmd1.Parameters.Add("@P01", SqlDbType.NVarChar)         'CAMPCODE
                     Dim PARAS02 As SqlParameter = SQLcmd1.Parameters.Add("@P02", SqlDbType.NVarChar)         'TORICODE
-                    Dim PARAS03 As SqlParameter = SQLcmd1.Parameters.Add("@P03", SqlDbType.NVarChar)         'OILTYPEGRP
-                    Dim PARAS04 As SqlParameter = SQLcmd1.Parameters.Add("@P04", SqlDbType.NVarChar)         'URIHIYOKBN
-                    Dim PARAS05 As SqlParameter = SQLcmd1.Parameters.Add("@P05", SqlDbType.NVarChar)         'UNCHINCODE
-                    Dim PARAS06 As SqlParameter = SQLcmd1.Parameters.Add("@P06", SqlDbType.Date)             'STYMD
+                    Dim PARAS03 As SqlParameter = SQLcmd1.Parameters.Add("@P03", SqlDbType.NVarChar)         'UNCHINFUNCCODE
+                    Dim PARAS04 As SqlParameter = SQLcmd1.Parameters.Add("@P04", SqlDbType.NVarChar)         'NSHABAN
+                    Dim PARAS05 As SqlParameter = SQLcmd1.Parameters.Add("@P05", SqlDbType.Date)             'STYMD
 
                     '○ＤＢ更新
                     For Each MA0007row As DataRow In MA0007tbl.Rows
@@ -461,36 +418,22 @@ Public Class GRMA0007NINUSHISHABAN
 
                             PARA01.Value = MA0007row("CAMPCODE")
                             PARA02.Value = MA0007row("TORICODE")
-                            PARA03.Value = MA0007row("OILTYPEGRP")
-                            PARA04.Value = MA0007row("URIHIYOKBN")
-                            PARA05.Value = MA0007row("UNCHINCODE")
-                            PARA06.Value = MA0007row("STYMD")
-                            PARA07.Value = MA0007row("UNCHINCODENAME")
-                            PARA08.Value = MA0007row("ENDYMD")
-                            PARA09.Value = MA0007row("UNCHINORG")
-                            PARA10.Value = MA0007row("GYOSHA")
-                            PARA11.Value = MA0007row("MANGORG")
-                            PARA12.Value = MA0007row("SHIPORG")
-                            PARA13.Value = MA0007row("NSHABAN")
-                            PARA14.Value = MA0007row("SHUKABASHO")
-                            PARA15.Value = MA0007row("TODOKECODE")
-                            PARA16.Value = MA0007row("SHAFUKU")
-                            PARA17.Value = MA0007row("SPOTRESCUEKBN")
-                            PARA18.Value = MA0007row("SHARYOCLASS")
-                            PARA19.Value = MA0007row("OPEKBN")
-                            PARA20.Value = MA0007row("INDATAKBN")
-                            PARA21.Value = MA0007row("UNCHINCALC")
-                            PARA22.Value = MA0007row("COST")
-                            PARA23.Value = MA0007row("SHIWAKEPATERNKBN")
-                            PARA24.Value = MA0007row("SHIWAKEPATTERN")
-                            PARA25.Value = MA0007row("SEIKYUSUMKBN")
-                            PARA26.Value = MA0007row("OUTPUTSUMKBN")
-                            PARA27.Value = MA0007row("DELFLG")
-                            PARA28.Value = Date.Now
-                            PARA29.Value = Date.Now
-                            PARA30.Value = Master.USERID
-                            PARA31.Value = Master.USERTERMID
-                            PARA32.Value = C_DEFAULT_YMD
+                            PARA03.Value = MA0007row("UNCHINFUNCCODE")
+                            PARA04.Value = MA0007row("NSHABAN")
+                            PARA05.Value = MA0007row("STYMD")
+                            PARA06.Value = MA0007row("ENDYMD")
+                            PARA07.Value = MA0007row("UNCHINSHAFUKU")
+                            PARA08.Value = MA0007row("SHARYOKEIYAKUCODE")
+                            PARA09.Value = MA0007row("SHAFUKU")
+                            PARA10.Value = MA0007row("SHAGATA")
+                            PARA11.Value = MA0007row("CONTENASTATE")
+                            PARA12.Value = MA0007row("SUPPL")
+                            PARA13.Value = MA0007row("DELFLG")
+                            PARA14.Value = Date.Now
+                            PARA15.Value = Date.Now
+                            PARA16.Value = Master.USERID
+                            PARA17.Value = Master.USERTERMID
+                            PARA18.Value = C_DEFAULT_YMD
 
                             SQLcmd.ExecuteNonQuery()
 
@@ -500,10 +443,9 @@ Public Class GRMA0007NINUSHISHABAN
                             Try
                                 PARAS01.Value = MA0007row("CAMPCODE")
                                 PARAS02.Value = MA0007row("TORICODE")
-                                PARAS03.Value = MA0007row("OILTYPEGRP")
-                                PARAS04.Value = MA0007row("URIHIYOKBN")
-                                PARAS05.Value = MA0007row("UNCHINCODE")
-                                PARAS06.Value = MA0007row("STYMD")
+                                PARAS03.Value = MA0007row("UNCHINFUNCCODE")
+                                PARAS04.Value = MA0007row("NSHABAN")
+                                PARAS05.Value = MA0007row("STYMD")
 
                                 Dim JOURds As New DataSet()
                                 Dim SQLadp As SqlDataAdapter
@@ -511,7 +453,7 @@ Public Class GRMA0007NINUSHISHABAN
                                 SQLadp = New SqlDataAdapter(SQLcmd1)
                                 SQLadp.Fill(JOURds, "JOURtbl")
 
-                                CS0020JOURNAL.TABLENM = "MC013_UNCHINKETEI"
+                                CS0020JOURNAL.TABLENM = "MA007_NINUSHISHABAN"
                                 CS0020JOURNAL.ACTION = "UPDATE_INSERT"
                                 CS0020JOURNAL.ROW = JOURds.Tables("JOURtbl").Rows(0)
                                 CS0020JOURNAL.CS0020JOURNAL()
@@ -534,10 +476,10 @@ Public Class GRMA0007NINUSHISHABAN
                                 If ex.Message = "Error raised In TIMSTP" Then
                                     MA0007row("OPERATION") = C_LIST_OPERATION_CODE.ERRORED
                                 End If
-                                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "MC013_UNCHINKETEI JOURNAL")
+                                Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "MA007_NINUSHISHABAN JOURNAL")
 
                                 CS0011LOGWRITE.INFSUBCLASS = "MAIN"                         'SUBクラス名
-                                CS0011LOGWRITE.INFPOSI = "DB:MC013_UNCHINKETEI JOURNAL"
+                                CS0011LOGWRITE.INFPOSI = "DB:MA007_NINUSHISHABAN JOURNAL"
                                 CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
                                 CS0011LOGWRITE.TEXT = ex.ToString()
                                 CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
@@ -550,9 +492,9 @@ Public Class GRMA0007NINUSHISHABAN
                 End Using
             End Using
         Catch ex As Exception
-            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "MC013_UNCHINKETEI UPDATE_INSERT")
+            Master.Output(C_MESSAGE_NO.DB_ERROR, C_MESSAGE_TYPE.ABORT, "MA007_NINUSHISHABAN UPDATE_INSERT")
             CS0011LOGWRITE.INFSUBCLASS = "MAIN"
-            CS0011LOGWRITE.INFPOSI = "DB:MC013_UNCHINKETEI UPDATE_INSERT"
+            CS0011LOGWRITE.INFPOSI = "DB:MA007_NINUSHISHABAN UPDATE_INSERT"
             CS0011LOGWRITE.NIWEA = C_MESSAGE_TYPE.ABORT
             CS0011LOGWRITE.TEXT = ex.ToString()
             CS0011LOGWRITE.MESSAGENO = C_MESSAGE_NO.DB_ERROR
@@ -718,6 +660,8 @@ Public Class GRMA0007NINUSHISHABAN
         WF_CAMPCODE_TEXT.Text = MA0007tbl.Rows(WW_Position)("CAMPNAMES")
         WF_TORICODE.Text = MA0007tbl.Rows(WW_Position)("TORICODE")
         WF_TORICODE_TEXT.Text = MA0007tbl.Rows(WW_Position)("TORICODENAMES")
+        WF_UNCHINFUNCCODE.Text = MA0007tbl.Rows(WW_Position)("UNCHINFUNCCODE")
+        WF_UNCHINFUNCCODE_TEXT.Text = MA0007tbl.Rows(WW_Position)("UNCHINFUNCCODENAMES")
         WF_NSHABAN.Text = MA0007tbl.Rows(WW_Position)("NSHABAN")
 
         '有効年月日
@@ -728,6 +672,7 @@ Public Class GRMA0007NINUSHISHABAN
         CODENAME_get("DELFLG", WF_DELFLG.Text, WW_TEXT, WW_DUMMY)
         WF_DELFLG_TEXT.Text = WW_TEXT
 
+        WW_TEXT = ""
 
         '○Grid設定処理
         For Each reitem As RepeaterItem In WF_DViewRep1.Items
@@ -737,7 +682,12 @@ Public Class GRMA0007NINUSHISHABAN
             If WW_FILED_OBJ.Text <> "" Then
                 '値設定
                 WW_VALUE = WF_ITEM_FORMAT(WW_FILED_OBJ.text, MA0007tbl.Rows(WW_LINECNT)(WW_FILED_OBJ.Text))
+
                 CType(reitem.FindControl("WF_Rep1_VALUE_1"), TextBox).Text = WW_VALUE
+
+                '値（名称）設定
+                CODENAME_get(WW_FILED_OBJ.Text, WW_VALUE, WW_TEXT, WW_DUMMY)
+
                 CType(reitem.FindControl("WF_Rep1_VALUE_TEXT_1"), Label).Text = WW_TEXT
 
             End If
@@ -748,6 +698,10 @@ Public Class GRMA0007NINUSHISHABAN
                 '値設定
                 WW_VALUE = WF_ITEM_FORMAT(WW_FILED_OBJ.text, MA0007tbl.Rows(WW_LINECNT)(WW_FILED_OBJ.Text))
                 CType(reitem.FindControl("WF_Rep1_VALUE_2"), TextBox).Text = WW_VALUE
+
+                '値（名称）設定
+                CODENAME_get(WW_FILED_OBJ.Text, WW_VALUE, WW_TEXT, WW_DUMMY)
+
                 CType(reitem.FindControl("WF_Rep1_VALUE_TEXT_2"), Label).Text = WW_TEXT
             End If
 
@@ -757,6 +711,10 @@ Public Class GRMA0007NINUSHISHABAN
                 '値設定
                 WW_VALUE = WF_ITEM_FORMAT(WW_FILED_OBJ.text, MA0007tbl.Rows(WW_LINECNT)(WW_FILED_OBJ.Text))
                 CType(reitem.FindControl("WF_Rep1_VALUE_3"), TextBox).Text = WW_VALUE
+
+                '値（名称）設定
+                CODENAME_get(WW_FILED_OBJ.Text, WW_VALUE, WW_TEXT, WW_DUMMY)
+
                 CType(reitem.FindControl("WF_Rep1_VALUE_TEXT_3"), Label).Text = WW_TEXT
             End If
         Next
@@ -913,6 +871,7 @@ Public Class GRMA0007NINUSHISHABAN
         '○ 画面(Repeaterヘッダー情報)の使用禁止文字排除
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
         Master.EraseCharToIgnore(WF_TORICODE.Text)          '取引先コード
+        Master.EraseCharToIgnore(WF_UNCHINFUNCCODE.Text)    '運賃計算機能コード
         Master.EraseCharToIgnore(WF_NSHABAN.Text)           '荷主車番
         Master.EraseCharToIgnore(WF_STYMD.Text)             '開始年月日
         Master.EraseCharToIgnore(WF_ENDYMD.Text)            '終了年月日
@@ -921,6 +880,7 @@ Public Class GRMA0007NINUSHISHABAN
         'GridViewから未選択状態で表更新ボタンを押下時の例外を回避する 
         If String.IsNullOrEmpty(WF_Sel_LINECNT.Text) AndAlso
             String.IsNullOrEmpty(WF_TORICODE.Text) AndAlso
+            String.IsNullOrEmpty(WF_UNCHINFUNCCODE.Text) AndAlso
             String.IsNullOrEmpty(WF_NSHABAN.Text) AndAlso
             String.IsNullOrEmpty(WF_STYMD.Text) AndAlso
             String.IsNullOrEmpty(WF_ENDYMD.Text) AndAlso
@@ -959,6 +919,7 @@ Public Class GRMA0007NINUSHISHABAN
 
         MA0007INProw("CAMPCODE") = WF_CAMPCODE.Text
         MA0007INProw("TORICODE") = WF_TORICODE.Text
+        MA0007INProw("UNCHINFUNCCODE") = WF_UNCHINFUNCCODE.Text
         MA0007INProw("NSHABAN") = WF_NSHABAN.Text
         MA0007INProw("STYMD") = WF_STYMD.Text
         MA0007INProw("ENDYMD") = WF_ENDYMD.Text
@@ -1000,6 +961,12 @@ Public Class GRMA0007NINUSHISHABAN
         CODENAME_get("TORICODE", MA0007INProw("TORICODE"), WW_TEXT, WW_DUMMY)
         MA0007INProw("TORICODENAMES") = WW_TEXT
 
+        ' 運賃計算機能コード
+        WW_TEXT = ""
+        CODENAME_get("UNCHINFUNCCODE", MA0007INProw("UNCHINFUNCCODE"), WW_TEXT, WW_DUMMY)
+        MA0007INProw("UNCHINFUNCCODENAMES") = WW_TEXT
+
+
         ' 車両契約内容コード
         WW_TEXT = ""
         CODENAME_get("SHARYOKEIYAKUCODE", MA0007INProw("SHARYOKEIYAKUCODE"), WW_TEXT, WW_DUMMY)
@@ -1015,11 +982,10 @@ Public Class GRMA0007NINUSHISHABAN
         CODENAME_get("CONTENASTATE", MA0007INProw("CONTENASTATE"), WW_TEXT, WW_DUMMY)
         MA0007INProw("CONTENASTATENAMES") = WW_TEXT
 
-
         ' 用車会社
         WW_TEXT = ""
         CODENAME_get("SUPPL", MA0007INProw("SUPPL"), WW_TEXT, WW_DUMMY)
-        MA0007INProw("SUPPL") = WW_TEXT
+        MA0007INProw("SUPPLNAMES") = WW_TEXT
 
 
         ' チェック用テーブルに登録する
@@ -1078,6 +1044,8 @@ Public Class GRMA0007NINUSHISHABAN
         CODENAME_get("CAMPCODE", WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)
         WF_TORICODE.Text = ""
         WF_TORICODE_TEXT.Text = ""
+        WF_UNCHINFUNCCODE.Text = ""
+        WF_UNCHINFUNCCODE_TEXT.Text = ""
         WF_NSHABAN.Text = ""
         WF_NSHABAN_TEXT.Text = ""
         WF_STYMD.Text = ""
@@ -1166,7 +1134,7 @@ Public Class GRMA0007NINUSHISHABAN
         O_ATTR = ""
         Select Case I_FIELD
             Case "TORICODE"
-                ' 運賃計算車腹
+                ' 取引先コード
                 O_ATTR = "REF_Field_DBclick('TORICODE', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_CUSTOMER & "');"
 
             Case "SHARYOKEIYAKUCODE"
@@ -1178,8 +1146,11 @@ Public Class GRMA0007NINUSHISHABAN
                 O_ATTR = "REF_Field_DBclick('SHAGATA', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
 
             Case "CONTENASTATE"
-                ' 出荷部署
+                ' コンテナ状態
                 O_ATTR = "REF_Field_DBclick('CONTENASTATE', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
+            Case "SUPPL"
+                ' 用車会社
+                O_ATTR = "REF_Field_DBclick('SUPPL', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_CUSTOMER & "');"
 
         End Select
 
@@ -1234,10 +1205,14 @@ Public Class GRMA0007NINUSHISHABAN
                         Select Case WW_FIELD
                             Case "WF_TORICOE"          '取引先
                                 prmData = work.CreateTORIParam(WF_CAMPCODE.Text)
+                            Case "WF_UNCHINFUNCCODE"          '荷主車番
+                                prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "UNCHINFUNCCODE")
                             Case "WF_NSHABAN"          '荷主車番
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "NSHABAN")
                             Case "SHARYOKEIYAKUCODE"   '車両契約内容コード
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHARYOKEIYAKUCODE")
+                            Case "SHAGATA"             '車型
+                                prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHAGATA")
                             Case "CONTENASTATE"        'コンテナ状態
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "CONTENASTATE")
                         End Select
@@ -1296,6 +1271,11 @@ Public Class GRMA0007NINUSHISHABAN
                     WF_TORICODE_TEXT.Text = WW_SelectTEXT
                     WF_TORICODE.Text = WW_SelectValue
                     WF_TORICODE.Focus()
+
+                Case "WF_UNCHINFUNCCODE"
+                    WF_UNCHINFUNCCODE_TEXT.Text = WW_SelectTEXT
+                    WF_UNCHINFUNCCODE.Text = WW_SelectValue
+                    WF_UNCHINFUNCCODE.Focus()
 
                 Case "WF_NSHABAN"
                     WF_NSHABAN_TEXT.Text = WW_SelectTEXT
@@ -1534,6 +1514,7 @@ Public Class GRMA0007NINUSHISHABAN
         '○必須列の判定
         If WW_COLUMNS.IndexOf("CAMPCODE") < 0 OrElse
            WW_COLUMNS.IndexOf("TORICODE") < 0 OrElse
+           WW_COLUMNS.IndexOf("UNCHINFUNCCODE") < 0 OrElse
            WW_COLUMNS.IndexOf("NSHABAN") < 0 OrElse
            WW_COLUMNS.IndexOf("STYMD") < 0 Then
             ' インポート出来ません(項目： ?01 が存在しません)。
@@ -1578,12 +1559,14 @@ Public Class GRMA0007NINUSHISHABAN
 
             If WW_COLUMNS.IndexOf("CAMPCODE") >= 0 AndAlso
                WW_COLUMNS.IndexOf("TORICODE") >= 0 AndAlso
+               WW_COLUMNS.IndexOf("UNCHINFUNCCODE") >= 0 AndAlso
                WW_COLUMNS.IndexOf("NSHABAN") >= 0 AndAlso
                WW_COLUMNS.IndexOf("STYMD") >= 0 Then
 
                 For Each MA0007row As DataRow In MA0007tbl.Rows
                     If XLSTBLrow("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
                        XLSTBLrow("TORICODE") = MA0007row("TORICODE") AndAlso
+                       XLSTBLrow("UNCHINFUNCCODE") = MA0007row("UNCHINFUNCCODE") AndAlso
                        XLSTBLrow("NSHABAN") = MA0007row("NSHABAN") AndAlso
                        XLSTBLrow("STYMD") = MA0007row("STYMD") Then
                         MA0007INProw.ItemArray = MA0007row.ItemArray
@@ -1614,6 +1597,18 @@ Public Class GRMA0007NINUSHISHABAN
                 MA0007INProw("TORICODENAMES") = XLSTBLrow("TORICODENAMES")
             End If
 
+
+            '運賃計算機能コード
+            If WW_COLUMNS.IndexOf("UNCHINFUNCCODE") >= 0 Then
+                MA0007INProw("UNCHINFUNCCODE") = XLSTBLrow("UNCHINFUNCCODE")
+            End If
+
+            '運賃計算機能コード名
+            If WW_COLUMNS.IndexOf("UNCHINFUNCCODENAMES") >= 0 Then
+                MA0007INProw("UNCHINFUNCCODENAMES") = XLSTBLrow("UNCHINFUNCCODENAMES")
+            End If
+
+
             '荷主車番
             If WW_COLUMNS.IndexOf("NSHABAN") >= 0 Then
                 MA0007INProw("NSHABAN") = XLSTBLrow("NSHABAN")
@@ -1624,9 +1619,33 @@ Public Class GRMA0007NINUSHISHABAN
                 MA0007INProw("UNCHINSHAFUKU") = XLSTBLrow("UNCHINSHAFUKU")
             End If
 
-            '売上費用区分
+
+            '車両契約内容コード
+            If WW_COLUMNS.IndexOf("SHARYOKEIYAKUCODE") >= 0 Then
+                MA0007INProw("SHARYOKEIYAKUCODE") = XLSTBLrow("SHARYOKEIYAKUCODE")
+            End If
+
+
+            '車両契約内容コード名
+            If WW_COLUMNS.IndexOf("SHARYOKEIYAKUCODENAMES") >= 0 Then
+                MA0007INProw("SHARYOKEIYAKUCODENAMES") = XLSTBLrow("SHARYOKEIYAKUCODENAMES")
+            End If
+
+
+            '車復
+            If WW_COLUMNS.IndexOf("SHAFUKU") >= 0 Then
+                MA0007INProw("SHAFUKU") = XLSTBLrow("SHAFUKU")
+            End If
+
+
+            '車型
             If WW_COLUMNS.IndexOf("SHAGATA") >= 0 Then
                 MA0007INProw("SHAGATA") = XLSTBLrow("SHAGATA")
+            End If
+
+            '車型名
+            If WW_COLUMNS.IndexOf("SHAGATANAMES") >= 0 Then
+                MA0007INProw("SHAGATANAMES") = XLSTBLrow("SHAGATANAMES")
             End If
 
             'コンテナ状態
@@ -1648,12 +1667,6 @@ Public Class GRMA0007NINUSHISHABAN
             '用車会社名
             If WW_COLUMNS.IndexOf("SUPPLNAMES") >= 0 Then
                 MA0007INProw("SUPPLNAMES") = XLSTBLrow("SUPPLNAMES")
-            End If
-
-
-            '運賃統括組織名
-            If WW_COLUMNS.IndexOf("UNCHINORGMAMES") >= 0 Then
-                MA0007INProw("UNCHINORGMAMES") = XLSTBLrow("UNCHINORGMAMES")
             End If
 
 
@@ -1771,67 +1784,78 @@ Public Class GRMA0007NINUSHISHABAN
                 '　　但し、表追加時の②および③は、TBL入力有効期限。
 
                 Dim SQLStr As String =
-                      " SELECT  0                                      as LINECNT          , " _
-                    & "         ''                                     as OPERATION        , " _
-                    & "         TIMSTP = cast(isnull(UPDTIMSTP,0) as bigint)               , " _
-                    & "         1                                      as 'SELECT'         , " _
-                    & "         0                                      as HIDDEN           , " _
-                    & "         rtrim(CAMPCODE)                        as CAMPCODE         , " _
-                    & "         ''                                     as CAMPNAMES        , " _
-                    & "         rtrim(TORICODE)         　　　　       as TORICODE         , " _
-                    & "         ''　　　　　　　　　　　　　　         as TORICODENAMES    , " _
-                    & "         rtrim(NSHABAN)                         as NSHABAN          , " _
-                    & "         rtrim(UNCHINSHAFUKU)                   as UNCHINSHAFUKU    , " _
-                    & "         rtrim(SHARYOKEIYAKUCODE)               as SHARYOKEIYAKUCODE, " _
+                      " SELECT  0                                      as LINECNT               , " _
+                    & "         ''                                     as OPERATION             , " _
+                    & "         TIMSTP = cast(isnull(UPDTIMSTP,0) as bigint)                    , " _
+                    & "         1                                      as 'SELECT'              , " _
+                    & "         0                                      as HIDDEN                , " _
+                    & "         rtrim(CAMPCODE)                        as CAMPCODE              , " _
+                    & "         ''                                     as CAMPNAMES             , " _
+                    & "         rtrim(UNCHINFUNCCODE)         　　　　 as UNCHINFUNCCODE        , " _
+                    & "         ''　　　　　　　　　　　　　　         as UNCHINFUNCCODENAMES   , " _
+                    & "         rtrim(TORICODE)         　　　　       as TORICODE              , " _
+                    & "         ''　　　　　　　　　　　　　　         as TORICODENAMES         , " _
+                    & "         rtrim(NSHABAN)                         as NSHABAN               , " _
+                    & "         rtrim(UNCHINSHAFUKU)                   as UNCHINSHAFUKU         , " _
+                    & "         rtrim(SHARYOKEIYAKUCODE)               as SHARYOKEIYAKUCODE     , " _
                     & "         ''　　　　　　　　　                   as SHARYOKEIYAKUCODENAMES, " _
-                    & "         rtrim(SHAGATA)                         as SHAGATA          , " _
-                    & "         ''　　　　　　　　　                   as SHAGATANAMES, " _
-                    & "         rtrim(CONTENASTATE)                    as CONTENASTATE   　, " _
-                    & "         ''　　　　　　　　　                   as CONTENASTATENAMES, " _
-                    & "         format(STYMD, 'yyyy/MM/dd')            as STYMD            , " _
-                    & "         format(ENDYMD, 'yyyy/MM/dd')           as ENDYMD           , " _
-                    & "         rtrim(SUPPL)                           as SUPPL            , " _
-                    & "         rtrim(DELFLG)                          as DELFLG           , " _
-                    & "         ''                                     as INITYMD          , " _
-                    & "         ''                                     as UPDYMD           , " _
-                    & "         ''                                     as UPDUSER          , " _
-                    & "         ''                                     as UPDTERMID        , " _
-                    & "         ''                                     as RECEIVEYMD       , " _
-                    & "         ''                                     as UPDTIMSTP          " _
-                    & " FROM                                                                 " _
-                    & "           MA007_NINUSHISHABAN                                        " _
-                    & " WHERE                                                                " _
-                    & "           CAMPCODE    = @P01                                          "
+                    & "         rtrim(SHAFUKU)                         as SHAFUKU               , " _
+                    & "         rtrim(SHAGATA)                         as SHAGATA               , " _
+                    & "         ''　　　　　　　　　                   as SHAGATANAMES          , " _
+                    & "         rtrim(CONTENASTATE)                    as CONTENASTATE   　     , " _
+                    & "         ''　　　　　　　　　                   as CONTENASTATENAMES     , " _
+                    & "         format(STYMD, 'yyyy/MM/dd')            as STYMD                 , " _
+                    & "         format(ENDYMD, 'yyyy/MM/dd')           as ENDYMD                , " _
+                    & "         rtrim(SUPPL)                           as SUPPL                 , " _
+                    & "         ''　　　　　　　　　                   as SUPPLNAMES　　　　    , " _
+                    & "         rtrim(DELFLG)                          as DELFLG                , " _
+                    & "         ''                                     as INITYMD               , " _
+                    & "         ''                                     as UPDYMD                , " _
+                    & "         ''                                     as UPDUSER               , " _
+                    & "         ''                                     as UPDTERMID             , " _
+                    & "         ''                                     as RECEIVEYMD            , " _
+                    & "         ''                                     as UPDTIMSTP               " _
+                    & " FROM                                                                      " _
+                    & "           MA007_NINUSHISHABAN                                             " _
+                    & " WHERE                                                                     " _
+                    & "           CAMPCODE    = @P01                                              "
 
                 '取引先が入力されていた場合は条件にセット
                 If work.WF_SEL_TORICODE.Text.Length <> 0 Then
-                    SQLStr += "      and  TORICODE    = @P02                                  "
+                    SQLStr += "      and  TORICODE    = @P02                                      "
+                End If
+
+                '取引先が入力されていた場合は条件にセット
+                If work.WF_SEL_UNCHINFUNCCODE.Text.Length <> 0 Then
+                    SQLStr += "      and  UNCHINFUNCCODE  = @P03                                  "
                 End If
 
                 '荷主車番が入力されていた場合は条件にセット
                 If work.WF_SEL_NSHABAN.Text.Length <> 0 Then
-                    SQLStr += "      and  NSHABAN = @P03                                      "
+                    SQLStr += "      and  NSHABAN = @P04                                          "
                 End If
 
-                SQLStr += "  and  STYMD      <= @P04                                          " _
-                    & "      and  ENDYMD     >= @P05                                          " _
+                SQLStr += "  and  STYMD      <= @P05                                         " _
+                    & "      and  ENDYMD     >= @P06                                         " _
                     & "      and  DELFLG     <> '1'                                          " _
                     & " ORDER BY                                                             " _
-                    & "      CAMPCODE, TORICODE, NSHABAN, STYMD                              "
+                    & "      CAMPCODE, TORICODE, UNCHINFUNCCODE, NSHABAN, STYMD              "
 
                 Using SQLcmd As New SqlCommand(SQLStr, SQLcon)
                     Dim PARA1 As SqlParameter = SQLcmd.Parameters.Add("@P01", SqlDbType.NVarChar, 20)
                     Dim PARA2 As SqlParameter = SQLcmd.Parameters.Add("@P02", SqlDbType.NVarChar, 20)
                     Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P03", SqlDbType.NVarChar, 20)
-                    Dim PARA4 As SqlParameter = SQLcmd.Parameters.Add("@P04", SqlDbType.Date)
+                    Dim PARA4 As SqlParameter = SQLcmd.Parameters.Add("@P04", SqlDbType.NVarChar, 20)
                     Dim PARA5 As SqlParameter = SQLcmd.Parameters.Add("@P05", SqlDbType.Date)
+                    Dim PARA6 As SqlParameter = SQLcmd.Parameters.Add("@P06", SqlDbType.Date)
 
 
                     PARA1.Value = work.WF_SEL_CAMPCODE.Text
                     PARA2.Value = work.WF_SEL_TORICODE.Text
-                    PARA3.Value = work.WF_SEL_NSHABAN.Text
-                    PARA4.Value = work.WF_SEL_ENDYMD.Text
-                    PARA5.Value = work.WF_SEL_STYMD.Text
+                    PARA3.Value = work.WF_SEL_UNCHINFUNCCODE.Text
+                    PARA4.Value = work.WF_SEL_NSHABAN.Text
+                    PARA5.Value = work.WF_SEL_ENDYMD.Text
+                    PARA6.Value = work.WF_SEL_STYMD.Text
 
                     Using SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
                         'フィールド名とフィールドの型を取得
@@ -1844,10 +1868,12 @@ Public Class GRMA0007NINUSHISHABAN
 
                         For Each MA0007row As DataRow In MA0007tbl.Rows
                             CODENAME_get("CAMPCODE", MA0007row("CAMPCODE"), MA0007row("CAMPNAMES"), WW_DUMMY)
+                            CODENAME_get("UNCHINFUNCCODE", MA0007row("UNCHINFUNCCODE"), MA0007row("UNCHINFUNCCODENAMES"), WW_DUMMY)
                             CODENAME_get("TORICODE", MA0007row("TORICODE"), MA0007row("TORICODENAMES"), WW_DUMMY)
                             CODENAME_get("SHAGATA", MA0007row("SHAGATA"), MA0007row("SHAGATANAMES"), WW_DUMMY)
                             CODENAME_get("SHARYOKEIYAKUCODE", MA0007row("SHARYOKEIYAKUCODE"), MA0007row("SHARYOKEIYAKUCODENAMES"), WW_DUMMY)
                             CODENAME_get("CONTENASTATE", MA0007row("CONTENASTATE"), MA0007row("CONTENASTATENAMES"), WW_DUMMY)
+                            CODENAME_get("TORICODE", MA0007row("SUPPL"), MA0007row("SUPPLNAMES"), WW_DUMMY)
                         Next
 
                     End Using
@@ -1970,6 +1996,31 @@ Public Class GRMA0007NINUSHISHABAN
             End If
 
 
+            WW_TEXT = MA0007INProw("UNCHINFUNCCODE")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "UNCHINFUNCCODE", MA0007INProw("UNCHINFUNCCODE"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    MA0007INProw("UNCHINFUNCCODE") = ""
+                Else
+                    CODENAME_get("UNCHINFUNCCODE", MA0007INProw("UNCHINFUNCCODE"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(運賃計算機能コードエラー)です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(運賃計算機能コードエラー)です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
             '○単項目チェック(荷主車番)
             Master.CheckField(work.WF_SEL_CAMPCODE.Text, "NSHABAN", MA0007INProw("NSHABAN"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
@@ -2053,6 +2104,18 @@ Public Class GRMA0007NINUSHISHABAN
             End If
 
 
+            '○単項目チェック(車復)
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHAFUKU", MA0007INProw("SHAFUKU"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If Not isNormal(WW_CS0024FCHECKERR) Then
+                WW_CheckMES1 = "・更新できないレコード(車復エラー)です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+
             '○単項目チェック(車型)
             WW_TEXT = MA0007INProw("SHAGATA")
             Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SHAGATA", MA0007INProw("SHAGATA"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
@@ -2098,6 +2161,32 @@ Public Class GRMA0007NINUSHISHABAN
                 End If
             Else
                 WW_CheckMES1 = "・更新できないレコード(コンテナ状態エラー)です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェック(用車会社)
+            WW_TEXT = MA0007INProw("SUPPL")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "SUPPL", MA0007INProw("SUPPL"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    MA0007INProw("SUPPL") = ""
+                Else
+                    CODENAME_get("SUPPL", MA0007INProw("SUPPL"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(用車会社エラー)です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(用車会社エラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, MA0007INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2159,8 +2248,8 @@ Public Class GRMA0007NINUSHISHABAN
                 '日付以外の項目が等しい
                 If MA0007INProw("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
                    MA0007INProw("TORICODE") = MA0007row("TORICODE") AndAlso
-                   MA0007INProw("OILTYPEGRP") = MA0007row("OILTYPEGRP") AndAlso
-                   MA0007INProw("URIHIYOKBN") = MA0007row("URIHIYOKBN") AndAlso
+                   MA0007INProw("UNCHINFUNCCODE") = MA0007row("UNCHINFUNCCODE") AndAlso
+                   MA0007INProw("NSHABAN") = MA0007row("NSHABAN") AndAlso
                     MA0007row("DELFLG") <> C_DELETE_FLG.DELETE Then
                 Else
                     Continue For
@@ -2248,6 +2337,7 @@ Public Class GRMA0007NINUSHISHABAN
 
                 If MA0007INProw("CAMPCODE") = MA0007row("CAMPCODE") AndAlso
                    MA0007INProw("TORICODE") = MA0007row("TORICODE") AndAlso
+                   MA0007INProw("UNCHINFUNCCODE") = MA0007row("UNCHINFUNCCODE") AndAlso
                    MA0007INProw("NSHABAN") = MA0007row("NSHABAN") AndAlso
                    MA0007INProw("STYMD") = MA0007row("STYMD") Then
                 Else
@@ -2259,12 +2349,15 @@ Public Class GRMA0007NINUSHISHABAN
                     MA0007row("CAMPNAMES") = MA0007INProw("CAMPNAMES") AndAlso
                     MA0007row("TORICODE") = MA0007INProw("TORICODE") AndAlso
                     MA0007row("TORICODENAMES") = MA0007INProw("TORICODENAMES") AndAlso
+                    MA0007row("UNCHINFUNCCODE") = MA0007INProw("UNCHINFUNCCODE") AndAlso
+                    MA0007row("UNCHINFUNCCODENAMES") = MA0007INProw("UNCHINFUNCCODENAMES") AndAlso
                     MA0007row("NSHABAN") = MA0007INProw("NSHABAN") AndAlso
                     MA0007row("STYMD") = MA0007INProw("STYMD") AndAlso
                     MA0007row("ENDYMD") = MA0007INProw("ENDYMD") AndAlso
                     MA0007row("UNCHINSHAFUKU") = MA0007INProw("UNCHINSHAFUKU") AndAlso
                     MA0007row("SHARYOKEIYAKUCODE") = MA0007INProw("SHARYOKEIYAKUCODE") AndAlso
                     MA0007row("SHARYOKEIYAKUCODENAMES") = MA0007INProw("SHARYOKEIYAKUCODENAMES") AndAlso
+                    MA0007row("SHAFUKU") = MA0007INProw("SHAFUKU") AndAlso
                     MA0007row("SHAGATA") = MA0007INProw("SHAGATA") AndAlso
                     MA0007row("SHAGATANAMES") = MA0007INProw("SHAGATANAMES") AndAlso
                     MA0007row("CONTENASTATE") = MA0007INProw("CONTENASTATE") AndAlso
@@ -2357,15 +2450,13 @@ Public Class GRMA0007NINUSHISHABAN
         If I_MESSAGE2 <> "" Then
             WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> " & I_MESSAGE2 & " , "
         End If
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 会社コード　　　　　　=" & MA0007INProw("CAMPCODE") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 取引先コード　　　　　=" & MA0007INProw("TORICODE") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃計算油種グループ　=" & MA0007INProw("OILTYPEGRP") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 売上費用区分　　　　　=" & MA0007INProw("URIHIYOKBN") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃コード　　　　　　=" & MA0007INProw("UNCHINCODE") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 開始年月日　　　　　　=" & MA0007INProw("STYMD") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 終了年月日　　　　　　=" & MA0007INProw("ENDYMD") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃コード名称　　　　=" & MA0007INProw("UNCHINCODENAME") & " , "
-        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 削除フラグ　　　　　　=" & MA0007INProw("DELFLG") & " "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 会社コード　　　　　=" & MA0007INProw("CAMPCODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 取引先コード　　　　=" & MA0007INProw("TORICODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 運賃計算機能コード　=" & MA0007INProw("UNCHINFUNCCODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 荷主車番　　　　　  =" & MA0007INProw("NSHABAN") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 開始年月日　　　　　=" & MA0007INProw("STYMD") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 終了年月日　　　　　=" & MA0007INProw("ENDYMD") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 削除フラグ　　　　　=" & MA0007INProw("DELFLG") & " "
         rightview.AddErrorReport(WW_ERR_MES)
 
     End Sub
@@ -2395,14 +2486,23 @@ Public Class GRMA0007NINUSHISHABAN
                     Case "TORICODE"             '取引先コード
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, I_VALUE, O_TEXT, O_RTN, work.CreateTORIParam(work.WF_SEL_CAMPCODE.Text))
 
+                    Case "UNCHINFUNCCODE"       '運賃計算機能コード
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "UNCHINFUNCCODE"))
+
                     Case "SHARYOKEIYAKUCODE"    '車両契約内容コード
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHARYOKEIYAKUCODE"))
 
-                    Case "SHAGATA"              '荷主車番
+                    Case "CONTENASTATE"         'コンテナ状態
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "CONTENASTATE"))
+
+                    Case "SHAGATA"              '車型
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHAGATA"))
 
                     Case "NSHABAN"              '荷主車番
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "NSHABAN"))
+
+                    Case "SUPPL"             '取引先コード
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_CUSTOMER, I_VALUE, O_TEXT, O_RTN, work.CreateTORIParam(work.WF_SEL_CAMPCODE.Text))
 
                     Case "DELFLG"               '削除フラグ名称
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_DELFLG, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "DELFLG"))

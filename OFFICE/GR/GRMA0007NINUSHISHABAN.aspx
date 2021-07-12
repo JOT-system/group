@@ -29,10 +29,11 @@
                 <asp:Label ID="WF_SEL_TORICODE" runat="server" Text="取引先コード" Font-Bold="True" Font-Underline="false"></asp:Label>
                 <asp:Label ID="WF_SEL_TORICODE_TEXT" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
 
+                <!-- 運賃計算機能コード-->
+                <asp:Label ID="WF_SEL_UNCHINFUNCCODE" runat="server" Text="運賃計算機能コード" Font-Bold="True" Font-Underline="false"></asp:Label>
+                <asp:Label ID="WF_SEL_UNCHINFUNCCODE_TEXT" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
+
                 <!-- ■　ボタン　■ -->
-                <a style="position:fixed;top:2.8em;left:49em;">
-                    <input type="button" id="WF_ButtonExtract" value="絞り込み"  style="Width:5em" onclick="ButtonClick('WF_ButtonExtract');" />
-                </a>
                 <a style="position:fixed;top:2.8em;left:53.5em;">
                     <input type="button" id="WF_ButtonUPDATE" value="DB更新"  style="Width:5em" onclick="ButtonClick('WF_ButtonUPDATE');" />
                 </a>
@@ -96,12 +97,17 @@
                         <asp:Label ID="WF_TORICODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
 
+                    <!-- ■　運賃計算機能コード　■ -->
+                    <a  ondblclick="Field_DBclick('WF_UNCHINFUNCCODE', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
+                        <asp:Label ID="WF_UNCHINFUNCCODE_LBL" runat="server" Text="運賃計算機能コード" Width="10em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:TextBox ID="WF_UNCHINFUNCCODE" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:Label ID="WF_UNCHINFUNCCODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
+                    </a>
+
                     <!-- ■　荷主車番　■ -->
-                    <a ondblclick="Field_DBclick('WF_NSHABAN', <%=LIST_BOX_CLASSIFICATION.LC_FIX_VALUE%>)">
-                        <asp:Label ID="WF_NSHABAN_LBL" runat="server" Text="荷主車番" Width="11em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
+                        <asp:Label ID="WF_NSHABAN_LBL" runat="server" Text="荷主車番" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
                         <asp:TextBox ID="WF_NSHABAN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_NSHABAN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
-                    </a>
 
                 </p>
 
