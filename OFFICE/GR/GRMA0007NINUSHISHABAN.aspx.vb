@@ -277,6 +277,7 @@ Public Class GRMA0007NINUSHISHABAN
         '○ 名称設定処理
         CODENAME_get("CAMPCODE", work.WF_SEL_CAMPCODE.Text, WF_SEL_CAMPNAME.Text, WW_DUMMY)         '会社コード
         CODENAME_get("TORICODE", work.WF_SEL_TORICODE.Text, WF_SEL_TORICODE_TEXT.Text, WW_DUMMY)    '取引先コード
+        CODENAME_get("UNCHINFUNCCODE", work.WF_SEL_UNCHINFUNCCODE.Text, WF_SEL_UNCHINFUNCCODE_TEXT.Text, WW_DUMMY)    '取引先コード
 
     End Sub
 

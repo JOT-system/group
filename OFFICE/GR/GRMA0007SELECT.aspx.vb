@@ -474,7 +474,7 @@ Public Class GRMA0007SELECT
             If WW_TEXT = "" Then
                 WF_UNCHINFUNCCODE.Text = ""
             Else
-                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_UNCHINFUNCCODE.Text, WF_UNCHINFUNCCODE_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text))
+                leftview.CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, WF_UNCHINFUNCCODE.Text, WF_UNCHINFUNCCODE_TEXT.Text, WW_RTN_SW, work.CreateFIXParam(WF_CAMPCODE.Text, "UNCHINFUNCCODE"))
                 If Not isNormal(WW_RTN_SW) Then
                     Master.Output(C_MESSAGE_NO.INVALID_SELECTION_DATA, C_MESSAGE_TYPE.ERR)
                     WF_UNCHINFUNCCODE.Focus()

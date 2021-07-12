@@ -106,7 +106,7 @@
 
                     <!-- ■　荷主車番　■ -->
                         <asp:Label ID="WF_NSHABAN_LBL" runat="server" Text="荷主車番" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="false"></asp:Label>
-                        <asp:TextBox ID="WF_NSHABAN" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
+                        <asp:TextBox ID="WF_NSHABAN" runat="server" MaxLength="20" Height="1.1em" Width="13em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_NSHABAN_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
 
                 </p>
@@ -128,7 +128,7 @@
 
                     <!-- ■　削除フラグ　■ -->
                     <a  ondblclick="Field_DBclick('WF_DELFLG', <%=LIST_BOX_CLASSIFICATION.LC_DELFLG%>)">
-                        <asp:Label ID="WF_DELFLG_L" runat="server" Text="削除" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:Label ID="WF_DELFLG_L" runat="server" Text="削除" Width="10em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
                         <asp:TextBox ID="WF_DELFLG" runat="server"  MaxLength="1"  Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS" ></asp:TextBox>
                         <asp:Label ID="WF_DELFLG_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
