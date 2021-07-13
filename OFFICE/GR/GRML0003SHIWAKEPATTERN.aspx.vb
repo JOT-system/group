@@ -196,8 +196,9 @@ Public Class GRML0003SHIWAKEPATTERN
         End If
 
         '○ 名称設定処理
-        CODENAME_get("CAMPCODE", work.WF_SEL_CAMPCODE.Text, WF_SEL_CAMPNAME.Text, WW_DUMMY)             '会社コード
-        CODENAME_get("SHIWAKEPATERNKBN", work.WF_SEL_SHIWAKEPATERNKBN.Text, WF_SEL_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY)                     '運用部署
+        CODENAME_get("CAMPCODE", work.WF_SEL_CAMPCODE.Text, WF_SEL_CAMPNAME.Text, WW_DUMMY)                                 '会社コード
+        CODENAME_get("SHIWAKEPATERNKBN", work.WF_SEL_SHIWAKEPATERNKBN.Text, WF_SEL_SHIWAKEPATERNKBN_TEXT.Text, WW_DUMMY)    '仕訳パターン分類
+        CODENAME_get("USEORG", work.WF_SEL_USEORG.Text, WF_SEL_USEORG_TEXT.Text, WW_DUMMY)                                  '利用部門コード
 
     End Sub
 
@@ -357,36 +358,38 @@ Public Class GRML0003SHIWAKEPATTERN
                     & " DECLARE hensuu CURSOR FOR                                                        " _
                     & "   SELECT CAST(UPDTIMSTP as bigint) as hensuu                                     " _
                     & "     FROM    ML003_SHIWAKEPATTERN                                                 " _
-                    & "     WHERE CAMPCODE =@P01 and SHIWAKEPATERNKBN = @P02 and SHIWAKEPATTERN = @P03   " _
-                    & "       and ACDCKBN = @P04                                                         " _
-                    & "       and STYMD = @P05 ;                                                         " _
+                    & "     WHERE CAMPCODE =@P01 AND USEORG = @P02 and SHIWAKEPATERNKBN = @P03           " _
+                    & "       and SHIWAKEPATTERN = @P04 and ACDCKBN = @P05                               " _
+                    & "       and STYMD = @P06 ;                                                         " _
                     & " OPEN hensuu ;                                                                    " _
                     & " FETCH NEXT FROM hensuu INTO @hensuu ;                                            " _
                     & " IF ( @@FETCH_STATUS = 0 )                                                        " _
                     & "    UPDATE   ML003_SHIWAKEPATTERN                                                 " _
                     & "       SET                                                                        " _
-                    & "         SHIWAKEPATERNNAME = @P06                                                 " _
-                    & "       , ENDYMD = @P07                                                            " _
-                    & "       , ACCODE = @P08                                                            " _
-                    & "       , INPUTKBN = @P09                                                          " _
-                    & "       , TORICODE = @P10                                                          " _
-                    & " 　　  , BANKCODE = @P11                                                          " _
-                    & " 　　  , SEGMENT1 = @P12                                                          " _
-                    & " 　　  , SEGMENT2 = @P13                                                          " _
-                    & " 　　  , SEGMENT3 = @P14                                                          " _
-                    & " 　　  , TAXKBN = @P15                                                            " _
-                    & " 　　  , TEKIYO = @P16                                                            " _
-                    & "       , DELFLG = @P17                                                            " _
-                    & "       , UPDYMD = @P19                                                            " _
-                    & "       , UPDUSER = @P20                                                           " _
-                    & "       , UPDTERMID    = @P21                                                      " _
-                    & "       , RECEIVEYMD   = @P22                                                      " _
-                    & "     WHERE CAMPCODE =@P01 and SHIWAKEPATERNKBN = @P02 and SHIWAKEPATTERN = @P03   " _
-                    & "       and ACDCKBN = @P04                                                         " _
-                    & "       and STYMD = @P05 ;                                                         " _
+                    & "         SHIWAKEPATERNNAME = @P07                                                 " _
+                    & "       , ENDYMD = @P08                                                            " _
+                    & "       , ACCODE = @P09                                                            " _
+                    & "       , INPUTKBN = @P10                                                          " _
+                    & "       , TORICODE = @P11                                                          " _
+                    & "       , KEIJYOORG = @P12                                                          " _
+                    & " 　　  , BANKCODE = @P13                                                          " _
+                    & " 　　  , SEGMENT1 = @P14                                                          " _
+                    & " 　　  , SEGMENT2 = @P15                                                          " _
+                    & " 　　  , SEGMENT3 = @P16                                                          " _
+                    & " 　　  , TAXKBN = @P17                                                            " _
+                    & " 　　  , TEKIYO = @P18                                                            " _
+                    & "       , DELFLG = @P19                                                            " _
+                    & "       , UPDYMD = @P21                                                            " _
+                    & "       , UPDUSER = @P22                                                           " _
+                    & "       , UPDTERMID    = @P23                                                      " _
+                    & "       , RECEIVEYMD   = @P24                                                      " _
+                    & "     WHERE CAMPCODE =@P01 AND USEORG = @P02 and SHIWAKEPATERNKBN = @P03           " _
+                    & "       and SHIWAKEPATTERN = @P04 and ACDCKBN = @P05                               " _
+                    & "       and STYMD = @P06 ;                                                         " _
                     & " IF ( @@FETCH_STATUS <> 0 )                                                       " _
                     & "    INSERT INTO ML003_SHIWAKEPATTERN                                              " _
                     & "       ( CAMPCODE                                                                 " _
+                    & "       , USEORG                                                                   " _
                     & "       , SHIWAKEPATERNKBN                                                         " _
                     & "       , SHIWAKEPATTERN                                                           " _
                     & "       , ACDCKBN                                                                  " _
@@ -396,6 +399,7 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "       , ACCODE                                                                   " _
                     & "       , INPUTKBN                                                                 " _
                     & " 　　  , TORICODE                                                                 " _
+                    & " 　　  , KEIJYOORG                                                                " _
                     & " 　　  , BANKCODE                                                                 " _
                     & " 　　  , SEGMENT1                                                                 " _
                     & " 　　  , SEGMENT2                                                                 " _
@@ -409,51 +413,54 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "       , UPDTERMID                                                                " _
                     & "       , RECEIVEYMD )                                                             " _
                     & "      VALUES (@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,   " _
-                    & "              @P14,@P15,@P16,@P17,@P18,@P19,@P20,@P21,@P22) ;                      " _
+                    & "              @P14,@P15,@P16,@P17,@P18,@P19,@P20,@P21,@P22,@P23,@P24) ;           " _
                     & " CLOSE hensuu ;                                                                   " _
                     & " DEALLOCATE hensuu ;                                                              "
 
                 Dim SQLStr1 As String =
-                      " Select  CAMPCODE   , SHIWAKEPATERNKBN , SHIWAKEPATTERN , SHIWAKEPATERNNAME,      " _
-                    & "         ACCODE     , STYMD            , ENDYMD         , ACCODE           ,      " _
-                    & "         INPUTKBN   , TORICODE         , BANKCODE       , SEGMENT1         ,      " _
-                    & "         SEGMENT2   , SEGMENT3         , TAXKBN         , TEKIYO           ,      " _
-                    & "         DELFLG     , INITYMD          , UPDYMD         , UPDUSER          ,      " _
-                    & "         UPDTERMID  , RECEIVEYMD       , CAST(UPDTIMSTP As bigint) As TIMSTP      " _
-                    & " FROM  ML003_SHIWAKEPATTERN " _
-                    & "     WHERE CAMPCODE =@P01 and SHIWAKEPATERNKBN = @P02 and SHIWAKEPATTERN = @P03   " _
-                    & "       and ACDCKBN = @P04                                                         " _
-                    & "       and STYMD = @P05 ;                                                         "
+                      " Select  CAMPCODE   , USEORG, SHIWAKEPATERNKBN , SHIWAKEPATTERN , SHIWAKEPATERNNAME   , " _
+                    & "         ACCODE     , STYMD            , ENDYMD         , ACCODE                      , " _
+                    & "         INPUTKBN   , TORICODE         , KEIJYOORG      , BANKCODE         , SEGMENT1 , " _
+                    & "         SEGMENT2   , SEGMENT3         , TAXKBN         , TEKIYO                      , " _
+                    & "         DELFLG     , INITYMD          , UPDYMD         , UPDUSER                     , " _
+                    & "         UPDTERMID  , RECEIVEYMD       , CAST(UPDTIMSTP As bigint) As TIMSTP            " _
+                    & " FROM  ML003_SHIWAKEPATTERN                                                             " _
+                    & "     WHERE CAMPCODE =@P01 AND USEORG = @P02 and SHIWAKEPATERNKBN = @P03                 " _
+                    & "       and SHIWAKEPATTERN = @P04 and ACDCKBN = @P05                                     " _
+                    & "       and STYMD = @P06 ;                                                               "
 
                 Using SQLcmd As New SqlCommand(SQLStr, SQLcon), SQLcmd1 As New SqlCommand(SQLStr1, SQLcon)
                     Dim PARA01 As SqlParameter = SQLcmd.Parameters.Add("@P01", SqlDbType.NVarChar)          'CAMPCODE
-                    Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@P02", SqlDbType.NVarChar)          'SHIWAKEPATERNKBN
-                    Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@P03", SqlDbType.NVarChar)          'SHIWAKEPATTERN
-                    Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@P04", SqlDbType.NVarChar)          'ACDCKBN
-                    Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@P05", SqlDbType.Date)              'STYMD
-                    Dim PARA06 As SqlParameter = SQLcmd.Parameters.Add("@P06", SqlDbType.NVarChar)          'SHIWAKEPATERNNAME
-                    Dim PARA07 As SqlParameter = SQLcmd.Parameters.Add("@P07", SqlDbType.Date)              'ENDYMD
-                    Dim PARA08 As SqlParameter = SQLcmd.Parameters.Add("@P08", SqlDbType.NVarChar)          'ACCODE
-                    Dim PARA09 As SqlParameter = SQLcmd.Parameters.Add("@P09", SqlDbType.NVarChar)          'INQKBN
-                    Dim PARA10 As SqlParameter = SQLcmd.Parameters.Add("@P10", SqlDbType.NVarChar)          'TORICODE
-                    Dim PARA11 As SqlParameter = SQLcmd.Parameters.Add("@P11", SqlDbType.NVarChar)          'BANKCODE
-                    Dim PARA12 As SqlParameter = SQLcmd.Parameters.Add("@P12", SqlDbType.NVarChar)          'SEGMENT1
-                    Dim PARA13 As SqlParameter = SQLcmd.Parameters.Add("@P13", SqlDbType.NVarChar)          'SEGMENT2
-                    Dim PARA14 As SqlParameter = SQLcmd.Parameters.Add("@P14", SqlDbType.NVarChar)          'SEGMENT3
-                    Dim PARA15 As SqlParameter = SQLcmd.Parameters.Add("@P15", SqlDbType.NVarChar)          'TAXKBN
-                    Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", SqlDbType.NVarChar)          'TEKIYO
-                    Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", SqlDbType.NVarChar)          'DELFLG
-                    Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", SqlDbType.SmallDateTime)     'INITYMD
-                    Dim PARA19 As SqlParameter = SQLcmd.Parameters.Add("@P19", SqlDbType.DateTime)          'UPDYMD
-                    Dim PARA20 As SqlParameter = SQLcmd.Parameters.Add("@P20", SqlDbType.NVarChar)          'UPDUSER
-                    Dim PARA21 As SqlParameter = SQLcmd.Parameters.Add("@P21", SqlDbType.NVarChar)          'UPDTERMID
-                    Dim PARA22 As SqlParameter = SQLcmd.Parameters.Add("@P22", SqlDbType.DateTime)          'RECEIVEYMD
+                    Dim PARA02 As SqlParameter = SQLcmd.Parameters.Add("@P02", SqlDbType.NVarChar)          'USEORG
+                    Dim PARA03 As SqlParameter = SQLcmd.Parameters.Add("@P03", SqlDbType.NVarChar)          'SHIWAKEPATERNKBN
+                    Dim PARA04 As SqlParameter = SQLcmd.Parameters.Add("@P04", SqlDbType.NVarChar)          'SHIWAKEPATTERN
+                    Dim PARA05 As SqlParameter = SQLcmd.Parameters.Add("@P05", SqlDbType.NVarChar)          'ACDCKBN
+                    Dim PARA06 As SqlParameter = SQLcmd.Parameters.Add("@P06", SqlDbType.Date)              'STYMD
+                    Dim PARA07 As SqlParameter = SQLcmd.Parameters.Add("@P07", SqlDbType.NVarChar)          'SHIWAKEPATERNNAME
+                    Dim PARA08 As SqlParameter = SQLcmd.Parameters.Add("@P08", SqlDbType.Date)              'ENDYMD
+                    Dim PARA09 As SqlParameter = SQLcmd.Parameters.Add("@P09", SqlDbType.NVarChar)          'ACCODE
+                    Dim PARA10 As SqlParameter = SQLcmd.Parameters.Add("@P10", SqlDbType.NVarChar)          'INQKBN
+                    Dim PARA11 As SqlParameter = SQLcmd.Parameters.Add("@P11", SqlDbType.NVarChar)          'TORICODE
+                    Dim PARA12 As SqlParameter = SQLcmd.Parameters.Add("@P12", SqlDbType.NVarChar)          'KEIJYOORG
+                    Dim PARA13 As SqlParameter = SQLcmd.Parameters.Add("@P13", SqlDbType.NVarChar)          'BANKCODE
+                    Dim PARA14 As SqlParameter = SQLcmd.Parameters.Add("@P14", SqlDbType.NVarChar)          'SEGMENT1
+                    Dim PARA15 As SqlParameter = SQLcmd.Parameters.Add("@P15", SqlDbType.NVarChar)          'SEGMENT2
+                    Dim PARA16 As SqlParameter = SQLcmd.Parameters.Add("@P16", SqlDbType.NVarChar)          'SEGMENT3
+                    Dim PARA17 As SqlParameter = SQLcmd.Parameters.Add("@P17", SqlDbType.NVarChar)          'TAXKBN
+                    Dim PARA18 As SqlParameter = SQLcmd.Parameters.Add("@P18", SqlDbType.NVarChar)          'TEKIYO
+                    Dim PARA19 As SqlParameter = SQLcmd.Parameters.Add("@P19", SqlDbType.NVarChar)          'DELFLG
+                    Dim PARA20 As SqlParameter = SQLcmd.Parameters.Add("@P20", SqlDbType.SmallDateTime)     'INITYMD
+                    Dim PARA21 As SqlParameter = SQLcmd.Parameters.Add("@P21", SqlDbType.DateTime)          'UPDYMD
+                    Dim PARA22 As SqlParameter = SQLcmd.Parameters.Add("@P22", SqlDbType.NVarChar)          'UPDUSER
+                    Dim PARA23 As SqlParameter = SQLcmd.Parameters.Add("@P23", SqlDbType.NVarChar)          'UPDTERMID
+                    Dim PARA24 As SqlParameter = SQLcmd.Parameters.Add("@P24", SqlDbType.DateTime)          'RECEIVEYMD
 
                     Dim PARAS01 As SqlParameter = SQLcmd1.Parameters.Add("@P01", SqlDbType.NVarChar)         'CAMPCODE
-                    Dim PARAS02 As SqlParameter = SQLcmd1.Parameters.Add("@P02", SqlDbType.NVarChar)         'SHIWAKEPATERNKBN
-                    Dim PARAS03 As SqlParameter = SQLcmd1.Parameters.Add("@P03", SqlDbType.NVarChar)         'SHIWAKEPATTERN
-                    Dim PARAS04 As SqlParameter = SQLcmd1.Parameters.Add("@P04", SqlDbType.NVarChar)         'ACDCKBN
-                    Dim PARAS05 As SqlParameter = SQLcmd1.Parameters.Add("@P05", SqlDbType.Date)             'STYMD
+                    Dim PARAS02 As SqlParameter = SQLcmd1.Parameters.Add("@P02", SqlDbType.NVarChar)         'USEORG
+                    Dim PARAS03 As SqlParameter = SQLcmd1.Parameters.Add("@P03", SqlDbType.NVarChar)         'SHIWAKEPATERNKBN
+                    Dim PARAS04 As SqlParameter = SQLcmd1.Parameters.Add("@P04", SqlDbType.NVarChar)         'SHIWAKEPATTERN
+                    Dim PARAS05 As SqlParameter = SQLcmd1.Parameters.Add("@P05", SqlDbType.NVarChar)         'ACDCKBN
+                    Dim PARAS06 As SqlParameter = SQLcmd1.Parameters.Add("@P06", SqlDbType.Date)             'STYMD
 
                     '○ＤＢ更新
                     For Each ML0003row As DataRow In ML0003tbl.Rows
@@ -463,27 +470,29 @@ Public Class GRML0003SHIWAKEPATTERN
 
                             '借方を更新
                             PARA01.Value = ML0003row("CAMPCODE")
-                            PARA02.Value = ML0003row("SHIWAKEPATERNKBN")
-                            PARA03.Value = ML0003row("SHIWAKEPATTERN")
-                            PARA04.Value = ML0003row("ACDCKBN_D")
-                            PARA05.Value = ML0003row("STYMD")
-                            PARA06.Value = ML0003row("SHIWAKEPATERNNAME")
-                            PARA07.Value = ML0003row("ENDYMD")
-                            PARA08.Value = ML0003row("ACCODE_D")
-                            PARA09.Value = ML0003row("INPUTKBN_D")
-                            PARA10.Value = ML0003row("TORICODE_D")
-                            PARA11.Value = ML0003row("BANKCODE_D")
-                            PARA12.Value = ML0003row("SEGMENT1_D")
-                            PARA13.Value = ML0003row("SEGMENT2_D")
-                            PARA14.Value = ML0003row("SEGMENT3_D")
-                            PARA15.Value = ML0003row("TAXKBN_D")
-                            PARA16.Value = ML0003row("TEKIYO_D")
-                            PARA17.Value = ML0003row("DELFLG")
-                            PARA18.Value = Date.Now
-                            PARA19.Value = Date.Now
-                            PARA20.Value = Master.USERID
-                            PARA21.Value = Master.USERTERMID
-                            PARA22.Value = C_DEFAULT_YMD
+                            PARA02.Value = ML0003row("USEORG")
+                            PARA03.Value = ML0003row("SHIWAKEPATERNKBN")
+                            PARA04.Value = ML0003row("SHIWAKEPATTERN")
+                            PARA05.Value = ML0003row("ACDCKBN_D")
+                            PARA06.Value = ML0003row("STYMD")
+                            PARA07.Value = ML0003row("SHIWAKEPATERNNAME")
+                            PARA08.Value = ML0003row("ENDYMD")
+                            PARA09.Value = ML0003row("ACCODE_D")
+                            PARA10.Value = ML0003row("INPUTKBN_D")
+                            PARA11.Value = ML0003row("TORICODE_D")
+                            PARA12.Value = ML0003row("KEIJYOORG_D")
+                            PARA13.Value = ML0003row("BANKCODE_D")
+                            PARA14.Value = ML0003row("SEGMENT1_D")
+                            PARA15.Value = ML0003row("SEGMENT2_D")
+                            PARA16.Value = ML0003row("SEGMENT3_D")
+                            PARA17.Value = ML0003row("TAXKBN_D")
+                            PARA18.Value = ML0003row("TEKIYO_D")
+                            PARA19.Value = ML0003row("DELFLG")
+                            PARA20.Value = Date.Now
+                            PARA21.Value = Date.Now
+                            PARA22.Value = Master.USERID
+                            PARA23.Value = Master.USERTERMID
+                            PARA24.Value = C_DEFAULT_YMD
 
                             SQLcmd.ExecuteNonQuery()
 
@@ -492,10 +501,11 @@ Public Class GRML0003SHIWAKEPATTERN
                             '○更新ジャーナル追加
                             Try
                                 PARAS01.Value = ML0003row("CAMPCODE")
-                                PARAS02.Value = ML0003row("SHIWAKEPATERNKBN")
-                                PARAS03.Value = ML0003row("SHIWAKEPATTERN")
-                                PARAS04.Value = ML0003row("ACDCKBN_D")
-                                PARAS05.Value = ML0003row("STYMD")
+                                PARAS02.Value = ML0003row("USEORG")
+                                PARAS03.Value = ML0003row("SHIWAKEPATERNKBN")
+                                PARAS04.Value = ML0003row("SHIWAKEPATTERN")
+                                PARAS05.Value = ML0003row("ACDCKBN_D")
+                                PARAS06.Value = ML0003row("STYMD")
 
                                 Dim JOURds As New DataSet()
                                 Dim SQLadp As SqlDataAdapter
@@ -540,27 +550,29 @@ Public Class GRML0003SHIWAKEPATTERN
 
                             '貸方を更新
                             PARA01.Value = ML0003row("CAMPCODE")
-                            PARA02.Value = ML0003row("SHIWAKEPATERNKBN")
-                            PARA03.Value = ML0003row("SHIWAKEPATTERN")
-                            PARA04.Value = ML0003row("ACDCKBN_C")
-                            PARA05.Value = ML0003row("STYMD")
-                            PARA06.Value = ML0003row("SHIWAKEPATERNNAME")
-                            PARA07.Value = ML0003row("ENDYMD")
-                            PARA08.Value = ML0003row("ACCODE_C")
-                            PARA09.Value = ML0003row("INPUTKBN_C")
-                            PARA10.Value = ML0003row("TORICODE_C")
-                            PARA11.Value = ML0003row("BANKCODE_C")
-                            PARA12.Value = ML0003row("SEGMENT1_C")
-                            PARA13.Value = ML0003row("SEGMENT2_C")
-                            PARA14.Value = ML0003row("SEGMENT3_C")
-                            PARA15.Value = ML0003row("TAXKBN_C")
-                            PARA16.Value = ML0003row("TEKIYO_C")
-                            PARA17.Value = ML0003row("DELFLG")
-                            PARA18.Value = Date.Now
-                            PARA19.Value = Date.Now
-                            PARA20.Value = Master.USERID
-                            PARA21.Value = Master.USERTERMID
-                            PARA22.Value = C_DEFAULT_YMD
+                            PARA02.Value = ML0003row("USEORG")
+                            PARA03.Value = ML0003row("SHIWAKEPATERNKBN")
+                            PARA04.Value = ML0003row("SHIWAKEPATTERN")
+                            PARA05.Value = ML0003row("ACDCKBN_C")
+                            PARA06.Value = ML0003row("STYMD")
+                            PARA07.Value = ML0003row("SHIWAKEPATERNNAME")
+                            PARA08.Value = ML0003row("ENDYMD")
+                            PARA09.Value = ML0003row("ACCODE_C")
+                            PARA10.Value = ML0003row("INPUTKBN_C")
+                            PARA11.Value = ML0003row("TORICODE_C")
+                            PARA12.Value = ML0003row("KEIJYOORG_C")
+                            PARA13.Value = ML0003row("BANKCODE_C")
+                            PARA14.Value = ML0003row("SEGMENT1_C")
+                            PARA15.Value = ML0003row("SEGMENT2_C")
+                            PARA16.Value = ML0003row("SEGMENT3_C")
+                            PARA17.Value = ML0003row("TAXKBN_C")
+                            PARA18.Value = ML0003row("TEKIYO_C")
+                            PARA19.Value = ML0003row("DELFLG")
+                            PARA20.Value = Date.Now
+                            PARA21.Value = Date.Now
+                            PARA22.Value = Master.USERID
+                            PARA23.Value = Master.USERTERMID
+                            PARA24.Value = C_DEFAULT_YMD
 
                             SQLcmd.ExecuteNonQuery()
 
@@ -569,10 +581,11 @@ Public Class GRML0003SHIWAKEPATTERN
                             '○更新ジャーナル追加
                             Try
                                 PARAS01.Value = ML0003row("CAMPCODE")
-                                PARAS02.Value = ML0003row("SHIWAKEPATERNKBN")
-                                PARAS03.Value = ML0003row("SHIWAKEPATTERN")
-                                PARAS04.Value = ML0003row("ACDCKBN_C")
-                                PARAS05.Value = ML0003row("STYMD")
+                                PARAS02.Value = ML0003row("USEORG")
+                                PARAS03.Value = ML0003row("SHIWAKEPATERNKBN")
+                                PARAS04.Value = ML0003row("SHIWAKEPATTERN")
+                                PARAS05.Value = ML0003row("ACDCKBN_C")
+                                PARAS06.Value = ML0003row("STYMD")
 
                                 Dim JOURds As New DataSet()
                                 Dim SQLadp As SqlDataAdapter
@@ -787,6 +800,8 @@ Public Class GRML0003SHIWAKEPATTERN
         WF_Sel_LINECNT.Text = ML0003tbl.Rows(WW_Position)("LINECNT")
         WF_CAMPCODE.Text = ML0003tbl.Rows(WW_Position)("CAMPCODE")
         WF_CAMPCODE_TEXT.Text = ML0003tbl.Rows(WW_Position)("CAMPNAMES")
+        WF_USEORG.Text = ML0003tbl.Rows(WW_Position)("USEORG")
+        WF_USEORG_TEXT.Text = ML0003tbl.Rows(WW_Position)("USEORGNAMES")
         WF_SHIWAKEPATERNKBN.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATERNKBN")
         WF_SHIWAKEPATERNKBN_TEXT.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATERNKBNNAMES")
         WF_SHIWAKEPATTERN.Text = ML0003tbl.Rows(WW_Position)("SHIWAKEPATTERN")
@@ -1003,6 +1018,7 @@ Public Class GRML0003SHIWAKEPATTERN
 
         '○ 画面(Repeaterヘッダー情報)の使用禁止文字排除
         Master.EraseCharToIgnore(WF_CAMPCODE.Text)          '会社コード
+        Master.EraseCharToIgnore(WF_USEORG.Text)            '利用部門コード
         Master.EraseCharToIgnore(WF_SHIWAKEPATERNKBN.Text)  '仕訳パターン分類
         Master.EraseCharToIgnore(WF_SHIWAKEPATTERN.Text)    '仕訳パターン
         Master.EraseCharToIgnore(WF_STYMD.Text)             '開始年月日
@@ -1011,6 +1027,7 @@ Public Class GRML0003SHIWAKEPATTERN
 
         'GridViewから未選択状態で表更新ボタンを押下時の例外を回避する 
         If String.IsNullOrEmpty(WF_Sel_LINECNT.Text) AndAlso
+            String.IsNullOrEmpty(WF_USEORG.Text) AndAlso
             String.IsNullOrEmpty(WF_SHIWAKEPATERNKBN.Text) AndAlso
             String.IsNullOrEmpty(WF_SHIWAKEPATTERN.Text) AndAlso
             String.IsNullOrEmpty(WF_STYMD.Text) AndAlso
@@ -1049,6 +1066,7 @@ Public Class GRML0003SHIWAKEPATTERN
         ML0003INProw("HIDDEN") = "0"                                        'DBの固定フィールド
 
         ML0003INProw("CAMPCODE") = WF_CAMPCODE.Text
+        ML0003INProw("USEORG") = WF_USEORG.Text
         ML0003INProw("SHIWAKEPATERNKBN") = WF_SHIWAKEPATERNKBN.Text
         ML0003INProw("SHIWAKEPATTERN") = WF_SHIWAKEPATTERN.Text
         ML0003INProw("SHIWAKEPATERNNAME") = WF_SHIWAKEPATTERNNAME.Text
@@ -1088,6 +1106,11 @@ Public Class GRML0003SHIWAKEPATTERN
         WW_TEXT = ""
         CODENAME_get("CAMPCODE", ML0003INProw("CAMPCODE"), WW_TEXT, WW_DUMMY)
         ML0003INProw("CAMPNAMES") = WW_TEXT
+
+        ' 利用部門コード
+        WW_TEXT = ""
+        CODENAME_get("USEORG", ML0003INProw("USEORG"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("USEORGNAMES") = WW_TEXT
 
         ' 仕訳パターン分類(固定値マスタ)
         WW_TEXT = ""
@@ -1129,17 +1152,27 @@ Public Class GRML0003SHIWAKEPATTERN
         CODENAME_get("TORICODE_D", ML0003INProw("TORICODE_D"), WW_TEXT, WW_DUMMY)
         ML0003INProw("TORICODENAMES_D") = WW_TEXT
 
-        ' 取引先
+        ' 取引先(貸方)
         WW_TEXT = ""
         CODENAME_get("TORICODE_C", ML0003INProw("TORICODE_C"), WW_TEXT, WW_DUMMY)
         ML0003INProw("TORICODENAMES_C") = WW_TEXT
 
-        ' 銀行コード
+        ' 計上部門(借方)
+        WW_TEXT = ""
+        CODENAME_get("USEORG", ML0003INProw("KEIJYOORG_D"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("KEIJYOORGNAMES_D") = WW_TEXT
+
+        ' 計上部門(貸方)
+        WW_TEXT = ""
+        CODENAME_get("USEORG", ML0003INProw("KEIJYOORG_C"), WW_TEXT, WW_DUMMY)
+        ML0003INProw("KEIJYOORGNAMES_C") = WW_TEXT
+
+        ' 銀行コード(借方)
         WW_TEXT = ""
         CODENAME_get("BANKCODE_D", ML0003INProw("BANKCODE_D"), WW_TEXT, WW_DUMMY)
         ML0003INProw("BANKCODENAMES_D") = WW_TEXT
 
-        ' 銀行コード
+        ' 銀行コード(貸方)
         WW_TEXT = ""
         CODENAME_get("BANKCODE_C", ML0003INProw("BANKCODE_C"), WW_TEXT, WW_DUMMY)
         ML0003INProw("BANKCODENAMES_C") = WW_TEXT
@@ -1241,8 +1274,8 @@ Public Class GRML0003SHIWAKEPATTERN
         WF_Sel_LINECNT.Text = ""
         WF_CAMPCODE.Text = work.WF_SEL_CAMPCODE.Text
         CODENAME_get("CAMPCODE", WF_CAMPCODE.Text, WF_CAMPCODE_TEXT.Text, WW_DUMMY)
-        WF_SHIWAKEPATERNKBN.Text = ""
-        WF_SHIWAKEPATERNKBN_TEXT.Text = ""
+        WF_USEORG.Text = ""
+        WF_USEORG_TEXT.Text = ""
         WF_SHIWAKEPATTERN.Text = ""
         WF_SHIWAKEPATTERNNAME.Text = ""
         WF_ACDCKBN_C.Text = ""
@@ -1334,6 +1367,14 @@ Public Class GRML0003SHIWAKEPATTERN
 
         O_ATTR = ""
         Select Case I_FIELD
+            Case "KEIJYOORG_C"
+                ' 計上部門
+                O_ATTR = "REF_Field_DBclick('KEIJYOORG_C', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_ORG & "');"
+
+            Case "KEIJYOORG_D"
+                ' 計上部門
+                O_ATTR = "REF_Field_DBclick('KEIJYOORG_D', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_ORG & "');"
+
             Case "SHIWAKEPATERNKBN"
                 ' 仕訳パターン分類(固定値マスタ)
                 O_ATTR = "REF_Field_DBclick('SHIWAKEPATERNKBN', 'WF_Rep_FIELD' , '" & LIST_BOX_CLASSIFICATION.LC_FIX_VALUE & "');"
@@ -1445,12 +1486,16 @@ Public Class GRML0003SHIWAKEPATTERN
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN")
                             Case "WF_SELACDCKBN"            　   '貸借区分(絞り込み)
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN")
+                            Case "WF_USEORG"           '仕訳パターン分類
+                                prmData = work.createORGParam(WF_CAMPCODE.Text, False)
                             Case "WF_SHIWAKEPATERNKBN"           '仕訳パターン分類
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "SHIWAKEPATERNKBN")
                             Case "WF_ACDCKBN"                    '貸借区分
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "ACDCKBN")
                             Case "ACCODE_C", "ACCODE_D"       　　'勘定科目
                                 prmData = work.CreateACCParam(WF_CAMPCODE.Text, "")
+                            Case "KEIJYOORG_C", "KEIJYOORG_D"     '計上部門
+                                prmData = work.createORGParam(WF_CAMPCODE.Text, False)
                             Case "INPUTKBN_C", "INPUTKBN_D"       '画面入力区分
                                 prmData = work.CreateFIXParam(WF_CAMPCODE.Text, "INPUTKBN")
                             Case "SEGMENT1_C", "SEGMENT1_D"       'セグメント1
@@ -1514,6 +1559,12 @@ Public Class GRML0003SHIWAKEPATTERN
                 '    WF_SELSHIWAKEPATERNKBN_TEXT.Text = WW_SelectTEXT
                 '    WF_SELSHIWAKEPATERNKBN.Text = WW_SelectValue
                 '    WF_SELSHIWAKEPATERNKBN.Focus()
+
+                Case "WF_USEORG"                '利用部門コード
+                    WF_USEORG_TEXT.Text = WW_SelectTEXT
+                    WF_USEORG.Text = WW_SelectValue
+                    WF_USEORG.Focus()
+
 
                 Case "WF_SHIWAKEPATERNKBN"      '仕訳パターン分類
                     WF_SHIWAKEPATERNKBN_TEXT.Text = WW_SelectTEXT
@@ -1602,6 +1653,10 @@ Public Class GRML0003SHIWAKEPATTERN
 
                 'Case "WF_SELSHIWAKEPATERNKBN"       '仕訳パターン分類（絞り込み）
                 '    WF_SELSHIWAKEPATERNKBN.Focus()
+
+                Case "WF_USEORG"          '利用部門コード(キー部)
+                    WF_USEORG.Focus()
+
 
                 Case "WF_SHIWAKEPATERNKBN"          '仕訳パターン分類(キー部)
                     WF_SHIWAKEPATERNKBN.Focus()
@@ -1760,7 +1815,7 @@ Public Class GRML0003SHIWAKEPATTERN
            WW_COLUMNS.IndexOf("ACDCKBN_D") < 0 OrElse
            WW_COLUMNS.IndexOf("STYMD") < 0 Then
             ' インポート出来ません(項目： ?01 が存在しません)。
-            Master.Output(C_MESSAGE_NO.IMPORT_ERROR, C_MESSAGE_TYPE.ERR, "Inport TITLE not find")
+            Master.Output(C_MESSAGE_NO.IMPORT_ERROR, C_MESSAGE_TYPE.ERR, "Inport TITLE Not find")
             Exit Sub
         End If
 
@@ -1778,7 +1833,7 @@ Public Class GRML0003SHIWAKEPATTERN
                             ML0003INProw.Item(ML0003INPcol) = 0
                         Case "TIMSTP"
                             ML0003INProw.Item(ML0003INPcol) = 0
-                        Case "SELECT"
+                        Case "Select"
                             ML0003INProw.Item(ML0003INPcol) = 1
                         Case "HIDDEN"
                             ML0003INProw.Item(ML0003INPcol) = 0
@@ -1800,6 +1855,7 @@ Public Class GRML0003SHIWAKEPATTERN
             Dim WW_STYMD As String = ""
 
             If WW_COLUMNS.IndexOf("CAMPCODE") >= 0 AndAlso
+               WW_COLUMNS.IndexOf("USEORG") >= 0 AndAlso
                WW_COLUMNS.IndexOf("SHIWAKEPATERNKBN") >= 0 AndAlso
                WW_COLUMNS.IndexOf("SHIWAKEPATTERN") >= 0 AndAlso
                WW_COLUMNS.IndexOf("ACDCKBN_C") >= 0 AndAlso
@@ -1808,6 +1864,7 @@ Public Class GRML0003SHIWAKEPATTERN
 
                 For Each ML0003row As DataRow In ML0003tbl.Rows
                     If XLSTBLrow("CAMPCODE") = ML0003row("CAMPCODE") AndAlso
+                       XLSTBLrow("USEORG") = ML0003row("USEORG") AndAlso
                        XLSTBLrow("SHIWAKEPATERNKBN") = ML0003row("SHIWAKEPATERNKBN") AndAlso
                        XLSTBLrow("SHIWAKEPATTERN") = ML0003row("SHIWAKEPATTERN") AndAlso
                        XLSTBLrow("ACDCKBN_C") = ML0003row("ACDCKBN_C") AndAlso
@@ -1828,6 +1885,18 @@ Public Class GRML0003SHIWAKEPATTERN
             '会社名
             If WW_COLUMNS.IndexOf("CAMPNAMES") >= 0 Then
                 ML0003INProw("CAMPNAMES") = XLSTBLrow("CAMPNAMES")
+            End If
+
+
+            '利用部門コード
+            If WW_COLUMNS.IndexOf("USEORG") >= 0 Then
+                ML0003INProw("USEORG") = XLSTBLrow("USEORG")
+            End If
+
+
+            '利用部門名
+            If WW_COLUMNS.IndexOf("USEORGNAMES") >= 0 Then
+                ML0003INProw("USEORGNAMES") = XLSTBLrow("USEORGNAMES")
             End If
 
 
@@ -1895,6 +1964,18 @@ Public Class GRML0003SHIWAKEPATTERN
             '取引先名
             If WW_COLUMNS.IndexOf("TORICODENAMES_D") >= 0 Then
                 ML0003INProw("TORICODENAMES_D") = XLSTBLrow("TORICODENAMES_D")
+            End If
+
+
+            '計上部門
+            If WW_COLUMNS.IndexOf("KEIJYOORG_D") >= 0 Then
+                ML0003INProw("KEIJYOORG_D") = XLSTBLrow("KEIJYOORG_D")
+            End If
+
+
+            '計上部門名
+            If WW_COLUMNS.IndexOf("KEIJYOORGNAMES_D") >= 0 Then
+                ML0003INProw("KEIJYOORGNAMES_D") = XLSTBLrow("KEIJYOORGNAMES_D")
             End If
 
 
@@ -2001,6 +2082,18 @@ Public Class GRML0003SHIWAKEPATTERN
             '取引先名
             If WW_COLUMNS.IndexOf("TORICODENAMES_C") >= 0 Then
                 ML0003INProw("TORICODENAMES_C") = XLSTBLrow("TORICODENAMES_C")
+            End If
+
+
+            '計上部門
+            If WW_COLUMNS.IndexOf("KEIJYOORG_C") >= 0 Then
+                ML0003INProw("KEIJYOORG_C") = XLSTBLrow("KEIJYOORG_C")
+            End If
+
+
+            '計上部門名
+            If WW_COLUMNS.IndexOf("KEIJYOORGNAMES_C") >= 0 Then
+                ML0003INProw("KEIJYOORGNAMES_C") = XLSTBLrow("KEIJYOORGNAMES_C")
             End If
 
 
@@ -2178,20 +2271,22 @@ Public Class GRML0003SHIWAKEPATTERN
 
                 Dim SQLStr As String = ""
 
-                SQLStr += " SELECT  0                             as LINECNT               , " _
-                    & "         ''                                as OPERATION             , " _
-                    & "         TIMSTP = cast(isnull(UPDTIMSTP,0) as bigint)               , " _
-                    & "         1                                 as 'SELECT'              , " _
-                    & "         0                                 as HIDDEN                , " _
-                    & "         rtrim(CAMPCODE)                   as CAMPCODE              , " _
-                    & "         ''                                as CAMPNAMES             , " _
-                    & "         rtrim(SHIWAKEPATERNKBN)           as SHIWAKEPATERNKBN      , " _
-                    & "         ''                                as SHIWAKEPATERNKBNNAMES , " _
-                    & "         rtrim(SHIWAKEPATTERN)             as SHIWAKEPATTERN        , " _
-                    & "         rtrim(SHIWAKEPATERNNAME)          as SHIWAKEPATERNNAME     , " _
-                    & "         format(STYMD, 'yyyy/MM/dd')       as STYMD                 , " _
-                    & "         format(ENDYMD, 'yyyy/MM/dd')      as ENDYMD                , " _
-                    & "         rtrim(DELFLG)                     as DELFLG                , " _
+                SQLStr += " Select  0                             As LINECNT                              , " _
+                    & "         ''                                as OPERATION                            , " _
+                    & "         TIMSTP = cast(isnull(UPDTIMSTP,0) as bigint)                              , " _
+                    & "         1                                 as 'SELECT'                             , " _
+                    & "         0                                 as HIDDEN                               , " _
+                    & "         rtrim(CAMPCODE)                   as CAMPCODE                             , " _
+                    & "         ''                                as CAMPNAMES                            , " _
+                    & "         rtrim(SHIWAKEPATERNKBN)           as SHIWAKEPATERNKBN                     , " _
+                    & "         ''                                as SHIWAKEPATERNKBNNAMES                , " _
+                    & "         rtrim(USEORG)                     as USEORG                               , " _
+                    & "         ''                                as USEORGNAMES                          , " _
+                    & "         rtrim(SHIWAKEPATTERN)             as SHIWAKEPATTERN                       , " _
+                    & "         rtrim(SHIWAKEPATERNNAME)          as SHIWAKEPATERNNAME                    , " _
+                    & "         format(STYMD, 'yyyy/MM/dd')       as STYMD                                , " _
+                    & "         format(ENDYMD, 'yyyy/MM/dd')      as ENDYMD                               , " _
+                    & "         rtrim(DELFLG)                     as DELFLG                               , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN ACDCKBN END  )) as ACDCKBN_C        , " _
                     & "         ''                                                    as ACDCKBNNAMES_C   , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN ACCODE END   )) as ACCODE_C         , " _
@@ -2200,6 +2295,8 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "         ''                                                    as INPUTKBNNAMES_C  , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN TORICODE END )) as TORICODE_C       , " _
                     & "         ''                                                    as TORICODENAMES_C  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN KEIJYOORG END)) as KEIJYOORG_C      , " _
+                    & "         ''                                                    as KEIJYOORGNAMES_C , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN BANKCODE END )) as BANKCODE_C       , " _
                     & "         ''                                                    as BANKCODENAMES_C  , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 1 THEN SEGMENT1 END )) as SEGMENT1_C       , " _
@@ -2219,6 +2316,8 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "         ''                                                    as INPUTKBNNAMES_D  , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN TORICODE END )) as TORICODE_D       , " _
                     & "         ''                                                    as TORICODENAMES_D  , " _
+                    & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN KEIJYOORG END)) as KEIJYOORG_D      , " _
+                    & "         ''                                                    as KEIJYOORGNAMES_D , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN BANKCODE END )) as BANKCODE_D       , " _
                     & "         ''                                                    as BANKCODENAMES_D  , " _
                     & "         rtrim(MAX( CASE WHEN TMP.SEQ = 2 THEN SEGMENT1 END )) as SEGMENT1_D       , " _
@@ -2239,6 +2338,7 @@ Public Class GRML0003SHIWAKEPATTERN
                     & " FROM (                                                                              " _
                     & "     SELECT                                                                          " _
                     & "      CAMPCODE                                                                       " _
+                    & "     ,USEORG                                                                         " _
                     & "     ,SHIWAKEPATERNKBN                                                               " _
                     & "     ,SHIWAKEPATTERN                                                                 " _
                     & "     ,SHIWAKEPATERNNAME                                                              " _
@@ -2248,6 +2348,7 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "     ,ACCODE                                                                         " _
                     & "     ,INPUTKBN                                                                       " _
                     & "     ,TORICODE                                                                       " _
+                    & "     ,KEIJYOORG                                                                      " _
                     & "     ,BANKCODE                                                                       " _
                     & "     ,SEGMENT1                                                                       " _
                     & "     ,SEGMENT2                                                                       " _
@@ -2256,23 +2357,28 @@ Public Class GRML0003SHIWAKEPATTERN
                     & "     ,TEKIYO                                                                         " _
                     & "     ,DELFLG                                                                         " _
                     & "     ,1 as UPDTIMSTP                                                                 " _
-                    & "     ,row_number() OVER (partition by CAMPCODE,SHIWAKEPATERNKBN,SHIWAKEPATTERN,STYMD " _
-                    & "                order by CAMPCODE,SHIWAKEPATERNKBN,SHIWAKEPATTERN ,ACDCKBN ) as seq  " _
+                    & "     ,row_number() OVER (partition by CAMPCODE,USEORG, SHIWAKEPATERNKBN,SHIWAKEPATTERN,STYMD " _
+                    & "                order by CAMPCODE,USEORG, SHIWAKEPATERNKBN,SHIWAKEPATTERN ,ACDCKBN ) as seq  " _
                     & " FROM  ML003_SHIWAKEPATTERN                                                          " _
                     & " WHERE                                                                               " _
                     & "           CAMPCODE    = @P1                                                         " _
-                    & "      AND  STYMD      <= @P3                                                         " _
-                    & "      AND  ENDYMD     >= @P4                                                         " _
+                    & "      AND  STYMD      <= @P4                                                         " _
+                    & "      AND  ENDYMD     >= @P5                                                         " _
                     & "      AND  DELFLG     <> '1'                                                         " _
+
+                '利用部門コードが入力されていた場合は条件にセット
+                If work.WF_SEL_USEORG.Text.Length <> 0 Then
+                    SQLStr += "  AND  USEORG    = @P2                                             "
+                End If
 
                 '仕訳パターン分類が入力されていた場合は条件にセット
                 If work.WF_SEL_SHIWAKEPATERNKBN.Text.Length <> 0 Then
-                    SQLStr += "  AND  SHIWAKEPATERNKBN    = @P2                                             "
+                    SQLStr += "  AND  SHIWAKEPATERNKBN    = @P3                                             "
                 End If
 
                 SQLStr += "  ) AS TMP                                                                       "
 
-                SQLStr += " GROUP BY CAMPCODE, SHIWAKEPATERNKBN, SHIWAKEPATTERN, SHIWAKEPATERNNAME          "
+                SQLStr += " GROUP BY CAMPCODE, USEORG, SHIWAKEPATERNKBN, SHIWAKEPATTERN, SHIWAKEPATERNNAME  "
                 SQLStr += " , STYMD, ENDYMD, DELFLG, UPDTIMSTP                                              "
 
                 SQLStr += " ORDER BY                                                                        " _
@@ -2282,13 +2388,15 @@ Public Class GRML0003SHIWAKEPATTERN
                 Using SQLcmd As New SqlCommand(SQLStr, SQLcon)
                     Dim PARA1 As SqlParameter = SQLcmd.Parameters.Add("@P1", SqlDbType.NVarChar, 20)
                     Dim PARA2 As SqlParameter = SQLcmd.Parameters.Add("@P2", SqlDbType.NVarChar, 20)
-                    Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P3", SqlDbType.Date)
+                    Dim PARA3 As SqlParameter = SQLcmd.Parameters.Add("@P3", SqlDbType.NVarChar, 20)
                     Dim PARA4 As SqlParameter = SQLcmd.Parameters.Add("@P4", SqlDbType.Date)
+                    Dim PARA5 As SqlParameter = SQLcmd.Parameters.Add("@P5", SqlDbType.Date)
 
                     PARA1.Value = work.WF_SEL_CAMPCODE.Text
-                    PARA2.Value = work.WF_SEL_SHIWAKEPATERNKBN.Text
-                    PARA3.Value = work.WF_SEL_ENDYMD.Text
-                    PARA4.Value = work.WF_SEL_STYMD.Text
+                    PARA2.Value = work.WF_SEL_USEORG.Text
+                    PARA3.Value = work.WF_SEL_SHIWAKEPATERNKBN.Text
+                    PARA4.Value = work.WF_SEL_ENDYMD.Text
+                    PARA5.Value = work.WF_SEL_STYMD.Text
 
                     Using SQLdr As SqlDataReader = SQLcmd.ExecuteReader()
                         'フィールド名とフィールドの型を取得
@@ -2302,6 +2410,8 @@ Public Class GRML0003SHIWAKEPATTERN
                         For Each ML0003row As DataRow In ML0003tbl.Rows
                             '会社名を取得
                             CODENAME_get("CAMPCODE", ML0003row("CAMPCODE"), ML0003row("CAMPNAMES"), WW_DUMMY)
+                            '利用部門コード名を取得
+                            CODENAME_get("USEORG", ML0003row("USEORG"), ML0003row("USEORGNAMES"), WW_DUMMY)
                             '仕訳パターン分類名を取得(固定値マスタ)
                             CODENAME_get("SHIWAKEPATERNKBN", ML0003row("SHIWAKEPATERNKBN"), ML0003row("SHIWAKEPATERNKBNNAMES"), WW_DUMMY)
                             '貸借区分名を取得(固定値マスタ)
@@ -2310,6 +2420,8 @@ Public Class GRML0003SHIWAKEPATTERN
                             CODENAME_get("ACCODE", ML0003row("ACCODE_C"), ML0003row("ACCODENAMES_C"), WW_DUMMY)
                             '画面入力区分名を取得(固定値マスタ)
                             CODENAME_get("INPUTKBN", ML0003row("INPUTKBN_C"), ML0003row("INPUTKBNNAMES_C"), WW_DUMMY)
+                            '計上部門名を取得
+                            CODENAME_get("USEORG", ML0003row("KEIJYOORG_C"), ML0003row("KEIJYOORGNAMES_C"), WW_DUMMY)
                             'セグメント1名を取得(固定値マスタ)
                             CODENAME_get("SEGMENT1", ML0003row("SEGMENT1_C"), ML0003row("SEGMENT1NAMES_C"), WW_DUMMY)
                             'セグメント2名を取得(固定値マスタ)
@@ -2324,6 +2436,8 @@ Public Class GRML0003SHIWAKEPATTERN
                             CODENAME_get("ACCODE", ML0003row("ACCODE_D"), ML0003row("ACCODENAMES_D"), WW_DUMMY)
                             '画面入力区分名を取得(固定値マスタ)
                             CODENAME_get("INPUTKBN", ML0003row("INPUTKBN_D"), ML0003row("INPUTKBNNAMES_D"), WW_DUMMY)
+                            '計上部門名を取得
+                            CODENAME_get("USEORG", ML0003row("KEIJYOORG_D"), ML0003row("KEIJYOORGNAMES_D"), WW_DUMMY)
                             'セグメント1名を取得(固定値マスタ)
                             CODENAME_get("SEGMENT1", ML0003row("SEGMENT1_D"), ML0003row("SEGMENT1NAMES_D"), WW_DUMMY)
                             'セグメント2名を取得(固定値マスタ)
@@ -2422,6 +2536,32 @@ Public Class GRML0003SHIWAKEPATTERN
                 End If
             Else
                 WW_CheckMES1 = "・更新できないレコード(会社コードエラー)です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェッ(利用部門コード)
+            WW_TEXT = ML0003INProw("USEORG")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "USEORG", ML0003INProw("USEORG"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("USEORG") = ""
+                Else
+                    CODENAME_get("USEORG", ML0003INProw("USEORG"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(利用部門コードエラー)です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(利用部門コードエラー)です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2693,6 +2833,58 @@ Public Class GRML0003SHIWAKEPATTERN
             Master.CheckField(work.WF_SEL_CAMPCODE.Text, "BANKCODE_D", ML0003INProw("BANKCODE_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
             If Not isNormal(WW_CS0024FCHECKERR) Then
                 WW_CheckMES1 = "・更新できないレコード(銀行エラー(借方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェッ(計上部門)
+            WW_TEXT = ML0003INProw("KEIJYOORG_C")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "KEIJYOORG_C", ML0003INProw("KEIJYOORG_C"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("KEIJYOORG_C") = ""
+                Else
+                    CODENAME_get("KEIJYOORG_C", ML0003INProw("KEIJYOORG_C"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(計上部門エラー(貸方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(計上部門エラー(貸方))です。"
+                WW_CheckMES2 = WW_CS0024FCHECKREPORT
+                WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                WW_LINEERR_SW = "ERR"
+            End If
+
+
+            '○単項目チェッ(計上部門)
+            WW_TEXT = ML0003INProw("KEIJYOORG_D")
+            Master.CheckField(work.WF_SEL_CAMPCODE.Text, "KEIJYOORG_D", ML0003INProw("KEIJYOORG_D"), WW_CS0024FCHECKERR, WW_CS0024FCHECKREPORT)
+            If isNormal(WW_CS0024FCHECKERR) Then
+                '存在チェック
+                If WW_TEXT = "" Then
+                    ML0003INProw("KEIJYOORG_D") = ""
+                Else
+                    CODENAME_get("KEIJYOORG_D", ML0003INProw("KEIJYOORG_D"), WW_DUMMY, WW_RTN_SW)
+                    If Not isNormal(WW_RTN_SW) Then
+                        WW_CheckMES1 = "・更新できないレコード(計上部門エラー(借方))です。"
+                        WW_CheckMES2 = ""
+                        WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
+                        O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
+                        WW_LINEERR_SW = "ERR"
+                    End If
+                End If
+            Else
+                WW_CheckMES1 = "・更新できないレコード(計上部門エラー(借方))です。"
                 WW_CheckMES2 = WW_CS0024FCHECKREPORT
                 WW_CheckERR(WW_CheckMES1, WW_CheckMES2, C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR, ML0003INProw)
                 O_RTNCODE = C_MESSAGE_NO.INVALID_REGIST_RECORD_ERROR
@@ -2994,6 +3186,7 @@ Public Class GRML0003SHIWAKEPATTERN
 
                 '日付以外の項目が等しい
                 If ML0003INProw("CAMPCODE") = ML0003row("CAMPCODE") AndAlso
+                   ML0003INProw("USEORG") = ML0003row("USEORG") AndAlso
                    ML0003INProw("SHIWAKEPATERNKBN") = ML0003row("SHIWAKEPATERNKBN") AndAlso
                    ML0003INProw("SHIWAKEPATTERN") = ML0003row("SHIWAKEPATTERN") AndAlso
                    ML0003INProw("ACDCKBN_C") = ML0003row("ACDCKBN_C") AndAlso
@@ -3084,6 +3277,7 @@ Public Class GRML0003SHIWAKEPATTERN
             For Each ML0003row As DataRow In ML0003tbl.Rows
 
                 If ML0003INProw("CAMPCODE") = ML0003row("CAMPCODE") AndAlso
+                   ML0003INProw("USEORG") = ML0003row("USEORG") AndAlso
                    ML0003INProw("SHIWAKEPATERNKBN") = ML0003row("SHIWAKEPATERNKBN") AndAlso
                    ML0003INProw("SHIWAKEPATTERN") = ML0003row("SHIWAKEPATTERN") AndAlso
                    ML0003INProw("ACDCKBN_C") = ML0003row("ACDCKBN_C") AndAlso
@@ -3096,6 +3290,8 @@ Public Class GRML0003SHIWAKEPATTERN
                 'レコード内容に変更があったか判定
                 If ML0003row("CAMPCODE") = ML0003INProw("CAMPCODE") AndAlso
                    ML0003row("CAMPNAMES") = ML0003INProw("CAMPNAMES") AndAlso
+                   ML0003row("USEORG") = ML0003INProw("USEORG") AndAlso
+                   ML0003row("USEORGNAMES") = ML0003INProw("USEORGNAMES") AndAlso
                    ML0003row("SHIWAKEPATERNKBN") = ML0003INProw("SHIWAKEPATERNKBN") AndAlso
                    ML0003row("SHIWAKEPATERNKBNNAMES") = ML0003INProw("SHIWAKEPATERNKBNNAMES") AndAlso
                    ML0003row("SHIWAKEPATTERN") = ML0003INProw("SHIWAKEPATTERN") AndAlso
@@ -3118,6 +3314,10 @@ Public Class GRML0003SHIWAKEPATTERN
                    ML0003row("TORICODE_D") = ML0003INProw("TORICODE_D") AndAlso
                    ML0003row("TORICODENAMES_C") = ML0003INProw("TORICODENAMES_C") AndAlso
                    ML0003row("TORICODENAMES_D") = ML0003INProw("TORICODENAMES_D") AndAlso
+                   ML0003row("KEIJYOORG_C") = ML0003INProw("KEIJYOORG_C") AndAlso
+                   ML0003row("KEIJYOORG_D") = ML0003INProw("KEIJYOORG_D") AndAlso
+                   ML0003row("KEIJYOORGNAMES_C") = ML0003INProw("KEIJYOORGNAMES_C") AndAlso
+                   ML0003row("KEIJYOORGNAMES_D") = ML0003INProw("KEIJYOORGNAMES_D") AndAlso
                    ML0003row("BANKCODE_C") = ML0003INProw("BANKCODE_C") AndAlso
                    ML0003row("BANKCODE_D") = ML0003INProw("BANKCODE_D") AndAlso
                    ML0003row("BANKCODENAMES_C") = ML0003INProw("BANKCODENAMES_C") AndAlso
@@ -3228,6 +3428,7 @@ Public Class GRML0003SHIWAKEPATTERN
             WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> " & I_MESSAGE2 & " , "
         End If
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 会社コード　　　 =" & ML0003INProw("CAMPCODE") & " , "
+        WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 利用部門コード   =" & ML0003INProw("USEORG") & " , "
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 仕訳パターン分類 =" & ML0003INProw("SHIWAKEPATERNKBN") & " , "
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 仕訳パターン     =" & ML0003INProw("SHIWAKEPATTERN") & " , "
         WW_ERR_MES = WW_ERR_MES & ControlChars.NewLine & "  --> 仕訳パターン名　 =" & ML0003INProw("SHIWAKEPATERNNAME") & " , "
@@ -3262,10 +3463,13 @@ Public Class GRML0003SHIWAKEPATTERN
                     Case "CAMPCODE"                             '会社
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_COMPANY, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text))
 
+                    Case "USEORG"                               '利用部門コード   
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_ORG, I_VALUE, O_TEXT, O_RTN, work.createORGParam(work.WF_SEL_CAMPCODE.Text, False))
+
                     Case "SHIWAKEPATERNKBN"                     '仕訳パターン分類(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SHIWAKEPATERNKBN"))
 
-                    Case "ACDCKBN", "ACDCKBN_C", "ACDCKBN_D"                              '貸借区分(固定値マスタ)
+                    Case "ACDCKBN", "ACDCKBN_C", "ACDCKBN_D"    '貸借区分(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "ACDCKBN"))
 
                     Case "ACCODE", "ACCODE_C", "ACCODE_D"       '勘定科目
@@ -3273,6 +3477,9 @@ Public Class GRML0003SHIWAKEPATTERN
 
                     Case "INPUTKBN", "INPUTKBN_C", "INPUTKBN_D" '画面入力区分(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "INPUTKBN"))
+
+                    Case "KEIJYOORG", "KEIJYOORG_C", "KEIJYOORG_D" '利用部門コード   
+                        .CodeToName(LIST_BOX_CLASSIFICATION.LC_ORG, I_VALUE, O_TEXT, O_RTN, work.createORGParam(work.WF_SEL_CAMPCODE.Text, False))
 
                     Case "SEGMENT1", "SEGMENT1_C", "SEGMENT1_D" 'セグメント1(固定値マスタ)
                         .CodeToName(LIST_BOX_CLASSIFICATION.LC_FIX_VALUE, I_VALUE, O_TEXT, O_RTN, work.CreateFIXParam(work.WF_SEL_CAMPCODE.Text, "SEGMENT1"))

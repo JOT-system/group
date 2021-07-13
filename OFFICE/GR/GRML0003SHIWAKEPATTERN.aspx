@@ -25,9 +25,14 @@
                 <asp:Label ID="WF_SEL_CAMPCODE" runat="server" Text="会社" Font-Bold="True" Font-Underline="false"></asp:Label>
                 <asp:Label ID="WF_SEL_CAMPNAME" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
 
+                <!-- 利用部門コード -->
+                <asp:Label ID="WF_SEL_USEORG_L" runat="server" Text="利用部門コード" Font-Bold="True" Font-Underline="false"></asp:Label>
+                <asp:Label ID="WF_SEL_USEORG_TEXT" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
+
                 <!-- 仕訳パターン分類 -->
                 <asp:Label ID="WF_SEL_SHIWAKEPATERNKBN_L" runat="server" Text="仕訳パターン分類" Font-Bold="True" Font-Underline="false"></asp:Label>
                 <asp:Label ID="WF_SEL_SHIWAKEPATERNKBN_TEXT" runat="server" Width="12em" CssClass="WF_TEXT_LEFT"></asp:Label>
+
 
                 <!-- ■　ボタン　■ -->
                 <a style="position:fixed;top:2.8em;left:53.5em;">
@@ -83,6 +88,13 @@
                         <asp:Label ID="WF_CAMPCODE_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
 
+                    <!-- ■　利用部門コード　■ -->
+                    <a  ondblclick="Field_DBclick('WF_USEORG', <%=LIST_BOX_CLASSIFICATION.LC_ORG%>)">
+                        <asp:Label ID="WF_USEORG_LBL" runat="server" Text="利用部門コード" Width="7.2em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
+                        <asp:TextBox ID="WF_USEORG" runat="server" MaxLength="20" Height="1.1em" Width="8em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:Label ID="WF_USEORG_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
+                    </a>
+
                     <!-- ■　貸借区分　■ -->
                     <asp:textbox ID="WF_ACDCKBN_C" runat="server" Visible="false"></asp:textbox>
                     <asp:textbox ID="WF_ACDCKBN_D" runat="server" Visible="false"></asp:textbox>
@@ -105,7 +117,7 @@
                     <!-- ■　仕訳パターン名　■ -->
                     <a>
                         <asp:Label ID="WF_SHIWAKEPATTERNNAME_LBL" runat="server" Text="パターン名" Width="7em" CssClass="WF_TEXT_LEFT" Font-Bold="true" Font-Underline="true"></asp:Label>
-                        <asp:TextBox ID="WF_SHIWAKEPATTERNNAME" runat="server" MaxLength="50" Height="1.1em" Width="15em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
+                        <asp:TextBox ID="WF_SHIWAKEPATTERNNAME" runat="server" MaxLength="50" Height="1.1em" Width="20em" CssClass="WF_TEXTBOX_CSS"></asp:TextBox>
                         <asp:Label ID="WF_SHIWAKEPATTERNNAME_TEXT" runat="server" Width="14em" CssClass="WF_TEXT_LEFT_LABEL"></asp:Label>
                     </a>
                 </p>

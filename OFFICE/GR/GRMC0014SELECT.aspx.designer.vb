@@ -11,8 +11,8 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class GRML0003SELECT
-    
+Partial Public Class GRMC0014SELECT
+
     '''<summary>
     '''WF_CAMPCODE コントロール。
     '''</summary>
@@ -20,8 +20,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_CAMPCODE As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
     '''WF_CAMPCODE_TEXT コントロール。
     '''</summary>
@@ -29,8 +29,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_CAMPCODE_TEXT As Global.System.Web.UI.WebControls.Label
-    
+    Public WithEvents WF_CAMPCODE_TEXT As Global.System.Web.UI.WebControls.Label
+
     '''<summary>
     '''WF_STYMD コントロール。
     '''</summary>
@@ -38,8 +38,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_STYMD As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_STYMD As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
     '''WF_ENDYMD コントロール。
     '''</summary>
@@ -47,44 +47,62 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_ENDYMD As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_ENDYMD As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
-    '''WF_USEORG コントロール。
+    '''WF_TORICODE コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_USEORG As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_TORICODE As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
-    '''WF_USEORG_TEXT コントロール。
+    '''WF_TORICODE_TEXT コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_USEORG_TEXT As Global.System.Web.UI.WebControls.Label
-    
+    Public WithEvents WF_TORICODE_TEXT As Global.System.Web.UI.WebControls.Label
+
     '''<summary>
-    '''WF_SHIWAKEPATERNKBN コントロール。
+    '''WF_PRODUCT1 コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_SHIWAKEPATERNKBN As Global.System.Web.UI.WebControls.TextBox
-    
+    Public WithEvents WF_PRODUCT1 As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
-    '''WF_SHIWAKEPATERNKBN_TEXT コントロール。
+    '''WF_PRODUCT1_TEXT コントロール。
     '''</summary>
     '''<remarks>
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_SHIWAKEPATERNKBN_TEXT As Global.System.Web.UI.WebControls.Label
-    
+    Public WithEvents WF_PRODUCT1_TEXT As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''WF_URIHIYOKBN コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Public WithEvents WF_URIHIYOKBN As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''WF_URIHIYOKBN_TEXT コントロール。
+    '''</summary>
+    '''<remarks>
+    '''自動生成されたフィールド。
+    '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
+    '''</remarks>
+    Public WithEvents WF_URIHIYOKBN_TEXT As Global.System.Web.UI.WebControls.Label
+
     '''<summary>
     '''WF_FIELD コントロール。
     '''</summary>
@@ -92,8 +110,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_FIELD As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_FIELD As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''WF_SelectedIndex コントロール。
     '''</summary>
@@ -101,8 +119,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_SelectedIndex As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_SelectedIndex As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''WF_LeftboxOpen コントロール。
     '''</summary>
@@ -110,8 +128,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_LeftboxOpen As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_LeftboxOpen As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''WF_LeftMViewChange コントロール。
     '''</summary>
@@ -119,8 +137,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_LeftMViewChange As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_LeftMViewChange As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''WF_RightViewChange コントロール。
     '''</summary>
@@ -128,8 +146,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_RightViewChange As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_RightViewChange As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''WF_RightboxOpen コントロール。
     '''</summary>
@@ -137,8 +155,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_RightboxOpen As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_RightboxOpen As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''WF_ButtonClick コントロール。
     '''</summary>
@@ -146,8 +164,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents WF_ButtonClick As Global.System.Web.UI.HtmlControls.HtmlInputText
-    
+    Public WithEvents WF_ButtonClick As Global.System.Web.UI.HtmlControls.HtmlInputText
+
     '''<summary>
     '''rightview コントロール。
     '''</summary>
@@ -155,8 +173,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents rightview As Global.OFFICE.GRIS0003SRightBox
-    
+    Public WithEvents rightview As Global.OFFICE.GRIS0003SRightBox
+
     '''<summary>
     '''leftview コントロール。
     '''</summary>
@@ -165,7 +183,7 @@ Partial Public Class GRML0003SELECT
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
     Protected WithEvents leftview As Global.OFFICE.GRIS0005LeftBox
-    
+
     '''<summary>
     '''work コントロール。
     '''</summary>
@@ -173,8 +191,8 @@ Partial Public Class GRML0003SELECT
     '''自動生成されたフィールド。
     '''変更するには、フィールドの宣言をデザイナー ファイルから分離コード ファイルに移動します。
     '''</remarks>
-    Protected WithEvents work As Global.OFFICE.GRML0003WRKINC
-    
+    Public WithEvents work As Global.OFFICE.GRMC0014WRKINC
+
     '''<summary>
     '''Master プロパティ。
     '''</summary>

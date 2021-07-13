@@ -286,6 +286,14 @@ Public Module PrevDispMap
         ''' </summary>
         Public Const MC0013 As String = "ASP.GR_GRMC0013UNCHINKETEI_ASPX"
         ''' <summary>
+        ''' 荷主運賃決定マスタ（条件）
+        ''' </summary>
+        Public Const MC0014S As String = "ASP.GR_GRMC0014SELECT_ASPX"
+        ''' <summary>
+        ''' 荷主運賃決定マスタ（実行）
+        ''' </summary>
+        Public Const MC0014 As String = "ASP.GR_GRMC0014UNCHINCONV_ASPX"
+        ''' <summary>
         ''' 荷主車番マスタ（条件）
         ''' </summary>
         Public Const MA0007S As String = "ASP.GR_GRMA0007SELECT_ASPX"

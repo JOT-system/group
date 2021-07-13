@@ -1,10 +1,10 @@
 ﻿Imports OFFICE.GRIS0005LeftBox
 
-Public Class GRML0003WRKINC
+Public Class GRMC0014WRKINC
     Inherits UserControl
 
-    Public Const MAPIDS As String = "ML0003S"       'MAPID(選択)
-    Public Const MAPID As String = "ML0003"         'MAPID(実行)
+    Public Const MAPIDS As String = "MA0007S"       'MAPID(選択)
+    Public Const MAPID As String = "MA0007"         'MAPID(実行)
 
     ''' <summary>
     ''' ワークデータ初期化処理
@@ -45,7 +45,7 @@ Public Class GRML0003WRKINC
 
 
     ''' <summary>
-    ''' 勘定科目一覧の取得
+    ''' 取引先一覧の取得
     ''' </summary>
     ''' <param name="COMPCODE"></param>
     ''' <returns></returns>
@@ -55,28 +55,6 @@ Public Class GRML0003WRKINC
         prmData.Item(C_PARAMETERS.LP_COMPANY) = COMPCODE
         prmData.Item(C_PARAMETERS.LP_ACSUBCODE) = ACSUBCODE
         CreateACCParam = prmData
-    End Function
-
-
-    ''' <summary>
-    ''' 出荷部署一覧の取得
-    ''' </summary>
-    ''' <param name="COMPCODE"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Function createORGParam(ByVal COMPCODE As String, ByVal ISORDER As Boolean) As Hashtable
-        Dim prmData As New Hashtable
-        prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_COMPANY) = COMPCODE
-        If ISORDER Then
-            ' 受注部署
-            prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_ORG_CATEGORYS) = New String() {GL0002OrgList.C_CATEGORY_LIST.CARAGE}
-        Else
-            ' 出荷部署
-            prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_ORG_CATEGORYS) = New String() {GL0002OrgList.C_CATEGORY_LIST.CARAGE}
-        End If
-        prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_PERMISSION) = C_PERMISSION.INVALID
-        prmData.Item(GRIS0005LeftBox.C_PARAMETERS.LP_TYPEMODE) = GL0002OrgList.LS_AUTHORITY_WITH.USER
-        createORGParam = prmData
     End Function
 
 End Class
